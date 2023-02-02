@@ -1,0 +1,27 @@
+# gitignore for the cosmic view of life project
+
+# Class output directories (e.g., primates, birds, etc.)
+/birds/
+/primates/
+/human_origins/
+
+# The processed catalogs
+/catalogs_processed/
+
+# Log files
+/logs/
+
+
+# Single cell, for now
+/single_cell/
+
+
+# Python cache files
+**__pycache__/
+
+
+# Other OS-generated files
+.DS_Store
+Thumbs.db
+
+

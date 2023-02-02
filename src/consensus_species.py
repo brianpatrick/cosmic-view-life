@@ -1,0 +1,337 @@
+'''
+Cosmic View of Life on Earth
+
+Process the consensus species data. We fold in the vocabulary (common names), 
+and output various data files. Each record in this step represents one species,
+so one data point per species. Not all points have common names though.
+
+Author: Brian Abbott <abbott@amnh.org>
+Created: September 2022
+'''
+
+import sys
+import pandas as pd
+from pathlib import Path
+
+from src import common
+
+
+def process_data(datainfo, vocab):
+    '''
+    Process the consensus species data, which has one entry per species.
+
+    Reads in the raw data and prints out the processed data to a speck and label file.
+    Note, we include a "dummy" column of zeros because OpenSpace needs four columns in a speck file.
+
+    Input: 
+        dict(datainfo)
+        DataFrame(vocab)
+
+    Output:
+        consensus.speck
+        consensus.label
+        logs/consensus.py.log
+    '''
+
+    common.print_subhead_status('Processing consensus species')
+
+    datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus species'
+    datainfo['data_group_desc'] = 'Consensus species for the ' + datainfo['sub_project'].lower() + ' data, which includes one data point per species. This point is an average of the DNA information.'
+    
+
+    
+    # Read and process the raw data file
+    # ---------------------------------------------------------------------------
+    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / datainfo['consensus_file']
+    common.test_input_file(inpath)
+
+    # Read in the CSV file
+    # 'Taxon' header is not present in the CSV, so remove all the headers, and add them manually
+    df = pd.read_csv(inpath, header=0, names=['taxon', 'x', 'y', 'z'])
+
+    # Rearrange the columns
+    df = df[['x', 'y', 'z', 'taxon']]            
+
+    # Rescale the position data
+    df['x'] = df['x'].multiply(common.POSITION_SCALE_FACTOR)
+    df['y'] = df['y'].multiply(common.POSITION_SCALE_FACTOR)
+    df['z'] = df['z'].multiply(common.POSITION_SCALE_FACTOR)
+
+    # Add a dummy column for OpenSpace (which needs 4 data columns -- silly!)
+    df['dummy'] = '0'
+
+
+    # Coalate this DF with the vocabulary DF
+    df = pd.merge(df, vocab, left_on='taxon', right_on='scientific name', how='left').drop(['taxId', 'scientific name'], axis=1)
+    
+
+    # Construct the .speck and .label columns
+    # The speck name is ideally the taxon plyus common name, but if there is no common name, we just use the taxon
+    df.loc[df['common name'].notnull(), 'speck_name'] = df['taxon'] + ' | ' + df['common name']
+    df.loc[df['common name'].isnull(), 'speck_name'] = df['taxon']
+
+    # The label is only the common name, so if there is no common name, then there is no label
+    df.loc[df['common name'].notnull(), 'label_name'] = df['common name']
+    df.loc[df['common name'].isnull(), 'label_name'] = None
+
+
+
+    # Print the data in a speck and label file
+    # ---------------------------------------------------------------------------
+    out_file_stem = 'consensus'
+    outpath = Path.cwd() / datainfo['dir'] / common.CONSENSUS_DIRECTORY
+    common.test_path(outpath)
+
+    outfile_speck = out_file_stem + '.speck'
+    outpath_speck = outpath / outfile_speck
+
+    with open(outpath_speck, 'wt') as speck:
+
+        header = common.header(datainfo, script_name=Path(__file__).name)
+        print(header, file=speck)
+            
+        # Set the columns to print as datavar columns. This is a list of columns to print after x,y,z
+        cols_to_print = ['dummy']
+
+        # set a counter for the datavar number (dv), and cycle through the
+        # columns to print list and print the datavar lines
+        dv = 0
+        for col in cols_to_print:
+            print('datavar ' + str(dv) + ' ' + col, file=speck)
+            dv += 1
+
+        
+        # Print the rows to the speck file
+        for _, row in df.iterrows():
+
+            # Print the x,y,z
+            print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f}", file=speck, end ='')
+
+            # Print the data for the columns in the selected columns in cols_to_print
+            for column in cols_to_print:
+                print(f" {row[column]}", file=speck, end ='')
+            
+            # Print the speck label commented at the end of the line
+            print(f" # {row['speck_name']}", file=speck)
+
+        # Report to stdout
+        common.out_file_message(outpath_speck)
+
+
+
+    # Print the labels
+    # ---------------------------------------------------------------------------
+    outfile_label = out_file_stem + '.label'  
+    outpath_label = outpath / outfile_label
+
+    with open(outpath_label, 'wt') as label:
+
+        header = common.header(datainfo, script_name=Path(__file__).name)
+        print(header, file=label)
+
+        # Print the label file
+        print('textcolor 1', file=label)
+
+        # Loop thru the df and print the label row if a label exists
+        for _, row in df.iterrows():
+            if row['label_name'] is not None:
+                print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} text {row['label_name']}", file=label)
+
+        # Report to stdout
+        common.out_file_message(outpath_label)
+
+
+
+
+    # Print a log file
+    # ---------------------------------------------------------------------------
+    outfile_log = Path(__file__).name + '.log'
+    
+    log_path = Path.cwd() / common.LOG_DIRECTORY / datainfo['dir']
+    common.test_path(log_path)
+    outpath_log = log_path / outfile_log
+
+    with open(outpath_log, 'wt') as log:
+
+        print('Generated log from ' + Path(__file__).name + ' run with the ' + datainfo['sub_project'].lower() + ' data set.', file=log)
+        print('================================================================================', file=log)
+
+        # Some general stats, number of rows
+        print('Number of rows: ' + str(len(df.index)), file=log)
+        print('Number of columns: ' + str(len(df.columns)), file=log)
+        print(file=log)
+
+
+        # Print all the column names
+        print('Columns:', file=log)
+        print(pd.DataFrame({"column": df.columns, "non-nulls": len(df)-df.isnull().sum().values, "nulls": df.isnull().sum().values, "type": df.dtypes.values}), file=log)
+        print(file=log)
+
+        # Print the unique values and their count, sorted by the column, not the highest count
+        print(df['taxon'].value_counts().sort_index(), file=log)
+        print(file=log)
+
+
+    # Report to stdout
+    common.out_file_message(outpath_log)
+
+
+    return df
+
+
+
+
+def make_asset(datainfo):
+    '''
+    Generate the asset file for the consensus species data.
+    
+    Input: 
+        dict(datainfo)
+
+    Output:
+        consensus.asset
+    '''
+
+    # We shift the stdout to our filehandle so that we don't have to keep putting
+    # the filehandle in every print statement.
+    # Save the original stdout so we can switch back later
+    original_stdout = sys.stdout
+
+
+
+    # Define the main dict that will hold all the info needed per file
+    # This is a nested dict with the format:
+    #      { path: { root:  , filevar:  , os_variable:  , os_identifier:  , name:  } }
+    asset_info = {}
+
+    # Gather info about the files
+    # Get a listing of the speck files in the path, then set the dict
+    # values based on the filename.
+    path = Path.cwd() / datainfo['dir'] / common.CONSENSUS_DIRECTORY
+    files = sorted(path.glob('*.speck'))
+
+
+    for path in files:
+        
+        file = path.name
+
+        # Set the nested dict
+        asset_info[file] = {}
+
+        asset_info[file]['speck_file'] = path.name
+        #print(asset_info[file]['speck_file'], path, path.name)
+        asset_info[file]['speck_var'] = common.file_variable_generator(asset_info[file]['speck_file'])
+
+        asset_info[file]['label_file'] = path.stem + '.label'
+        asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
+
+        #asset_info[file]['cmap_file'] = path.stem + '.cmap'
+        #asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
+
+        asset_info[file]['asset_rel_path'] = common.CONSENSUS_DIRECTORY
+
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.CONSENSUS_DIRECTORY
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.CONSENSUS_DIRECTORY
+
+        asset_info[file]['gui_name'] = common.CONSENSUS_DIRECTORY.replace('_', ' ').title()
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project']
+
+
+
+    # Open the file to write to
+    outfile = common.CONSENSUS_DIRECTORY + '.asset'
+    outpath = Path.cwd() / datainfo['dir'] / outfile
+    with open(outpath, 'wt') as asset:
+
+        # Switch stdout to the file
+        sys.stdout = asset
+
+        print('-- ' + datainfo['project'] + ' / ' + datainfo['data_group_title'])
+        print("-- This file is auto-generated in the " + make_asset.__name__ + "() function inside " + Path(__file__).name)
+        print('-- Author: Brian Abbott <abbott@amnh.org>')
+        print()
+
+        #print('local ' + asset_info[file]['filevar'] + ' = asset.localResource("' + asset_info[file]['rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+
+        for file in asset_info:
+            print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+
+            print('local ' + asset_info[file]['label_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
+
+
+
+        
+        #     print('local label_file = asset.localResource("' + asset_info[file]['label_file'] + '")')
+        #     #print('local color_file = asset.localResource("' + asset_info[file]['cmap_file'] + '")')
+
+        print('local texture_file = asset.localResource("point3A.png")')
+        print()
+
+
+        print('-- Set some parameters for OpenSpace settings')
+        print('local scale_factor = ' + common.SCALE_FACTOR)
+        print('local text_size = ' + common.TEXT_SIZE)
+        print('local text_min_size = ' + common.TEXT_MIN_SIZE)
+        print('local text_max_size = ' + common.TEXT_MAX_SIZE)
+        print()
+
+
+        for file in asset_info:
+
+            print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
+            print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
+            print('    Renderable = {')
+            print('        Type = "RenderableCosmicPoints",')
+            print('        Color = { 0.8, 0.8, 0.8 },')
+            print('        Opacity = 1.0,')
+            print('        ScaleFactor = scale_factor,')
+            print('        File = ' + asset_info[file]['speck_var'] + ',')
+            print('        DrawLabels = false,')
+            print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
+            print('        TextColor = { 1.0, 1.0, 1.0 },')
+            print('        TextSize = text_size,')
+            print('        TextMinMaxSize = { text_min_size, text_max_size },')
+            print('        --FadeLabelDistances = { 0.0, 0.5 },')
+            print('        --FadeLabelWidths = { 0.001, 0.5 },')
+            print('        Unit = "Km",')
+            print('        Texture = texture_file,')
+            print('        BillboardMinMaxSize = { 0.0, 25.0 },')
+            print('        EnablePixelSizeControl = true,')
+            print('        EnableLabelFading = false,')
+            print('        Enabled = false')
+            print('    },')
+            print('    GUI = {')
+            print('        Name = "' + asset_info[file]['gui_name'] + '",')
+            print('        Path = "' + asset_info[file]['gui_path'] + '",')
+            print('    }')
+            print('}')
+            print()
+
+
+
+        print('asset.onInitialize(function()')
+        for file in asset_info:
+            print('    openspace.addSceneGraphNode(' + asset_info[file]['os_scenegraph_var'] + ')')
+
+        print('end)')
+        print()
+
+
+        print('asset.onDeinitialize(function()')
+        for file in asset_info:
+            print('    openspace.removeSceneGraphNode(' + asset_info[file]['os_scenegraph_var'] + ')')
+        
+        print('end)')
+        print()
+
+
+        for file in asset_info:
+            print('asset.export(' + asset_info[file]['os_scenegraph_var'] + ')')
+
+    # Switch the stdout back to normal stdout (screen)
+    sys.stdout = original_stdout
+
+ 
+    # Report to stdout
+    common.out_file_message(outpath)
+    print()
