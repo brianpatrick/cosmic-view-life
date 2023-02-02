@@ -105,7 +105,7 @@ This is an example of how to list things you need to use the software and how to
 
 
 <!-- ORGANIZATION -->
-## ORGANIZATION
+## Organization
 
 The repository is organized into by following directory structure:
 
@@ -117,7 +117,7 @@ The main function that all other programs are called from. This allows for a mod
 
 ### /catalogs_raw:
 
-All the raw data afgter processing my Wandrille 
+All the raw data after processing by Wandrille 
   
 
 ### /src:
@@ -136,18 +136,21 @@ All the raw data afgter processing my Wandrille
 
 
 
-### Animal Orders (/primates, /birds, etc.)
+### Animal Orders (/primates, /birds, etc.):
 
-    - All the resulting output files from the python scripts, including speck, label, color map files, and asset files.
-    - Upon running the python scripts, they will ask you to create these directories and their subdirectories if they don't exist.
+All the resulting output files from the python scripts, including speck, label, color map files, and asset files.
+
+Upon running the python scripts, they will ask you to create these directories and their subdirectories if they don't exist.
   
-### catalogs_processed:
 
-    - Contains (mostly) csv files that are refined from the raw data and useful for processing the final data formats.
+### /catalogs_processed:
 
-### /logs
+Contains (mostly) csv files that are refined from the raw data and useful for processing the final data formats.
 
-    - Text files with some statistical information on some of the runs. 
+
+### /logs:
+
+Text files with some statistical information on some of the runs. 
   
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -156,7 +159,7 @@ All the raw data afgter processing my Wandrille
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-``` python3 main.py```
+```python3 main.py```
 
 Control of what runs is via comments in the main.py file. With all the function calls uncommented, the entire project will generate from scratch given the raw data are present.
 
@@ -222,20 +225,20 @@ Project Link: [https://github.com/brianpatrick/cosmic-view-life](https://github.
 
 This project is a joint venture between the [American Museum of Natural History](https://www.amnh.org) in New York, [University of Basel](https://www.unibas.ch/en.html) in Switzerland, and [Linköping University](https://scivis.github.io) in Sweden. It combines two astronomers, two biologists, and data analysis and visiualization experts.
 
-This project is funded by the Loundbery Foundation.
+This project is funded by the Richard Lounsbery Foundation.
 
 ### Primary players
 
-- Brian Abbott (American Museum of Natural History, New York) Data visualization, astronomer by trade, and author of these codes.
-- Jackie Faherty (American Museum of Natural History, New York) Astrophyscist with a deep interest in data visualization
-- David Thaler (University of Basel, Switzerland & Rockefeller University, New York) Biologist and big thinker
-- Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics, Switzerland) Biologist & bioinformatics guru
-- Takanori Fujiwara (Linköping University) Dimensional reduction expert
+- Jackie Faherty (American Museum of Natural History) Astrophyscist with a deep interest in data visualization.
+- Brian Abbott (American Museum of Natural History) Data visualization, astronomer by trade, and author of these codes.
+- David Thaler (University of Basel & Rockefeller University, New York) Biologist and big thinker.
+- Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics) Biologist & bioinformatics guru
+- Takanori Fujiwara (Linköping University) Dimensional reduction expert.
 
 
 ### Students
 
-Our graduate students are studying at Sweden's University of Linköping. Each student project is an innovative step forward and results in a master's thesis.
+Our graduate students are studying at Sweden's University of Linköping. Each student project is an innovative step forward and results in their master's thesis.
 
 #### 2022
 
