@@ -363,7 +363,7 @@ def make_asset(datainfo):
         asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + path.stem
 
         asset_info[file]['gui_name'] = path.stem.replace('_', ' ').title()
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.LINEAGE_DIRECTORY.title()
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.SEQUENCE_DIRECTORY.title()
 
         asset_info[file]['color_column'] = 'lineage_' + lineage_col_num + '_code'
         asset_info[file]['color_range'] = str(low_color_index) + ', ' + str(high_color_index)
