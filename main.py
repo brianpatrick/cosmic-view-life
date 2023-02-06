@@ -65,7 +65,7 @@ def main():
     # Make the color table
     # (This is commented out because it's run once, but it's here for completeness)
     # -----------------------------------------------------------------------------------
-    #make_color_tables(datainfo)
+    make_color_tables(datainfo)
 
 
     # Open the taxonomy vocabulary file, this correlates the taxon with the common name
@@ -75,14 +75,14 @@ def main():
 
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
-    #origins(datainfo)
+    origins(datainfo)
     
 
 
 
     # Primates
     # ------------------------------------------------------------------------
-    #primates(datainfo, vocab)
+    primates(datainfo, vocab)
 
     
     # Birds
