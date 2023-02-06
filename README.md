@@ -112,7 +112,7 @@ The repository is organized into by following directory structure:
 
 ### /main.py:
 
-The main function that all other programs are called from. This allows for a modular style of processing by commenting and uncommenting various parts of the code.
+The main function that all other programs are called from. This allows for a modular style of processing by commenting and uncommenting function calls to various parts of the code.
 
 
 ### /catalogs_raw:
@@ -229,21 +229,31 @@ This project is funded by the Richard Lounsbery Foundation.
 
 ### Primary players
 
-- Jackie Faherty (American Museum of Natural History) Astrophyscist with a deep interest in data visualization.
-- Brian Abbott (American Museum of Natural History) Data visualization, astronomer by trade, and author of these codes.
-- David Thaler (University of Basel & Rockefeller University, New York) Biologist and big thinker.
-- Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics) Biologist & bioinformatics guru
-- Takanori Fujiwara (Linköping University) Dimensional reduction expert.
+
+- [Brian Abbott](https://brianabbott.net) (American Museum of Natural History) Data visualization, astronomer by trade, and author of these codes.
+- [Wandrille Duchemin](https://github.com/WandrilleD) (University of Basel & SIB Swiss Institute of Bioinformatics) Biologist & bioinformatics guru
+- [Jackie Faherty](https://www.jackiefaherty.com) (American Museum of Natural History) Astrophyscist with a deep interest in data visualization.
+- [Takanori Fujiwara](https://takanori-fujiwara.github.io) (Linköping University) Dimensional reduction expert.
+- [David Thaler](https://phe.rockefeller.edu/bio/dthaler) (University of Basel & Rockefeller University, New York) Biologist and big thinker.
 
 
 ### Students
 
 Our graduate students are studying at Sweden's University of Linköping. Each student project is an innovative step forward and results in their master's thesis.
 
+#### Advisors
+
+- [Alexander Bock](https://github.com/alexanderbock) (Linköping University)
+- [Emma Broman](https://github.com/WeirdRubberDuck) (Linköping University)
+
 #### 2022
 
 - Emma Segolsson
 - Linn Storesund
+
+#### 2023
+- Märta Nilsson
+- Robin Ridell
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
