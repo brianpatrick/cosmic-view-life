@@ -237,13 +237,16 @@ def birds(datainfo, vocab):
     datainfo['sub_project'] = 'Birds'
 
     datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'Version_1__2022_07_05'
+    datainfo['catalog_directory'] = 'Version_2__2023_03_15'
     datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'aves.cleaned.species.MDS.euclidean.primates_scale.csv'
-    datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.primates_scale.csv'
+    datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver1.csv'
+    datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver1.csv'
     datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
     datainfo['synonomous_file'] = None
     datainfo['lineage_columns'] = [27, 34]
+
+
+
 
 
     common.print_head_status(datainfo['dir'].title())
