@@ -389,7 +389,7 @@ def parse_lineage_csv(datainfo):
 
     # Open the lineage_codes.csv and look up the code number for the clade
     file_name = 'lineage_codes.csv'
-    lineage_codes_path = Path.cwd() / PROCESSED_DATA_DIRECTORY / datainfo['dir'] / file_name
+    lineage_codes_path = Path.cwd() / PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / file_name
     with open(lineage_codes_path, 'rt') as lineage_codes_file:
         
         # Read the csv file, and store the rows in a list

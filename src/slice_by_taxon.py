@@ -36,7 +36,7 @@ def process_data(datainfo, species_taxon):
     # Read and process the raw data file
     # ---------------------------------------------------------------------------
     infile = 'sequences.speck'
-    inpath = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY / infile
+    inpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.SEQUENCE_DIRECTORY / infile
     common.test_input_file(inpath)
 
     # Parse the speck file and return the header, datavar, and data lines as strings
@@ -47,7 +47,7 @@ def process_data(datainfo, species_taxon):
 
     # Print the data
     # ---------------------------------------------------------------------------
-    outpath = Path.cwd() / datainfo['dir'] / common.TAXON_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.TAXON_DIRECTORY
     common.test_path(outpath)
 
     outfile = species_taxon.lower().replace(' ', '_') + '.speck'
@@ -103,7 +103,7 @@ def make_asset(datainfo):
     # Gather info about the files
     # Get a listing of the speck files in the path, then set the dict
     # values based on the filename.
-    path = Path.cwd() / datainfo['dir'] / common.TAXON_DIRECTORY
+    path = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.TAXON_DIRECTORY
     files = sorted(path.glob('*.speck'))
 
     for path in files:
@@ -124,11 +124,11 @@ def make_asset(datainfo):
         
         asset_info[file]['asset_rel_path'] = common.TAXON_DIRECTORY
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + path.stem
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + path.stem
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
 
         asset_info[file]['gui_name'] = path.stem.replace('_', ' ').title()
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TAXON_DIRECTORY.replace('_', ' ').title()
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['catalog_directory'] + '/' + common.TAXON_DIRECTORY.replace('_', ' ').title()
 
     
 
@@ -161,7 +161,7 @@ def make_asset(datainfo):
 
     # Open the file to write to
     outfile = common.TAXON_DIRECTORY + '.asset'
-    outpath = Path.cwd() / datainfo['dir'] / outfile
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / outfile
     with open(outpath, 'wt') as out_asset:
 
         # Switch stdout to the file

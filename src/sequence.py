@@ -166,7 +166,7 @@ def process_data(datainfo, metadata):
     # Print the speck file
     # --------------------------------------------------------------------------
     out_file_stem = 'sequences'
-    outpath = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.SEQUENCE_DIRECTORY
     common.test_path(outpath)
 
     outfile_speck = out_file_stem + '.speck'
@@ -228,7 +228,7 @@ def process_data(datainfo, metadata):
         
     # Print data to a CSV file
     # --------------------------------------------------------------------------
-    outpath_csv = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir']
+    outpath_csv = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory']
     common.test_path(outpath_csv)
 
     #outfile_csv = datainfo['dir'] + '.csv'
@@ -242,7 +242,7 @@ def process_data(datainfo, metadata):
 
     # Print the color map file. This will print a color for each unique taxon
     # ---------------------------------------------------------------------------
-    outpath_cmap = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY
+    outpath_cmap = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.SEQUENCE_DIRECTORY
     common.test_path(outpath_cmap)
 
     outfile_cmap = out_file_stem + '_taxon.cmap'
@@ -256,6 +256,12 @@ def process_data(datainfo, metadata):
 
         # Print the number of colors
         print(f"{len(unique_taxons)}", file=cmap)
+
+        # Print the initial "out of bounds" color
+        #print("1.0 1.0 1.0 1.0 # White (out-of-bounds)", file=cmap)
+        # Set the gray color for the zero-valued lineage points
+        gray_color = ((str(common.GRAY_COLOR) + ' ') * 3) +  '1.0 # Gray | Used for zero or out-of-range value lineage codes'
+        print(gray_color, file=cmap)
 
         for col, row in unique_taxons.iterrows():
 
@@ -327,7 +333,7 @@ def make_asset(datainfo):
     # Gather info about the files
     # Get a listing of the speck files in the path, then set the dict
     # values based on the filename.
-    path = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY
+    path = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.SEQUENCE_DIRECTORY
     files = sorted(path.glob('*.speck'))
 
 
@@ -350,17 +356,17 @@ def make_asset(datainfo):
         
         asset_info[file]['asset_rel_path'] = common.SEQUENCE_DIRECTORY
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + path.stem
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + path.stem
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
 
         asset_info[file]['gui_name'] = 'DNA ' + path.stem.replace('_', ' ').title()
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project']
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['catalog_directory']
 
 
 
     # Open the file to write to
     outfile = common.SEQUENCE_DIRECTORY + '.asset'
-    outpath = Path.cwd() / datainfo['dir'] / outfile
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / outfile
     with open(outpath, 'wt') as asset:
 
         # Switch stdout to the file

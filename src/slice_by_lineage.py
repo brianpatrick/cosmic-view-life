@@ -48,7 +48,7 @@ def process_data(datainfo, taxon):
     # Open the sequences.csv file and put it into a df
     # ---------------------------------------------------------------------------
     infile_speck = 'sequences.csv'
-    inpath_speck = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / infile_speck
+    inpath_speck = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / infile_speck
     common.test_input_file(inpath_speck)
 
     df = pd.read_csv(inpath_speck)
@@ -99,7 +99,7 @@ def process_data(datainfo, taxon):
 
         subfolder_name = taxon_file_name
         out_file_stem = str(lin_code) + '_' + lineage_file_name
-        outpath = Path.cwd() / datainfo['dir'] / common.BRANCHES_DIRECTORY / subfolder_name
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.BRANCHES_DIRECTORY / subfolder_name
         common.test_path(outpath)
 
         outfile_speck = out_file_stem + '.speck'
@@ -203,7 +203,7 @@ def make_asset(datainfo, taxon):
     # Get a listing of the speck files in the path, then set the dict
     # values based on the filename.
     sub_directory = taxon.replace(' ', '_').lower()
-    path = Path.cwd() / datainfo['dir'] / common.BRANCHES_DIRECTORY / sub_directory
+    path = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.BRANCHES_DIRECTORY / sub_directory
     files = sorted(path.glob('*.speck'))
 
 
@@ -225,11 +225,11 @@ def make_asset(datainfo, taxon):
         
         asset_info[file]['asset_rel_path'] = common.BRANCHES_DIRECTORY + '/' + taxon.replace(' ', '_').lower()
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + path.stem
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + path.stem
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
 
         asset_info[file]['gui_name'] = path.stem.replace('_', ' ').title()
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.BRANCHES_DIRECTORY.replace('_', ' ').title() + '/' + taxon
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['catalog_directory'] + '/' + common.BRANCHES_DIRECTORY.replace('_', ' ').title() + '/' + taxon
 
 
 
@@ -262,7 +262,7 @@ def make_asset(datainfo, taxon):
 
     # Open the file to write to
     outfile = 'branches_' + taxon.replace(' ', '_').lower() + '.asset'
-    outpath = Path.cwd() / datainfo['dir'] / outfile
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / outfile
     with open(outpath, 'wt') as out_asset:
 
         # Switch stdout to the file

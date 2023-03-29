@@ -69,7 +69,7 @@ def process_data(datainfo, clade):
     # Parse the speck file and return the header, datavar, and data lines as strings
     # ---------------------------------------------------------------------------
     infile_speck = 'sequences.speck'
-    inpath_speck = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY / infile_speck
+    inpath_speck = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.SEQUENCE_DIRECTORY / infile_speck
     common.test_input_file(inpath_speck)
 
     # Parse the speck file and return the header, datavar, and data lines as strings
@@ -79,7 +79,7 @@ def process_data(datainfo, clade):
 
     # Print the data
     # ---------------------------------------------------------------------------
-    outpath = Path.cwd() / datainfo['dir'] / common.CLADE_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CLADE_DIRECTORY
     common.test_path(outpath)
 
     outfile = str(lineage_code) + '_' + lineage_name.lower() + '.speck'
@@ -136,7 +136,7 @@ def make_asset(datainfo):
     # Gather info about the files
     # Get a listing of the speck files in the path, then set the dict
     # values based on the filename.
-    path = Path.cwd() / datainfo['dir'] / common.CLADE_DIRECTORY
+    path = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CLADE_DIRECTORY
     files = sorted(path.glob('*.speck'))
 
 
@@ -158,11 +158,11 @@ def make_asset(datainfo):
         
         asset_info[file]['asset_rel_path'] = common.CLADE_DIRECTORY
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.CLADE_DIRECTORY + '_' + path.stem
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.CLADE_DIRECTORY + '_' + path.stem
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + common.CLADE_DIRECTORY + '_' + path.stem
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + common.CLADE_DIRECTORY + '_' + path.stem
 
         asset_info[file]['gui_name'] = path.stem.replace('_', ' ').title()
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.CLADE_DIRECTORY.title()
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['catalog_directory'] + '/' + common.CLADE_DIRECTORY.title()
         
 
 
@@ -196,7 +196,7 @@ def make_asset(datainfo):
 
     # Open the file to write to
     outfile = common.CLADE_DIRECTORY + '.asset'
-    outpath = Path.cwd() / datainfo['dir'] / outfile
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / outfile
     with open(outpath, 'wt') as out_asset:
 
         # Switch stdout to the file

@@ -79,7 +79,7 @@ def process_data(datainfo, vocab):
     # Print the data in a speck and label file
     # ---------------------------------------------------------------------------
     out_file_stem = 'consensus'
-    outpath = Path.cwd() / datainfo['dir'] / common.CONSENSUS_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
     common.test_path(outpath)
 
     outfile_speck = out_file_stem + '.speck'
@@ -147,7 +147,7 @@ def process_data(datainfo, vocab):
     # ---------------------------------------------------------------------------
     outfile_log = Path(__file__).name + '.log'
     
-    log_path = Path.cwd() / common.LOG_DIRECTORY / datainfo['dir']
+    log_path = Path.cwd() / common.LOG_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory']
     common.test_path(log_path)
     outpath_log = log_path / outfile_log
 
@@ -207,7 +207,7 @@ def make_asset(datainfo):
     # Gather info about the files
     # Get a listing of the speck files in the path, then set the dict
     # values based on the filename.
-    path = Path.cwd() / datainfo['dir'] / common.CONSENSUS_DIRECTORY
+    path = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
     files = sorted(path.glob('*.speck'))
 
 
@@ -230,17 +230,17 @@ def make_asset(datainfo):
 
         asset_info[file]['asset_rel_path'] = common.CONSENSUS_DIRECTORY
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.CONSENSUS_DIRECTORY
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.CONSENSUS_DIRECTORY
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + common.CONSENSUS_DIRECTORY
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + common.CONSENSUS_DIRECTORY
 
         asset_info[file]['gui_name'] = common.CONSENSUS_DIRECTORY.replace('_', ' ').title()
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project']
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['catalog_directory']
 
 
 
     # Open the file to write to
     outfile = common.CONSENSUS_DIRECTORY + '.asset'
-    outpath = Path.cwd() / datainfo['dir'] / outfile
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / outfile
     with open(outpath, 'wt') as asset:
 
         # Switch stdout to the file

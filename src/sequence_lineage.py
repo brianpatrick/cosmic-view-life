@@ -97,7 +97,7 @@ def print_lineage_label_file(datainfo, column, df):
 
 
     # Open the label file for writing
-    outpath = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.SEQUENCE_DIRECTORY
     common.test_path(outpath)
 
     outfile = column + '.label'
@@ -166,7 +166,7 @@ def print_lineage_cmap_file(datainfo, column, df):
 
 
     # Open the cmap file to write to
-    outpath = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.SEQUENCE_DIRECTORY
     common.test_path(outpath)
 
     outfile = column + '.cmap'
@@ -210,9 +210,12 @@ def print_lineage_cmap_file(datainfo, column, df):
         # Print the integer number of colors in the color map file
         print(num_unique_codes, file=cmap)
 
+        # Print the initial "out of bounds" color
+        #print("1.0 1.0 1.0 1.0 # White (out-of-bounds)", file=cmap)
 
         # Set the gray color for the zero-valued lineage points
         gray_color = ((str(common.GRAY_COLOR) + ' ') * 3) +  '1.0 # Gray | Used for zero value lineage codes'
+        print(gray_color, file=cmap)
 
         # If we have a zero in the lineage codes, print the gray color to represent them
         if zero_flag == 1:
@@ -277,7 +280,7 @@ def make_asset(datainfo):
     # Open the lineage CSV file to read the lineage column number and 
     # number of unque lineage values for that column.
     infile = 'lineage.csv'
-    inpath = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / infile
+    inpath = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / infile
 
     # The CSV data are in the x,x,x | x,x,x,...
     # First, split on | and save as two columns.
@@ -337,7 +340,7 @@ def make_asset(datainfo):
     # Gather info about the files
     # Get a listing of the speck files in the path, then set the dict
     # values based on the filename.
-    path = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY
+    path = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.SEQUENCE_DIRECTORY
     files = sorted(path.glob('*.label'))
 
 
@@ -359,11 +362,11 @@ def make_asset(datainfo):
         
         asset_info[file]['asset_rel_path'] = common.SEQUENCE_DIRECTORY
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + path.stem
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + path.stem
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
 
         asset_info[file]['gui_name'] = path.stem.replace('_', ' ').title()
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.SEQUENCE_DIRECTORY.title()
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['catalog_directory'] + '/' + common.SEQUENCE_DIRECTORY.title()
 
         asset_info[file]['color_column'] = 'lineage_' + lineage_col_num + '_code'
         asset_info[file]['color_range'] = str(low_color_index) + ', ' + str(high_color_index)
@@ -373,7 +376,7 @@ def make_asset(datainfo):
 
     # Open the asset file to write to
     outfile = 'sequence_lineage.asset'
-    outpath = Path.cwd() / datainfo['dir'] / outfile
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / outfile
     with open(outpath, 'wt') as out_asset:
 
         # Switch stdout to the file

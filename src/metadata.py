@@ -180,7 +180,7 @@ def process_data(datainfo):
     
     # This is the root path for all output files in this script,
     # so only need to set and check it once.
-    outpath = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir']
+    outpath = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory']
     common.test_path(outpath)
 
     outfile_metadata_csv = 'metadata.csv'
@@ -260,7 +260,7 @@ def process_data(datainfo):
     # ---------------------------------------------------------------------------
     outfile_log = Path(__file__).name + '.log'
     
-    log_path = Path.cwd() / common.LOG_DIRECTORY / datainfo['dir']
+    log_path = Path.cwd() / common.LOG_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory']
     common.test_path(log_path)
     outpath_log = log_path / outfile_log
 

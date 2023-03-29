@@ -82,11 +82,57 @@ def main():
 
     # Primates
     # ------------------------------------------------------------------------
+
+    datainfo['dir'] = 'primates'
+    datainfo['sub_project'] = 'Primates'
+
+    datainfo['version'] = '1'
+    datainfo['catalog_directory'] = 'MDS_v1'
+    datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
+    datainfo['consensus_file'] = 'primates.cleaned.species.MDS.euclidean.csv'
+    datainfo['sequence_file'] = 'primates.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.csv'
+    datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
+    datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
+    datainfo['lineage_columns'] = [24, 31]
+
     primates(datainfo, vocab)
+
+
 
     
     # Birds
     # ------------------------------------------------------------------------
+    datainfo['dir'] = 'birds'
+    datainfo['sub_project'] = 'Birds'
+
+    # datainfo['version'] = '1'
+    # datainfo['catalog_directory'] = 'MDS_v1'
+    # datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+    # datainfo['consensus_file'] = 'aves.cleaned.species.MDS.euclidean.primates_scale.csv'
+    # datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.primates_scale.csv'
+    # datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+    # datainfo['synonomous_file'] = None
+    # datainfo['lineage_columns'] = [27, 34]
+    # birds(datainfo, vocab)
+
+    # datainfo['version'] = '2'
+    # datainfo['catalog_directory'] = 'UMAP_v1'
+    # datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+    # datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver1.csv'
+    # datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver1.csv'
+    # datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+    # datainfo['synonomous_file'] = None
+    # datainfo['lineage_columns'] = [27, 34]
+    # birds(datainfo, vocab)
+
+    datainfo['version'] = '3'
+    datainfo['catalog_directory'] = 'UMAP_v2'
+    datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+    datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver2.csv'
+    datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver2.csv'
+    datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+    datainfo['synonomous_file'] = None
+    datainfo['lineage_columns'] = [27, 34]
     birds(datainfo, vocab)
 
 
@@ -164,20 +210,6 @@ def primates(datainfo, vocab):
     and the sequence data. All the speck, label, color map, and asset files are generated.
     '''
 
-
-    datainfo['dir'] = 'primates'
-    datainfo['sub_project'] = 'Primates'
-
-    datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'Version_1__2022_05_31'
-    datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'primates.cleaned.species.MDS.euclidean.csv'
-    datainfo['sequence_file'] = 'primates.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.csv'
-    datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
-    datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
-    datainfo['lineage_columns'] = [24, 31]
-
-
     common.print_head_status(datainfo['sub_project'])
 
 
@@ -197,9 +229,10 @@ def primates(datainfo, vocab):
 
 
     common.print_subhead_status('Processing individual clades')
-    slice_by_clade.process_data(datainfo, 'Homo')
-    slice_by_clade.process_data(datainfo, '31015')
-    slice_by_clade.process_data(datainfo, 'Pongo')
+    slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
+    slice_by_clade.process_data(datainfo, 'Pan')        # chimps
+    slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
+    slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
     slice_by_clade.process_data(datainfo, 'Lemur')
     slice_by_clade.make_asset(datainfo)
 
@@ -218,8 +251,8 @@ def primates(datainfo, vocab):
     slice_by_taxon.make_asset(datainfo)
 
 
-    takanori_trials.process_data(datainfo, seq)
-    takanori_trials.make_asset(datainfo)
+    #takanori_trials.process_data(datainfo, seq)
+    #takanori_trials.make_asset(datainfo)
    
     print()
     
@@ -233,23 +266,7 @@ def birds(datainfo, vocab):
     and the sequence data. All the speck, label, color map, and asset files are generated.
     '''
 
-    datainfo['dir'] = 'birds'
-    datainfo['sub_project'] = 'Birds'
-
-    datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'Version_2__2023_03_15'
-    datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver1.csv'
-    datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver1.csv'
-    datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
-    datainfo['synonomous_file'] = None
-    datainfo['lineage_columns'] = [27, 34]
-
-
-
-
-
-    common.print_head_status(datainfo['dir'].title())
+    common.print_head_status(datainfo['sub_project'])
 
 
     meta_data = metadata.process_data(datainfo)
