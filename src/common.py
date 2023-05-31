@@ -487,6 +487,9 @@ def pre_process_takanori_consensus(datainfo):
     return(out_filename)
 
 
+
+# Preprocess the sequence file to match what the sequence processing code expects
+# -----------------------------------------------------------------------------
 def pre_process_takanori_seq(datainfo):
     
     # Open the seq file to transform
