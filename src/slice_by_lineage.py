@@ -225,8 +225,8 @@ def make_asset(datainfo, taxon):
         
         asset_info[file]['asset_rel_path'] = common.BRANCHES_DIRECTORY + '/' + taxon.replace(' ', '_').lower()
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem + '_' + taxon.replace(' ', '_').lower()
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['catalog_directory'] + '_' + path.stem + '_' + taxon.replace(' ', '_').lower()
 
         asset_info[file]['gui_name'] = path.stem.replace('_', ' ').title()
         asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['catalog_directory'] + '/' + common.BRANCHES_DIRECTORY.replace('_', ' ').title() + '/' + taxon

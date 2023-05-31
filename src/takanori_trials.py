@@ -43,7 +43,7 @@ def process_data(datainfo, seq):
     # Parse the speck file and return the header, datavar, and data lines as strings
     #in_speck_file = datainfo['dir'] + '.speck'
     in_speck_file = 'sequences.speck'
-    seq_speck_path = Path.cwd() / datainfo['dir'] / common.SEQUENCE_DIRECTORY / in_speck_file
+    seq_speck_path = Path.cwd() / datainfo['dir'] / 'MDS_v1' / common.SEQUENCE_DIRECTORY / in_speck_file
     common.test_input_file(seq_speck_path)
 
     (_, datavar_lines, _) = common.parse_speck(seq_speck_path, None)
@@ -151,7 +151,7 @@ def make_asset(datainfo):
     # values based on the filename.
     path = Path.cwd() / datainfo['dir'] / common.TAKANORI_DIRECTORY
     files = sorted(path.glob('*.speck'))
-
+    
 
     for path in files:
         
@@ -167,7 +167,7 @@ def make_asset(datainfo):
         # asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
 
         # Hard-coding these because we want the same color map for all the different scenegraphs.
-        asset_info[file]['cmap_file'] = 'sequences/lineage_30.cmap'
+        asset_info[file]['cmap_file'] = '../MDS_v1/sequences/lineage_30.cmap'
         asset_info[file]['cmap_var'] = 'cmap_lineage_30'
         
         asset_info[file]['asset_rel_path'] = common.TAKANORI_DIRECTORY
@@ -210,7 +210,7 @@ def make_asset(datainfo):
 
     # Open the file to write to
     outfile = common.TAKANORI_DIRECTORY + '.asset'
-    outpath = Path.cwd() / datainfo['dir'] / outfile
+    outpath = Path.cwd() / datainfo['dir'] / common.TAKANORI_DIRECTORY / outfile
     with open(outpath, 'wt') as asset:
 
         # Switch stdout to the file
@@ -224,7 +224,8 @@ def make_asset(datainfo):
 
 
         for file in asset_info:
-            print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+            #print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+            print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['speck_file'] + '")')
 
             #print('local ' + asset_info[file]['label_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
 

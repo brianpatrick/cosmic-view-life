@@ -460,3 +460,53 @@ def file_variable_generator(filename):
     file_variable_name = name_parts[1] + '_' + name_parts[0]
 
     return file_variable_name
+
+
+def pre_process_takanori_consensus(datainfo):
+
+    # Open the consensus file to transform
+    file_name = datainfo['consensus_file']
+    consensus_file_path = Path.cwd() / DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / file_name
+    with open(consensus_file_path, 'rt') as consensus_file:
+
+        # Read in the CSV file
+        # 'Taxon' header is not present in the CSV, so remove all the headers, and add them manually
+        df = pd.read_csv(consensus_file, header=0, names=['line_num', 'x', 'y', 'z', 'class', 'class_name', 'color', 'genus', 'taxon', 'seqid'])
+
+    
+    out_filename = 'consensus_preprocessed_' + datainfo['consensus_file']
+    out_path = Path.cwd() / DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / out_filename
+
+
+    # Rearrange the columns
+    df_new = df[['taxon', 'x', 'y', 'z']]
+
+
+    df_new.to_csv(out_path, index=False)
+
+    return(out_filename)
+
+
+def pre_process_takanori_seq(datainfo):
+    
+    # Open the seq file to transform
+    file_name = datainfo['sequence_file']
+    seq_file_path = Path.cwd() / DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / file_name
+    with open(seq_file_path, 'rt') as seq_file:
+
+        # Read in the CSV file
+        # 'Taxon' header is not present in the CSV, so remove all the headers, and add them manually
+        df = pd.read_csv(seq_file, header=0, names=['line_num', 'x', 'y', 'z', 'class', 'class_name', 'color', 'genus', 'taxon', 'seqid'])
+
+    
+    out_filename = 'sequence_preprocessed_' + datainfo['sequence_file']
+    out_path = Path.cwd() / DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / out_filename
+
+
+    # Rearrange the columns
+    df_new = df[['seqid', 'x', 'y', 'z']]
+
+
+    df_new.to_csv(out_path, index=False)
+
+    return(out_filename)

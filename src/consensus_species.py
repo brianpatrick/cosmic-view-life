@@ -49,8 +49,10 @@ def process_data(datainfo, vocab):
     # 'Taxon' header is not present in the CSV, so remove all the headers, and add them manually
     df = pd.read_csv(inpath, header=0, names=['taxon', 'x', 'y', 'z'])
 
+    print(df)
+
     # Rearrange the columns
-    df = df[['x', 'y', 'z', 'taxon']]            
+    df = df[['x', 'y', 'z', 'taxon']]
 
     # Rescale the position data
     df['x'] = df['x'].multiply(common.POSITION_SCALE_FACTOR)
