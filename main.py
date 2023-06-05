@@ -86,35 +86,35 @@ def main():
     datainfo['dir'] = 'primates'
     datainfo['sub_project'] = 'Primates'
 
-    datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'MDS_v1'
-    datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'primates.cleaned.species.MDS.euclidean.csv'
-    datainfo['sequence_file'] = 'primates.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.csv'
-    datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
-    datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
-    datainfo['lineage_columns'] = [24, 31]
-    #primates(datainfo, vocab)
+    # datainfo['version'] = '1'
+    # datainfo['catalog_directory'] = 'MDS_v1'
+    # datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
+    # datainfo['consensus_file'] = 'primates.cleaned.species.MDS.euclidean.csv'
+    # datainfo['sequence_file'] = 'primates.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.csv'
+    # datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
+    # datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
+    # datainfo['lineage_columns'] = [24, 31]
+    # primates(datainfo, vocab)
 
 
-    datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'UMAP_v1'
-    datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'pumap_taxon.csv'
-    datainfo['sequence_file'] = 'pumap_taxon_allpoints.csv'
-    datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
-    datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
-    datainfo['lineage_columns'] = [24, 31]
+    # datainfo['version'] = '1'
+    # datainfo['catalog_directory'] = 'UMAP_v1'
+    # datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
+    # datainfo['consensus_file'] = 'pumap_taxon.csv'
+    # datainfo['sequence_file'] = 'pumap_taxon_allpoints.csv'
+    # datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
+    # datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
+    # datainfo['lineage_columns'] = [24, 31]
 
-    # Preprocess the consensus file to get the right format
-    new_consensus_filename = common.pre_process_takanori_consensus(datainfo)
-    datainfo['consensus_file'] = new_consensus_filename
+    # # Preprocess the consensus file to get the right format
+    # new_consensus_filename = common.pre_process_takanori_consensus(datainfo)
+    # datainfo['consensus_file'] = new_consensus_filename
 
-    # Process the sequence data file to fet the right format
-    new_seq_filename = common.pre_process_takanori_seq(datainfo)
-    datainfo['sequence_file'] = new_seq_filename
+    # # Process the sequence data file to fet the right format
+    # new_seq_filename = common.pre_process_takanori_seq(datainfo)
+    # datainfo['sequence_file'] = new_seq_filename
 
-    primates(datainfo, vocab)
+    # primates(datainfo, vocab)
 
 
 
@@ -124,15 +124,15 @@ def main():
     datainfo['dir'] = 'birds'
     datainfo['sub_project'] = 'Birds'
 
-    # datainfo['version'] = '1'
-    # datainfo['catalog_directory'] = 'MDS_v1'
-    # datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
-    # datainfo['consensus_file'] = 'aves.cleaned.species.MDS.euclidean.primates_scale.csv'
-    # datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.primates_scale.csv'
-    # datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
-    # datainfo['synonomous_file'] = None
-    # datainfo['lineage_columns'] = [27, 34]
-    # birds(datainfo, vocab)
+    datainfo['version'] = '1'
+    datainfo['catalog_directory'] = 'MDS_v1'
+    datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+    datainfo['consensus_file'] = 'aves.cleaned.species.MDS.euclidean.primates_scale.csv'
+    datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.primates_scale.csv'
+    datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+    datainfo['synonomous_file'] = None
+    datainfo['lineage_columns'] = [27, 34]
+    birds(datainfo, vocab)
 
     # datainfo['version'] = '2'
     # datainfo['catalog_directory'] = 'UMAP_v1'
@@ -152,10 +152,7 @@ def main():
     datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
     datainfo['synonomous_file'] = None
     datainfo['lineage_columns'] = [27, 34]
-    
-    
-    
-    #birds(datainfo, vocab)
+    birds(datainfo, vocab)
 
 
 

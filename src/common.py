@@ -50,7 +50,7 @@ TEXT_MAX_SIZE = '30'
 
 
 # This is the factor by which I multiply the x,y,z positions
-POSITION_SCALE_FACTOR = 1000.0
+POSITION_SCALE_FACTOR = 5000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
 
 # The gray color (0-1) which we color the zero lineage points
