@@ -39,7 +39,7 @@ COLOR_DIRECTORY = 'color_tables'        # Directory for color tables and data
 
 
 # OpenSpace settings
-SCALE_FACTOR = '90.0'
+SCALE_FACTOR = '105.0'
 HUMAN_SCALE_FACTOR = '95.0'
 
 TEXT_SIZE = '2.75'

@@ -86,15 +86,15 @@ def main():
     datainfo['dir'] = 'primates'
     datainfo['sub_project'] = 'Primates'
 
-    # datainfo['version'] = '1'
-    # datainfo['catalog_directory'] = 'MDS_v1'
-    # datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
-    # datainfo['consensus_file'] = 'primates.cleaned.species.MDS.euclidean.csv'
-    # datainfo['sequence_file'] = 'primates.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.csv'
-    # datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
-    # datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
-    # datainfo['lineage_columns'] = [24, 31]
-    # primates(datainfo, vocab)
+    datainfo['version'] = '1'
+    datainfo['catalog_directory'] = 'MDS_v1'
+    datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
+    datainfo['consensus_file'] = 'primates.cleaned.species.MDS.euclidean.csv'
+    datainfo['sequence_file'] = 'primates.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.csv'
+    datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
+    datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
+    datainfo['lineage_columns'] = [24, 31]
+    #primates(datainfo, vocab)
 
 
     # datainfo['version'] = '1'
@@ -298,19 +298,19 @@ def birds(datainfo, vocab):
     seq = sequence.process_data(datainfo, meta_data)
     sequence.make_asset(datainfo)
 
-    # sequence_lineage.process_data(datainfo, consensus, seq)
-    # sequence_lineage.make_asset(datainfo)
+    sequence_lineage.process_data(datainfo, consensus, seq)
+    sequence_lineage.make_asset(datainfo)
 
 
-    # common.print_subhead_status('Processing individual clades')
-    # slice_by_clade.process_data(datainfo, 'Anas')   # 33084
-    # slice_by_clade.make_asset(datainfo)
+    common.print_subhead_status('Processing individual clades')
+    slice_by_clade.process_data(datainfo, 'Anas')   # 33084
+    slice_by_clade.make_asset(datainfo)
 
 
 
     common.print_subhead_status('Processing traced lineage branch files')
-    # slice_by_lineage.process_data(datainfo, 'Anas')
-    # slice_by_lineage.make_asset(datainfo, 'Anas')
+    slice_by_lineage.process_data(datainfo, 'Anas')
+    slice_by_lineage.make_asset(datainfo, 'Anas')
 
     slice_by_lineage.process_data(datainfo, 'Columba')
     slice_by_lineage.make_asset(datainfo, 'Columba')
@@ -319,14 +319,14 @@ def birds(datainfo, vocab):
 
 
 
-    # common.print_subhead_status('Processing individual taxon/species files')
-    # slice_by_taxon.process_data(datainfo, 'Turdus migratorius')         # American robin
-    # slice_by_taxon.process_data(datainfo, 'Cardinalis cardinalis')      # Cardinal
-    # slice_by_taxon.process_data(datainfo, 'Haliaeetus leucocephalus')   # Bald eagle
-    # slice_by_taxon.process_data(datainfo, 'Columba livia')              # Rock dove
-    # slice_by_taxon.process_data(datainfo, 'Anas platyrhynchos')         # Mallard duck
-    # slice_by_taxon.process_data(datainfo, 'Larus canus')                # Common gull
-    # slice_by_taxon.make_asset(datainfo)
+    common.print_subhead_status('Processing individual taxon/species files')
+    slice_by_taxon.process_data(datainfo, 'Turdus migratorius')         # American robin
+    slice_by_taxon.process_data(datainfo, 'Cardinalis cardinalis')      # Cardinal
+    slice_by_taxon.process_data(datainfo, 'Haliaeetus leucocephalus')   # Bald eagle
+    slice_by_taxon.process_data(datainfo, 'Columba livia')              # Rock dove
+    slice_by_taxon.process_data(datainfo, 'Anas platyrhynchos')         # Mallard duck
+    slice_by_taxon.process_data(datainfo, 'Larus canus')                # Common gull
+    slice_by_taxon.make_asset(datainfo)
     # # Sphenisciformes   all penguins
     # # 29001
     # # Passeriformes perching birds
