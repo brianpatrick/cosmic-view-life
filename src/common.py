@@ -33,6 +33,7 @@ BRANCHES_DIRECTORY = 'lineage_branches'         # Directory for lineage branches
 CLADE_DIRECTORY = 'clades'              # directory for the clade-isolated files
 TAXON_DIRECTORY = 'taxon'               # Directory for taxon/species data files
 TAKANORI_DIRECTORY = 'takanori_trials'
+TREE_DIRECTORY = 'tree'
 
 COLOR_DIRECTORY = 'color_tables'        # Directory for color tables and data
 
@@ -52,6 +53,10 @@ TEXT_MAX_SIZE = '30'
 # This is the factor by which I multiply the x,y,z positions
 POSITION_SCALE_FACTOR = 5000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
+
+# These are applied to the primate tree of life branches and points
+TRANSFORM_TREE_Z = 133.5        # This moves the points and lines down in the z coord
+SCALE_TREE_Z = 75.0             # This scales the z coordinate for the lines to expand it and give it depth.
 
 # The gray color (0-1) which we color the zero lineage points
 GRAY_COLOR = 0.4
@@ -378,7 +383,6 @@ def parse_speck(inpath, data_filter):
                 header_lines += line
 
     return header_lines, datavar_lines, data_lines
-
 
 
 

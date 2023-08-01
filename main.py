@@ -15,8 +15,9 @@ Created: September 2022
 import pandas as pd
 from pathlib import Path
 import shutil
+import os
 
-from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials
+from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree
 
 
 def main():
@@ -94,7 +95,7 @@ def main():
     datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
     datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
     datainfo['lineage_columns'] = [24, 31]
-    #primates(datainfo, vocab)
+    primates(datainfo, vocab)
 
 
     # datainfo['version'] = '1'
@@ -132,7 +133,7 @@ def main():
     datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
     datainfo['synonomous_file'] = None
     datainfo['lineage_columns'] = [27, 34]
-    birds(datainfo, vocab)
+    #birds(datainfo, vocab)
 
     # datainfo['version'] = '2'
     # datainfo['catalog_directory'] = 'UMAP_v1'
@@ -152,7 +153,7 @@ def main():
     datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
     datainfo['synonomous_file'] = None
     datainfo['lineage_columns'] = [27, 34]
-    birds(datainfo, vocab)
+    #birds(datainfo, vocab)
 
 
 
@@ -239,39 +240,48 @@ def primates(datainfo, vocab):
     consensus_species.make_asset(datainfo)
 
 
-    seq = sequence.process_data(datainfo, meta_data)
-    sequence.make_asset(datainfo)
+    # seq = sequence.process_data(datainfo, meta_data)
+    # sequence.make_asset(datainfo)
 
-    sequence_lineage.process_data(datainfo, consensus, seq)
-    sequence_lineage.make_asset(datainfo)
+    # sequence_lineage.process_data(datainfo, consensus, seq)
+    # sequence_lineage.make_asset(datainfo)
+
+
+
+    # Process the tree of primates
+    # NOTE: need to run the ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
+    tree.process_data(datainfo)
+    tree.process_branches(datainfo)
+    tree.make_asset_branches(datainfo)
+
     
 
 
-    common.print_subhead_status('Processing individual clades')
-    slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
-    slice_by_clade.process_data(datainfo, 'Pan')        # chimps
-    slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
-    slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
-    slice_by_clade.process_data(datainfo, 'Lemur')
-    slice_by_clade.make_asset(datainfo)
+    # common.print_subhead_status('Processing individual clades')
+    # slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
+    # slice_by_clade.process_data(datainfo, 'Pan')        # chimps
+    # slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
+    # slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
+    # slice_by_clade.process_data(datainfo, 'Lemur')
+    # slice_by_clade.make_asset(datainfo)
 
 
-    common.print_subhead_status('Processing traced lineage branch files')
-    slice_by_lineage.process_data(datainfo, 'Homo sapiens')
-    slice_by_lineage.make_asset(datainfo, 'Homo sapiens')
+    # common.print_subhead_status('Processing traced lineage branch files')
+    # slice_by_lineage.process_data(datainfo, 'Homo sapiens')
+    # slice_by_lineage.make_asset(datainfo, 'Homo sapiens')
 
-    # slice_by_lineage.process_data(datainfo, 'Lemur catta')
-    # slice_by_lineage.make_asset(datainfo, 'Lemur catta')
-
-
-    common.print_subhead_status('Processing individual taxon/species files')
-    slice_by_taxon.process_data(datainfo, 'Homo sapiens')
-    slice_by_taxon.process_data(datainfo, 'Macaca')
-    slice_by_taxon.make_asset(datainfo)
+    # # slice_by_lineage.process_data(datainfo, 'Lemur catta')
+    # # slice_by_lineage.make_asset(datainfo, 'Lemur catta')
 
 
-    takanori_trials.process_data(datainfo, seq)
-    takanori_trials.make_asset(datainfo)
+    # common.print_subhead_status('Processing individual taxon/species files')
+    # slice_by_taxon.process_data(datainfo, 'Homo sapiens')
+    # slice_by_taxon.process_data(datainfo, 'Macaca')
+    # slice_by_taxon.make_asset(datainfo)
+
+
+    # takanori_trials.process_data(datainfo, seq)
+    # takanori_trials.make_asset(datainfo)
    
     print()
     
