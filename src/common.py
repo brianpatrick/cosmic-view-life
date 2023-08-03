@@ -34,6 +34,7 @@ CLADE_DIRECTORY = 'clades'              # directory for the clade-isolated files
 TAXON_DIRECTORY = 'taxon'               # Directory for taxon/species data files
 TAKANORI_DIRECTORY = 'takanori_trials'
 TREE_DIRECTORY = 'tree'
+MORPH_DIRECTORY = 'morph'
 
 COLOR_DIRECTORY = 'color_tables'        # Directory for color tables and data
 
