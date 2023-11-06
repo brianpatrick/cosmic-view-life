@@ -13,7 +13,7 @@ import sys
 import pandas as pd
 from pathlib import Path
 
-from src import common
+import common
 
 
 

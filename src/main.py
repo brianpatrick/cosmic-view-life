@@ -17,7 +17,8 @@ from pathlib import Path
 #import shutil
 #import os
 
-import src.common, src.colors, src.human_origins, src.metadata, src.consensus_species, src.sequence, src.sequence_lineage, src.slice_by_taxon, src.slice_by_clade, src.slice_by_lineage, src.takanori_trials, src.tree
+import common, colors
+#import common, colors, src.human_origins, src.metadata, src.consensus_species, src.sequence, src.sequence_lineage, src.slice_by_taxon, src.slice_by_clade, src.slice_by_lineage, src.takanori_trials, src.tree
 
 
 def main():
@@ -71,12 +72,12 @@ def main():
 
     # Open the taxonomy vocabulary file, this correlates the taxon with the common name
     # -----------------------------------------------------------------------------------
-    vocab = vocabulary(datainfo)
+    #vocab = vocabulary(datainfo)
 
 
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
-    origins(datainfo)
+    #origins(datainfo)
     
 
 
@@ -170,179 +171,179 @@ def make_color_tables(datainfo):
     datainfo['version'] = '1'
     datainfo['catalog_directory'] = 'crayola'
 
-    src.common.print_head_status('color table')
+    common.print_head_status('color table')
 
-    src.colors.crayola_color_table(datainfo)
-
-
-
-
-def vocabulary(datainfo):
-    '''
-    Read the species vocabulary file (common name to taxon)
-    and pass to the various functions below.
-    '''
-
-    datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'Version_1__2022_07_05'
-
-    infile_vocab_path = Path.cwd() / src.common.DATA_DIRECTORY / src.common.VOCAB_DIRECTORY / datainfo['catalog_directory'] / 'Animal_taxonomic_vocabulary_common_names.tsv'
-    src.common.test_input_file(infile_vocab_path)
-    vocab = pd.read_csv(infile_vocab_path, sep='\t')
-
-    return vocab
+    colors.crayola_color_table(datainfo)
 
 
 
 
+# def vocabulary(datainfo):
+#     '''
+#     Read the species vocabulary file (common name to taxon)
+#     and pass to the various functions below.
+#     '''
 
-def origins(datainfo):
-    '''
-    This processes the human origins data.
-    '''
+#     datainfo['version'] = '1'
+#     datainfo['catalog_directory'] = 'Version_1__2022_07_05'
 
-    datainfo['sub_project'] = 'Human Origins'
-    datainfo['version'] = '1'
+#     infile_vocab_path = Path.cwd() / src.common.DATA_DIRECTORY / src.common.VOCAB_DIRECTORY / datainfo['catalog_directory'] / 'Animal_taxonomic_vocabulary_common_names.tsv'
+#     src.common.test_input_file(infile_vocab_path)
+#     vocab = pd.read_csv(infile_vocab_path, sep='\t')
 
-    datainfo['dir'] = datainfo['sub_project'].replace(' ', '_').lower()
-    datainfo['catalog_directory'] = 'Version_1__2022_05_22'
-    datainfo['sequence_file'] = 'patterson2012_humanPopulations_allSNPs.mMDS.noOutliers.xyz.reProjected.csv'
-
-
-    # source_path = Path.cwd() / 'viz_assets' / 'point3A.png'
-    # destination_path = Path.cwd() / datainfo['dir'] / 'point3A.png'
-    # src.common.test_path(destination_path)
-    # shutil.copyfile(source_path, destination_path)
-
-
-    src.common.print_head_status(datainfo['sub_project'])
-
-    src.human_origins.seq_populations(datainfo)
-    src.human_origins.make_asset_all(datainfo)
-    src.human_origins.make_asset_regions(datainfo)
+#     return vocab
 
 
 
 
-def primates(datainfo, vocab):
-    '''
-    Process the primates data. Run these functions for metadata processing, the consensus species,
-    and the sequence data. All the speck, label, color map, and asset files are generated.
-    '''
 
-    src.common.print_head_status(datainfo['sub_project'])
+# def origins(datainfo):
+#     '''
+#     This processes the human origins data.
+#     '''
 
+#     datainfo['sub_project'] = 'Human Origins'
+#     datainfo['version'] = '1'
 
-    meta_data = src.metadata.process_data(datainfo)
-
-
-    consensus = src.consensus_species.process_data(datainfo, vocab)
-    src.consensus_species.make_asset(datainfo)
+#     datainfo['dir'] = datainfo['sub_project'].replace(' ', '_').lower()
+#     datainfo['catalog_directory'] = 'Version_1__2022_05_22'
+#     datainfo['sequence_file'] = 'patterson2012_humanPopulations_allSNPs.mMDS.noOutliers.xyz.reProjected.csv'
 
 
-    # seq = src.sequence.process_data(datainfo, meta_data)
-    # src.sequence.make_asset(datainfo)
-
-    # src.sequence_lineage.process_data(datainfo, consensus, seq)
-    # src.sequence_lineage.make_asset(datainfo)
-
+#     # source_path = Path.cwd() / 'viz_assets' / 'point3A.png'
+#     # destination_path = Path.cwd() / datainfo['dir'] / 'point3A.png'
+#     # src.common.test_path(destination_path)
+#     # shutil.copyfile(source_path, destination_path)
 
 
-    # Process the tree of primates
-    # NOTE: need to run the ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
-    src.tree.process_data(datainfo)
-    src.tree.process_branches(datainfo)
-    src.tree.make_asset_branches(datainfo)
+#     src.common.print_head_status(datainfo['sub_project'])
+
+#     src.human_origins.seq_populations(datainfo)
+#     src.human_origins.make_asset_all(datainfo)
+#     src.human_origins.make_asset_regions(datainfo)
+
+
+
+
+# def primates(datainfo, vocab):
+#     '''
+#     Process the primates data. Run these functions for metadata processing, the consensus species,
+#     and the sequence data. All the speck, label, color map, and asset files are generated.
+#     '''
+
+#     src.common.print_head_status(datainfo['sub_project'])
+
+
+#     meta_data = src.metadata.process_data(datainfo)
+
+
+#     consensus = src.consensus_species.process_data(datainfo, vocab)
+#     src.consensus_species.make_asset(datainfo)
+
+
+#     # seq = src.sequence.process_data(datainfo, meta_data)
+#     # src.sequence.make_asset(datainfo)
+
+#     # src.sequence_lineage.process_data(datainfo, consensus, seq)
+#     # src.sequence_lineage.make_asset(datainfo)
+
+
+
+#     # Process the tree of primates
+#     # NOTE: need to run the ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
+#     src.tree.process_data(datainfo)
+#     src.tree.process_branches(datainfo)
+#     src.tree.make_asset_branches(datainfo)
 
     
 
 
-    # src.common.print_subhead_status('Processing individual clades')
-    # src.slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
-    # src.slice_by_clade.process_data(datainfo, 'Pan')        # chimps
-    # src.slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
-    # src.slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
-    # src.slice_by_clade.process_data(datainfo, 'Lemur')
-    # src.slice_by_clade.make_asset(datainfo)
+#     # src.common.print_subhead_status('Processing individual clades')
+#     # src.slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
+#     # src.slice_by_clade.process_data(datainfo, 'Pan')        # chimps
+#     # src.slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
+#     # src.slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
+#     # src.slice_by_clade.process_data(datainfo, 'Lemur')
+#     # src.slice_by_clade.make_asset(datainfo)
 
 
-    # src.common.print_subhead_status('Processing traced lineage branch files')
-    # src.slice_by_lineage.process_data(datainfo, 'Homo sapiens')
-    # src.slice_by_lineage.make_asset(datainfo, 'Homo sapiens')
+#     # src.common.print_subhead_status('Processing traced lineage branch files')
+#     # src.slice_by_lineage.process_data(datainfo, 'Homo sapiens')
+#     # src.slice_by_lineage.make_asset(datainfo, 'Homo sapiens')
 
-    # # src.slice_by_lineage.process_data(datainfo, 'Lemur catta')
-    # # src.slice_by_lineage.make_asset(datainfo, 'Lemur catta')
-
-
-    # src.common.print_subhead_status('Processing individual taxon/species files')
-    # src.slice_by_taxon.process_data(datainfo, 'Homo sapiens')
-    # src.slice_by_taxon.process_data(datainfo, 'Macaca')
-    # src.slice_by_taxon.make_asset(datainfo)
+#     # # src.slice_by_lineage.process_data(datainfo, 'Lemur catta')
+#     # # src.slice_by_lineage.make_asset(datainfo, 'Lemur catta')
 
 
-    # src.takanori_trials.process_data(datainfo, seq)
-    # src.takanori_trials.make_asset(datainfo)
+#     # src.common.print_subhead_status('Processing individual taxon/species files')
+#     # src.slice_by_taxon.process_data(datainfo, 'Homo sapiens')
+#     # src.slice_by_taxon.process_data(datainfo, 'Macaca')
+#     # src.slice_by_taxon.make_asset(datainfo)
+
+
+#     # src.takanori_trials.process_data(datainfo, seq)
+#     # src.takanori_trials.make_asset(datainfo)
    
-    print()
+#     print()
     
 
 
 
 
-def birds(datainfo, vocab):
-    '''
-    Process the birds data. Run three functions for metadata processing, the consensus species,
-    and the sequence data. All the speck, label, color map, and asset files are generated.
-    '''
+# def birds(datainfo, vocab):
+#     '''
+#     Process the birds data. Run three functions for metadata processing, the consensus species,
+#     and the sequence data. All the speck, label, color map, and asset files are generated.
+#     '''
 
-    src.common.print_head_status(datainfo['sub_project'])
-
-
-    meta_data = src.metadata.process_data(datainfo)
+#     src.common.print_head_status(datainfo['sub_project'])
 
 
-    consensus = src.consensus_species.process_data(datainfo, vocab)
-    src.consensus_species.make_asset(datainfo)
+#     meta_data = src.metadata.process_data(datainfo)
 
 
-    seq = src.sequence.process_data(datainfo, meta_data)
-    src.sequence.make_asset(datainfo)
-
-    src.sequence_lineage.process_data(datainfo, consensus, seq)
-    src.sequence_lineage.make_asset(datainfo)
+#     consensus = src.consensus_species.process_data(datainfo, vocab)
+#     src.consensus_species.make_asset(datainfo)
 
 
-    src.common.print_subhead_status('Processing individual clades')
-    src.slice_by_clade.process_data(datainfo, 'Anas')   # 33084
-    src.slice_by_clade.make_asset(datainfo)
+#     seq = src.sequence.process_data(datainfo, meta_data)
+#     src.sequence.make_asset(datainfo)
+
+#     src.sequence_lineage.process_data(datainfo, consensus, seq)
+#     src.sequence_lineage.make_asset(datainfo)
 
 
-
-    src.common.print_subhead_status('Processing traced lineage branch files')
-    src.slice_by_lineage.process_data(datainfo, 'Anas')
-    src.slice_by_lineage.make_asset(datainfo, 'Anas')
-
-    src.slice_by_lineage.process_data(datainfo, 'Columba')
-    src.slice_by_lineage.make_asset(datainfo, 'Columba')
+#     src.common.print_subhead_status('Processing individual clades')
+#     src.slice_by_clade.process_data(datainfo, 'Anas')   # 33084
+#     src.slice_by_clade.make_asset(datainfo)
 
 
 
+#     src.common.print_subhead_status('Processing traced lineage branch files')
+#     src.slice_by_lineage.process_data(datainfo, 'Anas')
+#     src.slice_by_lineage.make_asset(datainfo, 'Anas')
+
+#     src.slice_by_lineage.process_data(datainfo, 'Columba')
+#     src.slice_by_lineage.make_asset(datainfo, 'Columba')
 
 
-    src.common.print_subhead_status('Processing individual taxon/species files')
-    src.slice_by_taxon.process_data(datainfo, 'Turdus migratorius')         # American robin
-    src.slice_by_taxon.process_data(datainfo, 'Cardinalis cardinalis')      # Cardinal
-    src.slice_by_taxon.process_data(datainfo, 'Haliaeetus leucocephalus')   # Bald eagle
-    src.slice_by_taxon.process_data(datainfo, 'Columba livia')              # Rock dove
-    src.slice_by_taxon.process_data(datainfo, 'Anas platyrhynchos')         # Mallard duck
-    src.slice_by_taxon.process_data(datainfo, 'Larus canus')                # Common gull
-    src.slice_by_taxon.make_asset(datainfo)
-    # # Sphenisciformes   all penguins
-    # # 29001
-    # # Passeriformes perching birds
 
 
-    print()
+
+#     src.common.print_subhead_status('Processing individual taxon/species files')
+#     src.slice_by_taxon.process_data(datainfo, 'Turdus migratorius')         # American robin
+#     src.slice_by_taxon.process_data(datainfo, 'Cardinalis cardinalis')      # Cardinal
+#     src.slice_by_taxon.process_data(datainfo, 'Haliaeetus leucocephalus')   # Bald eagle
+#     src.slice_by_taxon.process_data(datainfo, 'Columba livia')              # Rock dove
+#     src.slice_by_taxon.process_data(datainfo, 'Anas platyrhynchos')         # Mallard duck
+#     src.slice_by_taxon.process_data(datainfo, 'Larus canus')                # Common gull
+#     src.slice_by_taxon.make_asset(datainfo)
+#     # # Sphenisciformes   all penguins
+#     # # 29001
+#     # # Passeriformes perching birds
+
+
+#     print()
 
 
 

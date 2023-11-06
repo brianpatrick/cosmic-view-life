@@ -1,5 +1,8 @@
 # gitignore for the cosmic view of life project
 
+# Virtual Environment folder
+.venv
+
 # Class output directories (e.g., primates, birds, etc.)
 /birds/
 /primates/

@@ -13,7 +13,7 @@ import pandas as pd
 import re
 from pathlib import Path
 
-from src import common
+import common
 
 
 def process_data(datainfo):

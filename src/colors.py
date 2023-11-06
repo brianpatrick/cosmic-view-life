@@ -18,14 +18,15 @@ import pandas as pd
 from pathlib import Path
 from colormap import hex2rgb
 
-from src import common
+import common
 
 
 
 def crayola_color_table(datainfo):
 
     # Read the HTML table saved locally
-    inpath = Path.cwd() / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory'] / 'crayola_colors.html'
+    #inpath = Path.cwd() / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory'] / 'crayola_colors.html'
+    inpath = common.BASE_PATH / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory'] / 'crayola_colors.html'
     common.test_input_file(inpath)
 
     table = pd.read_html(inpath)
@@ -48,7 +49,7 @@ def crayola_color_table(datainfo):
 
     # Open the cmap file and write the list of colors
     outfile = 'crayola.dat'
-    outpath = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory']
+    outpath = common.BASE_PATH / common.PROCESSED_DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory']
     common.test_path(outpath)
 
     outpath = outpath / outfile
@@ -81,7 +82,7 @@ def crayola_color_table(datainfo):
 
 
     outfile_chosen = 'chosen_colors.dat'
-    outpath_chosen = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory']
+    outpath_chosen = common.BASE_PATH / common.PROCESSED_DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory']
     common.test_path(outpath_chosen)
 
     outpath_chosen = outpath_chosen / outfile_chosen

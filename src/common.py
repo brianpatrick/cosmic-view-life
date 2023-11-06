@@ -13,6 +13,7 @@ import sys
 import math
 import pandas as pd
 from pathlib import Path
+#import str
 
 
 
@@ -67,6 +68,15 @@ CHOSEN_COLOR_TABLE = ('Lemon Yellow', 'Sea Green', 'Periwinkle', 'Wisteria', 'Ca
 
 
 
+# Paths
+# =============================================================================
+# Use this path for all codes in ./src. This is the base path of the project directory.
+local_path = Path.cwd()
+BASE_DIR = str(local_path).removesuffix('/src')
+BASE_PATH = Path(BASE_DIR)
+print(BASE_PATH)
+
+
 
 # Functions
 # =============================================================================
@@ -76,8 +86,9 @@ CHOSEN_COLOR_TABLE = ('Lemon Yellow', 'Sea Green', 'Periwinkle', 'Wisteria', 'Ca
 # ---------------------------------------------------------------------------
 def out_file_message(filepath):
     
-    # Get a relative path from the project root directory
+    # # Get a relative path from the project root directory
     relative_filepath = filepath.relative_to(Path.cwd())
+    #relative_filepath = BASE_PATH
 
     # Get the file extension to determine the file type
     file_extension = Path(filepath).suffix
@@ -425,10 +436,11 @@ def test_path(path):
     Test is a directory (path) exists, 
     and create any part of it that does not exist.
     '''
-    # Set a relative filepath so we don't include the /home/...
-    relative_filepath = path.relative_to(Path.cwd())
 
-    #print(path, relative_filepath)
+    # # Set a relative filepath so we don't include the /home/...
+    #relative_filepath = path.relative_to(Path.cwd()).rstrip('src')
+    #print(relative_filepath)
+    relative_filepath = BASE_PATH
 
     if not Path.exists(path):
         permission_create_dir = input('\tCreate directory ./' + str(relative_filepath) + '? (y/n/q): ')
@@ -443,7 +455,7 @@ def test_path(path):
         else:
             sys.exit("\n\t -- Not a valid choice. Choose 'y' to create the necessary directory.\n\tExiting.\n")
     # else:   # debugging purposes
-    #     print('Path exists???')
+    #     print('Path exists: ' + str(path))
         
 
 
