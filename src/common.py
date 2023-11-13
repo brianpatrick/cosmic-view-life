@@ -87,8 +87,8 @@ print(BASE_PATH)
 def out_file_message(filepath):
     
     # # Get a relative path from the project root directory
-    relative_filepath = filepath.relative_to(Path.cwd())
-    #relative_filepath = BASE_PATH
+    #relative_filepath = filepath(Path.cwd())
+    relative_filepath = BASE_PATH
 
     # Get the file extension to determine the file type
     file_extension = Path(filepath).suffix
