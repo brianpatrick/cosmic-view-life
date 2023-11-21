@@ -1,9 +1,14 @@
 # gitignore for the cosmic view of life project
 
+# OS & Python files
+**__pycache__/
+.DS_Store
+Thumbs.db
+
 # Virtual Environment folder
 .venv
 
-# Class output directories (e.g., primates, birds, etc.)
+# Output directories (e.g., primates, birds, etc.)
 /birds/
 /primates/
 /human_origins/
@@ -14,17 +19,13 @@
 # Log files
 /logs/
 
-
 # Single cell, for now
 /single_cell/
 
+# Docs build files
+/docs/build/
 
-# Python cache files
-**__pycache__/
 
 
-# Other OS-generated files
-.DS_Store
-Thumbs.db
 
 
