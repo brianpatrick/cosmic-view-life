@@ -1,0 +1,22 @@
+# Generating Color Maps
+
+There are some tools and color palettes available to generate color maps used for OpenSpace. We adopt a main color sample from the [Wikipedia page for crayola crayons](https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors), where a list of colors and their hex values are scraped and stored.
+
+This process, theoretically, needs to be run only once, assuming the chosen_colors is not altered. Once you run it for the first time, it may be commented out of `main.py`.
+
+
+## Main Color Palette
+
+The main list of colors is scraped from the standard colors table on Wikipedia's List of Crayola crayon colors. This provides the basis of available colors, but note we only include colors with hexidecimal values.
+
+The colors.py
+
+
+
+:::{toctree} :caption: Running the Code :name: sec-running :maxdepth: 2 :hidden: :titlesonly:
+
+general/releases/index general/academics :::
+
+:::{toctree} :caption: Primates :name: sec-primates :maxdepth: 2 :hidden: :titlesonly:
+
+getting-started/introduction/index getting-started/profiles/index :::
