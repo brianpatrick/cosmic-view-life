@@ -81,7 +81,7 @@ def process_data(datainfo, vocab):
     # Print the data in a speck and label file
     # ---------------------------------------------------------------------------
     out_file_stem = 'consensus'
-    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
     common.test_path(outpath)
 
     outfile_speck = out_file_stem + '.speck'
@@ -91,7 +91,7 @@ def process_data(datainfo, vocab):
 
         header = common.header(datainfo, script_name=Path(__file__).name)
         print(header, file=speck)
-            
+        
         # Set the columns to print as datavar columns. This is a list of columns to print after x,y,z
         cols_to_print = ['dummy']
 
@@ -123,7 +123,8 @@ def process_data(datainfo, vocab):
 
     # Print the labels
     # ---------------------------------------------------------------------------
-    outfile_label = out_file_stem + '.label'  
+    outfile_label = out_file_stem + '.label'
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
     outpath_label = outpath / outfile_label
 
     with open(outpath_label, 'wt') as label:
@@ -223,7 +224,7 @@ def process_data(datainfo, vocab):
 
 
     # Write data to files
-    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
     common.test_path(outpath)
 
     outfile_speck = 'consensus_tree.speck'
