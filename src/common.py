@@ -68,6 +68,8 @@ GRAY_COLOR = 0.4
 CHOSEN_COLOR_TABLE = ('Lemon Yellow', 'Sea Green', 'Periwinkle', 'Wisteria', 'Carnation Pink', 'Sepia', 'Blue-Gray', 'Orange', 'Fern', 'Blue-Green', 'Violet-Blue', 'Orchid', 'Mahogany', 'Shadow', 'Maize', 'Asparagus', 'Sky Blue', 'Purple Heart', 'Magenta', 'Burnt Sienna', 'Silver', 'Scarlet', 'Yellow-Green', 'Aquamarine', 'Indigo', 'Fuchsia', 'Salmon', 'Peach')
 
 
+# Output formatting
+PADDING = '  '
 
 # Paths
 # =============================================================================
@@ -75,7 +77,6 @@ CHOSEN_COLOR_TABLE = ('Lemon Yellow', 'Sea Green', 'Periwinkle', 'Wisteria', 'Ca
 local_path = Path.cwd()
 BASE_DIR = str(local_path).removesuffix('/src')
 BASE_PATH = Path(BASE_DIR)
-print(BASE_PATH)
 
 
 
@@ -85,14 +86,24 @@ print(BASE_PATH)
 
 # Messsge to stdout for output files created
 # ---------------------------------------------------------------------------
-def out_file_message(filepath):
+def out_file_message(path):
     
-    # # Get a relative path from the project root directory
+    # Get a relative filepath for better output.
+    # Convert the incoming path to a string, then...
+    input_path = str(path)
+
+    # If the base directory for the project is in the input path, remove it, 
+    # yielding a relative file path.
+    if BASE_DIR in input_path:
+        relative_filepath = '.' + input_path.replace(BASE_DIR,'')
+
+
+    # Get a relative path from the project root directory
     #relative_filepath = filepath(Path.cwd())
-    relative_filepath = BASE_PATH
+    #relative_filepath = BASE_PATH
 
     # Get the file extension to determine the file type
-    file_extension = Path(filepath).suffix
+    file_extension = Path(path).suffix
 
     if file_extension == '.asset':
         filetype = 'Asset'
@@ -109,7 +120,7 @@ def out_file_message(filepath):
     
     
     # Print the message to stdout
-    print('{0} {1}'.format(('\tGenerated ' + filetype + ' file' + ' ').ljust(40, '.'), relative_filepath))
+    print('{0} {1}'.format((PADDING + '  Generated ' + filetype + ' file' + ' ').ljust(40, '.'), relative_filepath))
 
 
 
@@ -120,13 +131,17 @@ def out_file_message(filepath):
 def print_head_status(message):
     print()
     print('Processing ' + message + '...')
-    print('======================================================================================')
+    print('=' * 80)
     
 
 
 def print_subhead_status(message):
     print()
-    print('    ' + message + ':')
+    print(PADDING + message + ':')
+
+    # Print an underline that's the length of the messagfe, plus one for the colon.
+    message_length = len(message)
+    print(PADDING + '-' * (message_length + 1))
 
 
 
@@ -426,7 +441,7 @@ def test_input_file(path):
     '''
     if not path.is_file():
         #print(str(path) + ' does not exist.')
-        sys.exit('\n\tInput file does not exist:\n\t' + str(path) + '\n\tExiting.\n')
+        sys.exit('\n' + PADDING + 'Input file does not exist:\n' + PADDING + str(path) + '\n' + PADDING + 'Exiting.\n')
 
 
 
@@ -438,33 +453,30 @@ def test_path(path):
     and create any part of it that does not exist.
     '''
 
-    # # Set a relative filepath so we don't include the /home/...
-    #relative_filepath = path.relative_to(Path.cwd()).rstrip('src')
-    #print(relative_filepath)
-    relative_filepath = BASE_PATH
+    # Get a relative filepath for better output.
+    # Convert the incoming path to a string, then...
+    input_path = str(path)
+
+    # If the base directory for the project is in the input path, remove it, 
+    # yielding a relative file path.
+    if BASE_DIR in input_path:
+        relative_filepath = '.' + input_path.replace(BASE_DIR,'')
+
 
     if not Path.exists(path):
-        permission_create_dir = input('\tCreate directory ./' + str(relative_filepath) + '? (y/n/q): ')
+        permission_create_dir = input('\n' + PADDING + 'Create directory: ' + relative_filepath + '? (y/n/q): ')
         
         if permission_create_dir == 'y':
             Path(path).mkdir(parents=True)
-            print('\t -- Created directory: ./' + str(relative_filepath))
+            print(PADDING + '  Created directory: ' + relative_filepath)
         elif permission_create_dir == 'n':
-            sys.exit('\n\t -- Cannot write output file. Rerun and create the directory.\n\tExiting.\n')
+            sys.exit('\n' + PADDING + ' -- Cannot write output file. Rerun and create the directory. --\n\tExiting.\n')
         elif permission_create_dir == 'q':
-            sys.exit("\n\t -- You've chosen to quit.\n\tExiting.\n")
+            sys.exit('\n' + PADDING + ' -- You\'ve chosen to quit. --\n'  + PADDING + 'Exiting.\n')
         else:
-            sys.exit("\n\t -- Not a valid choice. Choose 'y' to create the necessary directory.\n\tExiting.\n")
+            sys.exit('\n' + PADDING + ' -- Not a valid choice. Choose \'y\' to create the necessary directory. --\n' + PADDING + 'Exiting.\n')
     # else:   # debugging purposes
     #     print('Path exists: ' + str(path))
-        
-
-
-
-# def print_asset_file(datainfo, asset_info):
-
-#     print(asset_info)
-
 
 
 

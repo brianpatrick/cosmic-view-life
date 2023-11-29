@@ -159,6 +159,7 @@ def process_data(datainfo):
                         # Get the index number for the matching values. These index
                         # numbers are the lineage codes we need. (30001, etc.)
                         lineage_code = str(lineage[lineage == v].index[0])
+                        #print(type(lineage_code))
 
                         # Write the new column and give the row the lineage_code value
                         metadata.at[row_number, series_name] = lineage_code
