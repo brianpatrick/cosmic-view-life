@@ -96,7 +96,7 @@ def main():
     datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
     datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
     datainfo['lineage_columns'] = [24, 31]
-    #primates(datainfo, vocab)
+    primates(datainfo, vocab)
 
 
     # datainfo['version'] = '1'
@@ -154,7 +154,7 @@ def main():
     datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
     datainfo['synonomous_file'] = None
     datainfo['lineage_columns'] = [27, 34]
-    birds(datainfo, vocab)
+    #birds(datainfo, vocab)
 
 
 
@@ -237,8 +237,8 @@ def primates(datainfo, vocab):
     seq = sequence.process_data(datainfo, meta_data)
     sequence.make_asset(datainfo)
 
-    sequence_lineage.process_data(datainfo, consensus, seq)
-    sequence_lineage.make_asset(datainfo)
+    # sequence_lineage.process_data(datainfo, consensus, seq)
+    # sequence_lineage.make_asset(datainfo)
 
 
 
@@ -252,30 +252,30 @@ def primates(datainfo, vocab):
 
 
     # common.print_subhead_status('Processing individual clades')
-    slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
-    slice_by_clade.process_data(datainfo, 'Pan')        # chimps
-    slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
-    slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
-    slice_by_clade.process_data(datainfo, 'Lemur')
-    slice_by_clade.make_asset(datainfo)
+    # slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
+    # slice_by_clade.process_data(datainfo, 'Pan')        # chimps
+    # slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
+    # slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
+    # slice_by_clade.process_data(datainfo, 'Lemur')
+    # slice_by_clade.make_asset(datainfo)
 
 
-    # common.print_subhead_status('Processing traced lineage branch files')
-    slice_by_lineage.process_data(datainfo, 'Homo sapiens')
-    slice_by_lineage.make_asset(datainfo, 'Homo sapiens')
+    # # common.print_subhead_status('Processing traced lineage branch files')
+    # slice_by_lineage.process_data(datainfo, 'Homo sapiens')
+    # slice_by_lineage.make_asset(datainfo, 'Homo sapiens')
 
-    # # slice_by_lineage.process_data(datainfo, 'Lemur catta')
-    # # slice_by_lineage.make_asset(datainfo, 'Lemur catta')
-
-
-    # common.print_subhead_status('Processing individual taxon/species files')
-    slice_by_taxon.process_data(datainfo, 'Homo sapiens')
-    slice_by_taxon.process_data(datainfo, 'Macaca')
-    slice_by_taxon.make_asset(datainfo)
+    # # # slice_by_lineage.process_data(datainfo, 'Lemur catta')
+    # # # slice_by_lineage.make_asset(datainfo, 'Lemur catta')
 
 
-    takanori_trials.process_data(datainfo, seq)
-    takanori_trials.make_asset(datainfo)
+    # # common.print_subhead_status('Processing individual taxon/species files')
+    # slice_by_taxon.process_data(datainfo, 'Homo sapiens')
+    # slice_by_taxon.process_data(datainfo, 'Macaca')
+    # slice_by_taxon.make_asset(datainfo)
+
+
+    # takanori_trials.process_data(datainfo, seq)
+    # takanori_trials.make_asset(datainfo)
    
     print()
     

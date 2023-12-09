@@ -81,7 +81,8 @@ def process_data(datainfo, vocab):
     # Print the data in a speck and label file
     # ---------------------------------------------------------------------------
     out_file_stem = 'consensus'
-    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
+    #outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
     common.test_path(outpath)
 
     outfile_speck = out_file_stem + '.speck'
@@ -183,67 +184,67 @@ def process_data(datainfo, vocab):
 
 
 
-    datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
-    datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
+    # datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
+    # datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
 
 
-    # First, convert the csv raw files into speck files.
-    # These are the internal branch points
-    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.internal.csv'
-    common.test_input_file(inpath)
+    # # First, convert the csv raw files into speck files.
+    # # These are the internal branch points
+    # inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.internal.csv'
+    # common.test_input_file(inpath)
 
-    internal_branches = pd.read_csv(inpath)
+    # internal_branches = pd.read_csv(inpath)
 
-    # Rearrange the columns
-    internal_branches = internal_branches[['x', 'y', 'z', 'name']]
+    # # Rearrange the columns
+    # internal_branches = internal_branches[['x', 'y', 'z', 'name']]
 
-    # Move the z values down, to transform the data down from the origin
-    internal_branches.loc[:, 'z'] = internal_branches['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-    #print(internal_branches)
-
-
-
-    # These are the "leaves"--the current day species.
-    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.leaves.csv'
-    common.test_input_file(inpath)
-
-    leaves = pd.read_csv(inpath)
-
-    # Rearrange the columns
-    leaves = leaves[['x', 'y', 'z', 'name']]
-
-    # Move the z values down, to transform the data down from the origin
-    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-
-    # Add underscores to the taxon names
-    leaves['name'] = leaves['name'].str.replace(' ', '_')
-
-    # Move the z values down
-    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-    #print(leaves)
+    # # Move the z values down, to transform the data down from the origin
+    # internal_branches.loc[:, 'z'] = internal_branches['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+    # #print(internal_branches)
 
 
-    # Write data to files
-    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
-    common.test_path(outpath)
 
-    outfile_speck = 'consensus_tree.speck'
-    outpath_speck = outpath / outfile_speck
+    # # These are the "leaves"--the current day species.
+    # inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.leaves.csv'
+    # common.test_input_file(inpath)
+
+    # leaves = pd.read_csv(inpath)
+
+    # # Rearrange the columns
+    # leaves = leaves[['x', 'y', 'z', 'name']]
+
+    # # Move the z values down, to transform the data down from the origin
+    # leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+
+    # # Add underscores to the taxon names
+    # leaves['name'] = leaves['name'].str.replace(' ', '_')
+
+    # # Move the z values down
+    # leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+    # #print(leaves)
+
+
+    # # Write data to files
+    # outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
+    # common.test_path(outpath)
+
+    # outfile_speck = 'consensus_tree.speck'
+    # outpath_speck = outpath / outfile_speck
     
 
-    with open(outpath_speck, 'wt') as speck:
+    # with open(outpath_speck, 'wt') as speck:
 
-        datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+    #     datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
 
-        header = common.header(datainfo, script_name=Path(__file__).name)
-        print(header, file=speck)
+    #     header = common.header(datainfo, script_name=Path(__file__).name)
+    #     print(header, file=speck)
 
-        for _, row in leaves.iterrows():
-            print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} # {row['name']}", file=speck)
+    #     for _, row in leaves.iterrows():
+    #         print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} # {row['name']}", file=speck)
 
 
-    # Report to stdout
-    common.out_file_message(outpath_speck)
+    # # Report to stdout
+    # common.out_file_message(outpath_speck)
 
 
     return df

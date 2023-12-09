@@ -20,7 +20,7 @@ import common
 def process_data(datainfo):
     '''
     Process the primate tree of life points. These consist of "leaves" which are the 
-    present day species/taxon, and the interrnal branch points, which are the nexus
+    present day species/taxon, and the internal branch points, which are the nexus
     of common ancestors, all the way down to the one common ancestor of all primates.
 
     Input:
@@ -34,13 +34,18 @@ def process_data(datainfo):
 
     common.print_subhead_status('Processing Primate tree data')
 
+
+
+    # Generate the Consensus points for the tree. These will be points that sit on the tips
+    # of the tree branches -- the leaves.
+    # ------------------------------------------------------------------------------------------
     datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
     datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
 
 
     # First, convert the csv raw files into speck files.
     # These are the internal branch points
-    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.internal.csv'
+    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.internal.csv'
     common.test_input_file(inpath)
 
     internal_branches = pd.read_csv(inpath)
@@ -55,7 +60,85 @@ def process_data(datainfo):
 
 
     # These are the "leaves"--the current day species.
-    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.leaves.csv'
+    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.leaves.csv'
+    common.test_input_file(inpath)
+
+    leaves = pd.read_csv(inpath)
+
+    # Rearrange the columns
+    leaves = leaves[['x', 'y', 'z', 'name']]
+
+    # Move the z values down, to transform the data down from the origin
+    #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+
+    # Add underscores to the taxon names
+    leaves['name'] = leaves['name'].str.replace(' ', '_')
+
+    # Move the z values down
+    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+    
+    #print(leaves)
+
+
+    # Write data to files
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
+    common.test_path(outpath)
+
+    outfile_speck = 'consensus_tree.speck'
+    outpath_speck = outpath / outfile_speck
+    
+
+    with open(outpath_speck, 'wt') as speck:
+
+        datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+
+        header = common.header(datainfo, script_name=Path(__file__).name)
+        print(header, file=speck)
+
+        for _, row in leaves.iterrows():
+            print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} # {row['name']}", file=speck)
+
+
+    # Report to stdout
+    common.out_file_message(outpath_speck)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    # 
+    # ------------------------------------------------------------------------------------------
+    datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
+    datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
+
+
+    # First, convert the csv raw files into speck files.
+    # These are the internal branch points
+    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.internal.csv'
+    common.test_input_file(inpath)
+
+    internal_branches = pd.read_csv(inpath)
+
+    # Rearrange the columns
+    internal_branches = internal_branches[['x', 'y', 'z', 'name']]
+
+    # Move the z values down, to transform the data down from the origin
+    internal_branches.loc[:, 'z'] = internal_branches['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+    #print(internal_branches)
+
+
+
+    # These are the "leaves"--the current day species.
+    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.leaves.csv'
     common.test_input_file(inpath)
 
     leaves = pd.read_csv(inpath)
