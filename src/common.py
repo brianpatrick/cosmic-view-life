@@ -84,10 +84,15 @@ BASE_PATH = Path(BASE_DIR)
 # =============================================================================
 
 
-# Messsge to stdout for output files created
+
 # ---------------------------------------------------------------------------
 def out_file_message(path):
-    
+    """
+    Print message to stdout upon file creation.
+
+    :param path: Path of the new file that was written.
+    :type path: pathlib.PosixPath
+    """    
     # Get a relative filepath for better output.
     # Convert the incoming path to a string, then...
     input_path = str(path)
@@ -126,20 +131,36 @@ def out_file_message(path):
 
 
 
-# Messsge to stdout for status, a function for heads and subheads
 # ---------------------------------------------------------------------------
 def print_head_status(message):
+    """
+    Message to stdout for status, a function for section heads.
+
+    Heads are section-level notices, e.g., for the primates, or the birds.
+
+    :param message: A message to report to stdout
+    :type message: str
+    """    
     print()
     print('Processing ' + message + '...')
     print('=' * 80)
     
 
 
+# ---------------------------------------------------------------------------
 def print_subhead_status(message):
+    """
+    Message to stdout for status in subsections.
+
+    Subsections are codes within a section, like the primate consensus species, or the sequence data.
+
+    :param message: A message to report to stdout
+    :type message: str
+    """    
     print()
     print(PADDING + message + ':')
 
-    # Print an underline that's the length of the messagfe, plus one for the colon.
+    # Print an underline that's the length of the message, plus one for the colon.
     message_length = len(message)
     print(PADDING + '-' * (message_length + 1))
 
@@ -150,6 +171,20 @@ def print_subhead_status(message):
 # header() writes the header lines to a file
 # ---------------------------------------------------------------------------
 def header(datainfo, function_name='', script_name=''):
+    """
+    Write header lines to a file.
+
+    
+
+    :param datainfo: _description_
+    :type datainfo: _type_
+    :param function_name: _description_, defaults to ''
+    :type function_name: str, optional
+    :param script_name: _description_, defaults to ''
+    :type script_name: str, optional
+    """
+
+
     '''
     A function for formatting the header info for all output files.
     '''
@@ -432,27 +467,30 @@ def parse_lineage_csv(datainfo):
 
 
 
-# test the input file for existence. Exit if it's not there.
 # -----------------------------------------------------------------------------
 def test_input_file(path):
-    '''
-    Test for the existence of an input file,
-    Exit if it's not there.
-    '''
+    """
+    Test for the existence of an input file, exit if it's not there.
+
+    :param path: A python path object to the file in question.
+    :type path: path object
+    :raises FileNotFoundError: Raised if the file does not exist.
+    """
     if not path.is_file():
-        #print(str(path) + ' does not exist.')
-        sys.exit('\n' + PADDING + 'Input file does not exist:\n' + PADDING + str(path) + '\n' + PADDING + 'Exiting.\n')
+        raise FileNotFoundError('input file does not exist:\n\t' + str(path) + '\n' + 'Exiting.')
 
 
 
-# test a path for potential output file.
+
+
 # -----------------------------------------------------------------------------
 def test_path(path):
-    '''
-    Test is a directory (path) exists, 
-    and create any part of it that does not exist.
-    '''
+    """
+    Test if a directory (path) exists, with user option to create any part of it that does not exist.
 
+    :param path: A python path object to the file in question.
+    :type path: path object
+    """
     # Get a relative filepath for better output.
     # Convert the incoming path to a string, then...
     input_path = str(path)

@@ -22,7 +22,16 @@ import common
 
 
 
+# -----------------------------------------------------------------------------
 def crayola_color_table(datainfo):
+    """
+    Generate a color table from a source table based on the crayola crayon colors.
+
+    Read in a Wikipedia HTML file that contains a color listing of crayola crayons. Clean up the colors, toss out the rejects, and create a custom list of desired colors ``chosen_colors`` and shuffle them in an order that makes sense. Finally, write out the list to a ``.dat`` file that will be used to tap colors from across the project.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    """    
 
     # Read the HTML table saved locally
     #inpath = Path.cwd() / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory'] / 'crayola_colors.html'
@@ -108,10 +117,14 @@ def crayola_color_table(datainfo):
 
 
 def rgba(hex):
-    '''
+    """
     Convert a hex color to an RGB, then normalize between 0-1.
-    Returns a pandas series of the color values.
-    '''
+
+    :param hex: A hexidecimal color value
+    :type hex: str
+    :return: A pandas series of red, green, blue, and alpha.
+    :rtype: Series
+    """
     rgb = hex2rgb(hex)
     red = rgb[0] / 255
     green = rgb[1] / 255
