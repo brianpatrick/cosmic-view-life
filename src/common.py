@@ -75,8 +75,10 @@ PADDING = '  '
 # =============================================================================
 # Use this path for all codes in ./src. This is the base path of the project directory.
 local_path = Path.cwd()
-BASE_DIR = str(local_path).removesuffix('/src')
-BASE_PATH = Path(BASE_DIR)
+#BASE_DIR = str(local_path).removesuffix('/src')
+#BASE_PATH = Path(BASE_DIR)
+BASE_PATH = Path.cwd()
+BASE_DIR = Path.cwd()
 
 
 
@@ -168,26 +170,19 @@ def print_subhead_status(message):
 
 
 
-# header() writes the header lines to a file
+
 # ---------------------------------------------------------------------------
 def header(datainfo, function_name='', script_name=''):
     """
-    Write header lines to a file.
+    Write header lines to an output file.
 
-    
-
-    :param datainfo: _description_
-    :type datainfo: _type_
-    :param function_name: _description_, defaults to ''
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param function_name: The name of the function that generated the file, defaults to ''
     :type function_name: str, optional
-    :param script_name: _description_, defaults to ''
+    :param script_name: AName of the script (.py filename) that generated the file, defaults to ''
     :type script_name: str, optional
     """
-
-
-    '''
-    A function for formatting the header info for all output files.
-    '''
 
     institution = '''# Cosmic View of Life on Earth
 # American Museum of Natural History
@@ -221,9 +216,16 @@ def header(datainfo, function_name='', script_name=''):
 
 
 
-# Read in the chosen color table, return as a dict
 # -----------------------------------------------------------------------------
 def read_color_table(color_table_file):
+    """
+    Read in the chosen color table, return as a dict.
+
+    :param color_table_file: Filename of a color table file (.dat).
+    :type color_table_file: str
+    :return: A dictionary of color values and names.
+    :rtype: dict
+    """    
 
     # Open the chosen colors table
     color_table_path = Path.cwd() / PROCESSED_DATA_DIRECTORY / COLOR_DIRECTORY / 'crayola' / color_table_file
@@ -268,13 +270,22 @@ def read_color_table(color_table_file):
 
 
 
-# Color lookup
+
 # -----------------------------------------------------------------------------
 def find_color(color_table_file, color_name):
-    '''
-    Given a color name, mine the main color table for its RGB values
-    '''
+    """
+    Color lookup.
 
+    Given a color name, mine the main color table for its RGB values.
+
+    :param color_table_file: Filename of a color table file (.dat).
+    :type color_table_file: str
+    :param color_name: A color name, e.g. 'blue'.
+    :type color_name: str
+    :return: A character string of R,G,B color values.
+    :rtype: str
+    """
+ 
     # Read in the main color table
     color_table = read_color_table(color_table_file)
 
@@ -292,14 +303,23 @@ def find_color(color_table_file, color_name):
 
 
 
-# Color to dictionary
+
 # -----------------------------------------------------------------------------
 def color2dict(source_color_file, input_color_list):
-    '''
+    """
+    This function returns colors that are ready to be used in OpenSpace's ``Color`` command.
+
     Given a color file to mine colors from, and a list of colors to return,
-    Return a dict with the {color_name: rgb_string} that's useful for 
-    OpenSpace's Color command in an asset file.
-    '''
+    return a dict with the {color_name: rgb_string} that's useful for 
+    OpenSpace's ``Color`` command in an asset file.
+
+    :param source_color_file: filename for a color table (.dat)
+    :type source_color_file: str
+    :param input_color_list: _description_
+    :type input_color_list: tuple
+    :return: Return a dictionary of ``color_name: rgb_string``
+    :rtype: dict
+    """
 
     final_color_table = {}
 
@@ -322,12 +342,17 @@ def color2dict(source_color_file, input_color_list):
 
 
 
-# Read a cmap file and return a dataframe of colors
 # -----------------------------------------------------------------------------
 def parse_color_file(color_file_path, total_colors):
+    """
+    Read a cmap file and return a dataframe of colors.
 
+    :param color_file_path: Filename for a color table (.dat)
+    :type color_file_path: str
+    :param total_colors: A DataFrame with columns 'color_index', 'rgb', and 'color_name'.
+    :type total_colors: pathlib.PosixPath
+    """    
 
-    # Read in the colors from the color map file and save the colors in a list
     #color_map_file = color_file
     #color_file_path = Path.cwd() / PROCESSED_DATA_DIRECTORY / COLOR_DIRECTORY / color_map_file
     test_path(color_file_path)
@@ -390,12 +415,20 @@ def parse_color_file(color_file_path, total_colors):
 
 
 
-# Parse a speck file
 # -----------------------------------------------------------------------------
 def parse_speck(inpath, data_filter):
-    '''
+    """
+    Parse a speck file.
+
     Take a speck file and parse the contents into header lines, datavar lines, and data lines.
-    '''
+
+    :param inpath: Path object of the speck file.
+    :type inpath: pathlib.PosixPath
+    :param data_filter: A parameter on which we filter the data, choosing lines that contain ``data_filter``. 
+    :type data_filter: str
+    :return: Three strings from the speck file: one for the header lines, one for the datavar lines, and one for the data lines.
+    :rtype: tuple of str
+    """
     
     # Open the passed file path
     with open(inpath, 'rt') as infile:
@@ -430,7 +463,7 @@ def parse_speck(inpath, data_filter):
                 elif data_filter in line:
                     data_lines += line
 
-                # else, we're hosed with no data lines
+                # else, we're hosed with no data lines, should handle all this with exceptions, probably.
                 else:
                     continue
 
@@ -449,9 +482,18 @@ def parse_speck(inpath, data_filter):
 
 
 
-# Parse the lineage csv file and return a tuple
+
+
 # -----------------------------------------------------------------------------
 def parse_lineage_csv(datainfo):
+    """
+    Parse the lineage csv file and return a tuple.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :return: Returns the matching lineage codes.
+    :rtype: tuple of tuples
+    """    
 
     # Open the lineage_codes.csv and look up the code number for the clade
     file_name = 'lineage_codes.csv'
@@ -463,6 +505,8 @@ def parse_lineage_csv(datainfo):
         lineage_key = [tuple(row) for row in cin]
 
     return tuple(lineage_key)
+
+
 
 
 
@@ -520,16 +564,33 @@ def test_path(path):
 
 
 
-# Generate an openspace variable name for the asset scenegraph variable
 # -----------------------------------------------------------------------------
 def file_variable_generator(filename):
+    """
+    Generate an openspace variable name for the asset scenegraph variable.
+
+    :param filename: Name of the file as a char string to be used in constructing a OpenSpace variable name.
+    :type filename: str
+    :return: Returns a constructed variable name.
+    :rtype: str
+    """    
     name_parts = filename.split('.')
     file_variable_name = name_parts[1] + '_' + name_parts[0]
 
     return file_variable_name
 
 
+
+
+
+# -----------------------------------------------------------------------------
 def pre_process_takanori_consensus(datainfo):
+    """
+    This function basically rearranges the incoming raw file into a format we need.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    """    
 
     # Open the consensus file to transform
     file_name = datainfo['consensus_file']
@@ -555,9 +616,15 @@ def pre_process_takanori_consensus(datainfo):
 
 
 
-# Preprocess the sequence file to match what the sequence processing code expects
+# 
 # -----------------------------------------------------------------------------
 def pre_process_takanori_seq(datainfo):
+    """
+    Preprocess the sequence file to match what the sequence processing code expects.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    """    
     
     # Open the seq file to transform
     file_name = datainfo['sequence_file']

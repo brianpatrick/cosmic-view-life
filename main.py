@@ -1,15 +1,14 @@
-'''
-Cosmic View of Life on Earth
+# Cosmic View of Life on Earth
 
-The main script for processing the Cosmic View of Life on Earth project.
+# The main script for processing the Cosmic View of Life on Earth project.
 
-This reads in the raw data and processes speck, label, color map, and asset files ready for OpenSpace.
-Main steps include reading and passing the metadata, processing the consensus species data, 
-and processing the DNA sequence data. 
+# This reads in the raw data and processes speck, label, color map, and asset files ready for OpenSpace.
+# Main steps include reading and passing the metadata, processing the consensus species data, 
+# and processing the DNA sequence data. 
 
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
+
 
 #from mimetypes import guess_all_extensions
 import pandas as pd
@@ -17,8 +16,8 @@ from pathlib import Path
 #import shutil
 #import os
 
-import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree
-#import  
+from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree
+
 
 
 def main():
@@ -77,7 +76,7 @@ def main():
 
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
-    origins(datainfo)
+    #origins(datainfo)
     
 
 
@@ -109,11 +108,11 @@ def main():
     # datainfo['lineage_columns'] = [24, 31]
 
     # # Preprocess the consensus file to get the right format
-    # new_consensus_filename = src.common.pre_process_takanori_consensus(datainfo)
+    # new_consensus_filename = common.pre_process_takanori_consensus(datainfo)
     # datainfo['consensus_file'] = new_consensus_filename
 
     # # Process the sequence data file to fet the right format
-    # new_seq_filename = src.common.pre_process_takanori_seq(datainfo)
+    # new_seq_filename = common.pre_process_takanori_seq(datainfo)
     # datainfo['sequence_file'] = new_seq_filename
 
     # primates(datainfo, vocab)

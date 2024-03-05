@@ -1,24 +1,22 @@
-'''
-Generate a color palette of colors to sample from for our color map (.cmap) files.
+# Generate a color palette of colors to sample from for our color map (.cmap) files.
 
-Reads a list of colors scraped from a wikipedia page of crayola crayons.
-https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors
+# Reads a list of colors scraped from a wikipedia page of crayola crayons.
+# https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors
 
-Convert the hex color values into red, green, blue colors. 
-Write the colors out to a master file.
+# Convert the hex color values into red, green, blue colors. 
+# Write the colors out to a master file.
 
-Then, form a list of chosen colors and print a chosen_colors color table which will be
-used to sample colors for the color map files.
+# Then, form a list of chosen colors and print a chosen_colors color table which will be
+# used to sample colors for the color map files.
 
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
 
 import pandas as pd
 from pathlib import Path
 from colormap import hex2rgb
 
-import common
+from src import common
 
 
 
