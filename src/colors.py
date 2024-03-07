@@ -1,16 +1,43 @@
-# Generate a color palette of colors to sample from for our color map (.cmap) files.
-
-# Reads a list of colors scraped from a wikipedia page of crayola crayons.
-# https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors
-
-# Convert the hex color values into red, green, blue colors. 
-# Write the colors out to a master file.
-
-# Then, form a list of chosen colors and print a chosen_colors color table which will be
-# used to sample colors for the color map files.
+# 
 
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
+"""
+Generate a color palette to sample.
+
+This module organizes chosen colors into a :file:`.dat` file, which is later used to build OpenSpace-ready color map (:file:`.cmap`) files in other modules.
+
+
+Generating Color Maps
+===============================================================================
+
+We adopt a main color sample from the `Wikipedia page for crayola crayons <https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors>`_, where a list of colors and their hex values are scraped and stored in :file:`catalogs_raw/color_tables/crayola`.
+
+This process, theoretically, needs to be run only once, assuming you don't alter the ``chosen_colors`` list of preferred colors. Once you run it for the first time, the function call ``make_color_tables(datainfo)`` may be commented out of :file:`main.py`.
+
+
+
+Main Color Palette
+-------------------------------------------------------------------------------
+
+The main list of colors is scraped from the standard colors table on Wikipedia's List of Crayola crayon colors. This provides the basis of available colors, but note we only include colors with hexidecimal values.
+
+The colors.py converts the hex number to an red, green, blue, and alpha values, then creates a main color table called :file:`crayola.dat` in the `catalogs_processed/color_tables/crayola/` directory.
+
+Next, we supply a list of preferred colors, called `chosen_colors`, that will pull colors from the main list and create a color map file that may be accessed to make OpenSpace-ready color map files in subsequent codes. These chosen colors include:
+
+| Scarlet, Orange, Maize, Lemon Yellow, 
+| Yellow-Green, Fern, Asparagus, Sea Green,
+| Aquamarine, Blue-Green, Sky Blue, Periwinkle,
+| Indigo, Violet-Blue, Purple Heart, Wisteria,
+| Fuchsia, Orchid, Magenta, Carnation Pink, 
+| Salmon, Mahogany, Burnt Sienna, Sepia, 
+| Peach, Shadow, Silver, Blue-Gray
+
+
+
+
+"""
 
 import pandas as pd
 from pathlib import Path
@@ -25,7 +52,14 @@ def crayola_color_table(datainfo):
     """
     Generate a color table from a source table based on the crayola crayon colors.
 
-    Read in a Wikipedia HTML file that contains a color listing of crayola crayons. Clean up the colors, toss out the rejects, and create a custom list of desired colors ``chosen_colors`` and shuffle them in an order that makes sense. Finally, write out the list to a ``.dat`` file that will be used to tap colors from across the project.
+    Reads a list of colors scraped from a wikipedia page of crayola crayons. 
+    https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors
+
+    Clean up the colors, toss out the rejects, and convert the hex color values into red, green, blue colors. 
+    
+    Create a custom list of desired colors ``chosen_colors`` and shuffle them in an order that makes sense. 
+    
+    Finally, write out the list to a ``.dat`` file that will be used to tap colors from across the project.
 
     :param datainfo: Metadata about the dataset.
     :type datainfo: dict of {str : list}
@@ -33,7 +67,7 @@ def crayola_color_table(datainfo):
 
     # Read the HTML table saved locally
     #inpath = Path.cwd() / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory'] / 'crayola_colors.html'
-    inpath = common.BASE_PATH / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory'] / 'crayola_colors.html'
+    inpath = Path.cwd() / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory'] / 'crayola_colors.html'
     common.test_input_file(inpath)
 
     table = pd.read_html(inpath)
@@ -56,7 +90,7 @@ def crayola_color_table(datainfo):
 
     # Open the cmap file and write the list of colors
     outfile = 'crayola.dat'
-    outpath = common.BASE_PATH / common.PROCESSED_DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory']
+    outpath = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory']
     common.test_path(outpath)
 
     outpath = outpath / outfile
@@ -89,7 +123,7 @@ def crayola_color_table(datainfo):
 
 
     outfile_chosen = 'chosen_colors.dat'
-    outpath_chosen = common.BASE_PATH / common.PROCESSED_DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory']
+    outpath_chosen = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['catalog_directory']
     common.test_path(outpath_chosen)
 
     outpath_chosen = outpath_chosen / outfile_chosen

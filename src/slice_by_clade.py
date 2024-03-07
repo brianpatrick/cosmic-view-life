@@ -13,7 +13,7 @@ Created: September 2022
 import sys
 from pathlib import Path
 
-import common
+from src import common
 
 
 

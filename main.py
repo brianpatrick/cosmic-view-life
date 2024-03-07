@@ -1,54 +1,83 @@
 # Cosmic View of Life on Earth
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
 
-# The main script for processing the Cosmic View of Life on Earth project.
 
 # This reads in the raw data and processes speck, label, color map, and asset files ready for OpenSpace.
 # Main steps include reading and passing the metadata, processing the consensus species data, 
 # and processing the DNA sequence data. 
 
-# Author: Brian Abbott <abbott@amnh.org>
-# Created: September 2022
 
 
-#from mimetypes import guess_all_extensions
 import pandas as pd
 from pathlib import Path
-#import shutil
-#import os
+
 
 from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree
 
 
 
 def main():
-    '''
-    Process the DNA sequence data for the Cosmic View of Life on Earth project.
+    """
+    The main script for processing the Cosmic View of Life on Earth project.
+    
+    All runs are designed to occur through this ``main()`` function, from which all modules and functions are all called. For a particular run, comment out those module calls you do not want to process (e.g., you want to process the birds but not the primates, then comment out the calls to the primates modules).
 
-    Reads the common name vocabulary, then consists of a series of blocks for a particular class.
-    In each block, we define some info about the datasets, we then process the metadata, 
-    the consensus species data, and the sequence data.
+    Each area of the tree of life is designed to be run through these modules. The process, generally, is to generate a color map (which need only be done once), read the common name vocabulary, then go into various areas of the animal kingdom.
 
-    The datainfo dictionary floats through all modules. Its keys (all strings except where noted) are:
-        project                 'Cosmic View of Life on Earth'
-        sub_project             'Primates', 'Birds', etc.
-        reference               The data ref
-        author                  Authors of this project and affiliations
-        version                 Version of the data (whole numbers)
+    For each of those areas (primates, birds, etc.), we define some info about the dataset, process the metadata, then the consensus species data, and finally the sequence data. We also have modules that generate subsets of data based on lineage or taxon, for example.
 
-        dir                     Directory of the sub_project, 'primates', 'birds', 'human_origins', etc.
-        catalog_directory       Raw data version folder, often things like 'Version_1__2022_07_05'
+    The ``datainfo`` global metadata dictionary
+    ===============================================================================
+    The ``datainfo`` dictionary floats through all modules. Its keys (all strings except where noted) define global metadata for a section of the animal kingdom. Entries are listed here, and should be updated as new terms are added.   
 
-        metadata_file           Name of the raw metadata file
-        consensus_file          Name of the consensus species raw data file
-        sequence_file           Name of the raw DNA sequence data file
-        seq2taxon_file          File that matches sequence number and the taxon name
-        synonomous_file         Synonomous / Non-synonomous data file
-        lineage_columns         The range of lineage columns we want to sample for the final data. Format: [int, int]
-        
-        data_group_title        The name of the subdata group, usually datainfo[sub_project] + 'a short title'
-        data_group_desc         A longer description of the data group.
-    '''
+    =========================== ============================================================
+    ``datainfo`` Key             Definition
+    =========================== ============================================================
+    ``project``                 'Cosmic View of Life on Earth' (constant)
+    ``sub_project``             'Primates', 'Birds', etc.
+    ``reference``               The data reference in "author, affiliation, source" style
+    ``author``                  Authors of this project and affiliations
+    ``version``                 Version of the data (whole numbers)
+    |
+    ``dir``                     Directory of the ``sub_project``, e.g., :file:`primates`, :file:`birds`, :file:`human_origins`, etc.
+    ``catalog_directory``       Raw data version folder, often things like :file:`Version_1__2022_07_05`
+    |
+    ``metadata_file``           Name of the raw metadata file
+    ``consensus_file``          Name of the consensus species raw data file
+    ``sequence_file``           Name of the raw DNA sequence data file
+    ``seq2taxon_file``          File that correlates the sequence number and the taxon name
+    ``synonomous_file``         Synonomous / non-synonomous data file
+    ``lineage_columns``         The range of lineage columns we want to sample for the final data. Format: [``int``, ``int``]
+    |
+    ``data_group_title``        The name of the subdata group, usually ``datainfo[sub_project]:`` + 'a short title', e.g. "Primates: Consensus species".
+    ``data_group_desc``         A longer description of the data group, of order a few sentences.
+    =========================== ============================================================
 
+
+    Top-level functions
+    ===============================================================================
+    The first part of ``main()`` is a series of calls to the top-level functions. These functions set some metadata and call the data processing modules. Examples of these top-level functions include ``human_origins``, ``primates``, and ``birds``, etc. If you only want to process new bird data, then comment out the ``primates`` function.
+
+    Each function here calls the main modules that perform the data processing and output generation. These involve calling modules that analyze and generate data for the consensus species, the DNA sequence data, the lineage information, and calls modules that generate subsets of these data. These modules also generate asset files for OpenSpace.
+
+    Similarly, you can comment out modules within these top-level functions to process and generate only those portions you's like. For example, the lineage processing can take some time, so unless it's needed commenting out these calls
+
+        :code:`sequence_lineage.process_data(datainfo, consensus, seq)`
+        :code:`sequence_lineage.make_asset(datainfo)`
+
+    can be a time saver.
+
+    .. autofunction:: make_color_tables()
+
+    .. autofunction:: vocabulary()
+
+    .. autofunction:: origins()
+
+    .. autofunction:: primates()
+
+    .. autofunction:: birds()
+    """
 
     # Define some universal metadata
     datainfo = {}
@@ -76,7 +105,7 @@ def main():
 
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
-    #origins(datainfo)
+    origins(datainfo)
     
 
 
@@ -95,7 +124,7 @@ def main():
     datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
     datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
     datainfo['lineage_columns'] = [24, 31]
-    #primates(datainfo, vocab)
+    primates(datainfo, vocab)
 
 
     # datainfo['version'] = '1'
@@ -162,10 +191,14 @@ def main():
 
 
 def make_color_tables(datainfo):
-    '''
-    Make the refined color table from the scraped HTML list
-    The result is a .dat file of chosen colors we can tap for other scripts.
-    '''
+    """
+    Make a refined color table from a scraped HTML list of colors.
+
+    The result is a ``.dat`` file of chosen colors we can tap for other scripts.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    """
 
     datainfo['version'] = '1'
     datainfo['catalog_directory'] = 'crayola'
@@ -178,10 +211,14 @@ def make_color_tables(datainfo):
 
 
 def vocabulary(datainfo):
-    '''
-    Read the species vocabulary file (common name to taxon)
-    and pass to the various functions below.
-    '''
+    """
+    Read the species vocabulary file (common names to taxon key).
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :return: A taxon to common name DataFrame.
+    :rtype: DataFrame
+    """
 
     datainfo['version'] = '1'
     datainfo['catalog_directory'] = 'Version_1__2022_07_05'
@@ -197,9 +234,12 @@ def vocabulary(datainfo):
 
 
 def origins(datainfo):
-    '''
-    This processes the human origins data.
-    '''
+    """
+    Process the human origins data.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    """
 
     datainfo['sub_project'] = 'Human Origins'
     datainfo['version'] = '1'
@@ -218,10 +258,17 @@ def origins(datainfo):
 
 
 def primates(datainfo, vocab):
-    '''
-    Process the primates data. Run these functions for metadata processing, the consensus species,
+    """
+    Process the primates data.
+
+    Run these functions for metadata processing, the consensus species,
     and the sequence data. All the speck, label, color map, and asset files are generated.
-    '''
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param vocab: A taxon to common name DataFrame.
+    :type vocab: DataFrame
+    """
 
     common.print_head_status(datainfo['sub_project'])
 
@@ -229,12 +276,12 @@ def primates(datainfo, vocab):
     meta_data = metadata.process_data(datainfo)
 
 
-    consensus = consensus_species.process_data(datainfo, vocab)
-    consensus_species.make_asset(datainfo)
+    #consensus = consensus_species.process_data(datainfo, vocab)
+    #consensus_species.make_asset(datainfo)
 
 
-    seq = sequence.process_data(datainfo, meta_data)
-    sequence.make_asset(datainfo)
+    #seq = sequence.process_data(datainfo, meta_data)
+    #sequence.make_asset(datainfo)
 
     # sequence_lineage.process_data(datainfo, consensus, seq)
     # sequence_lineage.make_asset(datainfo)
@@ -243,9 +290,9 @@ def primates(datainfo, vocab):
 
     # Process the tree of primates
     # NOTE: need to run the ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
-    tree.process_data(datainfo)
-    tree.process_branches(datainfo)
-    tree.make_asset_branches(datainfo)
+    #tree.process_data(datainfo)
+    #tree.process_branches(datainfo)
+    #tree.make_asset_branches(datainfo)
 
     
 
@@ -283,10 +330,17 @@ def primates(datainfo, vocab):
 
 
 def birds(datainfo, vocab):
-    '''
-    Process the birds data. Run three functions for metadata processing, the consensus species,
+    """
+    Process the bird data.
+
+    Run three functions for metadata processing, the consensus species,
     and the sequence data. All the speck, label, color map, and asset files are generated.
-    '''
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param vocab: A taxon to common name DataFrame.
+    :type vocab: DataFrame
+    """
 
     common.print_head_status(datainfo['sub_project'])
 

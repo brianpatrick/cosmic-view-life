@@ -1,42 +1,45 @@
-'''
-Cosmic View of Life on Earth
+"""
+Process the taxon metadata.
 
-Process the taxon metadata. This mainly consists of the lineage information.
-We process these columns, but only include certain lineage columns based on 
-the parameters in the datainfo dict.
+Metadata mainly consists of the lineage information. We process these columns, but only include certain lineage columns based on the parameters in the datainfo dict.
+"""
 
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
+# Cosmic View of Life on Earth
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
+
 
 import pandas as pd
 import re
 from pathlib import Path
 
-import common
+from src import common
 
 
 def process_data(datainfo):
-    '''
-    Processes the lineage columns and other metadata for a branch of the tree.
+    """
+    Processes the lineage columns and other metadata for a branch of the tree (Primates, birds, etc.).
 
     1. Reads the *.taxon.metadata.csv file (primates, birds, ...)
     2. Expands the comma-separated lineage column into multiple columns
     3. Pulls all unique values for each colum, and deletes any None values
     4. For each lineage column, form a dictionary with a corresponding custom, integer code
-    5. Write results to a separate reference file, and pass the metadata back to calling function 
+    5. Write results to a separate reference file, and pass the metadata back to calling function
 
-    Input:
-        dict(datainfo)
-        [clade-class].taxons.metadata.csv       # such as, primates.taxons.metadata.csv
-    
-    Output:
+    Output files:
+    ======================== =========================================================================================
         metadata.csv            # A csv file with the processed metadata
         lineage.dat             # A human-readable list of lineage codes for each lineage level
         lineage.csv             # lines of lineage col names, lineage col integer, number of clades, and clade names
         lineage_codes.csv       # List of lineage codes and their corresponding clade name
         metadata.py.log         # An output log
-    '''
+    ======================== =========================================================================================
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :return: A table with all the metadata of that order of species.
+    :rtype: DataFrame
+    """
 
     common.print_subhead_status('Processing Metadata (including lineage)')
 
@@ -151,14 +154,14 @@ def process_data(datainfo):
                 # If metadata value is not None, then run thru each value in the 
                 # unique lineage pandas series.
                 for v in lineage:
-                    
+
                     # If the metadata value and the value in the lineage series match,
                     # get the code and save it to metadata in a new column lineage_*_code.
                     if v == value:
                         
                         # Get the index number for the matching values. These index
                         # numbers are the lineage codes we need. (30001, etc.)
-                        lineage_code = str(lineage[lineage == v].index[0])
+                        lineage_code = lineage[lineage == v].index[0]
                         #print(type(lineage_code))
 
                         # Write the new column and give the row the lineage_code value
@@ -303,6 +306,5 @@ def process_data(datainfo):
 
 
     common.out_file_message(outpath_log)
-
 
     return metadata

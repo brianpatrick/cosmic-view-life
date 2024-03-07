@@ -1,11 +1,9 @@
-'''
-Cosmic View of Life on Earth
+# Cosmic View of Life on Earth
 
-A place for constants and functions.
+# A place for constants and functions.
 
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
 
 import re
 import csv
@@ -74,11 +72,11 @@ PADDING = '  '
 # Paths
 # =============================================================================
 # Use this path for all codes in ./src. This is the base path of the project directory.
-local_path = Path.cwd()
+#local_path = Path.cwd()
 #BASE_DIR = str(local_path).removesuffix('/src')
 #BASE_PATH = Path(BASE_DIR)
-BASE_PATH = Path.cwd()
-BASE_DIR = Path.cwd()
+#BASE_PATH = Path.cwd()
+#BASE_DIR = Path.cwd()
 
 
 
@@ -94,20 +92,9 @@ def out_file_message(path):
 
     :param path: Path of the new file that was written.
     :type path: pathlib.PosixPath
-    """    
-    # Get a relative filepath for better output.
-    # Convert the incoming path to a string, then...
-    input_path = str(path)
-
-    # If the base directory for the project is in the input path, remove it, 
-    # yielding a relative file path.
-    if BASE_DIR in input_path:
-        relative_filepath = '.' + input_path.replace(BASE_DIR,'')
-
-
+    """
     # Get a relative path from the project root directory
-    #relative_filepath = filepath(Path.cwd())
-    #relative_filepath = BASE_PATH
+    relative_filepath = path.relative_to(Path.cwd())
 
     # Get the file extension to determine the file type
     file_extension = Path(path).suffix
@@ -535,15 +522,8 @@ def test_path(path):
     :param path: A python path object to the file in question.
     :type path: path object
     """
-    # Get a relative filepath for better output.
-    # Convert the incoming path to a string, then...
-    input_path = str(path)
-
-    # If the base directory for the project is in the input path, remove it, 
-    # yielding a relative file path.
-    if BASE_DIR in input_path:
-        relative_filepath = '.' + input_path.replace(BASE_DIR,'')
-
+    # Get a relative path from the project root directory
+    relative_filepath = path.relative_to(Path.cwd())
 
     if not Path.exists(path):
         permission_create_dir = input('\n' + PADDING + 'Create directory: ' + relative_filepath + '? (y/n/q): ')

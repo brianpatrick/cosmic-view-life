@@ -1,18 +1,16 @@
-'''
-Cosmic View of Life on Earth
+# Cosmic View of Life on Earth
 
-Process the origin DNA data for the Homo sapiens.
+# Process the origin DNA data for the Homo sapiens.
 
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
 
 import re
 import sys
 import pandas as pd
 from pathlib import Path
 
-import common
+from src import common
 
 
 def seq_populations(datainfo):

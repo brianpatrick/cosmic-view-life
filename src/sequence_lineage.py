@@ -15,7 +15,7 @@ import re
 import pandas as pd
 from pathlib import Path
 
-import common
+from src import common
 
 
 def process_data(datainfo, consensus, sequence):
