@@ -3,17 +3,17 @@
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
 """
-Generate a color palette to sample.
-
-This module organizes chosen colors into a :file:`.dat` file, which is later used to build OpenSpace-ready color map (:file:`.cmap`) files in other modules.
+The color module processes a list of colors into a usable color table file (:file:`.dat`). This color table file is then sampled to make color map files (:file:`.cmap`) that are OpenSpace-ready.
 
 
-Generating Color Maps
+Generating Color Tables
 ===============================================================================
 
 We adopt a main color sample from the `Wikipedia page for crayola crayons <https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors>`_, where a list of colors and their hex values are scraped and stored in :file:`catalogs_raw/color_tables/crayola`.
 
 This process, theoretically, needs to be run only once, assuming you don't alter the ``chosen_colors`` list of preferred colors. Once you run it for the first time, the function call ``make_color_tables(datainfo)`` may be commented out of :file:`main.py`.
+
+Other color schemes may be used and can coexist beside the crayola scheme, but would require a new function to process them into a color table that would be sampled.
 
 
 
