@@ -1,12 +1,7 @@
 # Cosmic View of Life on Earth
+#
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
-
-
-# This reads in the raw data and processes speck, label, color map, and asset files ready for OpenSpace.
-# Main steps include reading and passing the metadata, processing the consensus species data, 
-# and processing the DNA sequence data. 
-
 
 
 import pandas as pd

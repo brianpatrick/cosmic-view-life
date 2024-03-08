@@ -2,15 +2,8 @@
 Colors and Color Maps
 *******************************************************************************
 
-
-
 .. automodule:: colors
 
-
-
-
-Functions
-===============================================================================
 .. autofunction:: colors.crayola_color_table()
 
 .. autofunction:: colors.rgba()

@@ -1,11 +1,9 @@
 # Cosmic View of Life on Earth
-
-# Process the origin DNA data for the Homo sapiens.
-
+#
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
 """
-
+Process Homo Sapien DNA data with origin information, assign integer codes to use in OpenSpace, and generate OpenSpace data and asset files.
 """
 
 import re
@@ -17,8 +15,66 @@ from src import common
 
 
 def seq_populations(datainfo):
+    """
+    Process the human DNA data with origin information.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+
+    
+    The Homo Sapien DNA data are accompanied by metadata regarding their origin. These include continent, and also region information. We process these and generate the resulting data files for OpenSpace.
+
+
+    Continent and Region Codes
+    ===============================================================================
+
+    The origin metadata for continents and regions are literal names in the raw data (e.g., 'Europe', 'South-east Asia', etc.). We convert these names into an integer so we can leverage it within OpenSpace. First, we give each data sample a continent code, as follows:
+
+    ========== =====
+    Continent  Code
+    ========== =====
+    Africa       1
+    Europe       2
+    Asia         3
+    America      4
+    Oceania      5
+    ========== =====
+
+    Next, we assign a regional code within each continent. Each region code begins with the continent code, so all regions of Africa begin with a 1. The region codes are as follows:
+
+    ================= ====
+    Region            Code
+    ================= ====
+    Central Africa     10
+    South Africa       11
+    West Africa        12
+    North Africa       13
+    Europe             20
+    Western Asia       30
+    Northeast Asia     31
+    Central Asia       32
+    South Asia         33
+    East Asia          34
+    Southeast Asia     35
+    North America      40
+    Central America    41
+    South America      42
+    Oceania            50
+    ================= ====
+
+    These codes are exported to the ``region_population_code_key.dat`` file in the ``processed_catalogs`` directory.
+
+
+
+    Output Data
+    ===============================================================================
+
+    The main dataset is printed to the ``human_origins.speck`` and accompanying ``human_origins.label`` file. In addition, we print ``speck`` files for each region so they may be toggled separately within OpenSpace.
+
+    Finally, we generate a color map file for the continent codes and for the regional codes, choosing from our main color table that using the ``find_color`` function in :file:`common.py` to pull the colors from the color table file.
+    """    
     '''
-    Process the human DNA data wewith origin information.
+    
 
     Input:
         patterson2012_humanPopulations_allSNPs.mMDS.noOutliers.xyz.reProjected.csv
@@ -482,9 +538,12 @@ def seq_populations(datainfo):
 
 
 def make_asset_all(datainfo):
-    '''
+    """
     Generate the asset file for the human origins data.
-    '''
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    """
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
     # the filehandle in every print statement.
@@ -637,18 +696,15 @@ def make_asset_all(datainfo):
 
 
 def make_asset_regions(datainfo):
-    '''
-    Generate the asset file for the human origin regions files. This one is tricky because we need to 
-    align the color map file with the regions, which involves a lot of pre-processing of the filenames,
+    """
+    Generate the asset file for the human origin regions data.
+
+    The resulting asset file has an object for each region, so they may be manipulated independently in OpenSpace. There's some logic here to align the color map file with the regions, which involves a lot of pre-processing of the filenames,
     region names, colors, etc.
 
-    Requires:
-        A list of .speck files in the 'regions' directory
-    
-    Output:
-        One asset file for all the region speck files in the folder.
-        human_origins_regions.asset
-    '''
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    """
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
     # the filehandle in every print statement.

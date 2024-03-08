@@ -1,38 +1,19 @@
-# 
-
+# Cosmic View of Life on Earth
+#
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
 """
 The color module processes a list of colors into a usable color table file (:file:`.dat`). This color table file is then sampled to make color map files (:file:`.cmap`) that are OpenSpace-ready.
 
+.. note::
+    Theoretically, this module needs to be run only once, assuming you don't alter the ``chosen_colors`` list of preferred colors defined in ``crayola_color_table()``. Once you run it for the first time, the function call ``make_color_tables(datainfo)`` may be commented out of :file:`main.py`.
+
+    
 
 Generating Color Tables
 ===============================================================================
 
-We adopt a main color sample from the `Wikipedia page for crayola crayons <https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors>`_, where a list of colors and their hex values are scraped and stored in :file:`catalogs_raw/color_tables/crayola`.
 
-This process, theoretically, needs to be run only once, assuming you don't alter the ``chosen_colors`` list of preferred colors. Once you run it for the first time, the function call ``make_color_tables(datainfo)`` may be commented out of :file:`main.py`.
-
-Other color schemes may be used and can coexist beside the crayola scheme, but would require a new function to process them into a color table that would be sampled.
-
-
-
-Main Color Palette
--------------------------------------------------------------------------------
-
-The main list of colors is scraped from the standard colors table on Wikipedia's List of Crayola crayon colors. This provides the basis of available colors, but note we only include colors with hexidecimal values.
-
-The colors.py converts the hex number to an red, green, blue, and alpha values, then creates a main color table called :file:`crayola.dat` in the `catalogs_processed/color_tables/crayola/` directory.
-
-Next, we supply a list of preferred colors, called `chosen_colors`, that will pull colors from the main list and create a color map file that may be accessed to make OpenSpace-ready color map files in subsequent codes. These chosen colors include:
-
-| Scarlet, Orange, Maize, Lemon Yellow, 
-| Yellow-Green, Fern, Asparagus, Sea Green,
-| Aquamarine, Blue-Green, Sky Blue, Periwinkle,
-| Indigo, Violet-Blue, Purple Heart, Wisteria,
-| Fuchsia, Orchid, Magenta, Carnation Pink, 
-| Salmon, Mahogany, Burnt Sienna, Sepia, 
-| Peach, Shadow, Silver, Blue-Gray
 
 
 
@@ -50,19 +31,29 @@ from src import common
 # -----------------------------------------------------------------------------
 def crayola_color_table(datainfo):
     """
-    Generate a color table from a source table based on the crayola crayon colors.
-
-    Reads a list of colors scraped from a wikipedia page of crayola crayons. 
-    https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors
-
-    Clean up the colors, toss out the rejects, and convert the hex color values into red, green, blue colors. 
-    
-    Create a custom list of desired colors ``chosen_colors`` and shuffle them in an order that makes sense. 
-    
-    Finally, write out the list to a ``.dat`` file that will be used to tap colors from across the project.
+    Generate a color table from a source list of colors based on the crayola crayon colors.
 
     :param datainfo: Metadata about the dataset.
     :type datainfo: dict of {str : list}
+    
+    We adopt a main color sample from the `Wikipedia page for crayola crayons <https://en.wikipedia.org/wiki/List_of_Crayola_crayon_colors>`_, where a list of colors and their hex values are scraped and stored in :file:`catalogs_raw/color_tables/crayola/crayola_colors.html`. We reduce the resulting list down to colors that have hex values, and remove a few other undesirable colors.
+
+    .. note::
+        Alternative color schemes may be used and can coexist beside the crayola scheme, but would require a new function to process them into a color table that would be sampled later.
+
+    One result of processing the crayola colors is a file called :file:`catalogs_processed/color_tables/crayola/crayola.dat`. This is a master list of colors in red-green-blue-alpha format, along with the name of the color.
+
+    We also produce a second, customized color table called :file:`catalogs_processed/color_tables/crayola/chosen_colors.dat`. This is a subsample of colors from the main list determined by the ``chosen_colors`` list in the ``crayola_color_table()`` function. We take the ``chosen_colors`` list, change the order of colors, and print it to a file. This is the main file used to generate OpenSpace-ready color map files (:file:`.cmap`).
+
+    These chosen colors include:
+
+    | Scarlet, Orange, Maize, Lemon Yellow, 
+    | Yellow-Green, Fern, Asparagus, Sea Green,
+    | Aquamarine, Blue-Green, Sky Blue, Periwinkle,
+    | Indigo, Violet-Blue, Purple Heart, Wisteria,
+    | Fuchsia, Orchid, Magenta, Carnation Pink, 
+    | Salmon, Mahogany, Burnt Sienna, Sepia, 
+    | Peach, Shadow, Silver, Blue-Gray
     """    
 
     # Read the HTML table saved locally
