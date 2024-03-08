@@ -62,7 +62,7 @@ def seq_populations(datainfo):
     Oceania            50
     ================= ====
 
-    These codes are exported to the ``region_population_code_key.dat`` file in the ``processed_catalogs`` directory.
+    A key for these codes is exported to the file  ``processed_catalogs/human_origins/region_population_code_key.dat``.
 
 
 
@@ -72,21 +72,7 @@ def seq_populations(datainfo):
     The main dataset is printed to the ``human_origins.speck`` and accompanying ``human_origins.label`` file. In addition, we print ``speck`` files for each region so they may be toggled separately within OpenSpace.
 
     Finally, we generate a color map file for the continent codes and for the regional codes, choosing from our main color table that using the ``find_color`` function in :file:`common.py` to pull the colors from the color table file.
-    """    
-    '''
-    
-
-    Input:
-        patterson2012_humanPopulations_allSNPs.mMDS.noOutliers.xyz.reProjected.csv
-
-    Output:
-        region_population_code_key.dat      Continent, Region, and population codes key
-        human_origins.speck                 All the data in one file
-        human_origins.label                 Labels for the regions
-        [code]_[region].speck               Data for a specific region, e.g. 10_central_africa.speck or 40_north_america.speck
-        continents.cmap                     Color map for the continent codes
-        regions.cmap                        Color map for the region codes
-    '''
+    """
     
     common.print_subhead_status('Processing ' + datainfo['sub_project'].lower() + ' sequence data')
 

@@ -271,8 +271,8 @@ def primates(datainfo, vocab):
     meta_data = metadata.process_data(datainfo)
 
 
-    #consensus = consensus_species.process_data(datainfo, vocab)
-    #consensus_species.make_asset(datainfo)
+    consensus = consensus_species.process_data(datainfo, vocab)
+    consensus_species.make_asset(datainfo)
 
 
     #seq = sequence.process_data(datainfo, meta_data)
