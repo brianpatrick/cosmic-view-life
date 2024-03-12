@@ -25,6 +25,8 @@ def process_data(datainfo, vocab):
     :type datainfo: dict of {str : list}
     :param vocab: A taxon to common name DataFrame.
     :type vocab: DataFrame
+    :return: A table of consensus species data.
+    :rtype: DataFrame
     
 
     Reads in the raw data and prints out the processed data to a speck and label file.

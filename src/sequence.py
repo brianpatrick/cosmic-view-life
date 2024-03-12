@@ -18,27 +18,27 @@ def process_data(datainfo, metadata):
     """
     Process the sequence data.
 
-    :param datainfo: _description_
-    :type datainfo: _type_
-    :param metadata: _description_
-    :type metadata: _type_
-    :return: _description_
-    :rtype: _type_
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param metadata: A table with all the lineage metadata of that order of species.
+    :type metadata: DataFrame
+    :return: A table of DNA sample data for each sequence.
+    :rtype: DataFrame
 
 
-    We combine the sequence data, the seq2taxon info, the metadata, and 
-    the synonomous data (if available), to output one speck file and 
-    one label file for each lineage column within the specified range. That range usually begins
-    at the "Class" level (Aves, Primates, etc.) which is the last column that all data point share.
+    We combine the sequence data, the seq2taxon info, the metadata, and the synonomous data (if available), to output one speck file and one label file for each lineage column within the specified range. That range usually begins at the "Class" level (Aves, Primates, etc.) which is the last column that all data point share.
 
-    Input:
-        dict(datainfo)
-        DataFrame(metadata)
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    Output:
-        sequence.speck
-        sequence.csv
-        sequence_taxon.cmap
+    :file:`primates/{version}/sequences/sequences.speck`
+        The OpenSpace-ready file for the DNA sequence data.
+    
+    :file:`primates/{version}/sequences/sequences_taxon.cmap`
+        The OpenSpace-ready file for the DNA sequence data.
+
+    :file:`catalogs_processed/primates/{version}/sequences.csv`
+        The CSV file for the complete DNA sequence data and metadata.
     """
 
     common.print_subhead_status('Processing DNA sequence data')
@@ -315,15 +315,18 @@ def process_data(datainfo, metadata):
 
 
 def make_asset(datainfo):
-    '''
+    """
     Generate the asset file for the sequence data.
 
-    Input:
-        dict(datainfo)
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
 
-    Output:
-        sequence.asset
-    '''
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`primates/{version}/sequences.asset`
+        The asset file containing the OpenSpace configurations for the DNA sequence data.
+    """
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
     # the filehandle in every print statement.

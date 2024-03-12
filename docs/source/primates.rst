@@ -5,9 +5,12 @@ Primates
 .. module:: main
 .. autofunction:: primates
 
+
+
 Lineage Processing
 ===============================================================================
 .. autofunction:: metadata.process_data()
+
 
 
 Consensus Species
@@ -17,8 +20,12 @@ Consensus Species
 .. autofunction:: consensus_species.make_asset()
 
 
+DNA Sequences
+===============================================================================
+.. automodule:: sequence
 
-.. .. autofunction:: sequence()
+.. autofunction:: sequence.process_data()
+.. autofunction:: sequence.make_asset()
 
 
 
