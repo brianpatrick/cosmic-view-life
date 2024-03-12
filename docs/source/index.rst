@@ -35,6 +35,7 @@ Contents
     main
     colors
     human_origins
+    primates
 
 
 

@@ -68,10 +68,13 @@ def main():
     .. autofunction:: vocabulary()
 
     .. autofunction:: origins()
+        :noindex:
 
     .. autofunction:: primates()
+        :noindex:
 
     .. autofunction:: birds()
+        :noindex:
     """
 
     # Define some universal metadata
@@ -275,8 +278,8 @@ def primates(datainfo, vocab):
     consensus_species.make_asset(datainfo)
 
 
-    #seq = sequence.process_data(datainfo, meta_data)
-    #sequence.make_asset(datainfo)
+    seq = sequence.process_data(datainfo, meta_data)
+    sequence.make_asset(datainfo)
 
     # sequence_lineage.process_data(datainfo, consensus, seq)
     # sequence_lineage.make_asset(datainfo)

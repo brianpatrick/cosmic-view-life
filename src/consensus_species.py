@@ -1,12 +1,11 @@
+# Cosmic View of Life on Earth
+#
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
 '''
-Cosmic View of Life on Earth
+Consensus species is an average point that represents an entire species' data, spatially. It should be a point that sits in the middle of the "cloud" of points from the sequence data for that species.
 
-Process the consensus species data. We fold in the vocabulary (common names), 
-and output various data files. Each record in this step represents one species,
-so one data point per species. Not all points have common names though.
-
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
+This module consists of a data processing function and an asset file creation file.
 '''
 
 import sys
@@ -17,21 +16,33 @@ from src import common
 
 
 def process_data(datainfo, vocab):
-    '''
-    Process the consensus species data, which has one entry per species.
+    """
+    Process the consensus species data. 
+    
+    We fold in the vocabulary (common names), and output various data files. Each record in this step represents one species, so one data point per species. Not all points have common names though.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param vocab: A taxon to common name DataFrame.
+    :type vocab: DataFrame
+    
 
     Reads in the raw data and prints out the processed data to a speck and label file.
     Note, we include a "dummy" column of zeros because OpenSpace needs four columns in a speck file.
 
-    Input: 
-        dict(datainfo)
-        DataFrame(vocab)
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    Output:
-        consensus.speck
-        consensus.label
-        logs/consensus.py.log
-    '''
+    :file:`primates/{version}/consensus_species/consensus.speck`
+        The OpenSpace-ready data file.
+
+    :file:`primates/{version}/consensus_species/consensus.label`
+        The openSpace-readhy label file.
+
+    :file:`logs/primates/{version}/consensus_species.py.log`
+        A file of stats on these data, and a list of taxons.
+
+    """
 
     common.print_subhead_status('Processing consensus species')
 
@@ -253,15 +264,18 @@ def process_data(datainfo, vocab):
 
 
 def make_asset(datainfo):
-    '''
+    """
     Generate the asset file for the consensus species data.
-    
-    Input: 
-        dict(datainfo)
 
-    Output:
-        consensus.asset
-    '''
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`primates/{version}/consensus_species.asset`
+        The asset file containing the OpenSpace configurations for the consensus species.
+    """
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
     # the filehandle in every print statement.
