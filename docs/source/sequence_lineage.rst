@@ -1,11 +1,6 @@
-.. _page-colors:
-
+.. _page-sequence-lineage:
 *******************************************************************************
-Colors and Color Maps
+Sequence Lineage
 *******************************************************************************
 
-.. automodule:: colors
 
-.. autofunction:: colors.crayola_color_table()
-
-.. autofunction:: colors.rgba()

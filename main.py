@@ -16,12 +16,13 @@ def main():
     """
     The main script for processing the Cosmic View of Life on Earth project.
     
-    All runs are designed to occur through this ``main()`` function, from which all modules and functions are all called. For a particular run, comment out those module calls you do not want to process (e.g., you want to process the birds but not the primates, then comment out the calls to the primates modules).
+    All runs are designed to occur through this ``main()`` function, from which all modules and functions are all called. For a particular run, comment out those module calls you do not want to process (e.g., you want to process the birds but not the primates, then comment out the calls to the primates function).
 
-    Each area of the tree of life is designed to be run through these modules. The process, generally, is to generate a color map (which need only be done once), read the common name vocabulary, then go into various areas of the animal kingdom.
+    Each area of the tree of life is designed to be run through these modules. The process, generally, is to generate a color map (which need only be done once), read the common name vocabulary, then process the various orders of the animal kingdom.
 
-    For each of those areas (primates, birds, etc.), we define some info about the dataset, process the metadata, then the consensus species data, and finally the sequence data. We also have modules that generate subsets of data based on lineage or taxon, for example.
+    For each of those orders (primates, birds, etc.), we define some info about the dataset, process the metadata, then the consensus species data, and finally the sequence data. We also have modules that generate subsets of data based on lineage or taxon, for example.
 
+    
     The ``datainfo`` global metadata dictionary
     ===============================================================================
     The ``datainfo`` dictionary floats through all modules. Its keys (all strings except where noted) define global metadata for a section of the animal kingdom. Entries are listed here, and should be updated as new terms are added.   
@@ -52,29 +53,57 @@ def main():
 
     Top-level functions
     ===============================================================================
-    The first part of ``main()`` is a series of calls to the top-level functions. These functions set some metadata and call the data processing modules. Examples of these top-level functions include ``human_origins``, ``primates``, and ``birds``, etc. If you only want to process new bird data, then comment out the ``primates`` function.
+    The first part of ``main()`` is a series of calls to the top-level functions. These functions set some metadata and call the data processing modules. Examples of these top-level functions include ``origins``, ``primates``, and ``birds``, etc. If you only want to process new bird data, then comment out the ``primates`` function.
 
     Each function here calls the main modules that perform the data processing and output generation. These involve calling modules that analyze and generate data for the consensus species, the DNA sequence data, the lineage information, and calls modules that generate subsets of these data. These modules also generate asset files for OpenSpace.
 
-    Similarly, you can comment out modules within these top-level functions to process and generate only those portions you's like. For example, the lineage processing can take some time, so unless it's needed commenting out these calls
+    Similarly, you can comment out modules within these top-level functions to process and generate only those portions you'd like. For example, the lineage processing can take some time, so unless it's needed commenting out these calls
 
         :code:`sequence_lineage.process_data(datainfo, consensus, seq)`
         :code:`sequence_lineage.make_asset(datainfo)`
 
     can be a time saver.
 
+
+    
+    Making color tables
+    ---------------------------------------------------------------------------
     .. autofunction:: make_color_tables()
 
+    For more information on making color tables and, ultimately, color map files, see :ref:`page-colors`.
+
+    
+    Processing species vocabulary
+    ---------------------------------------------------------------------------
     .. autofunction:: vocabulary()
 
+    
+    Processing human origins
+    ---------------------------------------------------------------------------
     .. autofunction:: origins()
         :noindex:
+    
+    See :ref:`page-human-origins` for more information on the human origins data.
 
-    .. autofunction:: primates()
-        :noindex:
+    
+    Processing biological orders
+    ---------------------------------------------------------------------------
 
-    .. autofunction:: birds()
-        :noindex:
+    The main biological orders are processed by a series of modules. Be it birds, primates, etc., each order has a function inside :file:`main.py` that calls all of the following modules. These modules may be commented out, depending on the needs of your run.
+
+
+    ======================================= ================================= ==============================================
+    Module                                   Documentation                     Description
+    ======================================= ================================= ==============================================
+    :file:`metadata.py`                      :ref:`page-metadata`              .. automodule:: metadata
+    :file:`consensus_species.py`             :ref:`page-consensus-species`     .. automodule:: consensus_species
+    :file:`sequence.py`                      :ref:`page-sequence`              .. automodule:: sequence
+    :file:`sequence_lineage.py`              :ref:`page-sequence-lineage`      .. automodule:: sequence_lineage
+    :file:`slice_by_clade.py`                :ref:`page-slice-by-clade`        .. automodule:: slice_by_clade
+    :file:`slice_by_lineage.py`              :ref:`page-slice-by-lineage`      .. automodule:: slice_by_lineage
+    :file:`slice_by_taxon.py`                :ref:`page-slice-by-taxon`        .. automodule:: slice_by_taxon
+    :file:`common.py`                        :ref:`page-common`                .. automodule:: common
+    ======================================= ================================= ==============================================    
     """
 
     # Define some universal metadata

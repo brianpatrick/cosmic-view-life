@@ -1,6 +1,9 @@
 # Cosmic View of Life on Earth
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
+"""
+The metadata module mainly processes the lineage information.
+"""
 
 
 import pandas as pd
@@ -18,8 +21,6 @@ def process_data(datainfo):
     :type datainfo: dict of {str : list}
     :return: A table with all the metadata of that order of species.
     :rtype: DataFrame
-
-    Metadata mainly consists of the lineage information. We process these columns, but only include certain lineage columns based on the parameters in the datainfo dict.
 
     Processes the lineage columns and other metadata for a branch of the tree (Primates, birds, etc.).
 

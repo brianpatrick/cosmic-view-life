@@ -35,7 +35,14 @@ Contents
     main
     colors
     human_origins
-    primates
+    metadata
+    consensus_species
+    sequence
+    sequence_lineage
+    slice_by_clade
+    slice_by_lineage
+    slice_by_taxon
+    common
 
 
 

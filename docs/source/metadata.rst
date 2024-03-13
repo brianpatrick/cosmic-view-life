@@ -1,11 +1,6 @@
-.. _page-colors:
-
+.. _page-metadata:
 *******************************************************************************
-Colors and Color Maps
+Lineage Metadata
 *******************************************************************************
 
-.. automodule:: colors
-
-.. autofunction:: colors.crayola_color_table()
-
-.. autofunction:: colors.rgba()
+.. autofunction:: metadata.process_data()

@@ -1,11 +1,7 @@
-.. _page-colors:
+.. _page-slice-by-lineage:
 
 *******************************************************************************
-Colors and Color Maps
+Slice by Lineage
 *******************************************************************************
 
-.. automodule:: colors
 
-.. autofunction:: colors.crayola_color_table()
-
-.. autofunction:: colors.rgba()

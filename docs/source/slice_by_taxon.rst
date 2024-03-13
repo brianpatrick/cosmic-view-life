@@ -1,11 +1,7 @@
-.. _page-colors:
+.. _page-slice-by-taxon:
 
 *******************************************************************************
-Colors and Color Maps
+Slice by Taxon
 *******************************************************************************
 
-.. automodule:: colors
 
-.. autofunction:: colors.crayola_color_table()
-
-.. autofunction:: colors.rgba()

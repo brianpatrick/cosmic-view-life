@@ -1,11 +1,9 @@
-.. _page-colors:
-
+.. _page-sequence:
 *******************************************************************************
-Colors and Color Maps
+DNA Sequence Data
 *******************************************************************************
+.. automodule:: sequence
+    
+.. autofunction:: sequence.process_data()
+.. autofunction:: sequence.make_asset()
 
-.. automodule:: colors
-
-.. autofunction:: colors.crayola_color_table()
-
-.. autofunction:: colors.rgba()

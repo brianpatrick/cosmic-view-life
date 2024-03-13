@@ -1,11 +1,6 @@
-.. _page-colors:
-
+.. _page-common:
 *******************************************************************************
-Colors and Color Maps
+Common Utility Functions
 *******************************************************************************
 
-.. automodule:: colors
 
-.. autofunction:: colors.crayola_color_table()
-
-.. autofunction:: colors.rgba()
