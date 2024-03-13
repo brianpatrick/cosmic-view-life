@@ -1,14 +1,10 @@
-'''
-Cosmic View of Life on Earth
+# Cosmic View of Life on Earth
 
-This script returns subsets of the DNA samples based on one given clade. The clade 
-can be a name or a lineage code number. Clade is merely a group with a common ancestor,
-so these names or codes fed to this function must be one of the lineage names or codes 
-found in the lineage.dat or lineage_codes.csv.
-
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
+"""
+This module returns subsets of the DNA samples based on a given clade. The clade can be a name or a lineage code number. Clade is merely a group with a common ancestor at any node on the tree, so these names or codes fed to this function must be one of the lineage names or codes found in the :file:`lineage.dat` or :file:`lineage_codes.csv`. The module produces OpeSpace-ready speck and asset files.
+"""
 
 import sys
 from pathlib import Path
@@ -18,21 +14,22 @@ from src import common
 
 
 def process_data(datainfo, clade):
-    '''
-    Pull DNA samples from the main speck file given an input clade.
-    The input argument, clade, can either be the lineage code number 
-    (eg, 31009 for 'Homo'), or it can be the proper name (eg, 'Homo'). 
-    It can be any name or number from the lineage codes table.
+    """
+    Given an input clade, pull DNA samples from the main :file:`sequences.speck` file.
 
-    Input:
-        dict(datainfo)
-        str(clade)          A lineage name or code number
-        sequence.speck
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param clade: The lineage name or code.
+    :type clade: str
 
-    Output:
-        clades/[lineage_code]_[lineage_name].speck     For example, clades/31009_homo.speck
+    The input argument, ``clade``, can either be the lineage code number (eg, 31009 for 'Homo'), or it can be the proper name (eg, 'Homo'). It can be any name or number from the lineage codes table. The resulting files have names combining the lineage information, e.g. For example, ``31009_homo.speck``.
 
-    '''
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`primates/{version}/[{clades}]/{lineage_code}_{lineage_name}.speck`
+        The OpenSpace-ready file for the DNA sequence data.
+    """
 
     # Open the lineage_codes.csv and look up the code number for the clade, 
     # return the lineage key tuple of tuples.
@@ -106,19 +103,20 @@ def process_data(datainfo, clade):
 
 
 def make_asset(datainfo):
-    '''
+    """
     Generate the asset file for the clade files.
 
-    Input:
-        dict(datainfo)
-        A list of .speck files in the 'clades' directory
-        A color table file
-        An input color table
-    
-    Output:
-        clades.asset
-    '''
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
 
+    This asset generator gets a listing of the clade speck files, then creates a data object for each file, while sampling from the main color table to assign colors to each object.
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`primates/clades.asset`
+        The OpenSpace-ready asset file for the clade subsets of DNA sequence data.
+    """
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
     # the filehandle in every print statement.

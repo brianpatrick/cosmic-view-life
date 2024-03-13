@@ -310,8 +310,8 @@ def primates(datainfo, vocab):
     seq = sequence.process_data(datainfo, meta_data)
     sequence.make_asset(datainfo)
 
-    # sequence_lineage.process_data(datainfo, consensus, seq)
-    # sequence_lineage.make_asset(datainfo)
+    #sequence_lineage.process_data(datainfo, consensus, seq)
+    #sequence_lineage.make_asset(datainfo)
 
 
 
@@ -324,13 +324,13 @@ def primates(datainfo, vocab):
     
 
 
-    # common.print_subhead_status('Processing individual clades')
-    # slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
-    # slice_by_clade.process_data(datainfo, 'Pan')        # chimps
-    # slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
-    # slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
-    # slice_by_clade.process_data(datainfo, 'Lemur')
-    # slice_by_clade.make_asset(datainfo)
+    common.print_subhead_status('Processing individual clades')
+    slice_by_clade.process_data(datainfo, 'Homo')       # fellow peeps, neanderthal, denisovan
+    slice_by_clade.process_data(datainfo, 'Pan')        # chimps
+    slice_by_clade.process_data(datainfo, 'Gorilla')    # gorillas
+    slice_by_clade.process_data(datainfo, 'Pongo')      # orangutans
+    slice_by_clade.process_data(datainfo, 'Lemur')
+    slice_by_clade.make_asset(datainfo)
 
 
     # # common.print_subhead_status('Processing traced lineage branch files')

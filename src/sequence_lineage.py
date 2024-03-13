@@ -1,14 +1,10 @@
-'''
-Cosmic View of Life on Earth
+# Cosmic View of Life on Earth
 
-Process the DNA sequence lineage data.
-This takes the main sequence dataframe and results in one label file for 
-each of the lineage columns chosen (as determined by datainfo['lineage_columns'])
-in the speck file, and one color map file for each lineage column.
-
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
+"""
+The ``sequence_lineage`` module takes the sequence dataframe and outputs one label file for each of the lineage columns chosen (as determined by ``datainfo['lineage_columns']``), and one color map file for each lineage column.
+"""
 
 import sys
 import re
@@ -19,22 +15,22 @@ from src import common
 
 
 def process_data(datainfo, consensus, sequence):
-    '''
+    """
+    Process the DNA sequence lineage data.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param consensus: The consensus species data, used here to mine their coordinates and labels.
+    :type consensus: DataFrame
+    :param sequence: The sequence data table.
+    :type sequence: DataFrame
+
     Process the sequence data labels and colors. We combine the sequence data and the consensus data
-    (which has the common labels) to output one label file for each lineage column within speck file.
+    (which has the common labels) to output one label file for each lineage column within the :file:`sequence.speck` file. The resulting files are generated using utility functions listed below.
+
     That range usually begins at the "Class" level (Aves, Primates, etc.) which is the last column 
-    that all data points share.
-
-    Input:
-        dict(datainfo)
-        DataFrame(consensus)
-        DataFrame(sequence)
-
-    Output:
-        lineage/lineage_*.label       (one label file for each lineage column in the speck file)
-        lineage/lineage_*.cmap        (one color map file for each lineage column in the speck file)
-
-    '''
+    that all data points share--their common ancestor.
+    """
 
     common.print_subhead_status('Processing DNA sequence lineage data')
 
@@ -78,18 +74,24 @@ def process_data(datainfo, consensus, sequence):
 
 
 def print_lineage_label_file(datainfo, column, df):
-    '''
-    Function prints label files for a select list of lineage columns in a dataframe.
-    Delivers one .label file given the column name and dataframe where that column is located.
-    
-    Input:
-        dict(datainfo)
-        str(column)         A column name from the dataframe, df
-        DataFrame(df)       The dataframe of unique lineage labels and codes
-    
-    Output:
-        One .label file for the column
-    '''
+    """
+    Print the label file for select lineage column.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param column: The name of a lineage column. 
+    :type column: str
+    :param df: A table of unique lineage labels (str) and codes (int).
+    :type df: DataFrame
+
+    Function prints a label file for a lineage column from the data. Delivers one label file given the column name and dataframe where that column is located.
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`primates/{version}/sequences/lineage_{lineage_column_number}.label`
+        The OpenSpace-ready file for the labels for each lineage column.
+    """
 
     # Set the data file metadata for the headers
     datainfo['data_group_title'] = datainfo['sub_project'] + ': Lineage labels'
@@ -137,18 +139,22 @@ def print_lineage_label_file(datainfo, column, df):
 
 
 def print_lineage_cmap_file(datainfo, column, df):
-    '''
-    Function prints color map files for a select list of lineage columns in a dataframe.
-    Delivers one .cmap file given the column name and dataframe where that column is located.
-    
-    Input:
-        dict(datainfo)
-        str(column)         A column name from the dataframe, df
-        DataFrame(df)       The dataframe of unique lineage labels and codes
-    
-    Output:
-        One .cmap file      Each file has as many colors as there are unique lineage codes
-    '''
+    """
+    Function prints a color map file for a given lineage column in the data.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param column: The name of a lineage column. 
+    :type column: str
+    :param df: A table of unique lineage labels (str) and codes (int).
+    :type df: DataFrame
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`primates/{version}/sequences/lineage_{lineage_column_number}.cmap`
+        The OpenSpace-ready file for the color map for each lineage column/level. Each file has as many colors as there are unique lineage codes.
+    """
 
     # Set the data file metadata for the headers
     datainfo['data_group_title'] = datainfo['sub_project'] + ': Color map for ' + column + ' codes'
@@ -260,17 +266,20 @@ def print_lineage_cmap_file(datainfo, column, df):
 
 
 def make_asset(datainfo):
-    '''
-    Print the lineage asset file. This is a series of OpenSpace data groups,
-    one for each lineage column.
-
-    Input:
-        dict(datainfo)
-        lineage.csv         (a processed catalog)
+    """
+    Print the lineage asset file. 
     
-    Output:
-        lineage.asset
-    '''
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    
+    This function prints a series of OpenSpace data objects within one asset file, one object for each lineage column.
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`primates/{version}/sequence_lineage.asset`
+        The OpenSpace asset file for the lineage levels, one data object per lineage level.
+    """
 
     datainfo['data_group_title'] = datainfo['sub_project'] + ': Labels and color maps for the lineage metadata'
     # datainfo['data_group_desc'] = 'Color map for the ' + datainfo['sub_project'].lower() + ' DNA data for column ' + column
