@@ -35,13 +35,13 @@ def process_data(datainfo, vocab):
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    :file:`primates/{version}/consensus_species/consensus.speck`
+    :file:`[{order}]/[{version}]/consensus_species/consensus.speck`
         The OpenSpace-ready data file.
 
-    :file:`primates/{version}/consensus_species/consensus.label`
+    :file:`[{order}]/[{version}]/consensus_species/consensus.label`
         The openSpace-readhy label file.
 
-    :file:`logs/primates/{version}/consensus_species.py.log`
+    :file:`logs/[{order}]/[{version}]/consensus_species.py.log`
         A file of stats on these data, and a list of taxons.
 
     """
@@ -275,7 +275,7 @@ def make_asset(datainfo):
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    :file:`primates/{version}/consensus_species.asset`
+    :file:`[{order}]/[{version}]/consensus_species.asset`
         The asset file containing the OpenSpace configurations for the consensus species.
     """
 

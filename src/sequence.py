@@ -31,13 +31,13 @@ def process_data(datainfo, metadata):
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    :file:`primates/{version}/sequences/sequences.speck`
+    :file:`[{order}]/[{version}]/sequences/sequences.speck`
         The OpenSpace-ready file for the DNA sequence data.
     
-    :file:`primates/{version}/sequences/sequences_taxon.cmap`
+    :file:`[{order}]/[{version}]/sequences/sequences_taxon.cmap`
         The OpenSpace-ready file for the DNA sequence data.
 
-    :file:`catalogs_processed/primates/{version}/sequences.csv`
+    :file:`catalogs_processed/[{order}]/{version}/sequences.csv`
         The CSV file for the complete DNA sequence data and metadata.
     """
 

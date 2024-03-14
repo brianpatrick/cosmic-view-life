@@ -66,12 +66,23 @@ def seq_populations(datainfo):
 
 
 
-    Output Data
-    ===============================================================================
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    The main dataset is printed to the ``human_origins.speck`` and accompanying ``human_origins.label`` file. In addition, we print ``speck`` files for each region so they may be toggled separately within OpenSpace.
+    :file:`human_origins/human_origins.speck`
+        The OpenSpace-ready data file.
+    
+    :file:`human_origins/human_origins.label`
+        The OpenSpace-ready label file.
 
-    Finally, we generate a color map file for the continent codes and for the regional codes, choosing from our main color table that using the ``find_color`` function in :file:`common.py` to pull the colors from the color table file.
+    :file:`human_origins/continents.cmap`
+        The OpenSpace color map file, one color for each continent.
+    
+    :file:`human_origins/regions/[{region_code}]_[{region_name}].speck`
+        Data files for each region in individual speck files.
+
+    :file:`human_origins/regions/regions.cmap`
+        A color map file that contains one color for each region.
     """
     
     common.print_subhead_status('Processing ' + datainfo['sub_project'].lower() + ' sequence data')

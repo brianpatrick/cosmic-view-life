@@ -3,7 +3,7 @@
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
 """
-The ``sequence_lineage`` module takes the sequence dataframe and outputs one label file for each of the lineage columns chosen (as determined by ``datainfo['lineage_columns']``), and one color map file for each lineage column.
+The ``sequence_lineage`` module takes the sequence dataframe and outputs one label file for each of the chosen lineage columns (as set in ``datainfo['lineage_columns']``), as well as one accompanying color map file.
 """
 
 import sys
@@ -26,10 +26,9 @@ def process_data(datainfo, consensus, sequence):
     :type sequence: DataFrame
 
     Process the sequence data labels and colors. We combine the sequence data and the consensus data
-    (which has the common labels) to output one label file for each lineage column within the :file:`sequence.speck` file. The resulting files are generated using utility functions listed below.
+    (which has the common-name labels) to output one label file for each lineage column within the :file:`sequence.speck` file. The resulting files are generated using utility functions listed below.
 
-    That range usually begins at the "Class" level (Aves, Primates, etc.) which is the last column 
-    that all data points share--their common ancestor.
+    The range in lineage columns set in ``datainfo['lineage_columns']`` typically begins at the order level (Aves, Primates, etc.), which is the most recent column that all data points share--their common ancestor.
     """
 
     common.print_subhead_status('Processing DNA sequence lineage data')
@@ -88,8 +87,7 @@ def print_lineage_label_file(datainfo, column, df):
 
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    :file:`primates/{version}/sequences/lineage_{lineage_column_number}.label`
+    :file:`[{order}]/[{version}]/sequences/lineage_{lineage_column_number}.label`
         The OpenSpace-ready file for the labels for each lineage column.
     """
 
@@ -151,8 +149,7 @@ def print_lineage_cmap_file(datainfo, column, df):
 
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    :file:`primates/{version}/sequences/lineage_{lineage_column_number}.cmap`
+    :file:`[{order}]/[{version}]/sequences/lineage_{lineage_column_number}.cmap`
         The OpenSpace-ready file for the color map for each lineage column/level. Each file has as many colors as there are unique lineage codes.
     """
 
@@ -276,8 +273,7 @@ def make_asset(datainfo):
 
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    :file:`primates/{version}/sequence_lineage.asset`
+    :file:`[{order}]/[{version}]/sequence_lineage.asset`
         The OpenSpace asset file for the lineage levels, one data object per lineage level.
     """
 

@@ -1,9 +1,10 @@
 # Cosmic View of Life on Earth
-
-# A place for constants and functions.
-
+#
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
+"""
+A module with constants and utility functions. Most of these functions deal with file I/O and parsing data. Some check for the existence of paths, and others print messages to stdout. Any function that will be used by many modules will be in the ``common`` module.
+"""
 
 import re
 import csv
@@ -28,7 +29,7 @@ LOG_DIRECTORY = 'logs'                              # Directory for log files
 CONSENSUS_DIRECTORY = 'consensus_species'       # Directory for the consensus species data/assets
 SEQUENCE_DIRECTORY = 'sequences'
 #LINEAGE_DIRECTORY = 'lineage'           # Directory for lineage files
-BRANCHES_DIRECTORY = 'lineage_branches'         # Directory for lineage branches files
+BRANCHES_DIRECTORY = 'lineage_branch'         # Directory for lineage branches files
 CLADE_DIRECTORY = 'clades'              # directory for the clade-isolated files
 TAXON_DIRECTORY = 'taxon'               # Directory for taxon/species data files
 TAKANORI_DIRECTORY = 'takanori_trials'

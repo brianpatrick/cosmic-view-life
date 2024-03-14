@@ -3,7 +3,7 @@
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
 """
-This module returns subsets of the DNA samples based on a given clade. The clade can be a name or a lineage code number. Clade is merely a group with a common ancestor at any node on the tree, so these names or codes fed to this function must be one of the lineage names or codes found in the :file:`lineage.dat` or :file:`lineage_codes.csv`. The module produces OpeSpace-ready speck and asset files.
+This module returns subsets of the DNA samples based on a given clade. The clade can be a name or a lineage code number. Clade is merely a group with a common ancestor at any node on the tree, so these names or codes fed to this function must be one of the lineage names or codes found in the :file:`lineage.dat` or :file:`lineage_codes.csv`.
 """
 
 import sys
@@ -26,8 +26,7 @@ def process_data(datainfo, clade):
 
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    :file:`primates/{version}/[{clades}]/{lineage_code}_{lineage_name}.speck`
+    :file:`[{order}]/[{version}]/clades/[{lineage_code}]_[{lineage_name}].speck`
         The OpenSpace-ready file for the DNA sequence data.
     """
 
@@ -104,17 +103,17 @@ def process_data(datainfo, clade):
 
 def make_asset(datainfo):
     """
-    Generate the asset file for the clade files.
+    Generate the asset file for the clade speck files.
 
     :param datainfo: Metadata about the dataset.
     :type datainfo: dict of {str : list}
 
     This asset generator gets a listing of the clade speck files, then creates a data object for each file, while sampling from the main color table to assign colors to each object.
 
+    
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-    :file:`primates/clades.asset`
+    :file:`[{order}]/[{version}]/clades.asset`
         The OpenSpace-ready asset file for the clade subsets of DNA sequence data.
     """
 

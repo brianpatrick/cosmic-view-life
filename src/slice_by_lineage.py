@@ -1,14 +1,11 @@
-'''
-Cosmic View of Life on Earth
+# Cosmic View of Life on Earth
 
-This script returns a file with various columns for color mapping to trace on taxon lineage.
-The idea is to trace one clade back to the Class level (primates, aves, etc).
-So, one speck file with all the sequence data in it, but we add columns
-so that we can add one color mapping per lineage level. The rest will be "grayed out".
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
+"""
+This module returns a series of files with various columns for color mapping to trace on taxon lineage. The idea is to trace one taxon back to the order level (primates, aves, etc). Files are generated for each lineage level with common lineage codes. For example, we can trace Homo lineage back to the primates common ancestor, and have one file for each of those lineage levels.
+"""
 
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
 
 import sys
 import re
@@ -21,25 +18,24 @@ from src import common
 
 
 def process_data(datainfo, taxon):
-    '''
-    Pull DNA samples from the main speck file given an input taxon.
-    This input argument, taxon, is the species name we want to consider. 
-    We then pull the lineage codes from that taxon line, and begin mapping 
-    a new color amp file based on each lineage level. In the first level,
-    10% might carry the color code (which is just the lineage code) 
-    and the rest will be set to zero. On the next lineage level, more will 
-    carry their code so they will be mapped to a color, and the rest gray, etc.
-    for each lineage level back to Class.
+    """
+    For a single taxon or species, gather the common ancestors for each lineage level all the way back to the order's common ancestor.
 
-    Input:
-        dict(datainfo)
-        str(clade)                  A lineage name or code number
-        sequence.speck
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param taxon: Name of the species, or taxon, we want to trace through its lineage.
+    :type taxon: str
 
-    Output:
-        branches/[taxon].speck      For example, "branches/homo_sapians.speck"
+    Given a species' taxon name, pull DNA samples from the sequences data to trace its lineage. First, collect the data that have the same lineage code (all Homo sapiens, for example), then progress back to the next lineage level and collect all of those with the same lineage code (Homo sapiens' last ancestor plus all the other species that shared that ancestor), etc. until we reach the order, which, in the case of Homo would be Primates.
 
-    '''
+    A speck file is generated for each lineage level so they may be given a constant color at each level. For example, start with the order level, in our example, this would be order primates. Every DNA sample at that lineage level shares the same common ancestor, so they will all be the same color. As we sample the next lineage level, some species have peeled off, evolving from a different common ancestor than Homo. We traverse the lineage levels until we reach genus Homo, which is the end of the branch, and now will only show those points in one color.
+    
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :file:`[{order}]/[{version}]/[{lineage_branches}]/[{taxon_name}]/[{lineage_code}]_[{lineage_name}].speck`
+        The OpenSpace-ready files for the DNA sequence data. There will be one speck file for each lineage level.
+    """
 
     datainfo['data_group_title'] = datainfo['sub_project'] + ': Traced lineage DNA sequence data for taxon ' + taxon
     datainfo['data_group_desc'] = 'DNA sample data for primates. Each point represents one DNA sample and is colored by lineage tracing.'
@@ -172,19 +168,22 @@ def process_data(datainfo, taxon):
 
 
 def make_asset(datainfo, taxon):
-    '''
-    Generate the asset file for the species lineage branch files.
+    """
+    Generate the asset file for the lineage branch speck files.
 
-    Input:
-        dict(datainfo)
-        str(directory)             The folder where the taxon branch files exist. This is a subfolder under 'branches'
-        A list of .speck files in the 'branches' directory
-        A color table file
-        An input color table
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param taxon: The name of the taxon for the lineage trace.
+    :type taxon: str
+
+    This asset generator will include a data object for each speck file in the given directory.
+
     
-    Output:
-        [directory]/[taxon].asset   The asset file will live inside the "branches"/[directory] folder
-    '''
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :file:`[{order}]/[{version}]/branch_[{taxon}].asset`
+        The OpenSpace-ready asset file for the lineage branch files. For example, :file:`primates/branch_homo_sapiens.asset`.
+    """
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
     # the filehandle in every print statement.

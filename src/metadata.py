@@ -34,19 +34,19 @@ def process_data(datainfo):
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    :file:`catalogs_processed/primates/{version}/metadata.csv`
+    :file:`catalogs_processed/[{order}]/[{version}]/metadata.csv`
         A csv file with the processed metadata.
     
-    :file:`catalogs_processed/primates/{version}/lineage.dat`
+    :file:`catalogs_processed/[{order}]/[{version}]/lineage.dat`
         A human-readable list of lineage codes for each lineage level.
 
-    :file:`catalogs_processed/primates/{version}/lineage.csv`
+    :file:`catalogs_processed/[{order}]/[{version}]/lineage.csv`
         Lines of lineage col names, lineage col integer, number of clades, and clade names.
 
-    :file:`catalogs_processed/primates/{version}/lineage_codes.csv`
+    :file:`catalogs_processed/[{order}]/[{version}]/lineage_codes.csv`
         List of lineage codes and their corresponding clade name.
 
-    :file:`logs/primates/{version}/metadata.py.log`
+    :file:`logs/[{order}]/[{version}]/metadata.py.log`
         Listing and stats for lineage codes.
     """
 
