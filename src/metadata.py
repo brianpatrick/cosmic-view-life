@@ -1,4 +1,5 @@
 # Cosmic View of Life on Earth
+#
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
 """
@@ -49,7 +50,7 @@ def process_data(datainfo):
     :file:`logs/[{order}]/[{version}]/metadata.py.log`
         Listing and stats for lineage codes.
     """
-
+    
     common.print_subhead_status('Processing Metadata (including lineage)')
 
 

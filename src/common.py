@@ -524,7 +524,7 @@ def test_path(path):
     :type path: path object
     """
     # Get a relative path from the project root directory
-    relative_filepath = path.relative_to(Path.cwd())
+    relative_filepath = str(path.relative_to(Path.cwd()))
 
     if not Path.exists(path):
         permission_create_dir = input('\n' + PADDING + 'Create directory: ' + relative_filepath + '? (y/n/q): ')

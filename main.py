@@ -154,22 +154,22 @@ def main():
     primates(datainfo, vocab)
 
 
-    # datainfo['version'] = '1'
-    # datainfo['catalog_directory'] = 'UMAP_v1'
-    # datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
-    # datainfo['consensus_file'] = 'pumap_taxon.csv'
-    # datainfo['sequence_file'] = 'pumap_taxon_allpoints.csv'
-    # datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
-    # datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
-    # datainfo['lineage_columns'] = [24, 31]
+    datainfo['version'] = '1'
+    datainfo['catalog_directory'] = 'UMAP_v1'
+    datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
+    datainfo['consensus_file'] = 'pumap_taxon.csv'
+    datainfo['sequence_file'] = 'pumap_taxon_allpoints.csv'
+    datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
+    datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
+    datainfo['lineage_columns'] = [24, 31]
 
-    # # Preprocess the consensus file to get the right format
-    # new_consensus_filename = common.pre_process_takanori_consensus(datainfo)
-    # datainfo['consensus_file'] = new_consensus_filename
+    # Preprocess the consensus file to get the right format
+    new_consensus_filename = common.pre_process_takanori_consensus(datainfo)
+    datainfo['consensus_file'] = new_consensus_filename
 
-    # # Process the sequence data file to fet the right format
-    # new_seq_filename = common.pre_process_takanori_seq(datainfo)
-    # datainfo['sequence_file'] = new_seq_filename
+    # Process the sequence data file to fet the right format
+    new_seq_filename = common.pre_process_takanori_seq(datainfo)
+    datainfo['sequence_file'] = new_seq_filename
 
     # primates(datainfo, vocab)
 
@@ -209,7 +209,7 @@ def main():
     datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
     datainfo['synonomous_file'] = None
     datainfo['lineage_columns'] = [27, 34]
-    #birds(datainfo, vocab)
+    birds(datainfo, vocab)
 
 
 
@@ -333,22 +333,22 @@ def primates(datainfo, vocab):
     slice_by_clade.make_asset(datainfo)
 
 
-    # # common.print_subhead_status('Processing traced lineage branch files')
-    # slice_by_lineage.process_data(datainfo, 'Homo sapiens')
-    # slice_by_lineage.make_asset(datainfo, 'Homo sapiens')
+    # common.print_subhead_status('Processing traced lineage branch files')
+    slice_by_lineage.process_data(datainfo, 'Homo sapiens')
+    slice_by_lineage.make_asset(datainfo, 'Homo sapiens')
 
-    # # # slice_by_lineage.process_data(datainfo, 'Lemur catta')
-    # # # slice_by_lineage.make_asset(datainfo, 'Lemur catta')
-
-
-    # # common.print_subhead_status('Processing individual taxon/species files')
-    # slice_by_taxon.process_data(datainfo, 'Homo sapiens')
-    # slice_by_taxon.process_data(datainfo, 'Macaca')
-    # slice_by_taxon.make_asset(datainfo)
+    # # slice_by_lineage.process_data(datainfo, 'Lemur catta')
+    # # slice_by_lineage.make_asset(datainfo, 'Lemur catta')
 
 
-    # takanori_trials.process_data(datainfo, seq)
-    # takanori_trials.make_asset(datainfo)
+    # common.print_subhead_status('Processing individual taxon/species files')
+    slice_by_taxon.process_data(datainfo, 'Homo sapiens')
+    slice_by_taxon.process_data(datainfo, 'Macaca')
+    slice_by_taxon.make_asset(datainfo)
+
+
+    takanori_trials.process_data(datainfo, seq)
+    takanori_trials.make_asset(datainfo)
    
     print()
     
