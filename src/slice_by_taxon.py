@@ -1,12 +1,10 @@
-'''
-Cosmic View of Life on Earth
+# Cosmic View of Life on Earth
 
-This script returns subsets of the DNA samples from a specific taxon.
-Taxons can be found in the taxon_codes.csv file, or at the end of each sequence.speck line.
-
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
+"""
+This script returns subsets of the DNA samples from a specific taxon. Taxons can be found in the :file:`taxon_codes.csv` processed catalog file, or at the end of each :file:`sequence.speck` line.
+"""
 
 import sys
 from pathlib import Path
@@ -15,16 +13,21 @@ from src import common
 
 
 def process_data(datainfo, species_taxon):
-    '''
+    """
     This function pulls out the DNA data for a particular species taxon.
 
-    It reads the speck file generated from sequence.py. Pulls out all the lines that
-    have the taxon we're looking for, and prints them to a new speck file in the ./taxon folder.
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param species_taxon: Name of the species, or taxon, we want to isolate.
+    :type species_taxon: str
 
-    Input:
-        dict(datainfo)
-        str(species_taxon)      The given taxon as a char string, e.g. 'Homo sapians'
-    '''
+    Read the main speck file for the DNA sequence data and pull out all the samples with matching taxon names. This isolates specific taxons for display.
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :file:`[{order}]/[{version}]/taxon/[{taxon_name}].speck`
+        The OpenSpace-ready files for the DNA sequence data. This module outputs one file, but may be run several times to generate multiple files for multiple taxons.
+    """
 
     # Define some metadata
     datainfo['data_group_title'] = datainfo['sub_project'] + ': ' + species_taxon + ' DNA sequence data'
@@ -74,19 +77,19 @@ def process_data(datainfo, species_taxon):
 
 
 def make_asset(datainfo):
-    '''
+    """
     Generate the asset file for the species (taxon) files.
 
-    Input:
-        dict(datainfo)
-        A list of .speck files in the 'taxon' directory
-        A color table file
-        An input color table
-    
-    Output:
-        taxon.asset
-    '''
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
 
+    Each time this is run, it will gather all the speck files in the ``taxon`` directory, and create a data object for each of them in this asset file.
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    :file:`[{order}]/[{version}]/taxon.asset`
+        The OpenSpace-ready asset file for the taxon-specific files.
+    """
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
     # the filehandle in every print statement.

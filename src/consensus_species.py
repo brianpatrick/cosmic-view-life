@@ -1,12 +1,11 @@
+# Cosmic View of Life on Earth
+#
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
 '''
-Cosmic View of Life on Earth
+Consensus species is an average point that represents an entire species' data, spatially. It should be a point that sits in the middle of the "cloud" of points from the sequence data for that species.
 
-Process the consensus species data. We fold in the vocabulary (common names), 
-and output various data files. Each record in this step represents one species,
-so one data point per species. Not all points have common names though.
-
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
+This module consists of a data processing function and an asset file creation file.
 '''
 
 import sys
@@ -17,21 +16,35 @@ from src import common
 
 
 def process_data(datainfo, vocab):
-    '''
-    Process the consensus species data, which has one entry per species.
+    """
+    Process the consensus species data. 
+    
+    We fold in the vocabulary (common names), and output various data files. Each record in this step represents one species, so one data point per species. Not all points have common names though.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param vocab: A taxon to common name DataFrame.
+    :type vocab: DataFrame
+    :return: A table of consensus species data.
+    :rtype: DataFrame
+    
 
     Reads in the raw data and prints out the processed data to a speck and label file.
     Note, we include a "dummy" column of zeros because OpenSpace needs four columns in a speck file.
 
-    Input: 
-        dict(datainfo)
-        DataFrame(vocab)
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    Output:
-        consensus.speck
-        consensus.label
-        logs/consensus.py.log
-    '''
+    :file:`[{order}]/[{version}]/consensus_species/consensus.speck`
+        The OpenSpace-ready data file.
+
+    :file:`[{order}]/[{version}]/consensus_species/consensus.label`
+        The openSpace-readhy label file.
+
+    :file:`logs/[{order}]/[{version}]/consensus_species.py.log`
+        A file of stats on these data, and a list of taxons.
+
+    """
 
     common.print_subhead_status('Processing consensus species')
 
@@ -81,7 +94,8 @@ def process_data(datainfo, vocab):
     # Print the data in a speck and label file
     # ---------------------------------------------------------------------------
     out_file_stem = 'consensus'
-    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
+    #outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
     common.test_path(outpath)
 
     outfile_speck = out_file_stem + '.speck'
@@ -183,67 +197,67 @@ def process_data(datainfo, vocab):
 
 
 
-    datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
-    datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
+    # datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
+    # datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
 
 
-    # First, convert the csv raw files into speck files.
-    # These are the internal branch points
-    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.internal.csv'
-    common.test_input_file(inpath)
+    # # First, convert the csv raw files into speck files.
+    # # These are the internal branch points
+    # inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.internal.csv'
+    # common.test_input_file(inpath)
 
-    internal_branches = pd.read_csv(inpath)
+    # internal_branches = pd.read_csv(inpath)
 
-    # Rearrange the columns
-    internal_branches = internal_branches[['x', 'y', 'z', 'name']]
+    # # Rearrange the columns
+    # internal_branches = internal_branches[['x', 'y', 'z', 'name']]
 
-    # Move the z values down, to transform the data down from the origin
-    internal_branches.loc[:, 'z'] = internal_branches['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-    #print(internal_branches)
-
-
-
-    # These are the "leaves"--the current day species.
-    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.leaves.csv'
-    common.test_input_file(inpath)
-
-    leaves = pd.read_csv(inpath)
-
-    # Rearrange the columns
-    leaves = leaves[['x', 'y', 'z', 'name']]
-
-    # Move the z values down, to transform the data down from the origin
-    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-
-    # Add underscores to the taxon names
-    leaves['name'] = leaves['name'].str.replace(' ', '_')
-
-    # Move the z values down
-    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-    #print(leaves)
+    # # Move the z values down, to transform the data down from the origin
+    # internal_branches.loc[:, 'z'] = internal_branches['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+    # #print(internal_branches)
 
 
-    # Write data to files
-    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
-    common.test_path(outpath)
 
-    outfile_speck = 'consensus_tree.speck'
-    outpath_speck = outpath / outfile_speck
+    # # These are the "leaves"--the current day species.
+    # inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.leaves.csv'
+    # common.test_input_file(inpath)
+
+    # leaves = pd.read_csv(inpath)
+
+    # # Rearrange the columns
+    # leaves = leaves[['x', 'y', 'z', 'name']]
+
+    # # Move the z values down, to transform the data down from the origin
+    # leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+
+    # # Add underscores to the taxon names
+    # leaves['name'] = leaves['name'].str.replace(' ', '_')
+
+    # # Move the z values down
+    # leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+    # #print(leaves)
+
+
+    # # Write data to files
+    # outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
+    # common.test_path(outpath)
+
+    # outfile_speck = 'consensus_tree.speck'
+    # outpath_speck = outpath / outfile_speck
     
 
-    with open(outpath_speck, 'wt') as speck:
+    # with open(outpath_speck, 'wt') as speck:
 
-        datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+    #     datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
 
-        header = common.header(datainfo, script_name=Path(__file__).name)
-        print(header, file=speck)
+    #     header = common.header(datainfo, script_name=Path(__file__).name)
+    #     print(header, file=speck)
 
-        for _, row in leaves.iterrows():
-            print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} # {row['name']}", file=speck)
+    #     for _, row in leaves.iterrows():
+    #         print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} # {row['name']}", file=speck)
 
 
-    # Report to stdout
-    common.out_file_message(outpath_speck)
+    # # Report to stdout
+    # common.out_file_message(outpath_speck)
 
 
     return df
@@ -252,15 +266,18 @@ def process_data(datainfo, vocab):
 
 
 def make_asset(datainfo):
-    '''
+    """
     Generate the asset file for the consensus species data.
-    
-    Input: 
-        dict(datainfo)
 
-    Output:
-        consensus.asset
-    '''
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`[{order}]/[{version}]/consensus_species.asset`
+        The asset file containing the OpenSpace configurations for the consensus species.
+    """
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
     # the filehandle in every print statement.

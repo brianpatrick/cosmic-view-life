@@ -1,13 +1,11 @@
-'''
-Cosmic View of Life on Earth
+# Cosmic View of Life on Earth
+#
+# Author: Brian Abbott <abbott@amnh.org>
+# Created: September 2022
+"""
+The metadata module mainly processes the lineage information.
+"""
 
-Process the taxon metadata. This mainly consists of the lineage information.
-We process these columns, but only include certain lineage columns based on 
-the parameters in the datainfo dict.
-
-Author: Brian Abbott <abbott@amnh.org>
-Created: September 2022
-'''
 
 import pandas as pd
 import re
@@ -17,27 +15,42 @@ from src import common
 
 
 def process_data(datainfo):
-    '''
-    Processes the lineage columns and other metadata for a branch of the tree.
+    """
+    Process the taxon metadata.
 
-    1. Reads the *.taxon.metadata.csv file (primates, birds, ...)
-    2. Expands the comma-separated lineage column into multiple columns
-    3. Pulls all unique values for each colum, and deletes any None values
-    4. For each lineage column, form a dictionary with a corresponding custom, integer code
-    5. Write results to a separate reference file, and pass the metadata back to calling function 
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :return: A table with all the metadata of that order of species.
+    :rtype: DataFrame
 
-    Input:
-        dict(datainfo)
-        [clade-class].taxons.metadata.csv       # such as, primates.taxons.metadata.csv
+    Processes the lineage columns and other metadata for a branch of the tree (Primates, birds, etc.).
+
+    #. Reads the :file:`\*.taxon.metadata.csv` file (primates, birds, ...)
+    #. Expands the comma-separated lineage column into multiple columns
+    #. Pulls all unique values for each colum, and deletes any None values
+    #. For each lineage column, form a dictionary with a corresponding custom, integer code
+    #. Write results to a separate reference file, and pass the metadata back to calling function
+
+
+    Output files:
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    :file:`catalogs_processed/[{order}]/[{version}]/metadata.csv`
+        A csv file with the processed metadata.
     
-    Output:
-        metadata.csv            # A csv file with the processed metadata
-        lineage.dat             # A human-readable list of lineage codes for each lineage level
-        lineage.csv             # lines of lineage col names, lineage col integer, number of clades, and clade names
-        lineage_codes.csv       # List of lineage codes and their corresponding clade name
-        metadata.py.log         # An output log
-    '''
+    :file:`catalogs_processed/[{order}]/[{version}]/lineage.dat`
+        A human-readable list of lineage codes for each lineage level.
 
+    :file:`catalogs_processed/[{order}]/[{version}]/lineage.csv`
+        Lines of lineage col names, lineage col integer, number of clades, and clade names.
+
+    :file:`catalogs_processed/[{order}]/[{version}]/lineage_codes.csv`
+        List of lineage codes and their corresponding clade name.
+
+    :file:`logs/[{order}]/[{version}]/metadata.py.log`
+        Listing and stats for lineage codes.
+    """
+    
     common.print_subhead_status('Processing Metadata (including lineage)')
 
 
@@ -151,14 +164,15 @@ def process_data(datainfo):
                 # If metadata value is not None, then run thru each value in the 
                 # unique lineage pandas series.
                 for v in lineage:
-                    
+
                     # If the metadata value and the value in the lineage series match,
                     # get the code and save it to metadata in a new column lineage_*_code.
                     if v == value:
                         
                         # Get the index number for the matching values. These index
                         # numbers are the lineage codes we need. (30001, etc.)
-                        lineage_code = str(lineage[lineage == v].index[0])
+                        lineage_code = lineage[lineage == v].index[0]
+                        #print(type(lineage_code))
 
                         # Write the new column and give the row the lineage_code value
                         metadata.at[row_number, series_name] = lineage_code
@@ -297,11 +311,12 @@ def process_data(datainfo):
                 print('Column: ' + col, file=log)
 
                 # Print the unique values and their count, sorted by the column, not the highest count
-                print(metadata[col].value_counts().sort_index(), file=log)
+                # The following line triggers an error in python 3.12. We can achieve the results without placing them in order, which is not ideal.
+                #print(metadata[col].value_counts().sort_index(), file=log)
+                print(metadata[col].value_counts(), file=log)
                 print(file=log)
 
 
     common.out_file_message(outpath_log)
-
 
     return metadata
