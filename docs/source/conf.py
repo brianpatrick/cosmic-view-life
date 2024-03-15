@@ -35,7 +35,11 @@ exclude_patterns = []
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'basic'
-
-nosidebar = ['true']
+#html_theme = 'alabaster'
 html_static_path = ['_static']
+
+#html_permalinks_icon = '<span>#</span>'
+html_theme = 'sphinxawesome_theme'
+#extensions += ["sphinxawesome_theme.highlighting"]
+
+html_css_files = 'css/custom.css'
