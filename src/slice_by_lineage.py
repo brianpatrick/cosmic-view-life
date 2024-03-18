@@ -296,7 +296,7 @@ def make_asset(datainfo, taxon):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
-            print('        Type = "RenderableCosmicPoints",')
+            print('        Type = "RenderablePointCloud",')
             print('        Color = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
             print('        Opacity = 1.0,')
             print('        ScaleFactor = scale_factor,')

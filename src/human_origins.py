@@ -603,15 +603,15 @@ def make_asset_all(datainfo):
 
 
         for file in asset_info:
-            print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+            print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
 
-            print('local ' + asset_info[file]['label_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
+            print('local ' + asset_info[file]['label_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
 
-            print('local ' + asset_info[file]['cmap_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file'] + '")')
+            print('local ' + asset_info[file]['cmap_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file'] + '")')
         
 
 
-        print('local texture_file = asset.localResource("point3A.png")')
+        print('local texture_file = asset.resource("point3A.png")')
         print()
 
 
@@ -629,11 +629,20 @@ def make_asset_all(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
-            print('        Type = "RenderableCosmicPoints",')
-            print('        Color = { 0.8, 0.8, 0.8 },')
-            print('        ColorMap = ' + asset_info[file]['cmap_var'] + ',')
-            print('        ColorOption = { "continent_code" },')
-            print('        ColorRange = { {1,5} },')
+            print('        Type = "RenderablePointCloud",')
+            print('        Coloring = {')
+            print('            ColorMapping = {')
+            print('                File = asset.resource(' + asset_info[file]['cmap_var'] + '),'),
+            print('                ParameterOptions = {')
+            print('                    { Key = "continent_code", Range = { 1, 5 } },')
+            print('                }')
+            print('            },')
+            #print('                ColorOption = { "continent_code" },')
+            #print('                ColorRange = { {1,5} },')
+            print('        },')
+            #print('        Type = "RenderableCosmicPoints",')
+            #print('        Color = { 0.8, 0.8, 0.8 },')
+            
             print('        Opacity = 1.0,')
             print('        ScaleFactor = scale_factor,')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
@@ -827,8 +836,12 @@ def make_asset_regions(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
-            print('        Type = "RenderableCosmicPoints",')
-            print('        Color = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
+            print('        Type = "RenderablePointCloud",')
+            print('         Coloring = {')
+            print('            FixedColor = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
+            print('        },')
+            #print('        Type = "RenderableCosmicPoints",')
+            #print('        Color = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
             print('        Opacity = 1.0,')
             print('        ScaleFactor = scale_factor,')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
