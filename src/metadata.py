@@ -25,7 +25,7 @@ def process_data(datainfo):
 
     Processes the lineage columns and other metadata for a branch of the tree (Primates, birds, etc.).
 
-    #. Reads the :file:`\*.taxon.metadata.csv` file (primates, birds, ...)
+    #. Reads the :file:`\\*.taxon.metadata.csv` file (primates, birds, ...)
     #. Expands the comma-separated lineage column into multiple columns
     #. Pulls all unique values for each colum, and deletes any None values
     #. For each lineage column, form a dictionary with a corresponding custom, integer code
@@ -156,7 +156,7 @@ def process_data(datainfo):
                 # If the value in the lineage_* column is None,
                 # then set it to zero and go to the next row in metadata
                 if value is None:
-                    metadata.at[row_number, series_name] = '0'
+                    metadata.at[row_number, series_name] = 0
                     row_number += 1
                     continue
 
