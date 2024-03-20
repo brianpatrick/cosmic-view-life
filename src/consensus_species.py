@@ -338,20 +338,20 @@ def make_asset(datainfo):
         print('-- Author: Brian Abbott <abbott@amnh.org>')
         print()
 
-        #print('local ' + asset_info[file]['filevar'] + ' = asset.localResource("' + asset_info[file]['rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+        #print('local ' + asset_info[file]['filevar'] + ' = asset.resource("' + asset_info[file]['rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
 
         for file in asset_info:
-            print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+            print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
 
-            print('local ' + asset_info[file]['label_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
+            print('local ' + asset_info[file]['label_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
 
 
 
         
-        #     print('local label_file = asset.localResource("' + asset_info[file]['label_file'] + '")')
-        #     #print('local color_file = asset.localResource("' + asset_info[file]['cmap_file'] + '")')
+        #     print('local label_file = asset.resource("' + asset_info[file]['label_file'] + '")')
+        #     #print('local color_file = asset.resource("' + asset_info[file]['cmap_file'] + '")')
 
-        print('local texture_file = asset.localResource("point3A.png")')
+        print('local texture_file = asset.resource("point3A.png")')
         print()
 
 
@@ -383,7 +383,7 @@ def make_asset(datainfo):
             print('        --FadeLabelDistances = { 0.0, 0.5 },')
             print('        --FadeLabelWidths = { 0.001, 0.5 },')
             print('        Unit = "Km",')
-            print('        Texture = texture_file,')
+            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')
