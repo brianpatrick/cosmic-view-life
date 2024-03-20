@@ -394,15 +394,15 @@ def make_asset(datainfo):
         print()
 
 
-        print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+        print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
 
 
         for file in asset_info:
-            print('local ' + asset_info[file]['label_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
+            print('local ' + asset_info[file]['label_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
 
-            print('local ' + asset_info[file]['cmap_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file'] + '")')
+            print('local ' + asset_info[file]['cmap_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file'] + '")')
 
-        print('local texture_file = asset.localResource("point3A.png")')
+        print('local texture_file = asset.resource("point3A.png")')
         print()
         
 
@@ -422,7 +422,8 @@ def make_asset(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
-            print('        Type = "RenderableCosmicPoints",')
+            #print('        Type = "RenderableCosmicPoints",')
+            print('        Type = "RenderablePointCloud",')
             print('        Color = { 0.8, 0.8, 0.8 },')
             print('        ColorMap = ' + asset_info[file]['cmap_var'] + ',')
             print('        ColorOption = { "' + asset_info[file]['color_column'] + '" },')
@@ -438,7 +439,7 @@ def make_asset(datainfo):
             print('        --FadeLabelDistances = { 0.0, 0.5 },')
             print('        --FadeLabelWidths = { 0.001, 0.5 },')
             print('        Unit = "Km",')
-            print('        Texture = texture_file,')
+            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')

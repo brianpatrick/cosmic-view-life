@@ -224,16 +224,16 @@ def make_asset(datainfo):
 
 
         for file in asset_info:
-            #print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
-            print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['speck_file'] + '")')
+            #print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+            print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['speck_file'] + '")')
 
-            #print('local ' + asset_info[file]['label_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
-
-
-        print('local ' + asset_info[file]['cmap_var'] + ' = asset.localResource("' + asset_info[file]['cmap_file'] + '")')
+            #print('local ' + asset_info[file]['label_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
 
 
-        print('local texture_file = asset.localResource("point3A.png")')
+        print('local ' + asset_info[file]['cmap_var'] + ' = asset.resource("' + asset_info[file]['cmap_file'] + '")')
+
+
+        print('local texture_file = asset.resource("point3A.png")')
         print()
 
 
@@ -253,7 +253,7 @@ def make_asset(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
-            print('        Type = "RenderableCosmicPoints",')
+            print('        Type = "RenderablePointCloud",')
             print('        Color = { 0.8, 0.8, 0.8 },')
             print('        ColorMap = ' + asset_info[file]['cmap_var'] + ',')
             print('        ColorOption = { "lineage_30_code" },')
@@ -263,7 +263,7 @@ def make_asset(datainfo):
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        Unit = "Km",')
-            print('        Texture = texture_file,')
+            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')

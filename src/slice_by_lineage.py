@@ -47,7 +47,7 @@ def process_data(datainfo, taxon):
     inpath_speck = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / infile_speck
     common.test_input_file(inpath_speck)
 
-    df = pd.read_csv(inpath_speck)
+    df = pd.read_csv(inpath_speck, low_memory=False)
 
 
     # Get the first line that contains the taxon, and 
@@ -70,7 +70,7 @@ def process_data(datainfo, taxon):
     lineage_codes = []
     lineage_names = []
     for lin_code_col, lin_name_col in zip(lineage_code_cols, lineage_name_cols):
-        lineage_codes.append(seq_line[lin_code_col])
+        lineage_codes.append(int(seq_line[lin_code_col]))
         lineage_names.append(seq_line[lin_name_col])
 
     
@@ -276,10 +276,10 @@ def make_asset(datainfo, taxon):
 
         print('-- Set file paths')
         for file in asset_info:
-            print('local ' + asset_info[file]['speck_var'] + ' = asset.localResource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+            print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
 
         print()
-        print('local texture_file = asset.localResource("point3A.png")')
+        print('local texture_file = asset.resource("point3A.png")')
         print()
 
 
@@ -296,14 +296,16 @@ def make_asset(datainfo, taxon):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
+            #print('        Type = "RenderableCosmicPoints",')
             print('        Type = "RenderablePointCloud",')
-            print('        Color = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
+            #print('        Color = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
+            print('        Coloring = { FixedColor = {' + asset_info[file]['rgb'] + ' }, },\t-- ' + asset_info[file]['color_name'])
             print('        Opacity = 1.0,')
             print('        ScaleFactor = scale_factor,')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        Unit = "Km",')
-            print('        Texture = texture_file,')
+            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')
