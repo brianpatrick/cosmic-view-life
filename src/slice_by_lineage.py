@@ -113,7 +113,7 @@ def process_data(datainfo, taxon):
             for _, row in lineage_df.iterrows():
 
                 # Print the x,y,z
-                print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} {row[lin_code_col]}  # {row['seq_id']} | {lin_name} | {row['taxon']}", file=speck)
+                print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} {int(row[lin_code_col])}  # {row['seq_id']} | {lin_name} | {row['taxon']}", file=speck)
 
         common.out_file_message(outpath_speck)
 

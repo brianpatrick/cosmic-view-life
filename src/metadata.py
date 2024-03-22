@@ -175,11 +175,13 @@ def process_data(datainfo):
                         #print(type(lineage_code))
 
                         # Write the new column and give the row the lineage_code value
-                        metadata.at[row_number, series_name] = lineage_code
+                        metadata.at[row_number, series_name] = int(lineage_code)
 
                         # Iterate the row number to go to the next row in metadata column
                         row_number += 1
 
+            # Convert this column to an integer, as it's apparently by default a float
+            metadata = metadata.astype({series_name : 'int32'})
 
             # Iterate the column number. 100 because we need unique values for 
             # each unique entry in each lineage column. See comment above where this is defined.
@@ -311,9 +313,8 @@ def process_data(datainfo):
                 print('Column: ' + col, file=log)
 
                 # Print the unique values and their count, sorted by the column, not the highest count
-                # The following line triggers an error in python 3.12. We can achieve the results without placing them in order, which is not ideal.
-                #print(metadata[col].value_counts().sort_index(), file=log)
-                print(metadata[col].value_counts(), file=log)
+                print(metadata[col].value_counts().sort_index(), file=log)
+                #print(metadata[col].value_counts(), file=log)
                 print(file=log)
 
 

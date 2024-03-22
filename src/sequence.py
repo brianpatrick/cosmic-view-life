@@ -223,7 +223,7 @@ def process_data(datainfo, metadata):
 
             # Print the data for the columns in the selected columns in cols_to_print
             for column in cols_to_print:
-                print(f" {row[column]}", file=speck, end ='')
+                print(f" {int(row[column])}", file=speck, end ='')
             
             # Print the speck label commented at the end of the line
             print(f" # {row['speck_name']}", file=speck)
