@@ -379,6 +379,8 @@ def seq_populations(datainfo):
             
             # Print the rows to the speck file, but only print rows if the region name
             # in the dataframe matches that of the loop we're in.
+            ################# HH             row = df.loc[df[lineage_code_col]==code].iloc[0]
+
             for col, row in df.iterrows():
                 if row['region'] == region_name:
                     print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} {row['continent_code']} {row['region_code']} {row['population_code']} # {row['speck_name']}", file=speck)

@@ -241,6 +241,7 @@ def make_asset(datainfo):
 
         print('-- Set some parameters for OpenSpace settings')
         print('local scale_factor = ' + common.SCALE_FACTOR)
+        print('local scale_exponent = ' + common.SCALE_EXPONENT)
         print('local text_size = ' + common.TEXT_SIZE)
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)
@@ -259,7 +260,7 @@ def make_asset(datainfo):
             print('        ColorOption = { "lineage_30_code" },')
             print('        ColorRange = { {30001, 30025} },')
             print('        Opacity = 1.0,')
-            print('        ScaleFactor = scale_factor,')
+            print('        SizeSettings = { ScaleExponent = scale_exponent, ScaleFactor = scale_factor },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        Unit = "Km",')

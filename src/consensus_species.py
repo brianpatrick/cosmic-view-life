@@ -150,6 +150,8 @@ def process_data(datainfo, vocab):
         print('textcolor 1', file=label)
 
         # Loop thru the df and print the label row if a label exists
+        ############ HH             row = df.loc[df[lineage_code_col]==code].iloc[0]
+
         for _, row in df.iterrows():
             if row['label_name'] is not None:
                 print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} text {row['label_name']}", file=label)

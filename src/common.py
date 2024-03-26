@@ -40,8 +40,17 @@ COLOR_DIRECTORY = 'color_tables'        # Directory for color tables and data
 
 
 
+# =============================================================================
 # OpenSpace settings
-SCALE_FACTOR = '105.0'
+# scale factor and scale exponent deserve some explanation. These are
+# parameters *of* the renderable (as of this writing, RenderablePointCloud, though it
+# used to be RenderableCosmicPoints) and are used to scale the physical size of the 
+# object, NOT its position in space. Scaling of the location in space is applied
+# *to* the renderable as a scale transform.
+# This used to be "SCALE_FACTOR = '105.0'".
+# HH TODO - CHANGE THIS TO POINT SCALE FACTOR, OR SOMETHING MORE MEANINGFUL
+SCALE_FACTOR = '3.54'
+SCALE_EXPONENT = '4.21'
 HUMAN_SCALE_FACTOR = '95.0'
 
 TEXT_SIZE = '2.75'
@@ -52,6 +61,7 @@ TEXT_MAX_SIZE = '30'
 
 
 # This is the factor by which I multiply the x,y,z positions
+#POSITION_SCALE_FACTOR = 5000.0
 POSITION_SCALE_FACTOR = 5000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
 

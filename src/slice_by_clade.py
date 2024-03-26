@@ -213,14 +213,16 @@ def make_asset(datainfo):
 
         print()
         print('local texture_file = asset.resource("point3A.png")')
+        print('local earthAsset = asset.require("scene/solarsystem/planets/earth/earth")')
         print()
 
 
         print('-- Set some parameters for OpenSpace settings')
-        print('local scale_factor = ' + common.SCALE_FACTOR)
-        print('local text_size = ' + common.TEXT_SIZE)
-        print('local text_min_size = ' + common.TEXT_MIN_SIZE)
-        print('local text_max_size = ' + common.TEXT_MAX_SIZE)
+        print('local scale_factor = '   + common.SCALE_FACTOR)
+        print('local scale_exponent = ' + common.SCALE_EXPONENT)
+        print('local text_size = '      + common.TEXT_SIZE)
+        print('local text_min_size = '  + common.TEXT_MIN_SIZE)
+        print('local text_max_size = '  + common.TEXT_MAX_SIZE)
         print()
 
 
@@ -229,12 +231,10 @@ def make_asset(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
-            #print('        Type = "RenderableCosmicPoints",')
             print('        Type = "RenderablePointCloud",')
-            #print('        Color = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
             print('        Coloring = { FixedColor = {' + asset_info[file]['rgb'] + ' }, },\t-- ' + asset_info[file]['color_name'])
             print('        Opacity = 1.0,')
-            print('        ScaleFactor = scale_factor,')
+            print('        SizeSettings = { ScaleExponent = scale_exponent, ScaleFactor = scale_factor },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        Unit = "Km",')
