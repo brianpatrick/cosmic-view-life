@@ -10,7 +10,6 @@ import sys
 import re
 import pandas as pd
 from pathlib import Path
-import timeit
 
 from src import common
 
@@ -72,7 +71,7 @@ def process_data(datainfo, consensus, sequence):
 
 
 
-################ THIS FUNCTION TAKES A LONG TIME.
+
 def print_lineage_label_file(datainfo, column, df):
     """
     Print the label file for select lineage column.
@@ -124,17 +123,8 @@ def print_lineage_label_file(datainfo, column, df):
         for code in unique_lineage_codes:
 
             # for each unique code, cycle thru the mashed up df to pluck out the consensus x,y,z and labels.
-            # Break once we've found the matching consensus position corresponding to the lineage value.
-            ############# HH need to vectorize this
-            
             row = df.loc[df[lineage_code_col]==code].iloc[0]
             print(f"{row['x_consensus']:.8f} {row['y_consensus']:.8f} {row['z_consensus']:.8f} text {row[column]} # {row[lineage_code_col]}", file=label)
-            """
-            for _, row in df.iterrows():
-                if row[lineage_code_col] == code:
-                    print(f"{row['x_consensus']:.8f} {row['y_consensus']:.8f} {row['z_consensus']:.8f} text {row[column]} # {row[lineage_code_col]}", file=label)
-                    break
-            """
 
     # Report to stdout
     common.out_file_message(outpath)
@@ -142,7 +132,6 @@ def print_lineage_label_file(datainfo, column, df):
 
 
 
-################ THIS FUNCTION TAKES A LONG TIME.
 def print_lineage_cmap_file(datainfo, column, df):
     """
     Function prints a color map file for a given lineage column in the data.
@@ -256,17 +245,8 @@ def print_lineage_cmap_file(datainfo, column, df):
 
             # For each code in the lineage codes, cycle through the main df to pull out
             # the lineage code and lineage code's name to tack on the end of the color line
-            ############# HH need to vectorize this
             row = df.loc[df[lineage_code_col]==code].iloc[0]
-            print(f" | {row[column]} | {row[lineage_code_col]}", file=cmap)
-
-            """
-            for _, row in df.iterrows():
-                if row[lineage_code_col] == code:
-                    print(f" | {row[column]} | {row[lineage_code_col]}", file=cmap)
-                    break
-            """
-            
+            print(f" | {row[column]} | {row[lineage_code_col]}", file=cmap)            
 
 
     # Report to stdout
