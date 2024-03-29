@@ -213,7 +213,6 @@ def make_asset(datainfo):
 
         print()
         print('local texture_file = asset.resource("point3A.png")')
-        print('local earthAsset = asset.require("scene/solarsystem/planets/earth/earth")')
         print()
 
 
