@@ -358,7 +358,8 @@ def make_asset(datainfo):
 
 
         print('-- Set some parameters for OpenSpace settings')
-        print('local scale_factor = ' + common.SCALE_FACTOR)
+        print('local point_scale_factor = ' + common.POINT_SCALE_FACTOR)
+        print('local point_scale_exponent = ' + common.POINT_SCALE_EXPONENT)
         print('local text_size = ' + common.TEXT_SIZE)
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)
@@ -375,7 +376,7 @@ def make_asset(datainfo):
             print('        Type = "RenderableInterpolation",')
             print('        Color = { 0.8, 0.8, 0.8 },')
             print('        Opacity = 1.0,')
-            print('        ScaleFactor = scale_factor,')
+            print('        SizeSettings = { ScaleFactor = point_scale_factor, ScaleExponent = point_scale_exponent },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        LabelFile = ' + asset_info[file]['label_var'] + ',')

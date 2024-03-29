@@ -403,8 +403,8 @@ def make_asset(datainfo):
 
 
         print('-- Set some parameters for OpenSpace settings')
-        print('local scale_factor = ' + common.SCALE_FACTOR)
-        print('local scale_exponent = ' + common.SCALE_EXPONENT)
+        print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
+        print('local scale_exponent = ' + common.POINT_SCALE_EXPONENT)
         print('local text_size = ' + common.TEXT_SIZE)
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)

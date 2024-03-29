@@ -47,11 +47,11 @@ COLOR_DIRECTORY = 'color_tables'        # Directory for color tables and data
 # used to be RenderableCosmicPoints) and are used to scale the physical size of the 
 # object, NOT its position in space. Scaling of the location in space is applied
 # *to* the renderable as a scale transform.
-# This used to be "SCALE_FACTOR = '105.0'".
-# HH TODO - CHANGE THIS TO POINT SCALE FACTOR, OR SOMETHING MORE MEANINGFUL
-SCALE_FACTOR = '3.54'
-SCALE_EXPONENT = '4.21'
-HUMAN_SCALE_FACTOR = '95.0'
+# This used to be SCALE_FACTOR = '105.0' and HUMAN_SCALE_FACTOR = '95.0'
+POINT_SCALE_FACTOR = '1.25'
+POINT_SCALE_EXPONENT = '4.0'
+HUMAN_POINT_SCALE_FACTOR = '1.25'
+HUMAN_POINT_SCALE_EXPONENT = '4.0'
 
 TEXT_SIZE = '2.75'
 TEXT_MIN_SIZE = '15'
@@ -60,9 +60,14 @@ TEXT_MAX_SIZE = '30'
 
 
 
-# This is the factor by which I multiply the x,y,z positions
+# This is the factor by which I multiply the x,y,z positions from the raw data files before writing them to the speck files.
+# Basically, the positions from Wandrille's data are unit vectors, and they need to be more on the order of 0 to 5 million
+# (meters) to be visible in OpenSpace. This factor is applied to the x,y,z positions in the data files before they are written
+# to the speck files. This is a global factor that is applied to all data files (except the human origins data, which is scaled
+# differently). This 5 million (or so) is basically gleaned from the examples dataset, specifically points.asset in
+# the point cloud examples.
 #POSITION_SCALE_FACTOR = 5000.0
-POSITION_SCALE_FACTOR = 5000.0
+POSITION_SCALE_FACTOR = 10000000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
 
 # These are applied to the primate tree of life branches and points
