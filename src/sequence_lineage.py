@@ -123,15 +123,11 @@ def print_lineage_label_file(datainfo, column, df):
         for code in unique_lineage_codes:
 
             # for each unique code, cycle thru the mashed up df to pluck out the consensus x,y,z and labels.
-            # Break once we've found the matching consensus position corresponding to the lineage value.
-            for _, row in df.iterrows():
-                if row[lineage_code_col] == code:
-                    print(f"{row['x_consensus']:.8f} {row['y_consensus']:.8f} {row['z_consensus']:.8f} text {row[column]} # {row[lineage_code_col]}", file=label)
-                    break
+            row = df.loc[df[lineage_code_col]==code].iloc[0]
+            print(f"{row['x_consensus']:.8f} {row['y_consensus']:.8f} {row['z_consensus']:.8f} text {row[column]} # {row[lineage_code_col]}", file=label)
 
     # Report to stdout
     common.out_file_message(outpath)
-
 
 
 
@@ -234,7 +230,7 @@ def print_lineage_cmap_file(datainfo, column, df):
 
         # Cycle through the unique list of lineage codes
         for code in unique_lineage_codes:
-            
+
             # Print the list_color_index row of the colorlist
             print(colorlist[list_color_index], file=cmap, end='')
 
@@ -249,10 +245,8 @@ def print_lineage_cmap_file(datainfo, column, df):
 
             # For each code in the lineage codes, cycle through the main df to pull out
             # the lineage code and lineage code's name to tack on the end of the color line
-            for _, row in df.iterrows():
-                if row[lineage_code_col] == code:
-                    print(f" | {row[column]} | {row[lineage_code_col]}", file=cmap)
-                    break
+            row = df.loc[df[lineage_code_col]==code].iloc[0]
+            print(f" | {row[column]} | {row[lineage_code_col]}", file=cmap)            
 
 
     # Report to stdout
@@ -408,7 +402,8 @@ def make_asset(datainfo):
 
 
         print('-- Set some parameters for OpenSpace settings')
-        print('local scale_factor = ' + common.SCALE_FACTOR)
+        print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
+        print('local scale_exponent = ' + common.POINT_SCALE_EXPONENT)
         print('local text_size = ' + common.TEXT_SIZE)
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)
@@ -422,14 +417,14 @@ def make_asset(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
-            #print('        Type = "RenderableCosmicPoints",')
+            print('        UseCaching = false,')
             print('        Type = "RenderablePointCloud",')
             print('        Color = { 0.8, 0.8, 0.8 },')
             print('        ColorMap = ' + asset_info[file]['cmap_var'] + ',')
             print('        ColorOption = { "' + asset_info[file]['color_column'] + '" },')
             print('        ColorRange = { { ' + asset_info[file]['color_range'] + ' } },')
             print('        Opacity = 1.0,')
-            print('        ScaleFactor = scale_factor,')
+            print('        SizeSettings = { ScaleExponent = scale_exponent, ScaleFactor = scale_factor },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
@@ -439,7 +434,6 @@ def make_asset(datainfo):
             print('        --FadeLabelDistances = { 0.0, 0.5 },')
             print('        --FadeLabelWidths = { 0.001, 0.5 },')
             print('        Unit = "Km",')
-            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')

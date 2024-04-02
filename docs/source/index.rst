@@ -77,7 +77,7 @@ David Thaler
 `Perrin Meyer <https://www.lizardinthesun.com/#psm>`_
     Researcher computational acoustics, Meyer Sound
 
-Hollister Herhold
+`Hollister Herhold <https://sites.google.com/view/hollister-herhold>`_
     Entomologist, American Museum of Natural History
 
 

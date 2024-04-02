@@ -150,6 +150,8 @@ def process_data(datainfo, vocab):
         print('textcolor 1', file=label)
 
         # Loop thru the df and print the label row if a label exists
+        ############ HH             row = df.loc[df[lineage_code_col]==code].iloc[0]
+
         for _, row in df.iterrows():
             if row['label_name'] is not None:
                 print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} text {row['label_name']}", file=label)
@@ -356,7 +358,8 @@ def make_asset(datainfo):
 
 
         print('-- Set some parameters for OpenSpace settings')
-        print('local scale_factor = ' + common.SCALE_FACTOR)
+        print('local point_scale_factor = ' + common.POINT_SCALE_FACTOR)
+        print('local point_scale_exponent = ' + common.POINT_SCALE_EXPONENT)
         print('local text_size = ' + common.TEXT_SIZE)
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)
@@ -370,10 +373,12 @@ def make_asset(datainfo):
             print('    Renderable = {')
             print('        DirectoryPath = "C:/OpenSpace/user/data/assets/cosmic_life/primates/tree_of_life/MDS_v1/consensus_species",')
             #print('        Type = "RenderableCosmicPoints",')
-            print('        Type = "RenderableInterpolation",')
+            #print('        Type = "RenderableInterpolation",')
+            print('        Type = "RenderableInterpolatedPoints",')
+            print('        NumberOfObjects = 1,')
             print('        Color = { 0.8, 0.8, 0.8 },')
             print('        Opacity = 1.0,')
-            print('        ScaleFactor = scale_factor,')
+            print('        SizeSettings = { ScaleFactor = point_scale_factor, ScaleExponent = point_scale_exponent },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
@@ -383,7 +388,6 @@ def make_asset(datainfo):
             print('        --FadeLabelDistances = { 0.0, 0.5 },')
             print('        --FadeLabelWidths = { 0.001, 0.5 },')
             print('        Unit = "Km",')
-            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')

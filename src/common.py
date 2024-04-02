@@ -40,9 +40,18 @@ COLOR_DIRECTORY = 'color_tables'        # Directory for color tables and data
 
 
 
+# =============================================================================
 # OpenSpace settings
-SCALE_FACTOR = '105.0'
-HUMAN_SCALE_FACTOR = '95.0'
+# scale factor and scale exponent deserve some explanation. These are
+# parameters *of* the renderable (as of this writing, RenderablePointCloud, though it
+# used to be RenderableCosmicPoints) and are used to scale the physical size of the 
+# object, NOT its position in space. Scaling of the location in space is applied
+# *to* the renderable as a scale transform.
+# This used to be SCALE_FACTOR = '105.0' and HUMAN_SCALE_FACTOR = '95.0'
+POINT_SCALE_FACTOR = '1.25'
+POINT_SCALE_EXPONENT = '4.0'
+HUMAN_POINT_SCALE_FACTOR = '1.25'
+HUMAN_POINT_SCALE_EXPONENT = '4.0'
 
 TEXT_SIZE = '2.75'
 TEXT_MIN_SIZE = '15'
@@ -51,8 +60,11 @@ TEXT_MAX_SIZE = '30'
 
 
 
-# This is the factor by which I multiply the x,y,z positions
-POSITION_SCALE_FACTOR = 5000.0
+# This is the factor by which I multiply the x,y,z positions from the raw data files before writing them to the speck files.
+# Basically, the positions from Wandrille's data are unit vectors, and they need to be more on the order of 0 to 5 million
+# (meters) to be visible in OpenSpace.
+#POSITION_SCALE_FACTOR = 5000.0
+POSITION_SCALE_FACTOR = 10000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
 
 # These are applied to the primate tree of life branches and points

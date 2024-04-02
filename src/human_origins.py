@@ -379,6 +379,8 @@ def seq_populations(datainfo):
             
             # Print the rows to the speck file, but only print rows if the region name
             # in the dataframe matches that of the loop we're in.
+            ################# HH             row = df.loc[df[lineage_code_col]==code].iloc[0]
+
             for col, row in df.iterrows():
                 if row['region'] == region_name:
                     print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} {row['continent_code']} {row['region_code']} {row['population_code']} # {row['speck_name']}", file=speck)
@@ -616,7 +618,8 @@ def make_asset_all(datainfo):
 
 
         print('-- Set some parameters for OpenSpace settings')
-        print('local scale_factor = ' + common.HUMAN_SCALE_FACTOR)
+        print('local point_scale_factor = ' + common.HUMAN_POINT_SCALE_FACTOR)
+        print('local point_scale_exponent = ' + common.HUMAN_POINT_SCALE_EXPONENT)
         print('local text_size = ' + common.TEXT_SIZE)
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)
@@ -629,6 +632,7 @@ def make_asset_all(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
+            print('        UseCaching = false,')
             print('        Type = "RenderablePointCloud",')
             print('        Coloring = {')
             print('            ColorMapping = {')
@@ -644,7 +648,7 @@ def make_asset_all(datainfo):
             #print('        Color = { 0.8, 0.8, 0.8 },')
             
             print('        Opacity = 1.0,')
-            print('        ScaleFactor = scale_factor,')
+            print('        SizeSettings = { ScaleFactor = point_scale_factor, ScaleExponent = point_scale_exponent },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
@@ -654,7 +658,6 @@ def make_asset_all(datainfo):
             print('        --FadeLabelDistances = { 0.0, 0.5 },')
             print('        --FadeLabelWidths = { 0.001, 0.5 },')
             print('        Unit = "Km",')
-            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')
@@ -824,7 +827,8 @@ def make_asset_regions(datainfo):
 
 
         print('-- Set some parameters for OpenSpace settings')
-        print('local scale_factor = ' + common.HUMAN_SCALE_FACTOR)
+        print('local point_scale_factor = ' + common.HUMAN_POINT_SCALE_FACTOR)
+        print('local point_scale_exponent = ' + common.HUMAN_POINT_SCALE_EXPONENT)        
         print('local text_size = ' + common.TEXT_SIZE)
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)
@@ -836,6 +840,7 @@ def make_asset_regions(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
+            print('        UseCaching = false,')
             print('        Type = "RenderablePointCloud",')
             print('         Coloring = {')
             print('            FixedColor = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
@@ -843,11 +848,10 @@ def make_asset_regions(datainfo):
             #print('        Type = "RenderableCosmicPoints",')
             #print('        Color = { ' + asset_info[file]['rgb'] + ' },\t-- ' + asset_info[file]['color_name'])
             print('        Opacity = 1.0,')
-            print('        ScaleFactor = scale_factor,')
+            print('        SizeSettings = { ScaleFactor = point_scale_factor, ScaleExponent = point_scale_exponent },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
             print('        DrawLabels = false,')
             print('        Unit = "Km",')
-            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')

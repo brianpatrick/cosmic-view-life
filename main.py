@@ -209,7 +209,7 @@ def main():
     datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
     datainfo['synonomous_file'] = None
     datainfo['lineage_columns'] = [27, 34]
-    #birds(datainfo, vocab)
+    birds(datainfo, vocab)
 
 
 
@@ -310,8 +310,8 @@ def primates(datainfo, vocab):
     seq = sequence.process_data(datainfo, meta_data)
     sequence.make_asset(datainfo)
 
-    #sequence_lineage.process_data(datainfo, consensus, seq)
-    #sequence_lineage.make_asset(datainfo)
+    sequence_lineage.process_data(datainfo, consensus, seq)
+    sequence_lineage.make_asset(datainfo)
 
 
 
@@ -378,13 +378,12 @@ def birds(datainfo, vocab):
     consensus = consensus_species.process_data(datainfo, vocab)
     consensus_species.make_asset(datainfo)
 
-
+    
     seq = sequence.process_data(datainfo, meta_data)
     sequence.make_asset(datainfo)
-
+    
     sequence_lineage.process_data(datainfo, consensus, seq)
     sequence_lineage.make_asset(datainfo)
-
 
     common.print_subhead_status('Processing individual clades')
     slice_by_clade.process_data(datainfo, 'Anas')   # 33084
