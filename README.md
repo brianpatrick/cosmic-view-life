@@ -231,6 +231,7 @@ This project is funded by the Richard Lounsbery Foundation.
 
 
 - [Brian Abbott](https://brianabbott.net) (American Museum of Natural History) Data visualization, astronomer by trade, and author of these codes.
+- [Hollister Herhold](https://sites.google.com/view/hollister-herhold) (American Museum of Natural History) Entomologist, former software engineer.
 - [Wandrille Duchemin](https://github.com/WandrilleD) (University of Basel & SIB Swiss Institute of Bioinformatics) Biologist & bioinformatics guru
 - [Jackie Faherty](https://www.jackiefaherty.com) (American Museum of Natural History) Astrophyscist with a deep interest in data visualization.
 - [Takanori Fujiwara](https://takanori-fujiwara.github.io) (Linköping University) Dimensional reduction expert.
