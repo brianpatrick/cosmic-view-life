@@ -310,8 +310,8 @@ def primates(datainfo, vocab):
     seq = sequence.process_data(datainfo, meta_data)
     sequence.make_asset(datainfo)
 
-    #sequence_lineage.process_data(datainfo, consensus, seq)
-    #sequence_lineage.make_asset(datainfo)
+    sequence_lineage.process_data(datainfo, consensus, seq)
+    sequence_lineage.make_asset(datainfo)
 
 
 
@@ -382,10 +382,8 @@ def birds(datainfo, vocab):
     seq = sequence.process_data(datainfo, meta_data)
     sequence.make_asset(datainfo)
     
-    sequence_lineage.process_data(datainfo, consensus, seq)  # THIS FUNCTION TAKES A WHILE
-    """
+    sequence_lineage.process_data(datainfo, consensus, seq)
     sequence_lineage.make_asset(datainfo)
-    """
 
     common.print_subhead_status('Processing individual clades')
     slice_by_clade.process_data(datainfo, 'Anas')   # 33084

@@ -402,8 +402,8 @@ def make_asset(datainfo):
 
 
         print('-- Set some parameters for OpenSpace settings')
-        print('local scale_factor = ' + common.SCALE_FACTOR)
-        print('local scale_exponent = ' + common.SCALE_EXPONENT)
+        print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
+        print('local scale_exponent = ' + common.POINT_SCALE_EXPONENT)
         print('local text_size = ' + common.TEXT_SIZE)
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)
@@ -417,6 +417,7 @@ def make_asset(datainfo):
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
+            print('        UseCaching = false,')
             print('        Type = "RenderablePointCloud",')
             print('        Color = { 0.8, 0.8, 0.8 },')
             print('        ColorMap = ' + asset_info[file]['cmap_var'] + ',')
@@ -433,7 +434,6 @@ def make_asset(datainfo):
             print('        --FadeLabelDistances = { 0.0, 0.5 },')
             print('        --FadeLabelWidths = { 0.001, 0.5 },')
             print('        Unit = "Km",')
-            print('        Texture = { File = texture_file },')
             print('        BillboardMinMaxSize = { 0.0, 25.0 },')
             print('        EnablePixelSizeControl = true,')
             print('        EnableLabelFading = false,')
