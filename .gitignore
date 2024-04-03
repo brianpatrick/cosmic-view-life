@@ -25,7 +25,5 @@ Thumbs.db
 # Docs build files
 /docs/build/
 
-
-
-
-
+# PowerShell script to copy all data to OpenSpace data folder
+copy-data.ps1
