@@ -62,9 +62,9 @@ TEXT_MAX_SIZE = '30'
 
 # This is the factor by which I multiply the x,y,z positions from the raw data files before writing them to the speck files.
 # Basically, the positions from Wandrille's data are unit vectors, and they need to be more on the order of 0 to 5 million
-# (meters) to be visible in OpenSpace.
+# (meters) to be visible in OpenSpace. This distance is highly dependent on the camera position and the scale of the "universe".
 #POSITION_SCALE_FACTOR = 5000.0
-POSITION_SCALE_FACTOR = 10000.0
+POSITION_SCALE_FACTOR = 5000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
 
 # These are applied to the primate tree of life branches and points
