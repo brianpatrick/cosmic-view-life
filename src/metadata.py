@@ -99,6 +99,7 @@ def process_data(datainfo):
     
     # lineage is a nested dict, with lineage_X: {lineage_code: lineage_name} format,
     # for example: { lineage_31: { 31009: Homo } }
+    # Lineage is NOT an NCBI taxid, for example NCBI taxid 31009 is Clariidae (airbreathing catfishes).
     lineage = dict()
 
     # unique_values holds all the unique lineage values temporarily
