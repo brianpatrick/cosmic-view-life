@@ -25,5 +25,6 @@ Thumbs.db
 # Docs build files
 /docs/build/
 
-# PowerShell script to copy all data to OpenSpace data folder
+# Random powershell scripts to make my life a little easier. I'd check these in but they rely on specific pathnames.
 copy-data.ps1
+clean-data.ps1
