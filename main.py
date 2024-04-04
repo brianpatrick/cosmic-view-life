@@ -6,10 +6,26 @@
 
 import pandas as pd
 from pathlib import Path
+import argparse
 
 
 from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree
 
+
+# Set up command line parameters. There are only a few parameters right now, but this
+# will likely grow.
+
+parser = argparse.ArgumentParser(description='Cosmic View of Life on Earth')
+
+# Command line parameter for whether or not to create directories by default.
+parser.add_argument('--create-dirs', action='store_true', help='Create directories by default')
+
+# These do nothing at the moment.
+parser.add_argument('--primates', action='store_true', help='Process the primates data')
+parser.add_argument('--birds', action='store_true', help='Process the birds data')
+parser.add_argument('--human-origins', action='store_true', help='Process the human origins data')
+
+args = parser.parse_args()
 
 
 def main():
@@ -320,6 +336,7 @@ def primates(datainfo, vocab):
     tree.process_data(datainfo)
     tree.process_branches(datainfo)
     tree.make_asset_branches(datainfo)
+    tree.make_asset_leaves(datainfo)
 
     
 
