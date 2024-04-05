@@ -14,10 +14,6 @@ import pandas as pd
 from pathlib import Path
 #import str
 
-# This is a little hack to get the command line arguments from the main module. 
-# Ideally I would pass these as arguments to the functions that need them.
-from main import args
-
 
 
 # Constants
@@ -42,7 +38,11 @@ MORPH_DIRECTORY = 'morph'
 
 COLOR_DIRECTORY = 'color_tables'        # Directory for color tables and data
 
+# Configuration parameters
+# =============================================================================
 
+# By default, we don't create directories if they don't exist. This is a safety feature.
+CREATE_DIRS_BY_DEFAULT = False
 
 # =============================================================================
 # OpenSpace settings
@@ -546,7 +546,7 @@ def test_path(path):
     relative_filepath = str(path.relative_to(Path.cwd()))
 
     if not Path.exists(path):
-        if args.create_dirs:
+        if CREATE_DIRS_BY_DEFAULT:
             permission_create_dir = 'y'
         else:
             permission_create_dir = input('\n' + PADDING + 'Create directory: ' + relative_filepath + '? (y/n/q): ')
