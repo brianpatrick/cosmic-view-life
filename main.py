@@ -344,10 +344,10 @@ def primates(datainfo, vocab):
 
     # Process the tree of primates
     # NOTE: need to run the ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
-    tree.process_data(datainfo)
-    #tree.process_branches(datainfo)
-    #tree.make_asset_branches(datainfo)
+    tree.process_leaves(datainfo)
     tree.make_asset_leaves(datainfo)
+    tree.process_branches(datainfo)
+    tree.make_asset_branches(datainfo)
 
     
 

@@ -17,7 +17,7 @@ from src import common
 
 
 
-def process_data(datainfo):
+def process_leaves(datainfo):
     '''
     Process the primate tree of life points. These consist of "leaves" which are the 
     present day species/taxon, and the internal branch points, which are the nexus
@@ -36,6 +36,7 @@ def process_data(datainfo):
 
 
 
+    
     # Generate the Consensus points for the tree. These will be points that sit on the tips
     # of the tree branches -- the leaves.
     # ------------------------------------------------------------------------------------------
@@ -67,87 +68,6 @@ def process_data(datainfo):
 
     # Rearrange the columns
     leaves = leaves[['x', 'y', 'z', 'name']]
-
-    # Move the z values down, to transform the data down from the origin
-    #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-
-    # Add underscores to the taxon names
-    leaves['name'] = leaves['name'].str.replace(' ', '_')
-
-    # Move the z values down
-    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-    
-    #print(leaves)
-
-
-    # Write data to files
-    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
-    common.test_path(outpath)
-
-    outfile_speck = 'consensus_tree.speck'
-    outpath_speck = outpath / outfile_speck
-    
-
-    with open(outpath_speck, 'wt') as speck:
-
-        datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
-
-        header = common.header(datainfo, script_name=Path(__file__).name)
-        print(header, file=speck)
-
-        for _, row in leaves.iterrows():
-            print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} # {row['name']}", file=speck)
-
-
-    # Report to stdout
-    common.out_file_message(outpath_speck)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # 
-    # ------------------------------------------------------------------------------------------
-    datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
-    datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
-
-
-    # First, convert the csv raw files into speck files.
-    # These are the internal branch points
-    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.internal.csv'
-    common.test_input_file(inpath)
-
-    internal_branches = pd.read_csv(inpath)
-
-    # Rearrange the columns
-    internal_branches = internal_branches[['x', 'y', 'z', 'name']]
-
-    # Move the z values down, to transform the data down from the origin
-    internal_branches.loc[:, 'z'] = internal_branches['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-    #print(internal_branches)
-
-
-
-    # These are the "leaves"--the current day species.
-    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.leaves.csv'
-    common.test_input_file(inpath)
-
-    leaves = pd.read_csv(inpath)
-
-    # Rearrange the columns
-    leaves = leaves[['x', 'y', 'z', 'name']]
-
-    # Move the z values down, to transform the data down from the origin
-    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
 
     # Add underscores to the taxon names
     leaves['name'] = leaves['name'].str.replace(' ', '_')
@@ -267,7 +187,7 @@ def make_asset_branches(datainfo):
         dict(datainfo)
 
     Output:
-        primate_braanches.asset
+        primate_branches.asset
     '''
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
@@ -314,16 +234,16 @@ def make_asset_branches(datainfo):
 
     asset_info[file]['asset_rel_path'] = '.'
 
-    asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY
-    asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY
+    asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_branches'
+    asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_branches'
 
-    asset_info[file]['gui_name'] = common.TREE_DIRECTORY.replace('_', ' ').title()
-    asset_info[file]['gui_path'] = '/' + datainfo['sub_project']
+    asset_info[file]['gui_name'] = 'Branches'
+    asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
 
 
 
     # Open the file to write to
-    outfile = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '.asset'
+    outfile = datainfo['dir'] + '_branches.asset'
     outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
     with open(outpath, 'wt') as asset:
 
@@ -413,7 +333,7 @@ def make_asset_branches(datainfo):
 
 
 
-def make_asset_data(datainfo):
+def make_asset_leaves(datainfo):
     '''
     Generate the asset file for the primate tree of life data.
     
@@ -421,7 +341,7 @@ def make_asset_data(datainfo):
         dict(datainfo)
 
     Output:
-        primate_branches_data.asset
+        primate_branches_leaves.asset
     '''
 
     # We shift the stdout to our filehandle so that we don't have to keep putting
@@ -446,13 +366,12 @@ def make_asset_data(datainfo):
 
     #for path in files:
         
-    # file = path.name
-    file = 'primates_leaves.speck'
+    file = path.name
 
     # Set the nested dict
     asset_info[file] = {}
 
-    asset_info[file]['speck_file'] = path.name
+    asset_info[file]['speck_file'] = 'primates_leaves.speck'
     #print(asset_info[file]['speck_file'], path, path.name)
     asset_info[file]['speck_var'] = common.file_variable_generator(asset_info[file]['speck_file'])
 
@@ -467,16 +386,16 @@ def make_asset_data(datainfo):
 
     asset_info[file]['asset_rel_path'] = '.'
 
-    asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY
-    asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY
+    asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_leaves'
+    asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_leaves'
 
-    asset_info[file]['gui_name'] = common.TREE_DIRECTORY.replace('_', ' ').title()
-    asset_info[file]['gui_path'] = '/' + datainfo['sub_project']
+    asset_info[file]['gui_name'] = 'Leaves'
+    asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
 
 
 
     # Open the file to write to
-    outfile = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '.asset'
+    outfile = datainfo['dir'] + '_leaves.asset'
     outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
     with open(outpath, 'wt') as asset:
 
@@ -494,19 +413,38 @@ def make_asset_data(datainfo):
         for file in asset_info:
             print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
 
+        print('-- Set some parameters for OpenSpace settings')
+        print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
+        print('local scale_exponent = ' + common.POINT_SCALE_EXPONENT)
+        print('local text_size = ' + common.TEXT_SIZE)
+        print('local text_min_size = ' + common.TEXT_MIN_SIZE)
+        print('local text_max_size = ' + common.TEXT_MAX_SIZE)
+        print()
 
         for file in asset_info:
 
             print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
             print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
             print('    Renderable = {')
-            print('        UseCache = false,')
-            print('        Type = "RenderableConstellationLines",')
-            print('        Colors = { { 0.6, 0.4, 0.4 }, { 0.8, 0.0, 0.0 }, { 0.0, 0.3, 0.8 } },')
-            print('        Opacity = 0.7,')
-            print('        NamesFile = ' + asset_info[file]['dat_var'] + ',')
+            print('        UseCaching = false,')
+            print('        Type = "RenderablePointCloud",')
+            print('         Coloring = {')
+            print('            FixedColor = { 0.8, 0.8, 0.8 }')
+            print('        },')
+            print('        Opacity = 1.0,')
+            print('        SizeSettings = { ScaleFactor = scale_factor, ScaleExponent = scale_exponent },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
+            #print('        DrawLabels = false,')
+            #print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
+            #print('        TextColor = { 1.0, 1.0, 1.0 },')
+            #print('        TextSize = text_size,')
+            #print('        TextMinMaxSize = { text_min_size, text_max_size },')
+            print('        --FadeLabelDistances = { 0.0, 0.5 },')
+            print('        --FadeLabelWidths = { 0.001, 0.5 },')
             print('        Unit = "Km",')
+            print('        BillboardMinMaxSize = { 0.0, 25.0 },')
+            print('        EnablePixelSizeControl = true,')
+            print('        EnableLabelFading = false,')
             print('        Enabled = false')
             print('    },')
             print('    GUI = {')
