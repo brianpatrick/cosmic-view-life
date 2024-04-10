@@ -45,6 +45,7 @@ def process_leaves(datainfo):
 
 
     # First, convert the csv raw files into speck files.
+    """
     # These are the internal branch points
     inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.internal.csv'
     common.test_input_file(inpath)
@@ -57,6 +58,7 @@ def process_leaves(datainfo):
     # Move the z values down, to transform the data down from the origin
     internal_branches.loc[:, 'z'] = internal_branches['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
     #print(internal_branches)
+    """
 
 
 
@@ -73,7 +75,7 @@ def process_leaves(datainfo):
     leaves['name'] = leaves['name'].str.replace(' ', '_')
 
     # Move the z values down
-    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
     #print(leaves)
 
 
@@ -100,6 +102,108 @@ def process_leaves(datainfo):
     common.out_file_message(outpath_speck)
 
     
+
+def process_leaves_interpolated(datainfo):
+    '''
+    Process the primate tree of life points that can be interpolated. These are
+      A. the consensus points that are placed in XYZ space as a result of
+         indicator vector computation and data reduction
+      B. The leaves of the tree, along with the tree, which indicate 
+         phylogenetic relationships.
+    The idea is to show the relationship between the data reduced consensus points
+    and the "actual" tree of life. (Big quotes on "actual" here because all trees
+    are hypotheses.)
+
+    Input:
+        dict(datainfo)
+
+    Output:
+        .csv
+           The format of this file has columns as follows:
+              time, x, y, z, name
+           The first set of points are the leaves of the tree at t=0, and the 
+           second set is the consensus points at t=1.
+    '''
+
+    common.print_subhead_status('Processing Primate tree data')
+
+    # Generate the Consensus points for the tree. These will be points that sit on the tips
+    # of the tree branches -- the leaves.
+    # ------------------------------------------------------------------------------------------
+    datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
+    datainfo['data_group_desc'] = 'Interpolatable points for the primate consensus tree.'
+
+    # These are the "leaves"--the current day species.
+    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.leaves.csv'
+    common.test_input_file(inpath)
+    leaves = pd.read_csv(inpath)
+
+    # Rearrange the columns
+    leaves = leaves[['x', 'y', 'z', 'name']]
+
+    # We need to sort the leaves by the name. This is because the consensus points
+    # may be in a different order than the leaves, and they all need to be in the same
+    # order for the interpolation to work.
+    leaves = leaves.sort_values(by='name')
+
+    # Add underscores to the taxon names
+    leaves['name'] = leaves['name'].str.replace(' ', '_')
+
+    # Move the z values down. This is all of the transforms that are applied to the
+    # non-interpolated data, also called the "tabletop" points that sit at the tips of the tree.
+    leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
+
+    # Next load in the consensus points. Note that these do not get scaled or transformed as they're 
+    # already in the correct position (which we want to interpolate to).
+    # ------------------------------------------------------------------------------------------
+    # Architecturally, this is a little bit of a hack. We're going to read in the consensus points
+    # which are actually processed in consensus_species.py, and we need to read them here and
+    # do the exact same processing as done in consensus_species.py. Ideally we'd be able to ask consensus_species.py
+    # what the processed data is, but that's a bit of a pain. So we're going to read in the data here and do the same
+    # processing. This is a bit of a hack, but it's the best we can do for now.
+    inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / datainfo['consensus_file']
+    common.test_input_file(inpath)
+ 
+     # Read in the CSV file
+    # 'Taxon' header is not present in the CSV, so remove all the headers, and add them manually
+    consensus = pd.read_csv(inpath, header=0, names=['name', 'x', 'y', 'z'])
+    consensus = consensus[['x', 'y', 'z', 'name']]
+
+    # Like the leaves, we need to sort the consensus points by the name. This is because the leaves
+    # are sorted by name, and we need to make sure that the consensus points are in the same order.
+    consensus = consensus.sort_values(by='name')
+
+    consensus['name'] = consensus['name'].str.replace(' ', '_')
+
+    # Rescale consensus points. This is the same scaling that is done in consensus_species.py, so 
+    # if that changes, this needs to change as well.
+    consensus['x'] = consensus['x'].multiply(common.POSITION_SCALE_FACTOR)
+    consensus['y'] = consensus['y'].multiply(common.POSITION_SCALE_FACTOR)
+    consensus['z'] = consensus['z'].multiply(common.POSITION_SCALE_FACTOR)
+
+    # Write data to files
+    outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+    common.test_path(outpath)
+
+    outfile_csv = 'primates_interpolated.csv'
+    outpath_csv = outpath / outfile_csv
+    
+    with open(outpath_csv, 'wt') as csvfile:
+
+        datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+
+        header = common.header(datainfo, script_name=Path(__file__).name)
+        print(header, file=csvfile)
+
+        for _, row in leaves.iterrows():
+            print(f"0,{row['x']:.8f},{row['y']:.8f},{row['z']:.8f},{row['name']}", file=csvfile)
+
+        for _, row in consensus.iterrows():
+            print(f"1,{row['x']:.8f},{row['y']:.8f},{row['z']:.8f},{row['name']}", file=csvfile)
+
+    # Report to stdout
+    common.out_file_message(outpath_csv)
+
 
 
 
@@ -128,7 +232,6 @@ def process_branches(datainfo):
     # Transform the 'z' axis
     branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
     branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-
     branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x * common.SCALE_TREE_Z)
     branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x * common.SCALE_TREE_Z)
 
@@ -495,3 +598,4 @@ def make_asset_leaves(datainfo):
         # Report to stdout
         common.out_file_message(outpath)
         print()
+

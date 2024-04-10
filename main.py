@@ -348,6 +348,7 @@ def primates(datainfo, vocab):
     tree.make_asset_leaves(datainfo)
     tree.process_branches(datainfo)
     tree.make_asset_branches(datainfo)
+    tree.process_leaves_interpolated(datainfo)
 
     
 
