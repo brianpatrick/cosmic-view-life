@@ -38,7 +38,11 @@ MORPH_DIRECTORY = 'morph'
 
 COLOR_DIRECTORY = 'color_tables'        # Directory for color tables and data
 
+# Configuration parameters
+# =============================================================================
 
+# By default, we don't create directories if they don't exist. This is a safety feature.
+CREATE_DIRS_BY_DEFAULT = False
 
 # =============================================================================
 # OpenSpace settings
@@ -61,14 +65,18 @@ TEXT_MAX_SIZE = '30'
 
 
 # This is the factor by which I multiply the x,y,z positions from the raw data files before writing them to the speck files.
-# Basically, the positions from Wandrille's data are unit vectors, and they need to be more on the order of 0 to 5 million
-# (meters) to be visible in OpenSpace.
-#POSITION_SCALE_FACTOR = 5000.0
-POSITION_SCALE_FACTOR = 10000.0
+# Basically, the positions from Wandrille's data are unit vectors (eigenvectors, I believe?) and they need to be more on the
+# order of 0 to 5 million (meters) to be visible in OpenSpace. This distance is entirely dependent on the camera position and
+# the scale of the "universe". As of this writing (2022-09-14), the camera position is 100000m from the Root, and the scale
+# of the universe is 1000000m. So, I multiply the x,y,z positions by 5000 to get them to be visible in OpenSpace, as the 
+# units in the speck files are kilometers. This results in most points "surrounding" the viewer when the camera is at its
+# initial position.
+POSITION_SCALE_FACTOR = 5000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
 
 # These are applied to the primate tree of life branches and points
-TRANSFORM_TREE_Z = 133.5        # This moves the points and lines down in the z coord
+#TRANSFORM_TREE_Z = 133.5        # This moves the points and lines down in the z coord
+TRANSFORM_TREE_Z = 75.0        # This moves the points and lines down in the z coord
 SCALE_TREE_Z = 75.0             # This scales the z coordinate for the lines to expand it and give it depth.
 
 # The gray color (0-1) which we color the zero lineage points
@@ -539,7 +547,10 @@ def test_path(path):
     relative_filepath = str(path.relative_to(Path.cwd()))
 
     if not Path.exists(path):
-        permission_create_dir = input('\n' + PADDING + 'Create directory: ' + relative_filepath + '? (y/n/q): ')
+        if CREATE_DIRS_BY_DEFAULT:
+            permission_create_dir = 'y'
+        else:
+            permission_create_dir = input('\n' + PADDING + 'Create directory: ' + relative_filepath + '? (y/n/q): ')
         
         if permission_create_dir == 'y':
             Path(path).mkdir(parents=True)

@@ -6,10 +6,12 @@
 
 import pandas as pd
 from pathlib import Path
+import configlib
+
+import argparse
 
 
 from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree
-
 
 
 def main():
@@ -106,6 +108,29 @@ def main():
     ======================================= ================================= ==============================================    
     """
 
+    # Set up command line parameters. There are only a few parameters right now, but this
+    # will likely grow.
+
+    parser = argparse.ArgumentParser(description='Cosmic View of Life on Earth')
+
+    # Command line parameter for whether or not to create directories by default.
+    parser.add_argument('--create-dirs', action='store_true', help='Create directories by default', default=False)
+
+    # By default, we run everything. These options allow skipping certain sections.
+    parser.add_argument('--all', action='store_true', help='Process all data')
+    parser.add_argument('--no-primates', action='store_true', help='Skip primates data')
+    parser.add_argument('--no-birds', action='store_true', help='Skip birds data')
+    parser.add_argument('--no-human-origins', action='store_true', help='Skip human origins data')
+
+    # Check to see if the user has passed in any command line parameters.
+    args = parser.parse_args()
+
+    # Set the global variable to create directories by default.
+    common.CREATE_DIRS_BY_DEFAULT = args.create_dirs
+
+
+
+
     # Define some universal metadata
     datainfo = {}
 
@@ -132,84 +157,86 @@ def main():
 
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
-    origins(datainfo)
+    if not args.no_human_origins:
+        origins(datainfo)
     
 
 
 
     # Primates
     # ------------------------------------------------------------------------
+    if not args.no_primates:
+        datainfo['dir'] = 'primates'
+        datainfo['sub_project'] = 'Primates'
 
-    datainfo['dir'] = 'primates'
-    datainfo['sub_project'] = 'Primates'
-
-    datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'MDS_v1'
-    datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'primates.cleaned.species.MDS.euclidean.csv'
-    datainfo['sequence_file'] = 'primates.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.csv'
-    datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
-    datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
-    datainfo['lineage_columns'] = [24, 31]
-    primates(datainfo, vocab)
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'MDS_v1'
+        datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
+        datainfo['consensus_file'] = 'primates.cleaned.species.MDS.euclidean.csv'
+        datainfo['sequence_file'] = 'primates.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.csv'
+        datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
+        datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
+        datainfo['lineage_columns'] = [24, 31]
+        primates(datainfo, vocab)
 
 
-    datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'UMAP_v1'
-    datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'pumap_taxon.csv'
-    datainfo['sequence_file'] = 'pumap_taxon_allpoints.csv'
-    datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
-    datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
-    datainfo['lineage_columns'] = [24, 31]
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'UMAP_v1'
+        datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
+        datainfo['consensus_file'] = 'pumap_taxon.csv'
+        datainfo['sequence_file'] = 'pumap_taxon_allpoints.csv'
+        datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
+        datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
+        datainfo['lineage_columns'] = [24, 31]
 
-    # Preprocess the consensus file to get the right format
-    new_consensus_filename = common.pre_process_takanori_consensus(datainfo)
-    datainfo['consensus_file'] = new_consensus_filename
+        # Preprocess the consensus file to get the right format
+        new_consensus_filename = common.pre_process_takanori_consensus(datainfo)
+        datainfo['consensus_file'] = new_consensus_filename
 
-    # Process the sequence data file to fet the right format
-    new_seq_filename = common.pre_process_takanori_seq(datainfo)
-    datainfo['sequence_file'] = new_seq_filename
+        # Process the sequence data file to fet the right format
+        new_seq_filename = common.pre_process_takanori_seq(datainfo)
+        datainfo['sequence_file'] = new_seq_filename
 
-    # primates(datainfo, vocab)
+        # primates(datainfo, vocab)
 
 
 
     
     # Birds
     # ------------------------------------------------------------------------
-    datainfo['dir'] = 'birds'
-    datainfo['sub_project'] = 'Birds'
+    if not args.no_birds:
+        datainfo['dir'] = 'birds'
+        datainfo['sub_project'] = 'Birds'
 
-    datainfo['version'] = '1'
-    datainfo['catalog_directory'] = 'MDS_v1'
-    datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'aves.cleaned.species.MDS.euclidean.primates_scale.csv'
-    datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.primates_scale.csv'
-    datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
-    datainfo['synonomous_file'] = None
-    datainfo['lineage_columns'] = [27, 34]
-    #birds(datainfo, vocab)
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'MDS_v1'
+        datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+        datainfo['consensus_file'] = 'aves.cleaned.species.MDS.euclidean.primates_scale.csv'
+        datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.gowerIntepolatedMDS.euclidean.primates_scale.csv'
+        datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+        datainfo['synonomous_file'] = None
+        datainfo['lineage_columns'] = [27, 34]
+        #birds(datainfo, vocab)
 
-    # datainfo['version'] = '2'
-    # datainfo['catalog_directory'] = 'UMAP_v1'
-    # datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
-    # datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver1.csv'
-    # datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver1.csv'
-    # datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
-    # datainfo['synonomous_file'] = None
-    # datainfo['lineage_columns'] = [27, 34]
-    # birds(datainfo, vocab)
+        # datainfo['version'] = '2'
+        # datainfo['catalog_directory'] = 'UMAP_v1'
+        # datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+        # datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver1.csv'
+        # datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver1.csv'
+        # datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+        # datainfo['synonomous_file'] = None
+        # datainfo['lineage_columns'] = [27, 34]
+        # birds(datainfo, vocab)
 
-    datainfo['version'] = '3'
-    datainfo['catalog_directory'] = 'UMAP_v2'
-    datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
-    datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver2.csv'
-    datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver2.csv'
-    datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
-    datainfo['synonomous_file'] = None
-    datainfo['lineage_columns'] = [27, 34]
-    birds(datainfo, vocab)
+        datainfo['version'] = '3'
+        datainfo['catalog_directory'] = 'UMAP_v2'
+        datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+        datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver2.csv'
+        datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver2.csv'
+        datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+        datainfo['synonomous_file'] = None
+        datainfo['lineage_columns'] = [27, 34]
+        birds(datainfo, vocab)
 
 
 
@@ -302,7 +329,7 @@ def primates(datainfo, vocab):
 
     meta_data = metadata.process_data(datainfo)
 
-
+    # HH - The consensus points are a single point for each species. This is most likely the centroid or something like that; I need to look into this more.
     consensus = consensus_species.process_data(datainfo, vocab)
     consensus_species.make_asset(datainfo)
 
@@ -313,13 +340,17 @@ def primates(datainfo, vocab):
     sequence_lineage.process_data(datainfo, consensus, seq)
     sequence_lineage.make_asset(datainfo)
 
-
+    # Make a new tree object
+    mytree = tree.tree()
 
     # Process the tree of primates
     # NOTE: need to run the ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
-    #tree.process_data(datainfo)
-    #tree.process_branches(datainfo)
-    #tree.make_asset_branches(datainfo)
+    mytree.process_leaves(datainfo)
+    mytree.make_asset_leaves(datainfo)
+    mytree.process_branches(datainfo)
+    mytree.make_asset_branches(datainfo)
+    mytree.process_leaves_interpolated(datainfo)
+    mytree.make_asset_leaves_interpolated(datainfo)
 
     
 
