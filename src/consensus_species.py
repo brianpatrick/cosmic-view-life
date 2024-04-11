@@ -55,6 +55,8 @@ def process_data(datainfo, vocab):
     
     # Read and process the raw data file
     # ---------------------------------------------------------------------------
+    # Example:
+    #           .       /       data            /     primates    /     consensus                 / primates.cleaned.species.MDS.euclidean.csv
     inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / datainfo['consensus_file']
     common.test_input_file(inpath)
 

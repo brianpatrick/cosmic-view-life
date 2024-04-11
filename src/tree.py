@@ -141,10 +141,9 @@ class tree:
         # These are the "leaves"--the current day species.
         inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.leaves.csv'
         common.test_input_file(inpath)
-        leaves = pd.read_csv(inpath)
 
-        # Rearrange the columns
-        leaves = leaves[['x', 'y', 'z', 'name']]
+        # The data is in the format of x, y, z, name.
+        leaves = pd.read_csv(inpath)
 
         # We need to sort the leaves by the name. This is because the consensus points
         # may be in a different order than the leaves, and they all need to be in the same
@@ -172,7 +171,6 @@ class tree:
         # Read in the CSV file
         # 'Taxon' header is not present in the CSV, so remove all the headers, and add them manually
         consensus = pd.read_csv(inpath, header=0, names=['name', 'x', 'y', 'z'])
-        consensus = consensus[['x', 'y', 'z', 'name']]
 
         # Like the leaves, we need to sort the consensus points by the name. This is because the leaves
         # are sorted by name, and we need to make sure that the consensus points are in the same order.
@@ -200,11 +198,23 @@ class tree:
             header = common.header(datainfo, script_name=Path(__file__).name)
             print(header, file=csvfile)
 
+            # OpenSpace requires a header that describes the columns.
+            print('time,x,y,z,name', file=csvfile)
+
+            # There are only two points in time:
+            # 0: The leaves of the tree
+            # 1: The consensus points
             for _, row in leaves.iterrows():
                 print(f"0,{row['x']:.8f},{row['y']:.8f},{row['z']:.8f},{row['name']}", file=csvfile)
 
+            # There may be more consensus points than leaves. Write out the consensus points but skip
+            # any points that are not in the leaves.
             for _, row in consensus.iterrows():
-                print(f"1,{row['x']:.8f},{row['y']:.8f},{row['z']:.8f},{row['name']}", file=csvfile)
+                if row['name'] in leaves['name'].values:
+                    print(f"1,{row['x']:.8f},{row['y']:.8f},{row['z']:.8f},{row['name']}", file=csvfile)
+
+        # Finally, set the number of leaves for this tree. This value is used in the asset file.
+        self.num_leaves = len(leaves)
 
         # Report to stdout
         common.out_file_message(outpath_csv)
@@ -434,13 +444,6 @@ class tree:
             print()
 
 
-
-
-
-
-
-
-
     def make_asset_leaves(self, datainfo):
         '''
         Generate the asset file for the primate tree of life data.
@@ -622,31 +625,19 @@ class tree:
         # Save the original stdout so we can switch back later
         original_stdout = sys.stdout
 
-
-
         # Define the main dict that will hold all the info needed per file
         # This is a nested dict with the format:
         #      { path: { root:  , filevar:  , os_variable:  , os_identifier:  , name:  } }
         asset_info = {}
 
-        # Gather info about the files
-        # Get a listing of the speck files in the path, then set the dict
-        # values based on the filename.
         path = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
-        #files = sorted(path.glob('*.speck'))
-
-
-
-        #for path in files:
-            
         file = path.name
 
         # Set the nested dict
         asset_info[file] = {}
 
-        asset_info[file]['speck_file'] = 'primates_leaves.speck'
-        #print(asset_info[file]['speck_file'], path, path.name)
-        asset_info[file]['speck_var'] = common.file_variable_generator(asset_info[file]['speck_file'])
+        asset_info[file]['csv_file'] = 'primates_interpolated.csv'
+        asset_info[file]['csv_var'] = common.file_variable_generator(asset_info[file]['csv_file'])
 
         #asset_info[file]['label_file'] = path.stem + '.label'
         #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
@@ -654,21 +645,16 @@ class tree:
         #asset_info[file]['cmap_file'] = path.stem + '.cmap'
         #asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
-        asset_info[file]['dat_file'] = path.stem + '.dat'
-        asset_info[file]['dat_var'] = common.file_variable_generator(asset_info[file]['dat_file'])
-
         asset_info[file]['asset_rel_path'] = '.'
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_leaves'
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_leaves'
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_interpolated'
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_interpolated'
 
-        asset_info[file]['gui_name'] = 'Leaves'
+        asset_info[file]['gui_name'] = 'Interpolated Leaves'
         asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
 
-
-
         # Open the file to write to
-        outfile = datainfo['dir'] + '_leaves.asset'
+        outfile = datainfo['dir'] + '_interpolated.asset'
         outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
         with open(outpath, 'wt') as asset:
 
@@ -680,11 +666,7 @@ class tree:
             print('-- Author: Brian Abbott <abbott@amnh.org>')
             print()
 
-
-            print('local ' + asset_info[file]['dat_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['dat_file'] + '")')
-
-            for file in asset_info:
-                print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
+            print('local ' + asset_info[file]['csv_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['csv_file'] + '")')
 
             print('-- Set some parameters for OpenSpace settings')
             print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
@@ -700,13 +682,14 @@ class tree:
                 print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
                 print('    Renderable = {')
                 print('        UseCaching = false,')
-                print('        Type = "RenderablePointCloud",')
+                print('        Type = "RenderableInterpolatedPoints",')
                 print('         Coloring = {')
                 print('            FixedColor = { 0.8, 0.8, 0.8 }')
                 print('        },')
                 print('        Opacity = 1.0,')
                 print('        SizeSettings = { ScaleFactor = scale_factor, ScaleExponent = scale_exponent },')
-                print('        File = ' + asset_info[file]['speck_var'] + ',')
+                print('        File = ' + asset_info[file]['csv_var'] + ',')
+                print('        NumberOfObjects = ' + str(self.num_leaves) + ',')
                 #print('        DrawLabels = false,')
                 #print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
                 #print('        TextColor = { 1.0, 1.0, 1.0 },')
@@ -727,8 +710,6 @@ class tree:
                 print('}')
                 print()
 
-
-
             print('asset.onInitialize(function()')
             for file in asset_info:
                 print('    openspace.addSceneGraphNode(' + asset_info[file]['os_scenegraph_var'] + ')')
@@ -736,14 +717,12 @@ class tree:
             print('end)')
             print()
 
-
             print('asset.onDeinitialize(function()')
             for file in asset_info:
                 print('    openspace.removeSceneGraphNode(' + asset_info[file]['os_scenegraph_var'] + ')')
             
             print('end)')
             print()
-
 
             for file in asset_info:
                 print('asset.export(' + asset_info[file]['os_scenegraph_var'] + ')')
