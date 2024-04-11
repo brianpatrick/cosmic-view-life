@@ -340,15 +340,17 @@ def primates(datainfo, vocab):
     sequence_lineage.process_data(datainfo, consensus, seq)
     sequence_lineage.make_asset(datainfo)
 
-
+    # Make a new tree object
+    mytree = tree.tree()
 
     # Process the tree of primates
     # NOTE: need to run the ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
-    tree.process_leaves(datainfo)
-    tree.make_asset_leaves(datainfo)
-    tree.process_branches(datainfo)
-    tree.make_asset_branches(datainfo)
-    tree.process_leaves_interpolated(datainfo)
+    mytree.process_leaves(datainfo)
+    mytree.make_asset_leaves(datainfo)
+    mytree.process_branches(datainfo)
+    mytree.make_asset_branches(datainfo)
+    mytree.process_leaves_interpolated(datainfo)
+    mytree.make_asset_leaves_interpolated(datainfo)
 
     
 
