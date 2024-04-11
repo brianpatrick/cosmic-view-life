@@ -29,17 +29,13 @@ def process_data(datainfo, vocab):
     :rtype: DataFrame
     
 
-    Reads in the raw data and prints out the processed data to a speck and label file.
-    Note, we include a "dummy" column of zeros because OpenSpace needs four columns in a speck file.
+    Reads in the raw data and prints out the processed data to a csv file. Also prints out a log file with some stats on the data.
 
     Output files:
     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-    :file:`[{order}]/[{version}]/consensus_species/consensus.speck`
+    :file:`[{order}]/[{version}]/consensus_species/consensus.csv`
         The OpenSpace-ready data file.
-
-    :file:`[{order}]/[{version}]/consensus_species/consensus.label`
-        The openSpace-readhy label file.
 
     :file:`logs/[{order}]/[{version}]/consensus_species.py.log`
         A file of stats on these data, and a list of taxons.
@@ -74,95 +70,30 @@ def process_data(datainfo, vocab):
     df['y'] = df['y'].multiply(common.POSITION_SCALE_FACTOR)
     df['z'] = df['z'].multiply(common.POSITION_SCALE_FACTOR)
 
-    # Add a dummy column for OpenSpace (which needs 4 data columns -- silly!)
-    df['dummy'] = '0'
-
-
     # Coalate this DF with the vocabulary DF
     df = pd.merge(df, vocab, left_on='taxon', right_on='scientific name', how='left').drop(['taxId', 'scientific name'], axis=1)
-    
 
-    # Construct the .speck and .label columns
-    # The speck name is ideally the taxon plyus common name, but if there is no common name, we just use the taxon
-    df.loc[df['common name'].notnull(), 'speck_name'] = df['taxon'] + ' | ' + df['common name']
-    df.loc[df['common name'].isnull(), 'speck_name'] = df['taxon']
-
-    # The label is only the common name, so if there is no common name, then there is no label
-    df.loc[df['common name'].notnull(), 'label_name'] = df['common name']
-    df.loc[df['common name'].isnull(), 'label_name'] = None
-
-
-
-    # Print the data in a speck and label file
+    # Print the data in a single CSV file.
     # ---------------------------------------------------------------------------
     out_file_stem = 'consensus'
     outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
-    #outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
     common.test_path(outpath)
 
-    outfile_speck = out_file_stem + '.speck'
-    outpath_speck = outpath / outfile_speck
+    outfile_csv = out_file_stem + '.csv'
+    outpath_csv = outpath / outfile_csv
 
-    with open(outpath_speck, 'wt') as speck:
-
-        header = common.header(datainfo, script_name=Path(__file__).name)
-        print(header, file=speck)
-        
-        # Set the columns to print as datavar columns. This is a list of columns to print after x,y,z
-        cols_to_print = ['dummy']
-
-        # set a counter for the datavar number (dv), and cycle through the
-        # columns to print list and print the datavar lines
-        dv = 0
-        for col in cols_to_print:
-            print('datavar ' + str(dv) + ' ' + col, file=speck)
-            dv += 1
-
-        
-        # Print the rows to the speck file
-        for _, row in df.iterrows():
-
-            # Print the x,y,z
-            print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f}", file=speck, end ='')
-
-            # Print the data for the columns in the selected columns in cols_to_print
-            for column in cols_to_print:
-                print(f" {row[column]}", file=speck, end ='')
-            
-            # Print the speck label commented at the end of the line
-            print(f" # {row['speck_name']}", file=speck)
-
-        # Report to stdout
-        common.out_file_message(outpath_speck)
-
-
-
-    # Print the labels
-    # ---------------------------------------------------------------------------
-    outfile_label = out_file_stem + '.label'
-    outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
-    outpath_label = outpath / outfile_label
-
-    with open(outpath_label, 'wt') as label:
+    with open(outpath_csv, 'w') as csvfile:
 
         header = common.header(datainfo, script_name=Path(__file__).name)
-        print(header, file=label)
-
-        # Print the label file
-        print('textcolor 1', file=label)
-
-        # Loop thru the df and print the label row if a label exists
-        ############ HH             row = df.loc[df[lineage_code_col]==code].iloc[0]
-
-        for _, row in df.iterrows():
-            if row['label_name'] is not None:
-                print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} text {row['label_name']}", file=label)
+        print(header, file=csvfile)
+        
+        # Print the data to the CSV file. Don't include the index.
+        # For some reason, we have to include the lineterminator='\n' to get the newlines to work.
+        # Without this, newlines default to '\r\r\n', which is particularly bizarre.
+        df.to_csv(csvfile, index=False, lineterminator='\n')
 
         # Report to stdout
-        common.out_file_message(outpath_label)
-
-
-
+        common.out_file_message(outpath_csv)
 
     # Print a log file
     # ---------------------------------------------------------------------------
@@ -196,74 +127,6 @@ def process_data(datainfo, vocab):
     # Report to stdout
     common.out_file_message(outpath_log)
 
-
-
-
-
-
-    # datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
-    # datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
-
-
-    # # First, convert the csv raw files into speck files.
-    # # These are the internal branch points
-    # inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.internal.csv'
-    # common.test_input_file(inpath)
-
-    # internal_branches = pd.read_csv(inpath)
-
-    # # Rearrange the columns
-    # internal_branches = internal_branches[['x', 'y', 'z', 'name']]
-
-    # # Move the z values down, to transform the data down from the origin
-    # internal_branches.loc[:, 'z'] = internal_branches['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-    # #print(internal_branches)
-
-
-
-    # # These are the "leaves"--the current day species.
-    # inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / 'tree' / 'primates.leaves.csv'
-    # common.test_input_file(inpath)
-
-    # leaves = pd.read_csv(inpath)
-
-    # # Rearrange the columns
-    # leaves = leaves[['x', 'y', 'z', 'name']]
-
-    # # Move the z values down, to transform the data down from the origin
-    # leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-
-    # # Add underscores to the taxon names
-    # leaves['name'] = leaves['name'].str.replace(' ', '_')
-
-    # # Move the z values down
-    # leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-    # #print(leaves)
-
-
-    # # Write data to files
-    # outpath = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY / common.MORPH_DIRECTORY
-    # common.test_path(outpath)
-
-    # outfile_speck = 'consensus_tree.speck'
-    # outpath_speck = outpath / outfile_speck
-    
-
-    # with open(outpath_speck, 'wt') as speck:
-
-    #     datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
-
-    #     header = common.header(datainfo, script_name=Path(__file__).name)
-    #     print(header, file=speck)
-
-    #     for _, row in leaves.iterrows():
-    #         print(f"{row['x']:.8f} {row['y']:.8f} {row['z']:.8f} # {row['name']}", file=speck)
-
-
-    # # Report to stdout
-    # common.out_file_message(outpath_speck)
-
-
     return df
 
 
@@ -296,10 +159,10 @@ def make_asset(datainfo):
     asset_info = {}
 
     # Gather info about the files
-    # Get a listing of the speck files in the path, then set the dict
+    # Get a listing of the csv files in the path, then set the dict
     # values based on the filename.
     path = Path.cwd() / datainfo['dir'] / datainfo['catalog_directory'] / common.CONSENSUS_DIRECTORY
-    files = sorted(path.glob('*.speck'))
+    files = sorted(path.glob('*.csv'))
 
 
     for path in files:
@@ -309,15 +172,8 @@ def make_asset(datainfo):
         # Set the nested dict
         asset_info[file] = {}
 
-        asset_info[file]['speck_file'] = path.name
-        #print(asset_info[file]['speck_file'], path, path.name)
-        asset_info[file]['speck_var'] = common.file_variable_generator(asset_info[file]['speck_file'])
-
-        asset_info[file]['label_file'] = path.stem + '.label'
-        asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
-
-        #asset_info[file]['cmap_file'] = path.stem + '.cmap'
-        #asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
+        asset_info[file]['csv_file'] = path.name
+        asset_info[file]['csv_var'] = common.file_variable_generator(asset_info[file]['csv_file'])
 
         asset_info[file]['asset_rel_path'] = common.CONSENSUS_DIRECTORY
 
@@ -326,8 +182,6 @@ def make_asset(datainfo):
 
         asset_info[file]['gui_name'] = common.CONSENSUS_DIRECTORY.replace('_', ' ').title()
         asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['catalog_directory']
-
-
 
     # Open the file to write to
     outfile = common.CONSENSUS_DIRECTORY + '.asset'
@@ -342,22 +196,8 @@ def make_asset(datainfo):
         print('-- Author: Brian Abbott <abbott@amnh.org>')
         print()
 
-        #print('local ' + asset_info[file]['filevar'] + ' = asset.resource("' + asset_info[file]['rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
-
         for file in asset_info:
-            print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
-
-            print('local ' + asset_info[file]['label_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
-
-
-
-        
-        #     print('local label_file = asset.resource("' + asset_info[file]['label_file'] + '")')
-        #     #print('local color_file = asset.resource("' + asset_info[file]['cmap_file'] + '")')
-
-        print('local texture_file = asset.resource("point3A.png")')
-        print()
-
+            print('local ' + asset_info[file]['csv_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['csv_file'] + '")')
 
         print('-- Set some parameters for OpenSpace settings')
         print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
@@ -366,7 +206,6 @@ def make_asset(datainfo):
         print('local text_min_size = ' + common.TEXT_MIN_SIZE)
         print('local text_max_size = ' + common.TEXT_MAX_SIZE)
         print()
-
 
         for file in asset_info:
 
@@ -378,17 +217,10 @@ def make_asset(datainfo):
             print('         Coloring = {')
             print('            FixedColor = { 0.8, 0.8, 0.8 }')
             print('        },')
-            #print('        ColorMap = ' + asset_info[file]['cmap_var'] + ',')
-            #print('        ColorOption = { "lineage_30_code", "taxon_code" },')
-            #print('        ColorRange = { {30001, 30025}, {1, 322} },')
             print('        Opacity = 1.0,')
             print('        SizeSettings = { ScaleFactor = scale_factor, ScaleExponent = scale_exponent },')
-            print('        File = ' + asset_info[file]['speck_var'] + ',')
-            print('        DrawLabels = false,')
-            print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
-            print('        TextColor = { 1.0, 1.0, 1.0 },')
-            print('        TextSize = text_size,')
-            print('        TextMinMaxSize = { text_min_size, text_max_size },')
+            print('        File = ' + asset_info[file]['csv_var'] + ',')
+            print('        Labels = { Name = "taxon", Type = "Text", Color = { 1.0, 1.0, 1.0 }, Size = text_size },')
             print('        --FadeLabelDistances = { 0.0, 0.5 },')
             print('        --FadeLabelWidths = { 0.001, 0.5 },')
             print('        Unit = "Km",')
