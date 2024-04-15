@@ -158,6 +158,14 @@ def main():
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
     if not args.no_human_origins:
+        datainfo['sub_project'] = 'Human Origins'
+        datainfo['version'] = '1'
+
+        datainfo['dir'] = datainfo['sub_project'].replace(' ', '_').lower()
+        datainfo['catalog_directory'] = 'Version_1__2022_05_22'
+        datainfo['sequence_file'] = 'patterson2012_humanPopulations_allSNPs.mMDS.noOutliers.xyz.reProjected.csv'
+
+
         origins(datainfo)
     
 
@@ -179,7 +187,7 @@ def main():
         datainfo['lineage_columns'] = [24, 31]
         primates(datainfo, vocab)
 
-
+        """
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'UMAP_v1'
         datainfo['metadata_file'] = 'primates.taxons.metadata.csv'
@@ -197,7 +205,8 @@ def main():
         new_seq_filename = common.pre_process_takanori_seq(datainfo)
         datainfo['sequence_file'] = new_seq_filename
 
-        # primates(datainfo, vocab)
+        primates(datainfo, vocab)
+        """
 
 
 
@@ -208,6 +217,7 @@ def main():
         datainfo['dir'] = 'birds'
         datainfo['sub_project'] = 'Birds'
 
+        """
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'MDS_v1'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
@@ -216,17 +226,20 @@ def main():
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['synonomous_file'] = None
         datainfo['lineage_columns'] = [27, 34]
-        #birds(datainfo, vocab)
+        birds(datainfo, vocab)
+        """
 
-        # datainfo['version'] = '2'
-        # datainfo['catalog_directory'] = 'UMAP_v1'
-        # datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
-        # datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver1.csv'
-        # datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver1.csv'
-        # datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
-        # datainfo['synonomous_file'] = None
-        # datainfo['lineage_columns'] = [27, 34]
-        # birds(datainfo, vocab)
+        """
+        datainfo['version'] = '2'
+        datainfo['catalog_directory'] = 'UMAP_v1'
+        datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+        datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver1.csv'
+        datainfo['sequence_file'] = 'aves.cleaned.seq_speciesRef.PUMAP.euclidean.primates_scale_ver1.csv'
+        datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+        datainfo['synonomous_file'] = None
+        datainfo['lineage_columns'] = [27, 34]
+        birds(datainfo, vocab)
+        """
 
         datainfo['version'] = '3'
         datainfo['catalog_directory'] = 'UMAP_v2'
@@ -294,13 +307,6 @@ def origins(datainfo):
     :param datainfo: Metadata about the dataset.
     :type datainfo: dict of {str : list}
     """
-
-    datainfo['sub_project'] = 'Human Origins'
-    datainfo['version'] = '1'
-
-    datainfo['dir'] = datainfo['sub_project'].replace(' ', '_').lower()
-    datainfo['catalog_directory'] = 'Version_1__2022_05_22'
-    datainfo['sequence_file'] = 'patterson2012_humanPopulations_allSNPs.mMDS.noOutliers.xyz.reProjected.csv'
 
     common.print_head_status(datainfo['sub_project'])
 
