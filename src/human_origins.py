@@ -650,7 +650,7 @@ def make_asset_all(datainfo):
             print('        Opacity = 1.0,')
             print('        SizeSettings = { ScaleFactor = point_scale_factor, ScaleExponent = point_scale_exponent },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
-            print('        DrawLabels = false,')
+            print('        Labels = { Enabled = false, Size = text_size  },')
             print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
             print('        TextColor = { 1.0, 1.0, 1.0 },')
             print('        TextSize = text_size,')
