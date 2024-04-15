@@ -251,6 +251,15 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         birds(datainfo, vocab)
 
+        datainfo['version'] = '4'
+        datainfo['catalog_directory'] = 'birds_all'
+        datainfo['metadata_file'] = 'birds_all.taxons.metadata.csv'
+        datainfo['consensus_file'] = 'birds_all.species.3DcMDS.csv'
+        datainfo['sequence_file'] = 'birds_all.sequence.3DcMDS.csv'
+        datainfo['seq2taxon_file'] = 'birds_all.seqId2taxon.csv'
+        datainfo['synonomous_file'] = None
+        datainfo['lineage_columns'] = [27, 34]
+        birds(datainfo, vocab)
 
 
 
