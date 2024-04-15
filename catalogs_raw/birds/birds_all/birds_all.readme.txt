@@ -1,0 +1,46 @@
+Data source: 
+   Barcode Of Life Database [ratnasingham2007] COI5-P sequences of birds. 
+
+   sequences were aligned using the mafft software [katoh2002,katoh2013]. 
+   The sequence alignment extremities were then trimmed to avoid the spurious gaps resulting from differences in the size of the sequenced fragment. 
+   The resulting multiple sequence alignment presented no gaps (-), no missing base (N) characters, and 0.007\% ambiguous IUPAC characters. 
+   
+   This multiple sequence alignment was then transformed to a numerical high-dimensional representation using pyKleeBarcode [duchemin2023]. 
+   
+   We first computed indicator vectors at the species scale. We then computed comparable indicator vectors for each individual sequences, but using the species-level representation as references.
+
+   This gave the high-dimensional representations at the species and the sequence levels.
+
+
+3D projections:
+   At the species level, 3D cMDS
+   At the sequence level, Gower interpolation on the species 3D cMDS
+
+
+Files:
+   high-dimensional csv:
+      - birds_all.species.indicVectors.csv : species-level 
+      - birds_all.sequence.indicVectors.csv : sequence-level
+
+   low-dimensional csv:
+      - birds_all.species.3DcMDS.csv
+      - birds_all.sequence.3DcMDS.csv
+
+
+   metadata csv:
+      - birds_all.seqId2taxon.csv : csv with two columns associating sequence ID to species or subspecies
+      - birds_all.taxons.metadata.csv : columns, for each species or subspecies in the primates dataset:
+                           taxon : name as it appears in the species-level files
+                           species : binomial scientific species name
+                           hybrid : is it an hybrid ? True/False
+                           subspecies : is it a subspecies ? True/False
+                           lineage : comma separated lineage from root to genus (taxonomic entity above species level)
+      - birds_all.species_family_annotation.csv : species genus   family  order (grouping is family)
+
+
+References:
+   - ratnasingham2007 : Ratnasingham, S., & Hebert, P. D. (2007). bold: The Barcode of Life Data System (http://www.barcodinglife.org). Molecular ecology notes, 7(3), 355–364. https://doi.org/10.1111/j.1471-8286.2007.01678.x
+   - katoh2002 : Katoh, K., Misawa, K., Kuma, K., & Miyata, T. (2002). MAFFT: a novel method for rapid multiple sequence alignment based on fast Fourier transform. Nucleic acids research, 30(14), 3059–3066. https://doi.org/10.1093/nar/gkf436
+   - katoh2013 : Katoh, K., & Standley, D. M. (2013). MAFFT multiple sequence alignment software version 7: improvements in performance and usability. Molecular biology and evolution, 30(4), 772–780. https://doi.org/10.1093/molbev/mst010
+   - duchemin2023 : Duchemin, W., & Thaler, D. S. (2023). PyKleeBarcode: Enabling representation of the whole animal kingdom in information space. PloS one, 18(6), e0286314. https://doi.org/10.1371/journal.pone.0286314
+

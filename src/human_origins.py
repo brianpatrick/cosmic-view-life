@@ -3,7 +3,7 @@
 # Author: Brian Abbott <abbott@amnh.org>
 # Created: September 2022
 """
-Process Homo Sapien DNA data with origin information, assign integer codes to use in OpenSpace, and generate OpenSpace data and asset files.
+Process *Homo sapiens* DNA data with origin information, assign integer codes to use in OpenSpace, and generate OpenSpace data and asset files.
 """
 
 import re
@@ -22,7 +22,7 @@ def seq_populations(datainfo):
     :type datainfo: dict of {str : list}
 
     
-    The Homo Sapien DNA data are accompanied by metadata regarding their origin. These include continent, and also region information. We process these and generate the resulting data files for OpenSpace.
+    The *Homo sapiens* DNA data are accompanied by metadata regarding their origin. These include continent, and also region information. We process these and generate the resulting data files for OpenSpace.
 
 
     Continent and Region Codes
@@ -89,7 +89,7 @@ def seq_populations(datainfo):
 
 
     datainfo['data_group_title'] = datainfo['sub_project'] + ': Human DNA origins'
-    datainfo['data_group_desc'] = 'DNA data for Homo Sapiens plotted by origin information.'
+    datainfo['data_group_desc'] = 'DNA data for Homo sapiens plotted by origin information.'
 
 
     # Read the sequence file and process into a dataframe
@@ -650,7 +650,7 @@ def make_asset_all(datainfo):
             print('        Opacity = 1.0,')
             print('        SizeSettings = { ScaleFactor = point_scale_factor, ScaleExponent = point_scale_exponent },')
             print('        File = ' + asset_info[file]['speck_var'] + ',')
-            print('        DrawLabels = false,')
+            print('        Labels = { Enabled = false, Size = text_size  },')
             print('        LabelFile = ' + asset_info[file]['label_var'] + ',')
             print('        TextColor = { 1.0, 1.0, 1.0 },')
             print('        TextSize = text_size,')

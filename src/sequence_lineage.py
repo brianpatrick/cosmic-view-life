@@ -40,13 +40,13 @@ def process_data(datainfo, consensus, sequence):
     # For this, we need the coordinates of the consensus species for each line in the main df.
     # Merge the seq and consensus dataframes. We match on taxon, so many rows with the same taxon will 
     # have different x,y,z positions, but will have the same consensus x,y,z.
-    lineage_labels = pd.merge(sequence, consensus, on='taxon', how='left').drop('dummy', axis=1)
+    lineage_labels = pd.merge(sequence, consensus, on='taxon', how='left')
 
     # Rename some of the columns
     lineage_labels = lineage_labels.rename(columns = {'x_x':'x', 'y_x':'y', 'z_x':'z', 'x_y':'x_consensus', 'y_y':'y_consensus', 'z_y':'z_consensus', 'speck_name_y':'speck_name'})
 
     # Remove the speck_name columns
-    lineage_labels.drop(['speck_name_x'], axis='columns', inplace=True)
+    #lineage_labels.drop(['speck_name_x'], axis='columns', inplace=True)
 
     # Make a list of the df column names
     colnames = list(lineage_labels)
