@@ -113,6 +113,8 @@ def process_data(datainfo):
     # entries. So, when we add the [i] to the [col_num], the 500th unique item in col 22 becomes 22500.
     col_num = 100
 
+    ## NOTE: Making this dataframe is the slowest part of this function.
+    
     # Step through each column (key) in the metadata dataframe.
     for col in metadata:
         
