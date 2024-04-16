@@ -1,14 +1,16 @@
 '''
 Cosmic View of Life on Earth
 
-Tree processing code. Trees are comprised of 3 elements:
+Tree processing code. Trees are comprised of 3 elements: 
 1. Leaves: The current day species/taxon
-2. Clades: The internal branch points, which represent the hypothetical common ancestor of a group of species.
+2. Clades: The internal branch points, which represent the hypothetical common ancestor of
+   a group of species.
 3. Branches: The lines that connect the leaves and clades.
-
-Assets are created for each of these elements. Some assets have multiple files, some are CSV and some are speck.
+Assets are created for each of these elements. Some assets have multiple files, some are
+CSV and some are speck.
 
 Author: Brian Abbott <abbott@amnh.org>, Hollister Herhold <hherhold@amnh.org>
+
 Created: June 2023
 '''
 
@@ -401,8 +403,6 @@ class tree:
         asset_info[file]['gui_name'] = 'Branches'
         asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
 
-
-
         # Open the file to write to
         outfile = datainfo['dir'] + '_branches.asset'
         outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
@@ -464,19 +464,6 @@ class tree:
 
             for file in asset_info:
                 print('asset.export(' + asset_info[file]['os_scenegraph_var'] + ')')
-
-
-            
-
-            # asset.meta = {
-            # Name = "Constellations_2023",
-            # Version = "1.3",
-            # Description = "Digital Universe asset for constellation lines",
-            # Author = "Brian Abbott (AMNH)",
-            # URL = "https://www.amnh.org/research/hayden-planetarium/digital-universe",
-            # License = "AMNH Digital Universe"
-            # }
-
 
             # Switch the stdout back to normal stdout (screen)
             sys.stdout = original_stdout
