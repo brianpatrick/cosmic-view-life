@@ -210,11 +210,7 @@ def make_asset(datainfo):
         print('-- Set file paths')
         for file in asset_info:
             print('local ' + asset_info[file]['speck_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['speck_file'] + '")')
-
         print()
-        print('local texture_file = asset.resource("point3A.png")')
-        print()
-
 
         print('-- Set some parameters for OpenSpace settings')
         print('local scale_factor = '   + common.POINT_SCALE_FACTOR)

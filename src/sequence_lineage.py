@@ -395,9 +395,6 @@ def make_asset(datainfo):
             print('local ' + asset_info[file]['label_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['label_file'] + '")')
 
             print('local ' + asset_info[file]['cmap_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file'] + '")')
-
-        print('local texture_file = asset.resource("point3A.png")')
-        print()
         
 
 

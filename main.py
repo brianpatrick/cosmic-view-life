@@ -138,12 +138,6 @@ def main():
     datainfo['reference'] = 'Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Barcode Of Life Database'
     datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Jackie Faherty (American Museum of Natural History, New York), David Thaler (University of Basel, Switzerland & Rockefeller University, New York)'
 
-
-    # Copy the viz assets file to each subproject folder.Define the path to the source file here.
-    # sourcePath = Path.cwd() / 'viz_assets' / 'point3A.png'
-    
-
-
     # Make the color table
     # (This is commented out because it's run once, but it's here for completeness)
     # -----------------------------------------------------------------------------------
