@@ -362,11 +362,11 @@ def primates(datainfo, vocab):
     # branches, clades), whereas optimally this would all be taken care of in the tree
     # class.
     mytree.process_leaves(datainfo)
-    mytree.make_asset_leaves(datainfo)
+    mytree.make_asset_for_taxa(datainfo, 'leaves')
+    mytree.process_internal(datainfo)
+    mytree.make_asset_for_taxa(datainfo, 'internal')
     mytree.process_branches(datainfo)
     mytree.make_asset_branches(datainfo)
-    mytree.process_internal(datainfo)
-    mytree.make_asset_internal(datainfo)
 
     # The interpolated points are kinda-sorta associated with the tree, but not really.
     # They are a separate set of points that are interpolated from the leaf points to the

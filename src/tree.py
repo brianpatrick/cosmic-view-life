@@ -487,7 +487,7 @@ class tree:
             print()
 
 
-    def make_asset_leaves(self, datainfo):
+    def make_asset_for_taxa(self, datainfo, taxa):
         '''
         Generate the asset file for the tree.
         
@@ -495,15 +495,13 @@ class tree:
             dict(datainfo)
 
         Output:
-            datainfo['dir']_branches_leaves.asset
+            datainfo['dir']_'taxa'.asset
         '''
 
         # We shift the stdout to our filehandle so that we don't have to keep putting
         # the filehandle in every print statement.
         # Save the original stdout so we can switch back later
         original_stdout = sys.stdout
-
-
 
         # Define the main dict that will hold all the info needed per file
         # This is a nested dict with the format:
@@ -516,8 +514,6 @@ class tree:
         path = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
         #files = sorted(path.glob('*.speck'))
 
-
-
         #for path in files:
             
         file = path.name
@@ -525,7 +521,7 @@ class tree:
         # Set the nested dict
         asset_info[file] = {}
 
-        asset_info[file]['csv_file'] = datainfo['dir'] + '_leaves.csv'
+        asset_info[file]['csv_file'] = datainfo['dir'] + '_' + taxa + '.csv'
         asset_info[file]['csv_var'] = common.file_variable_generator(asset_info[file]['csv_file'])
 
         #asset_info[file]['label_file'] = path.stem + '.label'
@@ -539,16 +535,17 @@ class tree:
 
         asset_info[file]['asset_rel_path'] = '.'
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_leaves'
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_leaves'
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_' + taxa
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_' + taxa
 
-        asset_info[file]['gui_name'] = 'Leaves'
+        # Convert taxa to title case
+        asset_info[file]['gui_name'] = taxa.title()
         asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
 
 
 
         # Open the file to write to
-        outfile = datainfo['dir'] + '_leaves.asset'
+        outfile = datainfo['dir'] + '_' + taxa + '.asset'
         outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
         with open(outpath, 'wt') as asset:
 
@@ -556,7 +553,7 @@ class tree:
             sys.stdout = asset
 
             print('-- ' + datainfo['project'] + ' / ' + datainfo['data_group_title'])
-            print("-- This file is auto-generated in the " + self.make_asset_branches.__name__ + "() function inside " + Path(__file__).name)
+            print("-- This file is auto-generated in the " + self.make_asset_for_taxa.__name__ + "() function inside " + Path(__file__).name)
             print('-- Author: Brian Abbott <abbott@amnh.org>')
             print()
 
@@ -626,18 +623,6 @@ class tree:
                 print('asset.export(' + asset_info[file]['os_scenegraph_var'] + ')')
 
 
-            
-
-            # asset.meta = {
-            # Name = "Constellations_2023",
-            # Version = "1.3",
-            # Description = "Digital Universe asset for constellation lines",
-            # Author = "Brian Abbott (AMNH)",
-            # URL = "https://www.amnh.org/research/hayden-planetarium/digital-universe",
-            # License = "AMNH Digital Universe"
-            # }
-
-
             # Switch the stdout back to normal stdout (screen)
             sys.stdout = original_stdout
 
@@ -645,143 +630,6 @@ class tree:
             # Report to stdout
             common.out_file_message(outpath)
             print()
-
-
-    def make_asset_internal(self, datainfo):
-        '''
-        Generate the asset file for the tree.
-        
-        Input: 
-            dict(datainfo)
-
-        Output:
-            datainfo['dir']_internal.asset
-        '''
-
-        # We shift the stdout to our filehandle so that we don't have to keep putting
-        # the filehandle in every print statement.
-        # Save the original stdout so we can switch back later
-        original_stdout = sys.stdout
-
-        # Define the main dict that will hold all the info needed per file
-        # This is a nested dict with the format:
-        #      { path: { root:  , filevar:  , os_variable:  , os_identifier:  , name:  } }
-        asset_info = {}
-
-        # Gather info about the files
-        # Get a listing of the speck files in the path, then set the dict
-        # values based on the filename.
-        path = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
-
-        file = path.name
-
-        # Set the nested dict
-        asset_info[file] = {}
-
-        asset_info[file]['csv_file'] = datainfo['dir'] + '_internal.csv'
-        asset_info[file]['csv_var'] = common.file_variable_generator(asset_info[file]['csv_file'])
-
-        #asset_info[file]['label_file'] = path.stem + '.label'
-        #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
-
-        #asset_info[file]['cmap_file'] = path.stem + '.cmap'
-        #asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
-
-        #asset_info[file]['dat_file'] = path.stem + '.dat'
-        #asset_info[file]['dat_var'] = common.file_variable_generator(asset_info[file]['dat_file'])
-
-        asset_info[file]['asset_rel_path'] = '.'
-
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_internal'
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_internal'
-
-        asset_info[file]['gui_name'] = 'Clades'
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
-
-
-
-        # Open the file to write to
-        outfile = datainfo['dir'] + '_internal.asset'
-        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
-        with open(outpath, 'wt') as asset:
-
-            # Switch stdout to the file
-            sys.stdout = asset
-
-            print('-- ' + datainfo['project'] + ' / ' + datainfo['data_group_title'])
-            print("-- This file is auto-generated in the " + self.make_asset_internal.__name__ + "() function inside " + Path(__file__).name)
-            print('-- Author: Brian Abbott <abbott@amnh.org>')
-            print()
-
-            for file in asset_info:
-                print('local ' + asset_info[file]['csv_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['csv_file'] + '")')
-
-            print('-- Set some parameters for OpenSpace settings')
-            print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
-            print('local scale_exponent = ' + common.POINT_SCALE_EXPONENT)
-            print('local text_size = ' + common.TEXT_SIZE)
-            print('local text_min_size = ' + common.TEXT_MIN_SIZE)
-            print('local text_max_size = ' + common.TEXT_MAX_SIZE)
-            print()
-
-            for file in asset_info:
-
-                print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
-                print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
-                print('    Renderable = {')
-                print('        UseCaching = false,')
-                print('        Type = "RenderablePointCloud",')
-                print('         Coloring = {')
-                print('            FixedColor = { 0.8, 0.8, 0.8 }')
-                print('        },')
-                print('        Opacity = 1.0,')
-                print('        SizeSettings = { ScaleFactor = scale_factor, ScaleExponent = scale_exponent },')
-                print('        File = ' + asset_info[file]['csv_var'] + ',')
-                print('        DataMapping = { Name="name"},')
-                print('        Labels = { Enabled = false, Size = text_size  },')
-                print('        --FadeLabelDistances = { 0.0, 0.5 },')
-                print('        --FadeLabelWidths = { 0.001, 0.5 },')
-                print('        Unit = "Km",')
-                print('        BillboardMinMaxSize = { 0.0, 25.0 },')
-                print('        EnablePixelSizeControl = true,')
-                print('        EnableLabelFading = false,')
-                print('        Enabled = false')
-                print('    },')
-                print('    GUI = {')
-                print('        Name = "' + asset_info[file]['gui_name'] + '",')
-                print('        Path = "' + asset_info[file]['gui_path'] + '",')
-                print('    }')
-                print('}')
-                print()
-
-
-
-            print('asset.onInitialize(function()')
-            for file in asset_info:
-                print('    openspace.addSceneGraphNode(' + asset_info[file]['os_scenegraph_var'] + ')')
-
-            print('end)')
-            print()
-
-
-            print('asset.onDeinitialize(function()')
-            for file in asset_info:
-                print('    openspace.removeSceneGraphNode(' + asset_info[file]['os_scenegraph_var'] + ')')
-            
-            print('end)')
-            print()
-
-
-            for file in asset_info:
-                print('asset.export(' + asset_info[file]['os_scenegraph_var'] + ')')
-
-            # Switch the stdout back to normal stdout (screen)
-            sys.stdout = original_stdout
-
-            # Report to stdout
-            common.out_file_message(outpath)
-            print()
-
 
     def make_asset_leaves_interpolated(self, datainfo):
         '''
