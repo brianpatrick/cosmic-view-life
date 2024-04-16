@@ -64,13 +64,15 @@ TEXT_MAX_SIZE = '30'
 
 
 
-# This is the factor by which I multiply the x,y,z positions from the raw data files before writing them to the speck files.
-# Basically, the positions from Wandrille's data are unit vectors (eigenvectors, I believe?) and they need to be more on the
-# order of 0 to 5 million (meters) to be visible in OpenSpace. This distance is entirely dependent on the camera position and
-# the scale of the "universe". As of this writing (2022-09-14), the camera position is 100000m from the Root, and the scale
-# of the universe is 1000000m. So, I multiply the x,y,z positions by 5000 to get them to be visible in OpenSpace, as the 
-# units in the speck files are kilometers. This results in most points "surrounding" the viewer when the camera is at its
-# initial position.
+# This is the factor by which I multiply the x,y,z positions from the raw data files
+# before writing them to the speck files. Basically, the positions from Wandrille's data
+# are unit vectors (eigenvectors, I believe?) and they need to be more on the order of 0
+# to 5 million (meters) to be visible in OpenSpace. This distance is entirely dependent on
+# the camera position and the scale of the "universe". As of this writing (2022-09-14),
+# the camera position is 100000m from the Root, and the scale of the universe is 1000000m.
+# So, I multiply the x,y,z positions by 5000 to get them to be visible in OpenSpace, as
+# the units in the speck files are kilometers. This results in most points "surrounding"
+# the viewer when the camera is at its initial position.
 POSITION_SCALE_FACTOR = 5000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
 
@@ -84,7 +86,12 @@ GRAY_COLOR = 0.4
 
 
 # Color tables
-CHOSEN_COLOR_TABLE = ('Lemon Yellow', 'Sea Green', 'Periwinkle', 'Wisteria', 'Carnation Pink', 'Sepia', 'Blue-Gray', 'Orange', 'Fern', 'Blue-Green', 'Violet-Blue', 'Orchid', 'Mahogany', 'Shadow', 'Maize', 'Asparagus', 'Sky Blue', 'Purple Heart', 'Magenta', 'Burnt Sienna', 'Silver', 'Scarlet', 'Yellow-Green', 'Aquamarine', 'Indigo', 'Fuchsia', 'Salmon', 'Peach')
+CHOSEN_COLOR_TABLE = ('Lemon Yellow', 'Sea Green', 'Periwinkle', 'Wisteria', 
+                      'Carnation Pink', 'Sepia', 'Blue-Gray', 'Orange', 'Fern', 
+                      'Blue-Green', 'Violet-Blue', 'Orchid', 'Mahogany', 'Shadow', 
+                      'Maize', 'Asparagus', 'Sky Blue', 'Purple Heart', 'Magenta', 
+                      'Burnt Sienna', 'Silver', 'Scarlet', 'Yellow-Green', 'Aquamarine', 
+                      'Indigo', 'Fuchsia', 'Salmon', 'Peach')
 
 
 # Output formatting
