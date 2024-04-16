@@ -613,10 +613,6 @@ def make_asset_all(datainfo):
         
 
 
-        print('local texture_file = asset.resource("point3A.png")')
-        print()
-
-
         print('-- Set some parameters for OpenSpace settings')
         print('local point_scale_factor = ' + common.HUMAN_POINT_SCALE_FACTOR)
         print('local point_scale_exponent = ' + common.HUMAN_POINT_SCALE_EXPONENT)
@@ -821,8 +817,6 @@ def make_asset_regions(datainfo):
 
 
         print('local ' + asset_info[file]['cmap_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file'] + '")')
-        print()
-        print('local texture_file = asset.resource("point3A.png")')
         print()
 
 

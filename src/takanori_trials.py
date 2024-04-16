@@ -232,13 +232,6 @@ def make_asset(datainfo):
 
         print('local ' + asset_info[file]['cmap_var'] + ' = asset.resource("' + asset_info[file]['cmap_file'] + '")')
 
-
-        print('local texture_file = asset.resource("point3A.png")')
-        print()
-
-
-
-
         print('-- Set some parameters for OpenSpace settings')
         print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
         print('local scale_exponent = ' + common.POINT_SCALE_EXPONENT)
