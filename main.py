@@ -179,6 +179,9 @@ def main():
         datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
         datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
         datainfo['lineage_columns'] = [24, 31]
+        datainfo['tree_leaves_file'] = 'primates.leaves.csv'
+        datainfo['tree_branches_file'] = 'primates.branches.csv'
+        datainfo['tree_internal_file'] = 'primates.internal.csv'
         primates(datainfo, vocab)
 
         """
@@ -338,7 +341,8 @@ def primates(datainfo, vocab):
 
     meta_data = metadata.process_data(datainfo)
 
-    # HH - The consensus points are a single point for each species. This is most likely the centroid or something like that; I need to look into this more.
+    # HH - The consensus points are a single point for each species. This is most likely
+    # the centroid or something like that; I need to look into this more.
     consensus = consensus_species.process_data(datainfo, vocab)
     consensus_species.make_asset(datainfo)
 
@@ -352,12 +356,22 @@ def primates(datainfo, vocab):
     # Make a new tree object
     mytree = tree.tree()
 
-    # Process the tree of primates
-    # NOTE: need to run the ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
+    # Process the tree of primates NOTE: need to run the
+    # ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
+    # This is a bit hacky in that each part of the tree is handled manually here (leaves,
+    # branches, clades), whereas optimally this would all be taken care of in the tree
+    # class.
     mytree.process_leaves(datainfo)
     mytree.make_asset_leaves(datainfo)
     mytree.process_branches(datainfo)
     mytree.make_asset_branches(datainfo)
+    mytree.process_internal(datainfo)
+    mytree.make_asset_internal(datainfo)
+
+    # The interpolated points are kinda-sorta associated with the tree, but not really.
+    # They are a separate set of points that are interpolated from the leaf points to the
+    # data-reduction points. This is to show the relationship between the established
+    # evolutionary relationships and the data-reduced points.
     mytree.process_leaves_interpolated(datainfo)
     mytree.make_asset_leaves_interpolated(datainfo)
 
