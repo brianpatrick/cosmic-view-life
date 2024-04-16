@@ -179,6 +179,9 @@ def main():
         datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
         datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
         datainfo['lineage_columns'] = [24, 31]
+        datainfo['tree_leaves_file'] = 'primates.leaves.csv'
+        datainfo['tree_branches_file'] = 'primates.branches.csv'
+        datainfo['tree_internal_file'] = 'primates.internal.csv'
         primates(datainfo, vocab)
 
         """

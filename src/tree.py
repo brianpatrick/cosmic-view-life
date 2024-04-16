@@ -1,10 +1,14 @@
 '''
 Cosmic View of Life on Earth
 
-Process the tree of primates which makes the points and the lines that
-represent the evolution.
+Tree processing code. Trees are comprised of 3 elements:
+1. Leaves: The current day species/taxon
+2. Clades: The internal branch points, which represent the hypothetical common ancestor of a group of species.
+3. Branches: The lines that connect the leaves and clades.
 
-Author: Brian Abbott <abbott@amnh.org>
+Assets are created for each of these elements. Some assets have multiple files, some are CSV and some are speck.
+
+Author: Brian Abbott <abbott@amnh.org>, Hollister Herhold <hherhold@amnh.org>
 Created: June 2023
 '''
 
@@ -16,6 +20,15 @@ from pathlib import Path
 from src import common
 
 class tree:
+    '''
+    This class processes tree data for the Cosmic View of Life on Earth project. Trees are 
+    comprised of 3 elements:
+    1. Leaves: The current day species/taxon
+    2. Clades: The internal branch points, which represent the hypothetical common ancestor of a group of species.
+    3. Branches: The lines that connect the leaves and clades.
+
+    These three elements are processed separately, with .csv files for the clades and leaves, and a .speck file for the branches.
+    '''
 
     def __init__(self):
 
@@ -24,30 +37,25 @@ class tree:
 
     def process_leaves(self, datainfo):
         '''
-        Process the primate tree of life points. These consist of "leaves" which are the 
-        present day species/taxon, and the internal branch points, which are the nexus
-        of common ancestors, all the way down to the one common ancestor of all primates.
+        Process the tree leaves csv file. This file contains the current day species/taxon. 
 
         Input:
             dict(datainfo)
 
         Output:
-            .speck
+            .csv
         '''
 
-        common.print_subhead_status('Processing Primate tree data')
+        common.print_subhead_status('Processing tree data - leaves')
 
-
-
-        
         # Generate the Consensus points for the tree. These will be points that sit on the tips
         # of the tree branches -- the leaves.
         # ------------------------------------------------------------------------------------------
         datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
-        datainfo['data_group_desc'] = 'Data points for the primate consensus tree.'
+        datainfo['data_group_desc'] = 'Data points for the tree - leaves.'
 
-        # These are the "leaves"--the current day species.
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.leaves.csv'
+        # These are the "leaves"--the current day (extant) species.
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['tree_leaves_file']
         common.test_input_file(inpath)
 
         leaves = pd.read_csv(inpath)
@@ -67,7 +75,7 @@ class tree:
         outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
         common.test_path(outpath)
 
-        outfile_csv = 'primates_leaves.csv'
+        outfile_csv = datainfo['dir'] + '_leaves.csv'
         outpath_csv = outpath / outfile_csv
         
 
@@ -83,11 +91,71 @@ class tree:
         # Report to stdout
         common.out_file_message(outpath_csv)
 
+    def process_clades(self, datainfo):
+        '''
+        Process the tree clades csv file. This file contains the internal branch points of the tree.
+        Not all of these are to be displayed - many are simply internal branch points and do not have
+        named clades. These are named "internalXX" where XX is a number. (It may have more than two digits,
+        or only have one. It depends on the number of internal branch points.)
+
+        The only points that are displayed are those that have a name. These are the clades.
+
+        Input:
+            dict(datainfo)
+
+        Output:
+            .speck
+        '''
+
+        common.print_subhead_status('Processing tree data - clades')
+
+        # Generate the Consensus points for the tree. These will be points that sit on the tips
+        # of the tree branches -- the leaves.
+        # ------------------------------------------------------------------------------------------
+        datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
+        datainfo['data_group_desc'] = 'Data points for the tree - leaves.'
+
+        # These are the "leaves"--the current day (extant) species.
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['tree_internal_file']
+        common.test_input_file(inpath)
+
+        leaves = pd.read_csv(inpath)
+
+        # Rearrange the columns
+        leaves = leaves[['x', 'y', 'z', 'name']]
+
+        # Add underscores to the taxon names
+        leaves['name'] = leaves['name'].str.replace(' ', '_')
+
+        # Move the z values down
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
+        #print(leaves)
+
+
+        # Write data to files
+        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+        common.test_path(outpath)
+
+        outfile_csv = datainfo['dir'] + '_internal.csv'
+        outpath_csv = outpath / outfile_csv
+        
+
+        with open(outpath_csv, 'w') as csvfile:
+
+            datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+
+            header = common.header(datainfo, script_name=Path(__file__).name)
+            print(header, file=csvfile)
+
+            leaves.to_csv(csvfile, index=False, lineterminator='\n')
+            
+        # Report to stdout
+        common.out_file_message(outpath_csv)
         
 
     def process_leaves_interpolated(self, datainfo):
         '''
-        Process the primate tree of life points that can be interpolated. These are
+        Process the tree points that can be interpolated. These are
         A. the consensus points that are placed in XYZ space as a result of
             indicator vector computation and data reduction
         B. The leaves of the tree, along with the tree, which indicate 
@@ -107,16 +175,16 @@ class tree:
             second set is the consensus points at t=1.
         '''
 
-        common.print_subhead_status('Processing Primate tree data')
+        common.print_subhead_status('Processing tree data - interpolated')
 
         # Generate the Consensus points for the tree. These will be points that sit on the tips
         # of the tree branches -- the leaves.
         # ------------------------------------------------------------------------------------------
         datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
-        datainfo['data_group_desc'] = 'Interpolatable points for the primate consensus tree.'
+        datainfo['data_group_desc'] = 'Interpolatable points for the tree.'
 
         # These are the "leaves"--the current day species.
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.leaves.csv'
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['tree_leaves_file']
         common.test_input_file(inpath)
 
         # The data is in the format of x, y, z, name.
@@ -165,7 +233,7 @@ class tree:
         outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
         common.test_path(outpath)
 
-        outfile_csv = 'primates_interpolated.csv'
+        outfile_csv = datainfo['dir'] + '_interpolated.csv'
         outpath_csv = outpath / outfile_csv
         
         with open(outpath_csv, 'wt') as csvfile:
@@ -202,21 +270,21 @@ class tree:
 
     def process_branches(self, datainfo):
         '''
-        Create the lines (branches) for the primate tree of life.
+        Create the lines (branches) for a tree.
         This creates a file of "mesh" statements, used to draw the lines, and
         a dat file that OpenSpace needs to attach each line with an identifier.
 
         Input: 
             dict(datainfo)
-            primates.branches.csv: file with the pairs of points that make up each line
+            datainfo['dir'].branches.csv: file with the pairs of points that make up each line
 
         Output:
-            primate_branches.speck: Series of "mesh" commands that will draw a line in OpenSpace.
-            primate_branches.dat: a "key" file that is used by OpenSpace under the hood.
+            datainfo['dir']_branches.speck: Series of "mesh" commands that will draw a line in OpenSpace.
+            datainfo['dir']_branches.dat: a "key" file that is used by OpenSpace under the hood.
         '''
 
 
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / 'primates.branches.csv'
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['tree_branches_file']
         common.test_input_file(inpath)
 
         branch_lines = pd.read_csv(inpath)
@@ -239,9 +307,9 @@ class tree:
         outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
         common.test_path(outpath)
 
-        outfile_speck = 'primates_branches.speck'
+        outfile_speck = datainfo['dir'] + '_branches.speck'
         outpath_speck = outpath / outfile_speck
-        outfile_dat = 'primates_branches.dat'
+        outfile_dat = datainfo['dir'] + '_branches.dat'
         outpath_dat = outpath / outfile_dat
 
         with open(outpath_speck, 'wt') as speck, open(outpath_dat, 'wt') as dat:
@@ -276,13 +344,13 @@ class tree:
 
     def make_asset_branches(self, datainfo):
         '''
-        Generate the asset file for the primate tree of life.
+        Generate the asset file for the tree.
         
         Input: 
             dict(datainfo)
 
         Output:
-            primate_branches.asset
+            datainfo['dir']_branches.asset
         '''
 
         # We shift the stdout to our filehandle so that we don't have to keep putting
@@ -308,12 +376,11 @@ class tree:
         #for path in files:
             
         file = path.name
-        #file = 'primates_branches.speck'
 
         # Set the nested dict
         asset_info[file] = {}
 
-        asset_info[file]['speck_file'] = 'primates_branches.speck'
+        asset_info[file]['speck_file'] = datainfo['dir'] + '_branches.speck'
         
         #print(asset_info[file]['speck_file'], path, path.name)
         asset_info[file]['speck_var'] = common.file_variable_generator(asset_info[file]['speck_file'])
@@ -324,7 +391,7 @@ class tree:
         #asset_info[file]['cmap_file'] = path.stem + '.cmap'
         #asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
-        asset_info[file]['dat_file'] = 'primates_branches.dat'
+        asset_info[file]['dat_file'] = datainfo['dir'] + '_branches.dat'
         asset_info[file]['dat_var'] = common.file_variable_generator(asset_info[file]['dat_file'])
 
         asset_info[file]['asset_rel_path'] = '.'
@@ -423,13 +490,13 @@ class tree:
 
     def make_asset_leaves(self, datainfo):
         '''
-        Generate the asset file for the primate tree of life data.
+        Generate the asset file for the tree.
         
         Input: 
             dict(datainfo)
 
         Output:
-            primate_branches_leaves.asset
+            datainfo['dir']_branches_leaves.asset
         '''
 
         # We shift the stdout to our filehandle so that we don't have to keep putting
@@ -459,7 +526,7 @@ class tree:
         # Set the nested dict
         asset_info[file] = {}
 
-        asset_info[file]['csv_file'] = 'primates_leaves.csv'
+        asset_info[file]['csv_file'] = datainfo['dir'] + '_leaves.csv'
         asset_info[file]['csv_var'] = common.file_variable_generator(asset_info[file]['csv_file'])
 
         #asset_info[file]['label_file'] = path.stem + '.label'
@@ -584,13 +651,13 @@ class tree:
 
     def make_asset_leaves_interpolated(self, datainfo):
         '''
-        Generate the asset file for the primate tree of life data.
+        Generate the asset file for the tree.
         
         Input: 
             dict(datainfo)
 
         Output:
-            primates_interpolated.asset
+            datainfo['dir']_interpolated.asset
         '''
 
         # We shift the stdout to our filehandle so that we don't have to keep putting
@@ -609,7 +676,7 @@ class tree:
         # Set the nested dict
         asset_info[file] = {}
 
-        asset_info[file]['csv_file'] = 'primates_interpolated.csv'
+        asset_info[file]['csv_file'] = datainfo['dir'] + '_interpolated.csv'
         asset_info[file]['csv_var'] = common.file_variable_generator(asset_info[file]['csv_file'])
 
         #asset_info[file]['label_file'] = path.stem + '.label'
