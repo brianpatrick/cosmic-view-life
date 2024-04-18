@@ -144,6 +144,7 @@ def main():
     parser.add_argument('--no-primates', action='store_true', help='Skip primates data')
     parser.add_argument('--no-birds', action='store_true', help='Skip birds data')
     parser.add_argument('--no-human-origins', action='store_true', help='Skip human origins data')
+    parser.add_argument('--no-insects', action='store_true', help='Skip insect data')
 
     # Check to see if the user has passed in any command line parameters.
     args = parser.parse_args()
@@ -171,7 +172,7 @@ def main():
     # -----------------------------------------------------------------------------------
     vocab = vocabulary(datainfo)
 
-
+    """
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
     if not args.no_human_origins:
@@ -286,11 +287,24 @@ def main():
         datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xy.internal.csv'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 32]
-
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
               do_tree = True)
+    """
+
+    # Insects
+    # ------------------------------------------------------------------------
+    
+    if not args.no_insects:
+        datainfo['dir'] = 'insects'
+        datainfo['sub_project'] = 'Insects'
+
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'Weigmann_et_al_2011'
+        datainfo['newick_file'] = 'Wiegmann_et_al.nwk'
+        insects(datainfo, vocab)
+
 
 
 def make_color_tables(datainfo):
@@ -517,6 +531,23 @@ def birds(datainfo, vocab,
     print()
 
 
+def insects(datainfo, vocab):
+    """
+    Process the insect data.
+
+    Run three functions for metadata processing, the consensus species,
+    and the sequence data. All the speck, label, color map, and asset files are generated.
+
+    :param datainfo: Metadata about the dataset.
+    :type datainfo: dict of {str : list}
+    :param vocab: A taxon to common name DataFrame.
+    :type vocab: DataFrame
+    """
+
+    common.print_head_status(datainfo['sub_project'])
+
+    mytree = tree.tree()
+    mytree.process_newick(datainfo)
 
 if __name__ == "__main__":
     main()

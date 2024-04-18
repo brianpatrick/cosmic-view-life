@@ -18,6 +18,7 @@ import sys
 #import re
 import pandas as pd
 from pathlib import Path
+from Bio import Phylo
 
 from src import common
 
@@ -758,4 +759,28 @@ class tree:
             # Report to stdout
             common.out_file_message(outpath)
             print()
+
+    def process_newick(self, datainfo):
+        '''
+        Process the newick file. This file contains the tree structure in newick format.
+
+        Input:
+            dict(datainfo)
+
+        Output:
+            .newick
+        '''
+
+        common.print_subhead_status('Processing tree data - newick')
+
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['newick_file']
+        common.test_input_file(inpath)
+
+        tree = Phylo.read(inpath, 'newick')
+
+        # Perform a depth-first traversal of the tree and print the name of each node
+        # as we traverse the tree.
+        for clade in tree.find_clades(order='postorder'):
+            print(clade.name)
+    
 
