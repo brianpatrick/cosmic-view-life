@@ -202,6 +202,7 @@ def main():
         datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
         datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
         datainfo['lineage_columns'] = [24, 31]
+        datainfo['tree_dir'] = 'tree'
         datainfo['tree_leaves_file'] = 'primates.leaves.csv'
         datainfo['tree_branches_file'] = 'primates.branches.csv'
         datainfo['tree_internal_file'] = 'primates.internal.csv'
@@ -275,9 +276,21 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         birds(datainfo, vocab)
 
+        # This dataset only has tree data.
+        datainfo['version'] = '5'
+        datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xy_3Dprojection'
+        datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+        datainfo['tree_dir'] = '202308_bird_dataset_mMDS.xy_3Dprojection'
+        datainfo['tree_leaves_file'] = 'aves_families.divergence_time.mMDS.xy.leaves.csv'
+        datainfo['tree_branches_file'] = 'aves_families.divergence_time.mMDS.xy.branches.csv'
+        datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xy.internal.csv'
+        datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+        datainfo['lineage_columns'] = [27, 32]
 
-
-
+        birds(datainfo, vocab,
+              do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
+              do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
+              do_tree = True)
 
 
 def make_color_tables(datainfo):
@@ -427,12 +440,26 @@ def primates(datainfo, vocab):
 
 
 
-def birds(datainfo, vocab):
+def birds(datainfo, vocab, 
+          do_consensus = True,
+          do_sequence  = True,
+          do_sequence_lineage = True,
+          do_slice_by_clade = True,
+          do_slice_by_lineage = True,
+          do_slice_by_taxon = True,
+          do_tree = False):
     """
     Process the bird data.
 
     Run three functions for metadata processing, the consensus species,
-    and the sequence data. All the speck, label, color map, and asset files are generated.
+    and the sequence data. All the speck, label, color map, and asset files are
+    generated.
+
+    Not every dataset has the same input data - some have just tree files and not 
+    consensus data, or no sequence data, and so on. The input argumets specify 
+    which parts of the processing pipeline to run. By default, meaning if no parameters 
+    are given, everything is run, EXCEPT for do_tree, as most bird datasets (as of
+    this writing, 18 Mar 2024) do not have tree data.
 
     :param datainfo: Metadata about the dataset.
     :type datainfo: dict of {str : list}
@@ -443,48 +470,49 @@ def birds(datainfo, vocab):
     common.print_head_status(datainfo['sub_project'])
 
 
-    meta_data = metadata.process_data(datainfo)
+    if (do_consensus):
+        consensus = consensus_species.process_data(datainfo, vocab)
+        consensus_species.make_asset(datainfo)
 
-
-    consensus = consensus_species.process_data(datainfo, vocab)
-    consensus_species.make_asset(datainfo)
-
+    if (do_sequence):
+        meta_data = metadata.process_data(datainfo)
+        seq = sequence.process_data(datainfo, meta_data)
+        sequence.make_asset(datainfo)
     
-    seq = sequence.process_data(datainfo, meta_data)
-    sequence.make_asset(datainfo)
-    
-    sequence_lineage.process_data(datainfo, consensus, seq)
-    sequence_lineage.make_asset(datainfo)
+    if (do_sequence_lineage):
+        sequence_lineage.process_data(datainfo, consensus, seq)
+        sequence_lineage.make_asset(datainfo)
 
-    common.print_subhead_status('Processing individual clades')
-    slice_by_clade.process_data(datainfo, 'Anas')   # 33084
-    slice_by_clade.make_asset(datainfo)
+    if (do_slice_by_clade):
+        common.print_subhead_status('Processing individual clades')
+        slice_by_clade.process_data(datainfo, 'Anas')   # 33084
+        slice_by_clade.make_asset(datainfo)
 
+    if (do_slice_by_lineage):
+        common.print_subhead_status('Processing traced lineage branch files')
+        slice_by_lineage.process_data(datainfo, 'Anas')
+        slice_by_lineage.make_asset(datainfo, 'Anas')
 
+        slice_by_lineage.process_data(datainfo, 'Columba')
+        slice_by_lineage.make_asset(datainfo, 'Columba')
 
-    common.print_subhead_status('Processing traced lineage branch files')
-    slice_by_lineage.process_data(datainfo, 'Anas')
-    slice_by_lineage.make_asset(datainfo, 'Anas')
+    if (do_slice_by_taxon):
+        common.print_subhead_status('Processing individual taxon/species files')
+        slice_by_taxon.process_data(datainfo, 'Turdus migratorius')         # American robin
+        slice_by_taxon.process_data(datainfo, 'Cardinalis cardinalis')      # Cardinal
+        slice_by_taxon.process_data(datainfo, 'Haliaeetus leucocephalus')   # Bald eagle
+        slice_by_taxon.process_data(datainfo, 'Columba livia')              # Rock dove
+        slice_by_taxon.process_data(datainfo, 'Anas platyrhynchos')         # Mallard duck
+        slice_by_taxon.process_data(datainfo, 'Larus canus')                # Common gull
+        slice_by_taxon.make_asset(datainfo)
+        # # Sphenisciformes   all penguins
+        # # 29001
+        # # Passeriformes perching birds
 
-    slice_by_lineage.process_data(datainfo, 'Columba')
-    slice_by_lineage.make_asset(datainfo, 'Columba')
-
-
-
-
-
-    common.print_subhead_status('Processing individual taxon/species files')
-    slice_by_taxon.process_data(datainfo, 'Turdus migratorius')         # American robin
-    slice_by_taxon.process_data(datainfo, 'Cardinalis cardinalis')      # Cardinal
-    slice_by_taxon.process_data(datainfo, 'Haliaeetus leucocephalus')   # Bald eagle
-    slice_by_taxon.process_data(datainfo, 'Columba livia')              # Rock dove
-    slice_by_taxon.process_data(datainfo, 'Anas platyrhynchos')         # Mallard duck
-    slice_by_taxon.process_data(datainfo, 'Larus canus')                # Common gull
-    slice_by_taxon.make_asset(datainfo)
-    # # Sphenisciformes   all penguins
-    # # 29001
-    # # Passeriformes perching birds
-
+    if (do_tree):
+        mytree = tree.tree()
+        mytree.process_leaves(datainfo)
+        mytree.make_asset_for_taxa(datainfo, 'leaves')
 
     print()
 

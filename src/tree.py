@@ -60,7 +60,7 @@ class tree:
         datainfo['data_group_desc'] = 'Data points for the tree - leaves.'
 
         # These are the "leaves"--the current day (extant) species.
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['tree_leaves_file']
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['tree_leaves_file']
         common.test_input_file(inpath)
 
         leaves = pd.read_csv(inpath)
@@ -77,7 +77,7 @@ class tree:
 
 
         # Write data to files
-        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         common.test_path(outpath)
 
         outfile_csv = datainfo['dir'] + '_leaves.csv'
@@ -116,7 +116,7 @@ class tree:
         datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
         datainfo['data_group_desc'] = 'Data points for the tree - internal nodes (clades).'
 
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['tree_internal_file']
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['tree_internal_file']
         common.test_input_file(inpath)
 
         nodes = pd.read_csv(inpath)
@@ -135,7 +135,7 @@ class tree:
         nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x * common.SCALE_TREE_Z)
 
         # Write data to files
-        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         common.test_path(outpath)
 
         outfile_csv = datainfo['dir'] + '_internal.csv'
@@ -186,7 +186,7 @@ class tree:
         datainfo['data_group_desc'] = 'Interpolatable points for the tree.'
 
         # These are the "leaves"--the current day species.
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['tree_leaves_file']
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['tree_leaves_file']
         common.test_input_file(inpath)
 
         # The data is in the format of x, y, z, name.
@@ -237,7 +237,7 @@ class tree:
         consensus['z'] = consensus['z'].multiply(common.POSITION_SCALE_FACTOR)
 
         # Write data to files
-        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         common.test_path(outpath)
 
         outfile_csv = datainfo['dir'] + '_interpolated.csv'
@@ -292,7 +292,7 @@ class tree:
         '''
 
 
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['tree_branches_file']
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['tree_branches_file']
         common.test_input_file(inpath)
 
         branch_lines = pd.read_csv(inpath)
@@ -312,7 +312,7 @@ class tree:
 
 
         # Write data to files
-        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         common.test_path(outpath)
 
         outfile_speck = datainfo['dir'] + '_branches.speck'
@@ -369,7 +369,7 @@ class tree:
         # Gather info about the files
         # Get a listing of the speck files in the path, then set the dict
         # values based on the filename.
-        path = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+        path = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         #files = sorted(path.glob('*.speck'))
 
 
@@ -397,15 +397,15 @@ class tree:
 
         asset_info[file]['asset_rel_path'] = '.'
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_branches'
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_branches'
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['tree_dir'] + '_branches'
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['tree_dir'] + '_branches'
 
         asset_info[file]['gui_name'] = 'Branches'
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['tree_dir'].replace('_', ' ').title()
 
         # Open the file to write to
         outfile = datainfo['dir'] + '_branches.asset'
-        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir'] / outfile
         with open(outpath, 'wt') as asset:
 
             # Switch stdout to the file
@@ -498,7 +498,7 @@ class tree:
         # Gather info about the files
         # Get a listing of the speck files in the path, then set the dict
         # values based on the filename.
-        path = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+        path = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         #files = sorted(path.glob('*.speck'))
 
         #for path in files:
@@ -522,18 +522,20 @@ class tree:
 
         asset_info[file]['asset_rel_path'] = '.'
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_' + taxa
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_' + taxa
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + \
+            datainfo['tree_dir'].replace('.', '_') + '_' + taxa
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + \
+            datainfo['tree_dir'].replace('.', '_') + '_' + taxa
 
         # Convert taxa to title case
         asset_info[file]['gui_name'] = taxa.title()
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['tree_dir'].replace('_', ' ').title()
 
 
 
         # Open the file to write to
         outfile = datainfo['dir'] + '_' + taxa + '.asset'
-        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir'] / outfile
         with open(outpath, 'wt') as asset:
 
             # Switch stdout to the file
@@ -639,7 +641,7 @@ class tree:
         #      { path: { root:  , filevar:  , os_variable:  , os_identifier:  , name:  } }
         asset_info = {}
 
-        path = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY
+        path = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         file = path.name
 
         # Set the nested dict
@@ -656,15 +658,15 @@ class tree:
 
         asset_info[file]['asset_rel_path'] = '.'
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_interpolated'
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + common.TREE_DIRECTORY + '_interpolated'
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['tree_dir'] + '_interpolated'
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['tree_dir'] + '_interpolated'
 
         asset_info[file]['gui_name'] = 'Interpolated Leaves'
-        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + common.TREE_DIRECTORY.replace('_', ' ').title()
+        asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['tree_dir'].replace('_', ' ').title()
 
         # Open the file to write to
         outfile = datainfo['dir'] + '_interpolated.asset'
-        outpath = Path.cwd() / datainfo['dir'] / common.TREE_DIRECTORY / outfile
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir'] / outfile
         with open(outpath, 'wt') as asset:
 
             # Switch stdout to the file
