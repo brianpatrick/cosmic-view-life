@@ -73,7 +73,8 @@ class tree:
         leaves['name'] = leaves['name'].str.replace(' ', '_')
 
         # Move the z values down
-        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
+        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
         #print(leaves)
 
 
@@ -204,7 +205,8 @@ class tree:
         # Move the z values down. This is all of the transforms that are applied to the
         # non-interpolated data, also called the "tabletop" points that sit at the tips of
         # the tree.
-        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
+        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
 
         # Next load in the consensus points. Note that these do not get scaled or
         # transformed as they're already in the correct position (which we want to
@@ -398,8 +400,10 @@ class tree:
 
         asset_info[file]['asset_rel_path'] = '.'
 
-        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + datainfo['tree_dir'] + '_branches'
-        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + datainfo['tree_dir'] + '_branches'
+        asset_info[file]['os_scenegraph_var'] = datainfo['dir'] + '_' + \
+            datainfo['tree_dir'].replace('.', '_') + '_branches'
+        asset_info[file]['os_identifier_var'] = datainfo['dir'] + '_' + \
+            datainfo['tree_dir'].replace('.', '_') + '_branches'
 
         asset_info[file]['gui_name'] = 'Branches'
         asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['tree_dir'].replace('_', ' ').title()

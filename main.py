@@ -141,19 +141,25 @@ def main():
 
     # By default, we run everything. These options allow skipping certain sections.
     parser.add_argument('--all', action='store_true', help='Process all data')
-    parser.add_argument('--no-primates', action='store_true', help='Skip primates data')
-    parser.add_argument('--no-birds', action='store_true', help='Skip birds data')
-    parser.add_argument('--no-human-origins', action='store_true', help='Skip human origins data')
-    parser.add_argument('--no-insects', action='store_true', help='Skip insect data')
+
+    # Add an argument that takes a list of sections to skip. The sections are primates,
+    # birds, human-origins, and insects. This is a bit more flexible than the above
+    # options, but it's more complex to use.
+    parser.add_argument('--skip', nargs='+', help='Skip sections: primates, birds, human-origins, insects')
+
 
     # Check to see if the user has passed in any command line parameters.
     args = parser.parse_args()
 
-    # Set the global variable to create directories by default.
+    # If there are no skip arguments, set it to an empty list. This keeps the checks
+    # below from throwing an error.
+    if not args.skip:
+        args.skip = []
+
+    # Set the global variable to create directories by default. This is used in other
+    # modules to determine whether or not to create directories, hence its inclusion
+    # in common. 
     common.CREATE_DIRS_BY_DEFAULT = args.create_dirs
-
-
-
 
     # Define some universal metadata
     datainfo = {}
@@ -172,10 +178,10 @@ def main():
     # -----------------------------------------------------------------------------------
     vocab = vocabulary(datainfo)
 
-    """
+    #"""
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
-    if not args.no_human_origins:
+    if ("human-origins" not in args.skip):
         datainfo['sub_project'] = 'Human Origins'
         datainfo['version'] = '1'
 
@@ -191,7 +197,7 @@ def main():
 
     # Primates
     # ------------------------------------------------------------------------
-    if not args.no_primates:
+    if ('primates' not in args.skip):
         datainfo['dir'] = 'primates'
         datainfo['sub_project'] = 'Primates'
 
@@ -229,11 +235,9 @@ def main():
         primates(datainfo, vocab)
 
 
-
-    
     # Birds
     # ------------------------------------------------------------------------
-    if not args.no_birds:
+    if ('birds' not in args.skip):
         datainfo['dir'] = 'birds'
         datainfo['sub_project'] = 'Birds'
 
@@ -247,7 +251,7 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         birds(datainfo, vocab)
 
-        datainfo['version'] = '2'
+        datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'UMAP_v1'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
         datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver1.csv'
@@ -257,7 +261,7 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         birds(datainfo, vocab)
 
-        datainfo['version'] = '3'
+        datainfo['version'] = '2'
         datainfo['catalog_directory'] = 'UMAP_v2'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
         datainfo['consensus_file'] = 'aves.cleaned.species.PUMAP.euclidean.primates_scale_ver2.csv'
@@ -267,7 +271,7 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         birds(datainfo, vocab)
 
-        datainfo['version'] = '4'
+        datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'birds_all'
         datainfo['metadata_file'] = 'birds_all.taxons.metadata.csv'
         datainfo['consensus_file'] = 'birds_all.species.3DcMDS.csv'
@@ -278,7 +282,7 @@ def main():
         birds(datainfo, vocab)
 
         # This dataset only has tree data.
-        datainfo['version'] = '5'
+        datainfo['version'] = '1'
         datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xy_3Dprojection'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
         datainfo['tree_dir'] = '202308_bird_dataset_mMDS.xy_3Dprojection'
@@ -291,12 +295,31 @@ def main():
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
               do_tree = True)
-    """
+        
+        # This dataset only has tree data.
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xyz.sphere_3Dprojection'
+        datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+        datainfo['tree_dir'] = '202308_bird_dataset_mMDS.xyz.sphere_3Dprojection'
+        datainfo['tree_leaves_file'] = 'aves_families.divergence_time.mMDS.xyz.sphere.leaves.csv'
+        datainfo['tree_branches_file'] = 'aves_families.divergence_time.mMDS.xyz.sphere.branches.csv'
+        datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xyz.sphere.internal.csv'
+        datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+        datainfo['lineage_columns'] = [27, 32]
+        birds(datainfo, vocab,
+              do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
+              do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
+              do_tree = True)
+
+        
+
+
+    #"""
 
     # Insects
     # ------------------------------------------------------------------------
     
-    if not args.no_insects:
+    if ('insects' not in args.skip):
         datainfo['dir'] = 'insects'
         datainfo['sub_project'] = 'Insects'
 
@@ -528,6 +551,10 @@ def birds(datainfo, vocab,
         mytree = tree.tree()
         mytree.process_leaves(datainfo)
         mytree.make_asset_for_taxa(datainfo, 'leaves')
+        mytree.process_internal(datainfo)
+        mytree.make_asset_for_taxa(datainfo, 'internal')
+        mytree.process_branches(datainfo)
+        mytree.make_asset_branches(datainfo)
 
     print()
 
