@@ -773,14 +773,12 @@ class tree:
 
         common.print_subhead_status('Processing tree data - newick')
 
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / common.TREE_DIRECTORY / datainfo['newick_file']
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['newick_file']
         common.test_input_file(inpath)
 
         tree = Phylo.read(inpath, 'newick')
 
-        # Perform a depth-first traversal of the tree and print the name of each node
-        # as we traverse the tree.
-        for clade in tree.find_clades(order='postorder'):
-            print(clade.name)
+        Phylo.draw_ascii(tree)
+        
     
 

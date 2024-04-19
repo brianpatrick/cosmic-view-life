@@ -303,6 +303,7 @@ def main():
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'Weigmann_et_al_2011'
         datainfo['newick_file'] = 'Wiegmann_et_al.nwk'
+        datainfo['tree_dir'] = 'tree'
         insects(datainfo, vocab)
 
 
@@ -545,6 +546,8 @@ def insects(datainfo, vocab):
     """
 
     common.print_head_status(datainfo['sub_project'])
+
+
 
     mytree = tree.tree()
     mytree.process_newick(datainfo)
