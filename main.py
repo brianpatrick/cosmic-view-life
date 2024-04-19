@@ -281,7 +281,8 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         birds(datainfo, vocab)
 
-        # This dataset only has tree data.
+        # The next three datasets are from the 202308 bird dataset. This dataset has 
+        # tree data, but no consensus data.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xy_3Dprojection'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
@@ -296,7 +297,6 @@ def main():
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
               do_tree = True)
         
-        # This dataset only has tree data.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xyz.sphere_3Dprojection'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
@@ -311,7 +311,20 @@ def main():
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
               do_tree = True)
 
-        
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xyz_3Dprojection'
+        datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
+        datainfo['tree_dir'] = '202308_bird_dataset_mMDS.xyz_3Dprojection'
+        datainfo['tree_leaves_file'] = 'aves_families.divergence_time.mMDS.xyz.leaves.csv'
+        datainfo['tree_branches_file'] = 'aves_families.divergence_time.mMDS.xyz.branches.csv'
+        datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xyz.internal.csv'
+        datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
+        datainfo['lineage_columns'] = [27, 32]
+        birds(datainfo, vocab,
+              do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
+              do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
+              do_tree = True)
+   
 
 
     #"""
