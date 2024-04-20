@@ -213,6 +213,9 @@ def main():
         datainfo['tree_leaves_file'] = 'primates.leaves.csv'
         datainfo['tree_branches_file'] = 'primates.branches.csv'
         datainfo['tree_internal_file'] = 'primates.internal.csv'
+        datainfo['transform_tree_z'] = 133.5
+        datainfo['scale_tree_z'] = 75.0
+
         primates(datainfo, vocab)
 
         datainfo['version'] = '1'
@@ -292,6 +295,8 @@ def main():
         datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xy.internal.csv'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 32]
+        datainfo['transform_tree_z'] = 75.0
+        datainfo['scale_tree_z'] = 1.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
@@ -306,6 +311,8 @@ def main():
         datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xyz.sphere.internal.csv'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 32]
+        datainfo['transform_tree_z'] = 75.0
+        datainfo['scale_tree_z'] = 1.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
@@ -320,6 +327,8 @@ def main():
         datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xyz.internal.csv'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 32]
+        datainfo['transform_tree_z'] = 75.0
+        datainfo['scale_tree_z'] = 1.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
@@ -402,7 +411,7 @@ def origins(datainfo):
 
 
 
-def primates(datainfo, vocab):
+def primates(datainfo, vocab, do_tree = True):
     """
     Process the primates data.
 
@@ -433,15 +442,14 @@ def primates(datainfo, vocab):
     sequence_lineage.make_asset(datainfo)
 
     # Make a new tree object
-    mytree = tree.tree()
+    if (do_tree):
+        mytree = tree.tree()
 
     # Process the tree of primates NOTE: need to run the
     # ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
     # This is a bit hacky in that each part of the tree is handled manually here (leaves,
     # branches, clades), whereas optimally this would all be taken care of in the tree
     # class.
-    datainfo['transform_tree_z'] = 133.5
-    datainfo['scale_tree_z'] = 75.0
     mytree.process_leaves(datainfo)
     mytree.make_asset_for_taxa(datainfo, 'leaves')
     mytree.process_internal(datainfo)
@@ -561,8 +569,6 @@ def birds(datainfo, vocab,
         # # Passeriformes perching birds
 
     if (do_tree):
-        datainfo['transform_tree_z'] = 75.0
-        datainfo['scale_tree_z'] = 1.0
         mytree = tree.tree()
         mytree.process_leaves(datainfo)
         mytree.make_asset_for_taxa(datainfo, 'leaves')
@@ -574,7 +580,7 @@ def birds(datainfo, vocab,
     print()
 
 
-def insects(datainfo, vocab):
+def insects(datainfo, vocab, do_tree = True):
     """
     Process the insect data.
 
@@ -590,9 +596,9 @@ def insects(datainfo, vocab):
     common.print_head_status(datainfo['sub_project'])
 
 
-
-    mytree = tree.tree()
-    mytree.process_newick(datainfo)
+    if (do_tree):
+        mytree = tree.tree()
+        mytree.process_newick(datainfo)
 
 if __name__ == "__main__":
     main()
