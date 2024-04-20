@@ -74,8 +74,10 @@ class tree:
 
         # Move the z values down
         #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'] * 2.15)
-        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
+        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
         #print(leaves)
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x * datainfo['scale_tree_z'])
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
 
 
         # Write data to files
@@ -133,8 +135,10 @@ class tree:
         nodes['name'] = nodes['name'].str.replace(' ', '_')
 
         # Move the z values down
-        nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
+        #nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
         nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x * datainfo['scale_tree_z'])
+        nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
+        
 
         # Write data to files
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
@@ -301,10 +305,12 @@ class tree:
         branch_lines = pd.read_csv(inpath)
 
         # Transform the 'z' axis
-        branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - datainfo['transform_tree_z'])
-        branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x - datainfo['transform_tree_z'])
+        #branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - datainfo['transform_tree_z'])
+        #branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x - datainfo['transform_tree_z'])
         branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x * datainfo['scale_tree_z'])
         branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x * datainfo['scale_tree_z'])
+        branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - datainfo['transform_tree_z'])
+        branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x - datainfo['transform_tree_z'])
 
 
         # remove the 'branch_' from the beginning for each name

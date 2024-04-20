@@ -213,10 +213,10 @@ def main():
         datainfo['tree_leaves_file'] = 'primates.leaves.csv'
         datainfo['tree_branches_file'] = 'primates.branches.csv'
         datainfo['tree_internal_file'] = 'primates.internal.csv'
-        datainfo['transform_tree_z'] = 133.5
+        datainfo['transform_tree_z'] =  0 # 133.5
         datainfo['scale_tree_z'] = 75.0
 
-        primates(datainfo, vocab)
+        primates(datainfo, vocab, do_tree=True)
 
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'UMAP_v1'
@@ -295,7 +295,7 @@ def main():
         datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xy.internal.csv'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 32]
-        datainfo['transform_tree_z'] = 75.0
+        datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
@@ -311,7 +311,7 @@ def main():
         datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xyz.sphere.internal.csv'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 32]
-        datainfo['transform_tree_z'] = 75.0
+        datainfo['transform_tree_z'] = 0.0 #75.0
         datainfo['scale_tree_z'] = 1.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
@@ -327,7 +327,7 @@ def main():
         datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xyz.internal.csv'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 32]
-        datainfo['transform_tree_z'] = 75.0
+        datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
@@ -411,7 +411,7 @@ def origins(datainfo):
 
 
 
-def primates(datainfo, vocab, do_tree = True):
+def primates(datainfo, vocab, do_tree = False):
     """
     Process the primates data.
 
@@ -445,24 +445,24 @@ def primates(datainfo, vocab, do_tree = True):
     if (do_tree):
         mytree = tree.tree()
 
-    # Process the tree of primates NOTE: need to run the
-    # ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
-    # This is a bit hacky in that each part of the tree is handled manually here (leaves,
-    # branches, clades), whereas optimally this would all be taken care of in the tree
-    # class.
-    mytree.process_leaves(datainfo)
-    mytree.make_asset_for_taxa(datainfo, 'leaves')
-    mytree.process_internal(datainfo)
-    mytree.make_asset_for_taxa(datainfo, 'internal')
-    mytree.process_branches(datainfo)
-    mytree.make_asset_branches(datainfo)
+        # Process the tree of primates NOTE: need to run the
+        # ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
+        # This is a bit hacky in that each part of the tree is handled manually here (leaves,
+        # branches, clades), whereas optimally this would all be taken care of in the tree
+        # class.
+        mytree.process_leaves(datainfo)
+        mytree.make_asset_for_taxa(datainfo, 'leaves')
+        mytree.process_internal(datainfo)
+        mytree.make_asset_for_taxa(datainfo, 'internal')
+        mytree.process_branches(datainfo)
+        mytree.make_asset_branches(datainfo)
 
-    # The interpolated points are kinda-sorta associated with the tree, but not really.
-    # They are a separate set of points that are interpolated from the leaf points to the
-    # data-reduction points. This is to show the relationship between the established
-    # evolutionary relationships and the data-reduced points.
-    mytree.process_leaves_interpolated(datainfo)
-    mytree.make_asset_leaves_interpolated(datainfo)
+        # The interpolated points are kinda-sorta associated with the tree, but not really.
+        # They are a separate set of points that are interpolated from the leaf points to the
+        # data-reduction points. This is to show the relationship between the established
+        # evolutionary relationships and the data-reduced points.
+        mytree.process_leaves_interpolated(datainfo)
+        mytree.make_asset_leaves_interpolated(datainfo)
 
     
 
