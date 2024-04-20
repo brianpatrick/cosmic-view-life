@@ -73,8 +73,8 @@ class tree:
         leaves['name'] = leaves['name'].str.replace(' ', '_')
 
         # Move the z values down
-        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
-        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'] * 2.15)
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
         #print(leaves)
 
 
@@ -133,8 +133,8 @@ class tree:
         nodes['name'] = nodes['name'].str.replace(' ', '_')
 
         # Move the z values down
-        nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-        nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x * common.SCALE_TREE_Z)
+        nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
+        nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x * datainfo['scale_tree_z'])
 
         # Write data to files
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
@@ -205,8 +205,8 @@ class tree:
         # Move the z values down. This is all of the transforms that are applied to the
         # non-interpolated data, also called the "tabletop" points that sit at the tips of
         # the tree.
-        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z * 2.15)
-        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
+        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'] * 2.15)
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
 
         # Next load in the consensus points. Note that these do not get scaled or
         # transformed as they're already in the correct position (which we want to
@@ -301,10 +301,10 @@ class tree:
         branch_lines = pd.read_csv(inpath)
 
         # Transform the 'z' axis
-        branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-        branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x - common.TRANSFORM_TREE_Z)
-        branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x * common.SCALE_TREE_Z)
-        branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x * common.SCALE_TREE_Z)
+        branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - datainfo['transform_tree_z'])
+        branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x - datainfo['transform_tree_z'])
+        branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x * datainfo['scale_tree_z'])
+        branch_lines.loc[:, 'z1'] = branch_lines['z1'].apply(lambda x: x * datainfo['scale_tree_z'])
 
 
         # remove the 'branch_' from the beginning for each name

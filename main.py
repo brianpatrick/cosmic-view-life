@@ -442,6 +442,8 @@ def primates(datainfo, vocab):
     # This is a bit hacky in that each part of the tree is handled manually here (leaves,
     # branches, clades), whereas optimally this would all be taken care of in the tree
     # class.
+    datainfo['transform_tree_z'] = 133.5
+    datainfo['scale_tree_z'] = 75.0
     mytree.process_leaves(datainfo)
     mytree.make_asset_for_taxa(datainfo, 'leaves')
     mytree.process_internal(datainfo)
@@ -561,6 +563,8 @@ def birds(datainfo, vocab,
         # # Passeriformes perching birds
 
     if (do_tree):
+        datainfo['transform_tree_z'] = 75.0
+        datainfo['scale_tree_z'] = 1.0
         mytree = tree.tree()
         mytree.process_leaves(datainfo)
         mytree.make_asset_for_taxa(datainfo, 'leaves')
