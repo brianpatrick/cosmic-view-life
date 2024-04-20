@@ -10,6 +10,7 @@ The metadata module mainly processes the lineage information.
 import pandas as pd
 import re
 from pathlib import Path
+from os import stat
 
 from src import common
 
@@ -66,8 +67,23 @@ def process_data(datainfo):
 
     inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / datainfo['metadata_file']
     common.test_input_file(inpath)
-        
-    # Read the CSV file
+
+    # Do we need to read in and process the metadata file? If the metadata file is older
+    # than the processed metadata file, then we don't need to process it again. We can
+    # just read in the already processed metadata file. This is a speed optimization.
+    ### FIX - the filename here is hardcoded and must be the same as the output filename
+    processed_metadata = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / 'metadata.csv'
+    
+    # Is the metadata file older than the processed metadata file?
+    metadata_file_time = stat(inpath).st_mtime
+    processed_metadata_time = stat(processed_metadata).st_mtime if processed_metadata.exists() else 0
+    if metadata_file_time < processed_metadata_time:
+        print('          *** Using already processed (cached) metadata.')
+        return pd.read_csv(processed_metadata, sep=',')
+
+    # If we're here, then we need to process the metadata file. This is the slow part of the script.
+
+    # Read the input CSV file from Wandrille.
     df = pd.read_csv(inpath, sep=';', header=0, names=['taxon', 'species', 'hybrid', 'subspecies', 'lineage'])
 
     # Split the comma-separated lineage column in the CSV file into its
@@ -205,10 +221,10 @@ def process_data(datainfo):
     outfile_metadata_csv = 'metadata.csv'
     outpath_metadata_csv = outpath / outfile_metadata_csv
 
-    with open(outpath_metadata_csv, 'wt') as csv_metadata:
+    with open(outpath_metadata_csv, 'w') as csv_metadata:
 
         # Print the metadata info to the file. This line will print the column headers too.
-        metadata.to_csv(csv_metadata, index=False)
+        metadata.to_csv(csv_metadata, index=False, lineterminator='\n')
 
 
     # Report to stdout
@@ -322,5 +338,7 @@ def process_data(datainfo):
 
 
     common.out_file_message(outpath_log)
+
+
 
     return metadata

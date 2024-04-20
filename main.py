@@ -324,10 +324,8 @@ def main():
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
               do_tree = True)
-   
+        
 
-
-    #"""
 
     # Insects
     # ------------------------------------------------------------------------
