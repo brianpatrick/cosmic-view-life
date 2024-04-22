@@ -79,6 +79,9 @@ class tree:
         leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x * datainfo['scale_tree_z'])
         leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
 
+        # Z translate specific to leaves. Hacky.
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['translate_leaves_z'])
+
 
         # Write data to files
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
@@ -210,6 +213,7 @@ class tree:
         # non-interpolated data, also called the "tabletop" points that sit at the tips of
         # the tree.
         #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'] * 2.15)
+        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x * datainfo['scale_tree_z'])
         leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
 
         # Next load in the consensus points. Note that these do not get scaled or

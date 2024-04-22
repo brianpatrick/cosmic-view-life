@@ -213,7 +213,8 @@ def main():
         datainfo['tree_leaves_file'] = 'primates.leaves.csv'
         datainfo['tree_branches_file'] = 'primates.branches.csv'
         datainfo['tree_internal_file'] = 'primates.internal.csv'
-        datainfo['transform_tree_z'] =  0 # 133.5
+        datainfo['transform_tree_z'] = 0.0 # 133.5
+        datainfo['translate_leaves_z'] = 0 #50.0
         datainfo['scale_tree_z'] = 75.0
 
         primates(datainfo, vocab, do_tree=True)
