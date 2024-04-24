@@ -601,5 +601,89 @@ def insects(datainfo, vocab, do_tree = True):
         mytree = tree.tree()
         mytree.process_newick(datainfo)
 
+
+
+def insect_proof_of_concept_tree_taxa():
+    """
+    This is a proof of concept for the insect data. It's a bit different than the other
+    datasets in that the data is not a consensus species or sequence data, but rather a
+    series of assets that represent the insects. This is a test to see how the data
+    can be used in OpenSpace.
+    """
+
+    # This is test code for producing a taxonomic tree. It has hardcoded values
+    # for positions and is mainly a proof of concept.
+
+    # Write data to files
+    outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+    common.test_path(outpath)
+
+    def make_insect_asset_file(taxon, position):
+
+        # Position is in m as passed in and needs to be scaled up to km.
+        position = [x * 1000 for x in position]
+
+        asset_file = Path.cwd() / datainfo['dir'] / f'{taxon}.asset'
+        with open(asset_file, 'w') as f:
+            f.write(f'local sun = asset.require("scene/solarsystem/sun/transforms")\n')
+            f.write(f'local {taxon} = {{\n')
+            f.write(f'    Identifier = "{taxon}",\n')
+            f.write(f'    Transform = {{\n')
+            f.write(f'        Translation = {{\n')
+            f.write(f'            Type = "StaticTranslation",\n')
+            f.write(f'            Position = {{ {position[0]}, {position[1]}, {position[2]} }}\n')
+            f.write(f'        }}\n')
+            f.write(f'    }},\n')
+            f.write(f'    Renderable = {{\n')
+            f.write(f'        UseCaching = false,\n')
+            f.write(f'        Type = "RenderableModel",\n')
+            f.write(f'        Coloring = {{\n')
+            f.write(f'            FixedColor = {{ 0.8, 0.8, 0.8 }}\n')
+            f.write(f'        }},\n')
+            f.write(f'        Opacity = 1.0,\n')
+            f.write(f'        GeometryFile = asset.resource("Gryllus.obj"),\n')
+            f.write(f'        ModelScale = 250,\n')
+            f.write(f'        Enabled = true,\n')
+            f.write(f'        LightSources = {{\n')
+            f.write(f'            sun.LightSource\n')
+            f.write(f'        }}\n')
+            f.write(f'    }},\n')
+            f.write(f'    GUI = {{\n')
+            f.write(f'        Name = "{taxon}",\n')
+            f.write(f'        Path = "/Leaves",\n')
+            f.write(f'    }}\n')
+            f.write(f'}}\n')
+            f.write(f'asset.onInitialize(function()\n')
+            f.write(f'    openspace.addSceneGraphNode({taxon})\n')
+            f.write(f'end)\n')
+            f.write(f'asset.onDeinitialize(function()\n')
+            f.write(f'    openspace.removeSceneGraphNode({taxon})\n')
+            f.write(f'end)\n')
+            f.write(f'asset.export({taxon})\n')
+
+            # Close the file.
+            f.close()
+
+
+
+    # Each insect is a separate asset as this is one way to make each of them
+    # a SceneGraphNode in OpenSpace. They could all be in one file, but this is
+    # a first pass proof of concept.
+    make_insect_asset_file('Blattodea', [60, 0, 140])
+    make_insect_asset_file('Mantodea', [60, 0, 130])
+    make_insect_asset_file('Phasmatodea', [60, 0, 120])
+    make_insect_asset_file('Embioptera', [60, 0, 110])
+    make_insect_asset_file('Grylloblatta', [60, 0, 100])
+    make_insect_asset_file('Mantophasmatodea', [60, 0, 90])
+    make_insect_asset_file('Orthoptera', [60, 0, 80])
+    make_insect_asset_file('Plecoptera', [60, 0, 70])
+    make_insect_asset_file('Dermaptera', [60, 0, 60])
+    make_insect_asset_file('Zoraptera', [60, 0, 50])
+    make_insect_asset_file('Ephemeroptera', [60, 0, 40])
+    make_insect_asset_file('Odonata', [60, 0, 30])
+    make_insect_asset_file('Zygentoma', [60, 0, 20])
+    make_insect_asset_file('Archaeognatha', [60, 0, 10])
+
+
 if __name__ == "__main__":
     main()
