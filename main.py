@@ -181,7 +181,7 @@ def main():
     #"""
     # Human origin / population DNA data
     # -----------------------------------------------------------------------------------
-    if ("human-origins" not in args.skip):
+    if ("human_origins" not in args.skip):
         datainfo['sub_project'] = 'Human Origins'
         datainfo['version'] = '1'
 
@@ -344,11 +344,97 @@ def main():
         datainfo['dir'] = 'insects'
         datainfo['sub_project'] = 'Insects'
 
+        ####################################################
+        # Insect order trees. This is fewer points than the family or (hopefully soon
+        # to be incorporated) genus level tree.
+        ####################################################
+
+        # "Tabletop" 2D tree.
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'timetree_insecta_order_mMDS_xy'
+        datainfo['tree_dir'] = 'timetree_insecta_order_mMDS_xy'
+        datainfo['tree_leaves_file'] = 'Insecta_order.mMDS.xy.leaves.csv'
+        datainfo['tree_branches_file'] = 'Insecta_order.mMDS.xy.branches.csv'
+        datainfo['tree_internal_file'] = 'Insecta_order.mMDS.xy.internal.csv'
+        datainfo['transform_tree_z'] = 0.0 # 75.0
+        datainfo['scale_tree_z'] = 1.0
+        datainfo['translate_leaves_z'] = 0 #50.0
+        insects(datainfo, vocab, do_tree = True)
+
+        # 3D tree, non-spherical.
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'timetree_insecta_order_mMDS_xyz'
+        datainfo['tree_dir'] = 'timetree_insecta_order_mMDS_xyz'
+        datainfo['tree_leaves_file'] = 'Insecta_order.mMDS3.xyz.leaves.csv'
+        datainfo['tree_branches_file'] = 'Insecta_order.mMDS3.xyz.branches.csv'
+        datainfo['tree_internal_file'] = 'Insecta_order.mMDS3.xyz.internal.csv'
+        datainfo['transform_tree_z'] = 0.0 # 75.0
+        datainfo['scale_tree_z'] = 1.0
+        datainfo['translate_leaves_z'] = 0 #50.0
+        insects(datainfo, vocab, do_tree = True)
+
+        # 3D tree, spherical.
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'timetree_insecta_order_mMDS_xyz_spherical'
+        datainfo['tree_dir'] = 'timetree_insecta_order_mMDS_xyz_spherical'
+        datainfo['tree_leaves_file'] = 'Insecta_order.mMDS3.xyz-spherical.leaves.csv'
+        datainfo['tree_branches_file'] = 'Insecta_order.mMDS3.xyz-spherical.branches.csv'
+        datainfo['tree_internal_file'] = 'Insecta_order.mMDS3.xyz-spherical.internal.csv'
+        datainfo['transform_tree_z'] = 0.0 # 75.0
+        datainfo['scale_tree_z'] = 1.0
+        datainfo['translate_leaves_z'] = 0 #50.0
+        insects(datainfo, vocab, do_tree = True)
+
+        ####################################################
+        # Insect family trees. 
+        ####################################################
+
+        # "Tabletop" 2D tree.
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xy'
+        datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xy'
+        datainfo['tree_leaves_file'] = 'Insecta_family.mMDS.xy.leaves.csv'
+        datainfo['tree_branches_file'] = 'Insecta_family.mMDS.xy.branches.csv'
+        datainfo['tree_internal_file'] = 'Insecta_family.mMDS.xy.internal.csv'
+        datainfo['transform_tree_z'] = 0.0 # 75.0
+        datainfo['scale_tree_z'] = 1.0
+        datainfo['translate_leaves_z'] = 0 #50.0
+        insects(datainfo, vocab, do_tree = True)
+
+        # 3D tree.
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xyz'
+        datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xyz'
+        datainfo['tree_leaves_file'] = 'Insecta_family.mMDS3.xyz.leaves.csv'
+        datainfo['tree_branches_file'] = 'Insecta_family.mMDS3.xyz.branches.csv'
+        datainfo['tree_internal_file'] = 'Insecta_family.mMDS3.xyz.internal.csv'
+        datainfo['transform_tree_z'] = 0.0 # 75.0
+        datainfo['scale_tree_z'] = 1.0
+        datainfo['translate_leaves_z'] = 0 #50.0
+        insects(datainfo, vocab, do_tree = True)
+
+        # 3D tree, spherical.
+        datainfo['version'] = '1'
+        datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xyz_spherical'
+        datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xyz_spherical'
+        datainfo['tree_leaves_file'] = 'Insecta_family.mMDS3.xyz-spherical.leaves.csv'
+        datainfo['tree_branches_file'] = 'Insecta_family.mMDS3.xyz-spherical.branches.csv'
+        datainfo['tree_internal_file'] = 'Insecta_family.mMDS3.xyz-spherical.internal.csv'
+        datainfo['transform_tree_z'] = 0.0 # 75.0
+        datainfo['scale_tree_z'] = 1.0
+        datainfo['translate_leaves_z'] = 0 #50.0
+        insects(datainfo, vocab, do_tree = True)
+
+
+        
+
+        """
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'Weigmann_et_al_2011'
         datainfo['newick_file'] = 'Wiegmann_et_al.nwk'
         datainfo['tree_dir'] = 'tree'
         insects(datainfo, vocab)
+        """
 
 
 
@@ -596,10 +682,19 @@ def insects(datainfo, vocab, do_tree = True):
 
     common.print_head_status(datainfo['sub_project'])
 
-
     if (do_tree):
         mytree = tree.tree()
-        mytree.process_newick(datainfo)
+        mytree.process_leaves(datainfo)
+        mytree.make_asset_for_taxa(datainfo, 'leaves')
+        mytree.process_internal(datainfo)
+        mytree.make_asset_for_taxa(datainfo, 'internal')
+        mytree.process_branches(datainfo)
+        mytree.make_asset_branches(datainfo)
+
+    #if (do_tree):
+    #    mytree = tree.tree()
+    #    mytree.process_newick(datainfo)
+
 
 
 

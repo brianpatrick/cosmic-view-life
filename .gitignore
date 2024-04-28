@@ -13,6 +13,7 @@ Thumbs.db
 /birds/
 /primates/
 /human_origins/
+/insects/
 
 # The processed catalogs
 /catalogs_processed/
@@ -26,7 +27,7 @@ Thumbs.db
 # Docs build files
 /docs/build/
 
-# Random powershell scripts to make my life a little easier. I'd check these in but they rely on specific pathnames.
+# Random powershell scripts to make my (HH) life a little easier. I'd check these in but they rely on specific pathnames.
 copy-data.ps1
 clean-data.ps1
 clean-data-target.ps1
