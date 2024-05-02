@@ -439,6 +439,11 @@ def main():
         datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
 
+        """
+        
+        # The current genus and species trees are from MDS runs that didn't
+        # really work.
+
         ####################################################
         # Insect genus trees.
         ####################################################
@@ -492,7 +497,7 @@ def main():
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
-
+        """
         
 
         """
@@ -611,9 +616,9 @@ def primates(datainfo, vocab, do_tree = False):
         # Metadata processing is broken for primates and birds for trees.
         datainfo['metadata_file'] = None
         mytree.process_leaves(datainfo)
-        mytree.make_asset_for_taxa(datainfo, 'leaves')
+        mytree.make_asset_nodes(datainfo, 'leaves')
         mytree.process_internal(datainfo)
-        mytree.make_asset_for_taxa(datainfo, 'internal')
+        mytree.make_asset_nodes(datainfo, 'internal')
         mytree.process_branches(datainfo)
         mytree.make_asset_branches(datainfo)
 
@@ -738,9 +743,9 @@ def birds(datainfo, vocab,
         datainfo['metadata_file'] = None
         mytree = tree.tree()
         mytree.process_leaves(datainfo)
-        mytree.make_asset_for_taxa(datainfo, 'leaves')
+        mytree.make_asset_nodes(datainfo, 'leaves')
         mytree.process_internal(datainfo)
-        mytree.make_asset_for_taxa(datainfo, 'internal')
+        mytree.make_asset_nodes(datainfo, 'internal')
         mytree.process_branches(datainfo)
         mytree.make_asset_branches(datainfo)
 
@@ -763,9 +768,9 @@ def insects(datainfo, vocab, do_tree = True):
     if (do_tree):
         mytree = tree.tree()
         mytree.process_leaves(datainfo)
-        mytree.make_asset_for_taxa(datainfo, 'leaves')
+        mytree.make_asset_nodes(datainfo, 'leaves')
         mytree.process_internal(datainfo)
-        mytree.make_asset_for_taxa(datainfo, 'internal')
+        mytree.make_asset_nodes(datainfo, 'internal')
         mytree.process_branches(datainfo)
         mytree.make_asset_branches(datainfo)
 
