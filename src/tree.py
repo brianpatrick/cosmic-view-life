@@ -60,7 +60,7 @@ class tree:
         datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
         datainfo['data_group_desc'] = 'Data points for the tree - leaves.'
 
-        # These are the "leaves"--the current day (extant) species.
+        # These are the "leaves"--the current day (extant) taxa.
         inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['tree_leaves_file']
         common.test_input_file(inpath)
 
@@ -82,6 +82,62 @@ class tree:
         # Z translate specific to leaves. Hacky.
         leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['translate_leaves_z'])
 
+        # If the metadata is set, use it to group the leaves into categories by color.
+        if ('metadata_file' in datainfo.keys()) and (datainfo['metadata_file'] != None):
+
+            # The CSV file has x, y, z, name, and a color column. Colors are used to group
+            # the leaves into different categories. Let's load in the metadata file and make
+            # a dictionary out of it. The format is "taxon", "parent-lineage". Some examples of
+            # this might be taxon=family (Syrphidae, for example) and parent-lineage=order 
+            # (Diptera, for this example).
+            inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['metadata_file']
+            common.test_input_file(inpath)
+
+            # The Metadata file is in the format of taxon, parent-lineage. We want a dictionary
+            # where we can look up the parent lineage for every taxon. The name of the taxon
+            # (family, genus, or species) and parent-lineage (order, family, etc.) are in the
+            # header of the csv file.
+            metadata = pd.read_csv(inpath)
+
+            # The first row holds the taxon name and parent-lineage name. We want to use the
+            # taxon name as the index, and the parent-lineage as the value. 
+            taxon_name = metadata.columns[0]
+            parent_lineage = metadata.columns[1]
+
+            taxon = metadata[taxon_name].tolist()
+            metadata = metadata.set_index(taxon_name).to_dict()[parent_lineage]
+
+            # Next we need to know how many unique parent lineages we have, and make a
+            # mapping from each unique lineage to a unique integer, starting with 1. This
+            # will be used to color the leaves.
+            parent_lineages = set(metadata.values())
+            parent_lineage_colors = {lineage: i + 1 for i, lineage in enumerate(parent_lineages)}
+
+            # Now we need to run through the leaves and assign a color to each one based on
+            # the parent lineage. We'll add a new column to the leaves dataframe called
+            # 'color'. For each leaf,
+            for i, row in leaves.iterrows():
+                # Get the parent lineage of the leaf. Some taxa may not have a parent lineage
+                # or may not be in the metadata file. In this case, we'll just assign the
+                # taxon name as the lineage. Zoraptera is one of these taxa.
+                lineage = ''
+                taxon = row['name']
+                if taxon not in metadata.keys():
+                    lineage = taxon
+                else:
+                    lineage = metadata[row['name']]
+                # Assign the color based on the parent lineage
+                leaves.at[i, 'color'] = parent_lineage_colors[lineage]
+
+            # The color column is now a float, but we need it to be an integer. Convert it.
+            leaves['color'] = leaves['color'].astype(int)
+
+            # Finally, write out a color map file. This file will be used by OpenSpace to
+            # color the leaves based on the color column. The first row is the number of
+            # colors, followed by the colors themselves. The colors are in the format of
+            # r, g, b, a. The colors are in the order of the parent lineages.
+            outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+            common.test_path(outpath)
 
         # Write data to files
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
@@ -530,7 +586,8 @@ class tree:
         #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
 
         #asset_info[file]['cmap_file'] = path.stem + '.cmap'
-        #asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
+        asset_info[file]['cmap_file'] = 'insect_order_colors.cmap'
+        asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
         asset_info[file]['dat_file'] = path.stem + '.dat'
         asset_info[file]['dat_var'] = common.file_variable_generator(asset_info[file]['dat_file'])
@@ -564,6 +621,8 @@ class tree:
 
             print('local ' + asset_info[file]['dat_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['dat_file'] + '")')
 
+            print('local ' + asset_info[file]['cmap_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file'] + '")')
+
             for file in asset_info:
                 print('local ' + asset_info[file]['csv_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['csv_file'] + '")')
 
@@ -584,6 +643,16 @@ class tree:
                 print('        Type = "RenderablePointCloud",')
                 print('         Coloring = {')
                 print('            FixedColor = { 0.8, 0.8, 0.8 }')
+                #if (taxa == 'internal'):
+                    # Gotta fix this. The colors for the orders for the internal nodes and
+                    # the leaves need to be the same, so we need to make this mapping once
+                    # and then re-use it.
+                #    print('            FixedColor = { 0.8, 0.8, 0.8 }')
+                #else:
+                #    print('            ColorMapping = { ')
+                #    print('                File = ' + asset_info[file]['cmap_var'])# + ',')
+                #    #print('                ParameterOptions = { { Key = "color" } }')
+                #print('            }')
                 print('        },')
                 print('        Opacity = 1.0,')
                 print('        SizeSettings = { ScaleFactor = scale_factor, ScaleExponent = scale_exponent },')

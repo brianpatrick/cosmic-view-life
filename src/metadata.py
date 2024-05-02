@@ -68,11 +68,13 @@ def process_data(datainfo):
     inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / datainfo['metadata_file']
     common.test_input_file(inpath)
 
+    #print("          Processing metadata file: " + str(inpath))
+
     # Do we need to read in and process the metadata file? If the metadata file is older
     # than the processed metadata file, then we don't need to process it again. We can
     # just read in the already processed metadata file. This is a speed optimization.
-    ### FIX - the filename here is hardcoded and must be the same as the output filename
-    processed_metadata = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / 'metadata.csv'
+    metadata_output_filename = "processed_" + datainfo['metadata_file']
+    processed_metadata = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory'] / metadata_output_filename
     
     # Is the metadata file older than the processed metadata file?
     metadata_file_time = stat(inpath).st_mtime
@@ -218,8 +220,7 @@ def process_data(datainfo):
     outpath = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir'] / datainfo['catalog_directory']
     common.test_path(outpath)
 
-    outfile_metadata_csv = 'metadata.csv'
-    outpath_metadata_csv = outpath / outfile_metadata_csv
+    outpath_metadata_csv = outpath / metadata_output_filename
 
     with open(outpath_metadata_csv, 'w') as csv_metadata:
 
