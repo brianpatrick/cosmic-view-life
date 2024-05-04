@@ -20,6 +20,7 @@ import pandas as pd
 from pathlib import Path
 from Bio import Phylo
 
+from integrate_tree_to_XYZ import integrate_tree_to_XYZ as itt
 from src import common
 
 class tree:
@@ -42,8 +43,12 @@ class tree:
 
     def process_leaves(self, datainfo):
         '''
-        Process the tree leaves csv file. This file contains the current day
-        species/taxon. 
+        Process the tree leaves csv file. 
+
+        The output csv file has the x, y, z, name, and color columns. The color
+        column is used to group the leaves into categories and is generally based
+        on taxonomic groups (also called parent lineages), though they can also be
+        used for other categories.
 
         Input:
             dict(datainfo)
@@ -52,19 +57,26 @@ class tree:
             .csv
         '''
 
-        common.print_subhead_status('Processing tree data - leaves')
+        # instead of loading the processed CSV file, we'll load the raw data file (set
+        # in the datainfo dictionary) and process it here. 
+        common.print_subhead_status('Processing tree data, leaves -' + datainfo['tree_dir'])
 
-        # Generate the Consensus points for the tree. These will be points that sit on the
-        # tips of the tree branches -- the leaves.
-        # ------------------------------------------------------------------------------------------
-        datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
+        datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
         datainfo['data_group_desc'] = 'Data points for the tree - leaves.'
 
-        # These are the "leaves"--the current day (extant) taxa.
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['tree_leaves_file']
-        common.test_input_file(inpath)
+        tree_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['newick_file']
+        coords_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['coordinates_file']
+        common.test_input_file(tree_file_path)
+        common.test_input_file(coords_file_path)
 
-        leaves = pd.read_csv(inpath)
+        # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
+        # on the projection (spherical or not). Default behavior is to not use
+        # spherical projection.
+        tree, missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
+                                                         inputTree = tree_file_path,
+                                                         use_z_from_file=True)
+
+        leaves = itt.get_leaves_dataframe(tree, missing_leaves)
 
         # Rearrange the columns
         leaves = leaves[['x', 'y', 'z', 'name']]
@@ -174,15 +186,24 @@ class tree:
             .speck
         '''
 
-        common.print_subhead_status('Processing tree data - internal/clades')
+        common.print_subhead_status('Processing tree, internal/clades -' + datainfo['tree_dir'])
 
-        datainfo['data_group_title'] = datainfo['sub_project'] + ': Consensus Tree'
+        datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
         datainfo['data_group_desc'] = 'Data points for the tree - internal nodes (clades).'
 
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['tree_internal_file']
-        common.test_input_file(inpath)
+        tree_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['newick_file']
+        coords_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['coordinates_file']
+        common.test_input_file(tree_file_path)
+        common.test_input_file(coords_file_path)
 
-        nodes = pd.read_csv(inpath)
+        # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
+        # on the projection (spherical or not). Default behavior is to not use
+        # spherical projection.
+        tree, missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
+                                                         inputTree = tree_file_path,
+                                                         use_z_from_file=True)
+
+        nodes = itt.get_internal_nodes_dataframe(tree)
 
         # Discard the internal nodes that start with 'internal' and have no name.
         nodes = nodes[nodes['name'].str.contains('internal') == False]
@@ -547,10 +568,32 @@ class tree:
 
     def make_asset_nodes(self, datainfo, taxa):
         '''
-        Generate the asset file for the tree.
+
+        Generate the asset file for the tree nodes. Nodes can be either internal nodes
+        or leaves. This function is called twice, once for the internal nodes and once
+        for the leaves.
+
+        This function generates nodes for several kinds of trees, and some of these
+        cases are hardcoded a bit here.
+
+        Insect trees can be:
+            1. Order level tree. The leaves are orders, and internal nodes are
+                superorders, etc.
+            2. Family level tree. The leaves are families, and internal nodes are
+                orders (primarily).
+            3. Genus level tree. The leaves are genera, and internal nodes are
+                families (primarily).
+            4. Species level tree. The leaves are species, and internal nodes are
+                also probably families.
+        
+        As there are hundreds of families and only 30 orders, the color mapping is
+        done at the order level. This means that the colors for the orders are the
+        same for the internal nodes and the leaves. 
+
         
         Input: 
             dict(datainfo)
+            str(taxa): 'internal' or 'leaves'
 
         Output:
             datainfo['dir']_'taxa'.asset
