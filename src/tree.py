@@ -74,9 +74,15 @@ class tree:
         use_provided_z = True
         spherical_tree = False
 
-        if (datainfo['spherical_tree'] == True):
+        if (datainfo['tree_type'] == 'tabletop'):
+            use_provided_z = False
+            spherical_tree = False
+        elif (datainfo['tree_type'] == 'spherical'):
             use_provided_z = False
             spherical_tree = True
+        elif (datainfo['tree_type'] == '3D'):
+            use_provided_z = True
+            spherical_tree = False
 
         # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
         # on the projection (spherical or not). Default behavior is to not use
@@ -211,9 +217,15 @@ class tree:
         use_provided_z = True
         spherical_tree = False
 
-        if (datainfo['spherical_tree'] == True):
+        if (datainfo['tree_type'] == 'tabletop'):
+            use_provided_z = False
+            spherical_tree = False
+        elif (datainfo['tree_type'] == 'spherical'):
             use_provided_z = False
             spherical_tree = True
+        elif (datainfo['tree_type'] == '3D'):
+            use_provided_z = True
+            spherical_tree = False
 
         # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
         # on the projection (spherical or not). Default behavior is to not use
@@ -416,9 +428,15 @@ class tree:
         use_provided_z = True
         spherical_tree = False
 
-        if (datainfo['spherical_tree'] == True):
+        if (datainfo['tree_type'] == 'tabletop'):
+            use_provided_z = False
+            spherical_tree = False
+        elif (datainfo['tree_type'] == 'spherical'):
             use_provided_z = False
             spherical_tree = True
+        elif (datainfo['tree_type'] == '3D'):
+            use_provided_z = True
+            spherical_tree = False
 
         # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
         # on the projection (spherical or not). Default behavior is to not use

@@ -405,6 +405,7 @@ def main():
         datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
 
+        """
         ####################################################
         # Insect family trees. 
         ####################################################
@@ -414,14 +415,14 @@ def main():
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xy'
         datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xy'
         datainfo['metadata_file'] = None
-        datainfo['tree_leaves_file'] = 'Insecta_family.mMDS.xy.leaves.csv'
-        datainfo['tree_branches_file'] = 'Insecta_family.mMDS.xy.branches.csv'
-        datainfo['tree_internal_file'] = 'Insecta_family.mMDS.xy.internal.csv'
+        datainfo['newick_file'] = 'Insecta_family.nwk'
+        datainfo['coordinates_file'] = 'Insecta_family.mMDS.xy.csv'
+        datainfo['tree_type'] = 'tabletop'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
-        """
+        
         # 3D tree.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xyz'
@@ -429,7 +430,7 @@ def main():
         datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
         datainfo['newick_file'] = 'Insecta_family.nwk'
         datainfo['coordinates_file'] = 'Insecta_family_mds3.xyz.csv'
-        datainfo['spherical_tree'] = False
+        datainfo['tree_type'] = '3D'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
@@ -442,7 +443,7 @@ def main():
         datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
         datainfo['newick_file'] = 'Insecta_family.nwk'
         datainfo['coordinates_file'] = 'Insecta_family_mds3.xyz.csv'
-        datainfo['spherical_tree'] = True
+        datainfo['tree_type'] = 'spherical'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
