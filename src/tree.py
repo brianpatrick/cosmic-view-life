@@ -59,7 +59,7 @@ class tree:
 
         # instead of loading the processed CSV file, we'll load the raw data file (set
         # in the datainfo dictionary) and process it here. 
-        common.print_subhead_status('Processing tree data, leaves -' + datainfo['tree_dir'])
+        common.print_subhead_status('Processing tree data, leaves - ' + datainfo['tree_dir'])
 
         datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
         datainfo['data_group_desc'] = 'Data points for the tree - leaves.'
@@ -186,7 +186,7 @@ class tree:
             .speck
         '''
 
-        common.print_subhead_status('Processing tree, internal/clades -' + datainfo['tree_dir'])
+        common.print_subhead_status('Processing tree, internal/clades - ' + datainfo['tree_dir'])
 
         datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
         datainfo['data_group_desc'] = 'Data points for the tree - internal nodes (clades).'
@@ -379,11 +379,24 @@ class tree:
             OpenSpace under the hood.
         '''
 
+        # instead of loading the processed CSV file, we'll load the raw data file (set
+        # in the datainfo dictionary) and process it here. 
+        common.print_subhead_status('Processing tree data, branches - ' + datainfo['tree_dir'])
 
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['tree_branches_file']
-        common.test_input_file(inpath)
+        datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
+        datainfo['data_group_desc'] = 'Data points for the tree - branches.'
 
-        branch_lines = pd.read_csv(inpath)
+        tree_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['newick_file']
+        coords_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['coordinates_file']
+        common.test_input_file(tree_file_path)
+        common.test_input_file(coords_file_path)
+
+        # Use Wandrille's projection to get the XYZ coordinates for the branches.
+        tree, missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
+                                                         inputTree = tree_file_path,
+                                                         use_z_from_file=True)
+
+        branch_lines = itt.get_branches_dataframe(tree)
 
         # Transform the 'z' axis
         #branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - datainfo['transform_tree_z'])

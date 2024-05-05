@@ -431,9 +431,9 @@ def main():
         datainfo['newick_file'] = 'Insecta_family.nwk'
         datainfo['coordinates_file'] = 'Insecta_family_mds3.xyz.csv'
 
-        datainfo['tree_leaves_file'] = 'Insecta_family.mMDS3.xyz.leaves.csv'
-        datainfo['tree_branches_file'] = 'Insecta_family.mMDS3.xyz.branches.csv'
-        datainfo['tree_internal_file'] = 'Insecta_family.mMDS3.xyz.internal.csv'
+        #datainfo['tree_leaves_file'] = 'Insecta_family.mMDS3.xyz.leaves.csv'
+        #datainfo['tree_branches_file'] = 'Insecta_family.mMDS3.xyz.branches.csv'
+        #datainfo['tree_internal_file'] = 'Insecta_family.mMDS3.xyz.internal.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
