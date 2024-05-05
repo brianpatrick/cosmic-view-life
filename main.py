@@ -427,32 +427,28 @@ def main():
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xyz'
         datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xyz'
         datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
-        
         datainfo['newick_file'] = 'Insecta_family.nwk'
         datainfo['coordinates_file'] = 'Insecta_family_mds3.xyz.csv'
-
-        #datainfo['tree_leaves_file'] = 'Insecta_family.mMDS3.xyz.leaves.csv'
-        #datainfo['tree_branches_file'] = 'Insecta_family.mMDS3.xyz.branches.csv'
-        #datainfo['tree_internal_file'] = 'Insecta_family.mMDS3.xyz.internal.csv'
+        datainfo['spherical_tree'] = False
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
-        """
+        
         # 3D tree, spherical.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xyz_spherical'
         datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xyz_spherical'
         datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
-        datainfo['tree_leaves_file'] = 'Insecta_family.mMDS3.xyz-spherical.leaves.csv'
-        datainfo['tree_branches_file'] = 'Insecta_family.mMDS3.xyz-spherical.branches.csv'
-        datainfo['tree_internal_file'] = 'Insecta_family.mMDS3.xyz-spherical.internal.csv'
+        datainfo['newick_file'] = 'Insecta_family.nwk'
+        datainfo['coordinates_file'] = 'Insecta_family_mds3.xyz.csv'
+        datainfo['spherical_tree'] = True
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
 
-        
+        """
         # The current genus and species trees are from MDS runs that didn't
         # really work.
 

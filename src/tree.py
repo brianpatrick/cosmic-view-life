@@ -69,12 +69,22 @@ class tree:
         common.test_input_file(tree_file_path)
         common.test_input_file(coords_file_path)
 
+        # By default, use the provided Z coordinates. If the tree is spherical, the Z
+        # coordinates are projected to lie on a sphere.
+        use_provided_z = True
+        spherical_tree = False
+
+        if (datainfo['spherical_tree'] == True):
+            use_provided_z = False
+            spherical_tree = True
+
         # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
         # on the projection (spherical or not). Default behavior is to not use
         # spherical projection.
         tree, missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
                                                          inputTree = tree_file_path,
-                                                         use_z_from_file=True)
+                                                         use_z_from_file=use_provided_z,
+                                                         spherical_layout=spherical_tree)
 
         leaves = itt.get_leaves_dataframe(tree, missing_leaves)
 
@@ -196,12 +206,22 @@ class tree:
         common.test_input_file(tree_file_path)
         common.test_input_file(coords_file_path)
 
+        # By default, use the provided Z coordinates. If the tree is spherical, the Z
+        # coordinates are projected to lie on a sphere.
+        use_provided_z = True
+        spherical_tree = False
+
+        if (datainfo['spherical_tree'] == True):
+            use_provided_z = False
+            spherical_tree = True
+
         # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
         # on the projection (spherical or not). Default behavior is to not use
         # spherical projection.
         tree, missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
                                                          inputTree = tree_file_path,
-                                                         use_z_from_file=True)
+                                                         use_z_from_file=use_provided_z,
+                                                         spherical_layout=spherical_tree)
 
         nodes = itt.get_internal_nodes_dataframe(tree)
 
@@ -391,10 +411,22 @@ class tree:
         common.test_input_file(tree_file_path)
         common.test_input_file(coords_file_path)
 
-        # Use Wandrille's projection to get the XYZ coordinates for the branches.
+        # By default, use the provided Z coordinates. If the tree is spherical, the Z
+        # coordinates are projected to lie on a sphere.
+        use_provided_z = True
+        spherical_tree = False
+
+        if (datainfo['spherical_tree'] == True):
+            use_provided_z = False
+            spherical_tree = True
+
+        # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
+        # on the projection (spherical or not). Default behavior is to not use
+        # spherical projection.
         tree, missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
                                                          inputTree = tree_file_path,
-                                                         use_z_from_file=True)
+                                                         use_z_from_file=use_provided_z,
+                                                         spherical_layout=spherical_tree)
 
         branch_lines = itt.get_branches_dataframe(tree)
 
