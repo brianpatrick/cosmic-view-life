@@ -293,9 +293,9 @@ def main():
         datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xy_3Dprojection'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
         datainfo['tree_dir'] = '202308_bird_dataset_mMDS.xy_3Dprojection'
-        datainfo['tree_leaves_file'] = 'aves_families.divergence_time.mMDS.xy.leaves.csv'
-        datainfo['tree_branches_file'] = 'aves_families.divergence_time.mMDS.xy.branches.csv'
-        datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xy.internal.csv'
+        datainfo['tree_type'] = 'tabletop'
+        datainfo['coordinates_file'] = 'aves_families.divergence_time.mMDS.xy.csv'
+        datainfo['newick_file'] = 'kimball2019_adapted_family.timetree.nwk'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 34]
         datainfo['transform_tree_z'] = 0.0 # 75.0
@@ -305,14 +305,14 @@ def main():
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
               do_tree = True)
-        
+
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xyz.sphere_3Dprojection'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
         datainfo['tree_dir'] = '202308_bird_dataset_mMDS.xyz.sphere_3Dprojection'
-        datainfo['tree_leaves_file'] = 'aves_families.divergence_time.mMDS.xyz.sphere.leaves.csv'
-        datainfo['tree_branches_file'] = 'aves_families.divergence_time.mMDS.xyz.sphere.branches.csv'
-        datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xyz.sphere.internal.csv'
+        datainfo['tree_type'] = '3D'
+        datainfo['coordinates_file'] = 'aves_families.divergence_time.mMDS.xyz.csv'
+        datainfo['newick_file'] = 'kimball2019_adapted_family.timetree.nwk'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 34]
         datainfo['transform_tree_z'] = 0.0 #75.0
@@ -322,14 +322,14 @@ def main():
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
               do_tree = True)
-
+        
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = '202308_bird_dataset_mMDS.xyz_3Dprojection'
         datainfo['metadata_file'] = 'aves.taxons.metadata.csv'
         datainfo['tree_dir'] = '202308_bird_dataset_mMDS.xyz_3Dprojection'
-        datainfo['tree_leaves_file'] = 'aves_families.divergence_time.mMDS.xyz.leaves.csv'
-        datainfo['tree_branches_file'] = 'aves_families.divergence_time.mMDS.xyz.branches.csv'
-        datainfo['tree_internal_file'] = 'aves_families.divergence_time.mMDS.xyz.internal.csv'
+        datainfo['tree_type'] = 'spherical'
+        datainfo['coordinates_file'] = 'aves_families.divergence_time.mMDS.xyz.csv'
+        datainfo['newick_file'] = 'kimball2019_adapted_family.timetree.nwk'
         datainfo['seq2taxon_file'] = 'aves.seqId2taxon.csv'
         datainfo['lineage_columns'] = [27, 34]
         datainfo['transform_tree_z'] = 0.0 # 75.0
