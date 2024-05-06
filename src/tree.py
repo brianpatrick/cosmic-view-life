@@ -709,7 +709,7 @@ class tree:
         asset_info[file]['gui_name'] = taxa.title()
         asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['tree_dir'].replace('_', ' ').title()
 
-
+        print("*** WARNING: Color mapping for trees is broken. EVERYTHING is set to fixed color. ***")
 
         # Open the file to write to
         outfile = datainfo['dir'] + '_' + taxa + '.asset'
@@ -748,17 +748,17 @@ class tree:
                 print('        UseCaching = false,')
                 print('        Type = "RenderablePointCloud",')
                 print('         Coloring = {')
-                #print('            FixedColor = { 0.8, 0.8, 0.8 }')
-                if (taxa == 'internal'):
-                    # Gotta fix this. The colors for the orders for the internal nodes and
-                    # the leaves need to be the same, so we need to make this mapping once
-                    # and then re-use it.
-                    print('            FixedColor = { 0.8, 0.8, 0.8 }')
-                else:
-                    print('            ColorMapping = { ')
-                    print('                File = ' + asset_info[file]['cmap_var'] + ',')
-                    print('                ParameterOptions = { { Key = "color" } }')
-                    print('            }')
+                print('            FixedColor = { 0.8, 0.8, 0.8 }')
+                #if (taxa == 'internal'):
+                #    # Gotta fix this. The colors for the orders for the internal nodes and
+                #    # the leaves need to be the same, so we need to make this mapping once
+                #    # and then re-use it.
+                #    print('            FixedColor = { 0.8, 0.8, 0.8 }')
+                #else:
+                #    print('            ColorMapping = { ')
+                #    print('                File = ' + asset_info[file]['cmap_var'] + ',')
+                #    print('                ParameterOptions = { { Key = "color" } }')
+                #    print('            }')
                 print('        },')
                 print('        Opacity = 1.0,')
                 print('        SizeSettings = { ScaleFactor = scale_factor, ScaleExponent = scale_exponent },')
