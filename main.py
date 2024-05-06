@@ -208,20 +208,18 @@ def main():
         datainfo['seq2taxon_file'] = 'primates.seqId2taxon.csv'
         datainfo['synonomous_file'] = 'primates.syn.nonsyn.distToHumanConsensus.csv'
         datainfo['lineage_columns'] = [24, 31]
-        datainfo['tree_dir'] = 'tree'
 
+        datainfo['tree_dir'] = 'tree'
+        datainfo['tree_type'] = 'tabletop'
         datainfo['newick_file'] = 'Primates.curated.timetree.withInternalName.nwk'
         datainfo['coordinates_file'] = 'primates_species.xy.csv'
-
-        datainfo['tree_leaves_file'] = 'primates.leaves.csv'
-        datainfo['tree_branches_file'] = 'primates.branches.csv'
-        datainfo['tree_internal_file'] = 'primates.internal.csv'
 
         datainfo['transform_tree_z'] = 0.0 # 133.5
         datainfo['translate_leaves_z'] = 0 #50.0
         datainfo['scale_tree_z'] = 75.0
 
-        primates(datainfo, vocab)
+        primates(datainfo, vocab, do_tree=True)
+
 
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'UMAP_v1'
@@ -240,7 +238,7 @@ def main():
         new_seq_filename = common.pre_process_takanori_seq(datainfo)
         datainfo['sequence_file'] = new_seq_filename
 
-        primates(datainfo, vocab)
+        primates(datainfo, vocab, do_tree = False)
 
 
     # Birds
@@ -630,8 +628,9 @@ def primates(datainfo, vocab, do_tree = False):
         # They are a separate set of points that are interpolated from the leaf points to the
         # data-reduction points. This is to show the relationship between the established
         # evolutionary relationships and the data-reduced points.
-        mytree.process_leaves_interpolated(datainfo)
-        mytree.make_asset_leaves_interpolated(datainfo)
+        print("***** Interpolated points is broken. *****")
+        #mytree.process_leaves_interpolated(datainfo)
+        #mytree.make_asset_leaves_interpolated(datainfo)
 
     
 
