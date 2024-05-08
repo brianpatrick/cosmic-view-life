@@ -19,6 +19,7 @@ import sys
 import pandas as pd
 from pathlib import Path
 from Bio import Phylo
+import matplotlib as mpl
 
 from integrate_tree_to_XYZ import integrate_tree_to_XYZ as itt
 from src import common
@@ -115,7 +116,6 @@ class tree:
         print("*** METADATA FILE = " + str(datainfo['metadata_file']) + " ***")
         # If the metadata is set, use it to group the leaves into categories by color.
         if ('metadata_file' in datainfo.keys()) and (datainfo['metadata_file'] != None):
-            print("************************************ PROCESSING METADATA ************************************")
             # The CSV file has x, y, z, name, and a color index column. Colors are used to group
             # the leaves into different categories. Let's load in the metadata file and make
             # a dictionary out of it. The format is "taxon", "parent-lineage". Some examples of
@@ -144,13 +144,13 @@ class tree:
             parent_lineages = set(metadata.values())
             parent_lineage_colors = {lineage: i + 1 for i, lineage in enumerate(parent_lineages)}
 
-            # Now we need to run through the leaves and assign a color to each one based on
-            # the parent lineage. We'll add a new column to the leaves dataframe called
-            # 'color'. For each leaf:
+            # Now we need to run through the leaves and assign a color index to each one
+            # based on the parent lineage. We'll add a new column to the leaves dataframe
+            # called 'color'. For each leaf:
             for i, row in leaves.iterrows():
-                # Get the parent lineage of the leaf. Some taxa may not have a parent lineage
-                # or may not be in the metadata file. In this case, we'll just assign the
-                # taxon name as the lineage. Zoraptera is one of these taxa.
+                # Get the parent lineage of the leaf. Some taxa may not have a parent
+                # lineage or may not be in the metadata file. In this case, we'll just
+                # assign the taxon name as the lineage. Zoraptera is one of these taxa.
                 lineage = ''
                 taxon = row['name']
                 if taxon not in metadata.keys():
@@ -173,20 +173,22 @@ class tree:
             cmap_filename = datainfo['tree_dir'] + '.cmap'
             cmap_path = outpath / cmap_filename
             
-            color_df = common.get_crayola_color_df(len(parent_lineage_colors))
+            # This is a hardcoded viridis colormap. I'm partial to this particular
+            # colormap because it's colorblind friendly.
+            cmap = mpl.cm.viridis
+            norm = mpl.colors.Normalize(vmin=0, vmax=len(parent_lineages))
 
             # Color map files are a very simple format. The first line is the number
             # of colors in the file, followed by one line for each color. The color
             # is in the format of r, g, b, a followed by a comment prefaced by a '#'
-            # with the color name.
-            
+            # with the color name. The color map file contains the number of colors in
+            # the parent lineage.
             # Write out the color map file to cmap_path.
-            with open(cmap_path, 'wt') as cmap:
-                print(len(color_df), file=cmap)
-                for _, row in color_df.iterrows():
-                    # Colors are in RGBA format, and alpha is always 1.0.
-                    print(f"{row['rgb']} 1.0 # {row['color_name']}", file=cmap)
-
+            with open(cmap_path, 'wt') as cmap_file:
+                print(len(parent_lineages), file=cmap_file)
+                for i in range(len(parent_lineages)):
+                    c = cmap(norm(i))
+                    print(f"{c[0]:.8f} {c[1]:.8f} {c[2]:.8f} 1.0 # {i}", file=cmap_file)
 
         # Write data to files
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
@@ -715,7 +717,6 @@ class tree:
         #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
 
         asset_info[file]['cmap_file'] = path.stem + '.cmap'
-        #asset_info[file]['cmap_file'] = 'insect_order_colors.cmap'
         asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
         asset_info[file]['dat_file'] = path.stem + '.dat'
@@ -750,10 +751,13 @@ class tree:
 
             # Not every asset has a color map file. Make the path to it given the data
             # from the asset_info dict and check to see if it's there.
-            cmap_file_path = asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file']
+            ## HH This hardcoded path finding is kinda dangerous...
+            full_cmap_file_path = Path.cwd() / datainfo['dir'] / datainfo['tree_dir'] / asset_info[file]['asset_rel_path'] / asset_info[file]['cmap_file']
+            cmap_filename = asset_info[file]['cmap_file']
             use_colormap = False
-            if Path(cmap_file_path).exists():
-                print(f'local {asset_info[file]['cmap_var']} = asset.resource({cmap_file_path})')
+            if Path(full_cmap_file_path).exists():
+                print(f'local {asset_info[file]['cmap_var']} = asset.resource("./{cmap_filename}")')
+                use_colormap = True
 
             for file in asset_info:
                 print('local ' + asset_info[file]['csv_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['csv_file'] + '")')

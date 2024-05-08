@@ -410,7 +410,7 @@ def main():
         ####################################################
         # Insect family trees. 
         ####################################################
-        """
+        
         # "Tabletop" 2D tree.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xy'
@@ -449,7 +449,7 @@ def main():
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
-        """
+        
         """
         # The current genus and species trees are from MDS runs that didn't
         # really work.
