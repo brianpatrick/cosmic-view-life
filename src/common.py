@@ -12,6 +12,7 @@ import sys
 import math
 import pandas as pd
 from pathlib import Path
+import colormap as cm
 #import str
 
 
@@ -356,21 +357,18 @@ def color2dict(source_color_file, input_color_list):
 
 
 # -----------------------------------------------------------------------------
-def parse_color_file(color_file_path, total_colors):
+def get_crayola_color_df(num_colors):
     """
-    Read a cmap file and return a dataframe of colors.
-
-    :param color_file_path: Filename for a color table (.dat)
-    :type color_file_path: str
-    :param total_colors: A DataFrame with columns 'color_index', 'rgb', and 'color_name'.
-    :type total_colors: pathlib.PosixPath
+    Get a color dataframe with the number of colors requested.
     """    
+
+    inpath = Path.cwd() / PROCESSED_DATA_DIRECTORY / COLOR_DIRECTORY / 'crayola' / 'crayola.dat'
 
     #color_map_file = color_file
     #color_file_path = Path.cwd() / PROCESSED_DATA_DIRECTORY / COLOR_DIRECTORY / color_map_file
-    test_path(color_file_path)
+    test_path(inpath)
 
-    with open(color_file_path, 'rt') as color_file:
+    with open(inpath, 'rt') as color_file:
 
         # Read the lines in the color map file
         color_list = [line.strip() for line in color_file]
@@ -405,13 +403,13 @@ def parse_color_file(color_file_path, total_colors):
         color_names.append(color_line_parts[1])
 
     # expand to at least the total_colors size
-    sized_color_values = color_values * math.ceil(total_colors / len(color_values))
+    sized_color_values = color_values * math.ceil(num_colors / len(color_values))
 
     # trim off the modulus
-    sized_color_values = sized_color_values[:total_colors]
+    sized_color_values = sized_color_values[:num_colors]
 
-    sized_color_names = color_names * math.ceil(total_colors / len(color_names))
-    sized_color_names = sized_color_names[:total_colors]
+    sized_color_names = color_names * math.ceil(num_colors / len(color_names))
+    sized_color_names = sized_color_names[:num_colors]
 
     sized_color_index = []
     for i, value in enumerate(sized_color_names, start=1):

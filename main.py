@@ -160,7 +160,15 @@ def main():
     # in common. 
     common.CREATE_DIRS_BY_DEFAULT = args.create_dirs
 
-    # Define some universal metadata
+    # datainfo dictionary. This holds parameters (including some universal metadata)
+    # that get passed to the various modules (insects, primates, birds, etc.) Each
+    # of these uses different parts of datainfo depending on what they need to do.
+    # This is a bit more flexible than each processing module having a bunch of
+    # parameters, and it's easier to keep track of what's going on.
+    #
+    # The minus is that one needs to keep track of what's in datainfo so that the
+    # previous module's info is not used in the next module. Might be handy to have
+    # an 'init' function that sets the datainfo to a default state.
     datainfo = {}
 
     datainfo['project'] = 'Cosmic View of Life on Earth'
@@ -402,12 +410,12 @@ def main():
         ####################################################
         # Insect family trees. 
         ####################################################
-
+        """
         # "Tabletop" 2D tree.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xy'
         datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xy'
-        datainfo['metadata_file'] = None
+        datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
         datainfo['newick_file'] = 'Insecta_family.nwk'
         datainfo['coordinates_file'] = 'Insecta_family.mMDS.xy.csv'
         datainfo['tree_type'] = 'tabletop'
@@ -441,7 +449,7 @@ def main():
         datainfo['scale_tree_z'] = 1.0
         datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
-
+        """
         """
         # The current genus and species trees are from MDS runs that didn't
         # really work.
@@ -591,7 +599,7 @@ def primates(datainfo, vocab, do_tree = False):
     meta_data = metadata.process_data(datainfo)
 
     # Dump the primate metadata to a file for debug.
-    meta_data.to_csv('primates_metadata_debugHH.csv', index=False)
+    #meta_data.to_csv('primates_metadata_debugHH.csv', index=False)
 
     # HH - The consensus points are a single point for each species. This is most likely
     # the centroid or something like that; I need to look into this more.
@@ -609,12 +617,8 @@ def primates(datainfo, vocab, do_tree = False):
     if (do_tree):
         mytree = tree.tree()
 
-        # Process the tree of primates NOTE: need to run the
-        # ./catalogs_raw/primates/tree/integrate_tree_to_XYZ.py, see the readme file there.
-        # This is a bit hacky in that each part of the tree is handled manually here (leaves,
-        # branches, clades), whereas optimally this would all be taken care of in the tree
-        # class.
-
+        # Make the tree asset and data files. This could all be done in the tree module,
+        # but it's separated out here for now.
         # Metadata processing is broken for primates and birds for trees.
         datainfo['metadata_file'] = None
         mytree.process_leaves(datainfo)
@@ -628,7 +632,6 @@ def primates(datainfo, vocab, do_tree = False):
         # They are a separate set of points that are interpolated from the leaf points to the
         # data-reduction points. This is to show the relationship between the established
         # evolutionary relationships and the data-reduced points.
-        print("***** Interpolated points is broken. *****")
         #mytree.process_leaves_interpolated(datainfo)
         #mytree.make_asset_leaves_interpolated(datainfo)
 
@@ -698,7 +701,7 @@ def birds(datainfo, vocab,
 
     # Dump the bird metadata to a file for debug.
     meta_data = metadata.process_data(datainfo)
-    meta_data.to_csv('birds_metadata_debugHH.csv', index=False)
+    #meta_data.to_csv('birds_metadata_debugHH.csv', index=False)
 
     if (do_consensus):
         consensus = consensus_species.process_data(datainfo, vocab)

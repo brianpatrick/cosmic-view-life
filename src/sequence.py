@@ -146,12 +146,14 @@ def process_data(datainfo, metadata):
 
     # Function reads the color table file, generates a df of colors
     # with as many entries from the length passed.
-    color_df = common.parse_color_file(inpath, len(unique_taxons))
+    color_df = common.get_crayola_color_df(len(unique_taxons))
 
     # Merge the list of taxons and taxon codes with the colors,
     # matching on the color index and taxon code.
     unique_taxons = pd.merge(unique_taxons, color_df, left_on='taxon_code', right_on='color_index', how='left')
 
+    # Dump this to a file for debug.
+    #unique_taxons.to_csv(f"{datainfo['catalog_directory']}_taxon_codes.csv")
 
     # Print this to a csv file
     outpath_taxon_csv = Path.cwd() / common.PROCESSED_DATA_DIRECTORY / datainfo['dir']

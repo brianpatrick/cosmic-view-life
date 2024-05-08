@@ -46,9 +46,9 @@ class tree:
         Process the tree leaves csv file. 
 
         The output csv file has the x, y, z, name, and color columns. The color
-        column is used to group the leaves into categories and is generally based
-        on taxonomic groups (also called parent lineages), though they can also be
-        used for other categories.
+        column is an index into the color map file, used to group the leaves into
+        categories and is generally based on taxonomic groups (also called parent
+        lineages), though they can also beused for other categories.
 
         Input:
             dict(datainfo)
@@ -83,6 +83,9 @@ class tree:
         elif (datainfo['tree_type'] == '3D'):
             use_provided_z = True
             spherical_tree = False
+        else:
+            print("ERROR: Tree type not recognized. Please set the tree type to 'tabletop', 'spherical', or '3D'.")
+            sys.exit(1)
 
         # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
         # on the projection (spherical or not). Default behavior is to not use
@@ -109,11 +112,11 @@ class tree:
 
         # Z translate specific to leaves. Hacky.
         leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['translate_leaves_z'])
-
+        print("*** METADATA FILE = " + str(datainfo['metadata_file']) + " ***")
         # If the metadata is set, use it to group the leaves into categories by color.
         if ('metadata_file' in datainfo.keys()) and (datainfo['metadata_file'] != None):
-
-            # The CSV file has x, y, z, name, and a color column. Colors are used to group
+            print("************************************ PROCESSING METADATA ************************************")
+            # The CSV file has x, y, z, name, and a color index column. Colors are used to group
             # the leaves into different categories. Let's load in the metadata file and make
             # a dictionary out of it. The format is "taxon", "parent-lineage". Some examples of
             # this might be taxon=family (Syrphidae, for example) and parent-lineage=order 
@@ -143,7 +146,7 @@ class tree:
 
             # Now we need to run through the leaves and assign a color to each one based on
             # the parent lineage. We'll add a new column to the leaves dataframe called
-            # 'color'. For each leaf,
+            # 'color'. For each leaf:
             for i, row in leaves.iterrows():
                 # Get the parent lineage of the leaf. Some taxa may not have a parent lineage
                 # or may not be in the metadata file. In this case, we'll just assign the
@@ -164,8 +167,26 @@ class tree:
             # color the leaves based on the color column. The first row is the number of
             # colors, followed by the colors themselves. The colors are in the format of
             # r, g, b, a. The colors are in the order of the parent lineages.
+            # NOTE that the filename here must be the same as the one in make_asset_nodes().
             outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
             common.test_path(outpath)
+            cmap_filename = datainfo['tree_dir'] + '.cmap'
+            cmap_path = outpath / cmap_filename
+            
+            color_df = common.get_crayola_color_df(len(parent_lineage_colors))
+
+            # Color map files are a very simple format. The first line is the number
+            # of colors in the file, followed by one line for each color. The color
+            # is in the format of r, g, b, a followed by a comment prefaced by a '#'
+            # with the color name.
+            
+            # Write out the color map file to cmap_path.
+            with open(cmap_path, 'wt') as cmap:
+                print(len(color_df), file=cmap)
+                for _, row in color_df.iterrows():
+                    # Colors are in RGBA format, and alpha is always 1.0.
+                    print(f"{row['rgb']} 1.0 # {row['color_name']}", file=cmap)
+
 
         # Write data to files
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
@@ -468,6 +489,8 @@ class tree:
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         common.test_path(outpath)
 
+        # These speck and dat filenames must be generated in the same way as in
+        # make_asset_branches() so that the asset file can find them.
         outfile_speck = datainfo['dir'] + '_branches.speck'
         outpath_speck = outpath / outfile_speck
         outfile_dat = datainfo['dir'] + '_branches.dat'
@@ -691,8 +714,8 @@ class tree:
         #asset_info[file]['label_file'] = path.stem + '.label'
         #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
 
-        #asset_info[file]['cmap_file'] = path.stem + '.cmap'
-        asset_info[file]['cmap_file'] = 'insect_order_colors.cmap'
+        asset_info[file]['cmap_file'] = path.stem + '.cmap'
+        #asset_info[file]['cmap_file'] = 'insect_order_colors.cmap'
         asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
         asset_info[file]['dat_file'] = path.stem + '.dat'
@@ -708,8 +731,6 @@ class tree:
         # Convert taxa to title case
         asset_info[file]['gui_name'] = taxa.title()
         asset_info[file]['gui_path'] = '/' + datainfo['sub_project'] + '/' + datainfo['tree_dir'].replace('_', ' ').title()
-
-        print("*** WARNING: Color mapping for trees is broken. EVERYTHING is set to fixed color. ***")
 
         # Open the file to write to
         outfile = datainfo['dir'] + '_' + taxa + '.asset'
@@ -727,14 +748,30 @@ class tree:
 
             print('local ' + asset_info[file]['dat_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['dat_file'] + '")')
 
-            print('local ' + asset_info[file]['cmap_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file'] + '")')
+            # Not every asset has a color map file. Make the path to it given the data
+            # from the asset_info dict and check to see if it's there.
+            cmap_file_path = asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['cmap_file']
+            use_colormap = False
+            if Path(cmap_file_path).exists():
+                print(f'local {asset_info[file]['cmap_var']} = asset.resource({cmap_file_path})')
 
             for file in asset_info:
                 print('local ' + asset_info[file]['csv_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['csv_file'] + '")')
 
             print('-- Set some parameters for OpenSpace settings')
-            print('local scale_factor = ' + common.POINT_SCALE_FACTOR)
-            print('local scale_exponent = ' + common.POINT_SCALE_EXPONENT)
+            # if datainfo has point_scale_factor or scale exponent parameters set, use
+            # those, otherwise use the defaults defined in common.py.
+            scale_factor = common.POINT_SCALE_FACTOR
+            if 'point_scale_factor' in datainfo:
+                scale_factor = datainfo['point_scale_factor']
+            else: 
+                scale_factor = common.POINT_SCALE_FACTOR
+            if 'scale_exponent' in datainfo:
+               scale_exponent = datainfo['scale_exponent']
+            else:
+                scale_exponent = common.POINT_SCALE_EXPONENT
+            print('local scale_factor = ' + str(scale_factor))
+            print('local scale_exponent = ' + str(scale_exponent))
             print('local text_size = ' + common.TEXT_SIZE)
             print('local text_min_size = ' + common.TEXT_MIN_SIZE)
             print('local text_max_size = ' + common.TEXT_MAX_SIZE)
@@ -748,17 +785,17 @@ class tree:
                 print('        UseCaching = false,')
                 print('        Type = "RenderablePointCloud",')
                 print('         Coloring = {')
-                print('            FixedColor = { 0.8, 0.8, 0.8 }')
-                #if (taxa == 'internal'):
-                #    # Gotta fix this. The colors for the orders for the internal nodes and
-                #    # the leaves need to be the same, so we need to make this mapping once
-                #    # and then re-use it.
-                #    print('            FixedColor = { 0.8, 0.8, 0.8 }')
-                #else:
-                #    print('            ColorMapping = { ')
-                #    print('                File = ' + asset_info[file]['cmap_var'] + ',')
-                #    print('                ParameterOptions = { { Key = "color" } }')
-                #    print('            }')
+                #print('            FixedColor = { 0.8, 0.8, 0.8 }')
+                if (taxa == 'internal') or (use_colormap == False):
+                    # Gotta fix this. The colors for the orders for the internal nodes and
+                    # the leaves need to be the same, so we need to make this mapping once
+                    # and then re-use it.
+                    print('            FixedColor = { 0.8, 0.8, 0.8 }')
+                else:
+                    print('            ColorMapping = { ')
+                    print('                File = ' + asset_info[file]['cmap_var'] + ',')
+                    print('                ParameterOptions = { { Key = "color" } }')
+                    print('            }')
                 print('        },')
                 print('        Opacity = 1.0,')
                 print('        SizeSettings = { ScaleFactor = scale_factor, ScaleExponent = scale_exponent },')
