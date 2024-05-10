@@ -10,7 +10,7 @@ from pathlib import Path
 import argparse
 
 
-from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree
+from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree, metadata
 
 
 def main():
@@ -223,7 +223,6 @@ def main():
         datainfo['coordinates_file'] = 'primates_species.xy.csv'
 
         datainfo['transform_tree_z'] = 0.0 # 133.5
-        datainfo['translate_leaves_z'] = 0 #50.0
         datainfo['scale_tree_z'] = 75.0
 
         primates(datainfo, vocab, do_tree=True)
@@ -308,7 +307,6 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
@@ -325,7 +323,6 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         datainfo['transform_tree_z'] = 0.0 #75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
@@ -342,7 +339,6 @@ def main():
         datainfo['lineage_columns'] = [27, 34]
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         birds(datainfo, vocab,
               do_consensus=False, do_sequence=False, do_sequence_lineage=False, 
               do_slice_by_clade=False, do_slice_by_lineage=False, do_slice_by_taxon=False,
@@ -352,17 +348,34 @@ def main():
 
     # Insects
     # ------------------------------------------------------------------------
-    # All the datasets below are tree-based, with input data as newick files
-    # from timetree.org. The input data here is CSV files that are the result
-    # of Wandrille's pipeline, which runs MDS on a distance matrix obtained from
-    # the newick files.
+    # As of this writing (9 May 2025), insect data is tree data. The input
+    # is a newick file and a set of coordinates. The tree data is processed
+    # using Wandrille's integrate_tree_to_XYZ code, which calculates XY(Z) coordinates
+    # depending on the tree type. The tree type is either tabletop, 3D, or spherical.
     #
-    # The insect points here are all color-coded by order, and with the same
-    # color scheme. This is a little different than the other datasets, 
+    # The tree data is then processed by the tree module, which generates the asset
+    # files for OpenSpace.
+    #
+    # Tree internal nodes and leaves 
     
     if ('insects' not in args.skip):
         datainfo['dir'] = 'insects'
         datainfo['sub_project'] = 'Insects'
+
+        # Right now, all insect plots are sorted by order, meaning that points are
+        # colored by order. This is a bit of a simplification, but it's a start.
+        # Also I'm not sure how we'd color by family, as there are hundreds. It
+        # might be possible to organize by color family, for example shades of a given
+        # color represent families within a certain order. But with 29-30 recognized
+        # insect orders, it's a bit of a challenge to find that many distinct colors
+        # with shades that would be easily distinguishable.
+        #
+        # This colormap file is pre-constructed and ready to go. It contains a single
+        # color for each family, and the color name and family are in the comment
+        # for each color. When the tree is constructed, the order names in the 
+        # color file are used for lookups.
+        # 
+        datainfo['os_colormap_file'] = 'insect_orders.cmap'
 
         ####################################################
         # Insect order trees. This is fewer points than the family or (hopefully soon
@@ -379,7 +392,6 @@ def main():
         datainfo['coordinates_file'] = 'Insecta_order.mMDS.xy.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
         
         # 3D tree, non-spherical.
@@ -391,7 +403,6 @@ def main():
         datainfo['coordinates_file'] = 'Insecta_order_mds3.xyz.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
 
         # 3D tree, spherical.
@@ -403,7 +414,6 @@ def main():
         datainfo['coordinates_file'] = 'Insecta_order_mds3.xyz.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
 
         
@@ -421,7 +431,6 @@ def main():
         datainfo['tree_type'] = 'tabletop'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
         
         # 3D tree.
@@ -434,7 +443,6 @@ def main():
         datainfo['tree_type'] = '3D'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
         
         # 3D tree, spherical.
@@ -447,7 +455,6 @@ def main():
         datainfo['tree_type'] = 'spherical'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
         
         """
@@ -466,7 +473,6 @@ def main():
         datainfo['tree_internal_file'] = 'Insecta_genus.mMDS3.xyz.internal.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
 
         datainfo['version'] = '1'
@@ -478,7 +484,6 @@ def main():
         datainfo['tree_internal_file'] = 'Insecta_genus.mMDS3.xyz-spherical.internal.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
 
         ####################################################
@@ -493,7 +498,6 @@ def main():
         datainfo['tree_internal_file'] = 'Insecta_species.mMDS3.xyz.internal.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
 
         datainfo['version'] = '1'
@@ -505,7 +509,6 @@ def main():
         datainfo['tree_internal_file'] = 'Insecta_species.mMDS3.xyz-spherical.internal.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
-        datainfo['translate_leaves_z'] = 0 #50.0
         insects(datainfo, vocab, do_tree = True)
         """
         
@@ -595,8 +598,8 @@ def primates(datainfo, vocab, do_tree = False):
 
     common.print_head_status(datainfo['sub_project'])
 
-
-    meta_data = metadata.process_data(datainfo)
+    my_metadata = metadata.metadata(datainfo)
+    meta_data = my_metadata.process_data()
 
     # Dump the primate metadata to a file for debug.
     #meta_data.to_csv('primates_metadata_debugHH.csv', index=False)
@@ -700,7 +703,8 @@ def birds(datainfo, vocab,
     common.print_head_status(datainfo['sub_project'])
 
     # Dump the bird metadata to a file for debug.
-    meta_data = metadata.process_data(datainfo)
+    my_metadata = metadata.metadata(datainfo)
+    meta_data = my_metadata.process_data()
     #meta_data.to_csv('birds_metadata_debugHH.csv', index=False)
 
     if (do_consensus):
@@ -708,7 +712,8 @@ def birds(datainfo, vocab,
         consensus_species.make_asset(datainfo)
 
     if (do_sequence):
-        meta_data = metadata.process_data(datainfo)
+        my_metadata = metadata.metadata(datainfo)
+        meta_data = my_metadata.process_data()
         seq = sequence.process_data(datainfo, meta_data)
         sequence.make_asset(datainfo)
     

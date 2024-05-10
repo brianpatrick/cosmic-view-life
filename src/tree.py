@@ -15,14 +15,14 @@ Created: June 2023
 '''
 
 import sys
-#import re
 import pandas as pd
 from pathlib import Path
 from Bio import Phylo
 import matplotlib as mpl
+import shutil
 
 from integrate_tree_to_XYZ import integrate_tree_to_XYZ as itt
-from src import common
+from src import common, colors
 
 class tree:
     '''
@@ -101,18 +101,17 @@ class tree:
         # Rearrange the columns
         leaves = leaves[['x', 'y', 'z', 'name']]
 
+        ## HH Why do we need to do this?
         # Add underscores to the taxon names
-        leaves['name'] = leaves['name'].str.replace(' ', '_')
+        #leaves['name'] = leaves['name'].str.replace(' ', '_')
 
-        # Move the z values down
-        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'] * 2.15)
-        #leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
-        #print(leaves)
+        # Translate and scale the tree so that it's viewable in OpenSpace.
         leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x * datainfo['scale_tree_z'])
         leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
 
-        # Z translate specific to leaves. Hacky.
-        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['translate_leaves_z'])
+        # Make a new color column in the leaves dataframe.
+        leaves['color'] = 0
+
         print("*** METADATA FILE = " + str(datainfo['metadata_file']) + " ***")
         # If the metadata is set, use it to group the leaves into categories by color.
         if ('metadata_file' in datainfo.keys()) and (datainfo['metadata_file'] != None):
@@ -142,53 +141,97 @@ class tree:
             # mapping from each unique lineage to a unique integer, starting with 1. This
             # will be used to color the leaves.
             parent_lineages = set(metadata.values())
-            parent_lineage_colors = {lineage: i + 1 for i, lineage in enumerate(parent_lineages)}
 
-            # Now we need to run through the leaves and assign a color index to each one
-            # based on the parent lineage. We'll add a new column to the leaves dataframe
-            # called 'color'. For each leaf:
-            for i, row in leaves.iterrows():
-                # Get the parent lineage of the leaf. Some taxa may not have a parent
-                # lineage or may not be in the metadata file. In this case, we'll just
-                # assign the taxon name as the lineage. Zoraptera is one of these taxa.
-                lineage = ''
-                taxon = row['name']
-                if taxon not in metadata.keys():
-                    lineage = taxon
-                else:
-                    lineage = metadata[row['name']]
-                # Assign the color based on the parent lineage
-                leaves.at[i, 'color'] = parent_lineage_colors[lineage]
+            # Is there a predefined color map set? If so, use that for colors. It 
+            # should have labeled lineage info in the comment field that is used
+            # to determine color indices for each leaf (or node).
 
-            # The color column is now a float, but we need it to be an integer. Convert it.
-            leaves['color'] = leaves['color'].astype(int)
+            if (datainfo['os_colormap_file'] != None):
+                inpath = Path.cwd() / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['os_colormap_file']
+                common.test_input_file(inpath)
 
-            # Finally, write out a color map file. This file will be used by OpenSpace to
-            # color the leaves based on the color column. The first row is the number of
-            # colors, followed by the colors themselves. The colors are in the format of
-            # r, g, b, a. The colors are in the order of the parent lineages.
-            # NOTE that the filename here must be the same as the one in make_asset_nodes().
-            outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
-            common.test_path(outpath)
-            cmap_filename = datainfo['tree_dir'] + '.cmap'
-            cmap_path = outpath / cmap_filename
+                colormap_df = colors.read_cmap_into_df(inpath)
+
+                # Now we need to run through the leaves and assign a color index to each one
+                # based on the parent lineage. We'll add a new column to the leaves dataframe
+                # called 'color'. For each leaf:
+                for i, row in leaves.iterrows():
+                    # Get the parent lineage of the leaf. Some taxa may not have a parent
+                    # lineage or may not be in the metadata file. In this case, we'll just
+                    # assign the taxon name as the lineage. Zoraptera is one of these taxa.
+                    lineage = ''
+                    taxon = row['name']
+                    if taxon not in metadata.keys():
+                        lineage = taxon
+                    else:
+                        lineage = metadata[row['name']]
+
+                    # Look up the color index in the colormap dataframe and
+                    # assign the color index to the leaf.
+                    color_index = colormap_df[colormap_df['taxon'] == lineage]['index'].iloc[0]
+                    leaves.at[i, 'color'] = color_index
+
+                # The color column is now a float, but we need it to be an integer. Convert it.
+                leaves['color'] = leaves['color'].astype(int)
+
+                # Finally, we need to copy the colormap file to the tree directory. This file
+                # is used by OpenSpace to color the leaves based on the color column.
+                # The outpath here is constructed as below when the CSV file for the 
+                # leaves is written out.
+                outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+                shutil.copyfile(inpath, outpath / datainfo['os_colormap_file'])
+
             
-            # This is a hardcoded viridis colormap. I'm partial to this particular
-            # colormap because it's colorblind friendly.
-            cmap = mpl.cm.viridis
-            norm = mpl.colors.Normalize(vmin=0, vmax=len(parent_lineages))
+            else:
+                # We need to make a colormap from scratch. Start with the number of
+                # colors we need, which is the number of lineages.
+                parent_lineage_colors = {lineage: i + 1 for i, lineage in enumerate(parent_lineages)}
 
-            # Color map files are a very simple format. The first line is the number
-            # of colors in the file, followed by one line for each color. The color
-            # is in the format of r, g, b, a followed by a comment prefaced by a '#'
-            # with the color name. The color map file contains the number of colors in
-            # the parent lineage.
-            # Write out the color map file to cmap_path.
-            with open(cmap_path, 'wt') as cmap_file:
-                print(len(parent_lineages), file=cmap_file)
-                for i in range(len(parent_lineages)):
-                    c = cmap(norm(i))
-                    print(f"{c[0]:.8f} {c[1]:.8f} {c[2]:.8f} 1.0 # {i}", file=cmap_file)
+                # Now we need to run through the leaves and assign a color index to each one
+                # based on the parent lineage. We'll add a new column to the leaves dataframe
+                # called 'color'. For each leaf:
+                for i, row in leaves.iterrows():
+                    # Get the parent lineage of the leaf. Some taxa may not have a parent
+                    # lineage or may not be in the metadata file. In this case, we'll just
+                    # assign the taxon name as the lineage. Zoraptera is one of these taxa.
+                    lineage = ''
+                    taxon = row['name']
+                    if taxon not in metadata.keys():
+                        lineage = taxon
+                    else:
+                        lineage = metadata[row['name']]
+                    # Assign the color based on the parent lineage
+                    leaves.at[i, 'color'] = parent_lineage_colors[lineage]
+
+                # The color column is now a float, but we need it to be an integer. Convert it.
+                leaves['color'] = leaves['color'].astype(int)
+
+                # Finally, write out a color map file. This file will be used by OpenSpace to
+                # color the leaves based on the color column. The first row is the number of
+                # colors, followed by the colors themselves. The colors are in the format of
+                # r, g, b, a. The colors are in the order of the parent lineages.
+                # NOTE that the filename here must be the same as the one in make_asset_nodes().
+                outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+                common.test_path(outpath)
+                cmap_filename = datainfo['tree_dir'] + '.cmap'
+                cmap_path = outpath / cmap_filename
+                
+                # This is a hardcoded viridis colormap. I'm partial to this particular
+                # colormap because it's colorblind friendly.
+                cmap = mpl.cm.viridis
+                norm = mpl.colors.Normalize(vmin=0, vmax=len(parent_lineages))
+
+                # Color map files are a very simple format. The first line is the number
+                # of colors in the file, followed by one line for each color. The color
+                # is in the format of r, g, b, a followed by a comment prefaced by a '#'
+                # with the color name. The color map file contains the number of colors in
+                # the parent lineage.
+                # Write out the color map file to cmap_path.
+                with open(cmap_path, 'wt') as cmap_file:
+                    print(len(parent_lineages), file=cmap_file)
+                    for i in range(len(parent_lineages)):
+                        c = cmap(norm(i))
+                        print(f"{c[0]:.8f} {c[1]:.8f} {c[2]:.8f} 1.0 # {i}", file=cmap_file)
 
         # Write data to files
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
@@ -716,7 +759,18 @@ class tree:
         #asset_info[file]['label_file'] = path.stem + '.label'
         #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
 
-        asset_info[file]['cmap_file'] = path.stem + '.cmap'
+        # If there is an os_colormap_file defined and not empty, use that as the colormap
+        # file. The exception catching here is because there are two possibilties: it may
+        # not be set at all, in which case it doesn't exists, or it might be empty.
+        try:
+            if datainfo['os_colormap_file']:
+                asset_info[file]['cmap_file'] = datainfo['os_colormap_file']
+            else:
+                asset_info[file]['cmap_file'] = path.stem + '.cmap'
+        except KeyError:
+            asset_info[file]['cmap_file'] = path.stem + '.cmap'
+
+
         asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
         asset_info[file]['dat_file'] = path.stem + '.dat'

@@ -156,3 +156,57 @@ def rgba(hex):
 
     return pd.Series([red, green, blue, alpha])
 
+
+def read_cmap_into_df(cmap_path):
+    """
+    Read a cmap file into a pandas dataframe. The cmap file is formatted for
+    use by OpenSpace, but we need a useable dataframe representation of it
+    here to add color map info to various structures, dataframes, trees, etc.
+
+    cmap files are formatted with R G B A floating point values, followed by a
+    comment prefixed with #. The comment is the name of the color follwed by 
+    ' - ' and a taxon associated with that color (for example, family name).
+
+    The dataframe contains the following:
+    1. The RGBA values. These may or may not be used internally.
+    2. The taxon name. This is the name of the taxon associated with the color.
+    3. An index corresponding to the color in the cmap file. These are
+       in the same order as in the cmap file and are used in constructing
+       the csv file that contains the XYZ coordinates for each taxon node in
+       a tree (for example).
+
+    :param cmap_path: The path to the cmap file.
+    :type cmap_path: Path
+    :return: A pandas dataframe of the cmap file.
+    :rtype: DataFrame
+    """
+
+    # Read the cmap file into a dataframe. Unfortunately the file is a little too
+    # complicated to use read_csv, so we will read it in an process it a line at
+    # a time.
+
+    # Open the file, and define a list to hold the data one line at a time.
+    with open(cmap_path, 'rt') as cmap_file:
+        cmap_lines = cmap_file.readlines()
+
+    # Skip the first line and process each line in the file.
+    cmap_data = []
+    for line in cmap_lines[1:]:
+        # Split the line into the color and the taxon name
+        color, taxon = line.split('#')
+        # Split the color into the RGBA values
+        rgba = color.split()
+        # Extract the taxon name
+        taxon = taxon.strip()
+        # Separate out the taxon name from the taxon and color. It is separated by ' - '.
+        taxon = taxon.split(' - ')[1]
+        # Append the data to the cmap_data list
+        cmap_data.append([float(rgba[0]), float(rgba[1]), float(rgba[2]), float(rgba[3]), taxon])
+
+    # Create a dataframe from the cmap_data list
+    cmap_df = pd.DataFrame(cmap_data, columns=['red', 'green', 'blue', 'alpha', 'taxon'])
+
+    # Finally, add index numbers starting with 1 to the dataframe.
+    cmap_df['index'] = cmap_df.index + 1
+        
+    return cmap_df

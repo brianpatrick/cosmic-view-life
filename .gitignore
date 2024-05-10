@@ -37,3 +37,8 @@ clean-data-target.ps1
 
 # Ignore the data files that are too large to check in
 /catalogs_raw/birds/202308_bird_dataset_mMDS.xy_3Dprojection/timetree_mMDS.xy_aves_groups_indicator_vectors_grafted_cMDS/
+
+# Ignore NCBI Taxonomy Database lineage dump files. These are needed for various
+# lookups, but are too large to check in.
+nodes.dmp
+rankedlineage.dmp
