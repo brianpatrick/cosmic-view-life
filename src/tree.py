@@ -179,6 +179,7 @@ class tree:
                 # The outpath here is constructed as below when the CSV file for the 
                 # leaves is written out.
                 outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+                common.test_path(outpath)
                 shutil.copyfile(inpath, outpath / datainfo['os_colormap_file'])
 
             

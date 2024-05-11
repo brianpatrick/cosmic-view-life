@@ -375,13 +375,14 @@ def main():
         # for each color. When the tree is constructed, the order names in the 
         # color file are used for lookups.
         # 
-        datainfo['os_colormap_file'] = 'insect_orders.cmap'
 
         ####################################################
         # Insect order trees. This is fewer points than the family or (hopefully soon
         # to be incorporated) genus level tree.
         ####################################################
         
+        datainfo['os_colormap_file'] = 'insect_orders.cmap'
+
         # "Tabletop" 2D tree.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_order_mMDS_xy'
@@ -420,7 +421,7 @@ def main():
         ####################################################
         # Insect family trees. 
         ####################################################
-        
+
         # "Tabletop" 2D tree.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xy'
