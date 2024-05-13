@@ -18,11 +18,12 @@ import sys
 import pandas as pd
 from pathlib import Path
 from Bio import Phylo
+from ete3 import Tree
 import matplotlib as mpl
 import shutil
-
 from integrate_tree_to_XYZ import integrate_tree_to_XYZ as itt
 from src import common, colors
+import re
 
 class tree:
     '''
@@ -112,6 +113,11 @@ class tree:
         # Make a new color column in the leaves dataframe.
         leaves['color'] = 0
 
+        # Also make a column that holds the parent lineage of each leaf. This should
+        # correspond to the color in a one-to-one mapping that matches the color map
+        # file. This column is mostly for debug and checking.
+        leaves['clade'] = ''
+
         print("*** METADATA FILE = " + str(datainfo['metadata_file']) + " ***")
         # If the metadata is set, use it to group the leaves into categories by color.
         if ('metadata_file' in datainfo.keys()) and (datainfo['metadata_file'] != None):
@@ -170,6 +176,7 @@ class tree:
                     # assign the color index to the leaf.
                     color_index = colormap_df[colormap_df['taxon'] == lineage]['index'].iloc[0]
                     leaves.at[i, 'color'] = color_index
+                    leaves.at[i, 'clade'] = lineage
 
                 # The color column is now a float, but we need it to be an integer. Convert it.
                 leaves['color'] = leaves['color'].astype(int)
@@ -301,11 +308,65 @@ class tree:
                                                          inputTree = tree_file_path,
                                                          use_z_from_file=use_provided_z,
                                                          spherical_layout=spherical_tree)
+        
+        # By default the internal nodes are named with just numbers or placeholders. 
+        # For some trees, we want to name internal nodes with the name of monophyletic
+        # groups (such as orders for trees that have families as leaves). Check to see
+        # if we need to do this.
+        # Are the leaf-type or clade-type keys set in the datainfo dictionary? If so,
+        # we need to do some work.
+        if ('leaf-type' in datainfo.keys()) and ('clade-type' in datainfo.keys()):
+            # First grab the metadata file. We need this to look up the parent lineage
+            # (clade name).
+            inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['metadata_file']
+            common.test_input_file(inpath)
+
+            # The Metadata file is in the format of taxon, parent-lineage. We want a dictionary
+            # where we can look up the parent lineage for every taxon. The name of the taxon
+            # (family, genus, or species) and parent-lineage (order, family, etc.) are in the
+            # header of the csv file.
+            metadata = pd.read_csv(inpath)
+
+            # The first row holds the taxon name and parent-lineage name. We want to use the
+            # taxon name as the index, and the parent-lineage as the value. 
+            taxon_name = metadata.columns[0]
+            parent_lineage = metadata.columns[1]
+            metadata = metadata.set_index(taxon_name).to_dict()[parent_lineage]
+
+            # The metadata probably (hopefully?) has more information than we need. 
+            # We need to deal with only the clades we've seen, not *all* clades. Let's
+            # keep track of those we've seen so we can iterate over just these when
+            # naming the internal nodes.
+            all_clades_seen = set()
+
+            # Start by iterating over all the leaves and naming the clade type for each.
+            for leaf in tree.get_leaves():
+                clade_name = metadata[leaf.name]
+                leaf.add_features(clade_type=clade_name)
+
+                all_clades_seen.add(clade_name)
+
+            # Now for each clade that we've seen (which is the parent lineage), we need to
+            # find the most recent common ancestor of all the leaves in that clade. This
+            # will be the internal node that we want to name with the clade type.
+            for clade in all_clades_seen:
+                # Get all the leaves that are in this clade.
+                leaves_in_clade = [leaf for leaf in tree.get_leaves() if leaf.clade_type == clade]
+
+                # Get the most recent common ancestor of all the leaves in the clade.
+                clade_node = tree.get_common_ancestor(leaves_in_clade)
+
+                # Name the node with the clade type.
+                clade_node.name = clade
+            # Finally, we need to clear out all the node names set by Wandrille's code.
+            # We only want the internal nodes that we've named to have names. 
+            # Wandrille's code names the internal nodes with single-quoted numbers.
+            for node in tree.traverse():
+                if re.match(r"\'\d+\'", node.name):
+                    node.name = ""
+
 
         nodes = itt.get_internal_nodes_dataframe(tree)
-
-        # Discard the internal nodes that start with 'internal' and have no name.
-        nodes = nodes[nodes['name'].str.contains('internal') == False]
 
         # Rearrange the columns
         nodes = nodes[['x', 'y', 'z', 'name']]

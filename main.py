@@ -374,15 +374,13 @@ def main():
         # color for each family, and the color name and family are in the comment
         # for each color. When the tree is constructed, the order names in the 
         # color file are used for lookups.
-        # 
+        datainfo['os_colormap_file'] = 'insect_orders.cmap'
 
         ####################################################
         # Insect order trees. This is fewer points than the family or (hopefully soon
         # to be incorporated) genus level tree.
         ####################################################
         
-        datainfo['os_colormap_file'] = 'insect_orders.cmap'
-
         # "Tabletop" 2D tree.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_order_mMDS_xy'
@@ -420,42 +418,47 @@ def main():
         
         ####################################################
         # Insect family trees. 
+        #
+        # The metadata file for these trees contains the mapping of family to order.
+        # This file is hand-tweaked to match all the families in this particular
+        # dataset, including some wonky names like "Gryllidae-1". This is a bit of a
+        # hack, but it's actually kind of necessary because there are some
+        # inconsistencies and missing bits in the taxonomy db from NCBI. So, we're
+        # kind of forced to construct this by hand. Besides, it's a LOT faster
+        # than loading in the NCBI taxonomy db and trying to match everything up
+        # on every single run.
         ####################################################
+
+        # Common parameters for all insect family trees.
+        datainfo['leaf-type'] = 'family'
+        datainfo['clade-type'] = 'order'
+        datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
+        datainfo['newick_file'] = 'Insecta_family.nwk'
+        datainfo['transform_tree_z'] = 0.0 # 75.0
+        datainfo['scale_tree_z'] = 1.0
 
         # "Tabletop" 2D tree.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xy'
         datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xy'
-        datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
-        datainfo['newick_file'] = 'Insecta_family.nwk'
         datainfo['coordinates_file'] = 'Insecta_family.mMDS.xy.csv'
         datainfo['tree_type'] = 'tabletop'
-        datainfo['transform_tree_z'] = 0.0 # 75.0
-        datainfo['scale_tree_z'] = 1.0
         insects(datainfo, vocab, do_tree = True)
         
         # 3D tree.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xyz'
         datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xyz'
-        datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
-        datainfo['newick_file'] = 'Insecta_family.nwk'
         datainfo['coordinates_file'] = 'Insecta_family_mds3.xyz.csv'
         datainfo['tree_type'] = '3D'
-        datainfo['transform_tree_z'] = 0.0 # 75.0
-        datainfo['scale_tree_z'] = 1.0
         insects(datainfo, vocab, do_tree = True)
         
         # 3D tree, spherical.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_family_mMDS_xyz_spherical'
         datainfo['tree_dir'] = 'timetree_insecta_family_mMDS_xyz_spherical'
-        datainfo['metadata_file'] = 'insecta_family_order_taxonomy.csv'
-        datainfo['newick_file'] = 'Insecta_family.nwk'
         datainfo['coordinates_file'] = 'Insecta_family_mds3.xyz.csv'
         datainfo['tree_type'] = 'spherical'
-        datainfo['transform_tree_z'] = 0.0 # 75.0
-        datainfo['scale_tree_z'] = 1.0
         insects(datainfo, vocab, do_tree = True)
         
         """
