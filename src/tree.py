@@ -42,13 +42,15 @@ class tree:
 
         # Number of leaves in the tree
         self.num_leaves = 0
+        self.tree = None
+        self.missing_leaves = None
 
-    def process_leaves(self, datainfo):
+    def process_nodes(self, datainfo, node_type):
         '''
-        Process the tree leaves csv file. 
+        Process tree nodes csv file. Nodes can be either internal or leaves. 
 
         The output csv file has the x, y, z, name, and color columns. The color
-        column is an index into the color map file, used to group the leaves into
+        column is an index into the color map file, used to group nodes into
         categories and is generally based on taxonomic groups (also called parent
         lineages), though they can also beused for other categories.
 
@@ -61,10 +63,10 @@ class tree:
 
         # instead of loading the processed CSV file, we'll load the raw data file (set
         # in the datainfo dictionary) and process it here. 
-        common.print_subhead_status('Processing tree data, leaves - ' + datainfo['tree_dir'])
+        common.print_subhead_status(f'Processing tree data, {node_type} - ' + datainfo['tree_dir'])
 
         datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
-        datainfo['data_group_desc'] = 'Data points for the tree - leaves.'
+        datainfo['data_group_desc'] = f'Data points for the tree - {node_type}.'
 
         tree_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['newick_file']
         coords_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['coordinates_file']
@@ -92,314 +94,268 @@ class tree:
         # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
         # on the projection (spherical or not). Default behavior is to not use
         # spherical projection.
-        tree, missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
-                                                         inputTree = tree_file_path,
-                                                         use_z_from_file=use_provided_z,
-                                                         spherical_layout=spherical_tree)
+        if self.tree is None:
+            self.tree, self.missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
+                                                                      inputTree = tree_file_path,
+                                                                      use_z_from_file=use_provided_z,
+                                                                      spherical_layout=spherical_tree)
 
-        leaves = itt.get_leaves_dataframe(tree, missing_leaves)
+        if node_type == 'leaves':
+            leaves = itt.get_leaves_dataframe(self.tree, self.missing_leaves)
 
-        # Rearrange the columns
-        leaves = leaves[['x', 'y', 'z', 'name']]
+            # Rearrange the columns
+            leaves = leaves[['x', 'y', 'z', 'name']]
 
-        ## HH Why do we need to do this?
-        # Add underscores to the taxon names
-        #leaves['name'] = leaves['name'].str.replace(' ', '_')
+            ## HH Why do we need to do this?
+            # Add underscores to the taxon names
+            #leaves['name'] = leaves['name'].str.replace(' ', '_')
 
-        # Translate and scale the tree so that it's viewable in OpenSpace.
-        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x * datainfo['scale_tree_z'])
-        leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
+            # Translate and scale the tree so that it's viewable in OpenSpace.
+            leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x * datainfo['scale_tree_z'])
+            leaves.loc[:, 'z'] = leaves['z'].apply(lambda x: x - datainfo['transform_tree_z'])
 
-        # Make a new color column in the leaves dataframe.
-        leaves['color'] = 0
+            # Make a new color column in the leaves dataframe.
+            leaves['color'] = 0
 
-        # Also make a column that holds the parent lineage of each leaf. This should
-        # correspond to the color in a one-to-one mapping that matches the color map
-        # file. This column is mostly for debug and checking.
-        leaves['clade'] = ''
+            # Also make a column that holds the parent lineage of each leaf. This should
+            # correspond to the color in a one-to-one mapping that matches the color map
+            # file. This column is mostly for debug and checking.
+            leaves['clade'] = ''
 
-        print("*** METADATA FILE = " + str(datainfo['metadata_file']) + " ***")
-        # If the metadata is set, use it to group the leaves into categories by color.
-        if ('metadata_file' in datainfo.keys()) and (datainfo['metadata_file'] != None):
-            # The CSV file has x, y, z, name, and a color index column. Colors are used to group
-            # the leaves into different categories. Let's load in the metadata file and make
-            # a dictionary out of it. The format is "taxon", "parent-lineage". Some examples of
-            # this might be taxon=family (Syrphidae, for example) and parent-lineage=order 
-            # (Diptera, for this example).
-            inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['metadata_file']
-            common.test_input_file(inpath)
-
-            # The Metadata file is in the format of taxon, parent-lineage. We want a dictionary
-            # where we can look up the parent lineage for every taxon. The name of the taxon
-            # (family, genus, or species) and parent-lineage (order, family, etc.) are in the
-            # header of the csv file.
-            metadata = pd.read_csv(inpath)
-
-            # The first row holds the taxon name and parent-lineage name. We want to use the
-            # taxon name as the index, and the parent-lineage as the value. 
-            taxon_name = metadata.columns[0]
-            parent_lineage = metadata.columns[1]
-
-            taxon = metadata[taxon_name].tolist()
-            metadata = metadata.set_index(taxon_name).to_dict()[parent_lineage]
-
-            # Next we need to know how many unique parent lineages we have, and make a
-            # mapping from each unique lineage to a unique integer, starting with 1. This
-            # will be used to color the leaves.
-            parent_lineages = set(metadata.values())
-
-            # Is there a predefined color map set? If so, use that for colors. It 
-            # should have labeled lineage info in the comment field that is used
-            # to determine color indices for each leaf (or node).
-
-            if (datainfo['os_colormap_file'] != None):
-                inpath = Path.cwd() / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['os_colormap_file']
+            print("*** METADATA FILE = " + str(datainfo['metadata_file']) + " ***")
+            # If the metadata is set, use it to group the leaves into categories by color.
+            if ('metadata_file' in datainfo.keys()) and (datainfo['metadata_file'] != None):
+                # The CSV file has x, y, z, name, and a color index column. Colors are used to group
+                # the leaves into different categories. Let's load in the metadata file and make
+                # a dictionary out of it. The format is "taxon", "parent-lineage". Some examples of
+                # this might be taxon=family (Syrphidae, for example) and parent-lineage=order 
+                # (Diptera, for this example).
+                inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['metadata_file']
                 common.test_input_file(inpath)
 
-                colormap_df = colors.read_cmap_into_df(inpath)
+                # The Metadata file is in the format of taxon, parent-lineage. We want a dictionary
+                # where we can look up the parent lineage for every taxon. The name of the taxon
+                # (family, genus, or species) and parent-lineage (order, family, etc.) are in the
+                # header of the csv file.
+                metadata = pd.read_csv(inpath)
 
-                # Now we need to run through the leaves and assign a color index to each one
-                # based on the parent lineage. We'll add a new column to the leaves dataframe
-                # called 'color'. For each leaf:
-                for i, row in leaves.iterrows():
-                    # Get the parent lineage of the leaf. Some taxa may not have a parent
-                    # lineage or may not be in the metadata file. In this case, we'll just
-                    # assign the taxon name as the lineage. Zoraptera is one of these taxa.
-                    lineage = ''
-                    taxon = row['name']
-                    if taxon not in metadata.keys():
-                        lineage = taxon
-                    else:
-                        lineage = metadata[row['name']]
+                # The first row holds the taxon name and parent-lineage name. We want to use the
+                # taxon name as the index, and the parent-lineage as the value. 
+                taxon_name = metadata.columns[0]
+                parent_lineage = metadata.columns[1]
 
-                    # Look up the color index in the colormap dataframe and
-                    # assign the color index to the leaf.
-                    color_index = colormap_df[colormap_df['taxon'] == lineage]['index'].iloc[0]
-                    leaves.at[i, 'color'] = color_index
-                    leaves.at[i, 'clade'] = lineage
+                taxon = metadata[taxon_name].tolist()
+                metadata = metadata.set_index(taxon_name).to_dict()[parent_lineage]
 
-                # The color column is now a float, but we need it to be an integer. Convert it.
-                leaves['color'] = leaves['color'].astype(int)
+                # Next we need to know how many unique parent lineages we have, and make a
+                # mapping from each unique lineage to a unique integer, starting with 1. This
+                # will be used to color the leaves.
+                parent_lineages = set(metadata.values())
 
-                # Finally, we need to copy the colormap file to the tree directory. This file
-                # is used by OpenSpace to color the leaves based on the color column.
-                # The outpath here is constructed as below when the CSV file for the 
-                # leaves is written out.
-                outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
-                common.test_path(outpath)
-                shutil.copyfile(inpath, outpath / datainfo['os_colormap_file'])
+                # Is there a predefined color map set? If so, use that for colors. It 
+                # should have labeled lineage info in the comment field that is used
+                # to determine color indices for each leaf (or node).
 
-            
-            else:
-                # We need to make a colormap from scratch. Start with the number of
-                # colors we need, which is the number of lineages.
-                parent_lineage_colors = {lineage: i + 1 for i, lineage in enumerate(parent_lineages)}
+                if (datainfo['os_colormap_file'] != None):
+                    inpath = Path.cwd() / common.DATA_DIRECTORY / common.COLOR_DIRECTORY / datainfo['os_colormap_file']
+                    common.test_input_file(inpath)
 
-                # Now we need to run through the leaves and assign a color index to each one
-                # based on the parent lineage. We'll add a new column to the leaves dataframe
-                # called 'color'. For each leaf:
-                for i, row in leaves.iterrows():
-                    # Get the parent lineage of the leaf. Some taxa may not have a parent
-                    # lineage or may not be in the metadata file. In this case, we'll just
-                    # assign the taxon name as the lineage. Zoraptera is one of these taxa.
-                    lineage = ''
-                    taxon = row['name']
-                    if taxon not in metadata.keys():
-                        lineage = taxon
-                    else:
-                        lineage = metadata[row['name']]
-                    # Assign the color based on the parent lineage
-                    leaves.at[i, 'color'] = parent_lineage_colors[lineage]
+                    colormap_df = colors.read_cmap_into_df(inpath)
 
-                # The color column is now a float, but we need it to be an integer. Convert it.
-                leaves['color'] = leaves['color'].astype(int)
+                    # Now we need to run through the leaves and assign a color index to each one
+                    # based on the parent lineage. We'll add a new column to the leaves dataframe
+                    # called 'color'. For each leaf:
+                    for i, row in leaves.iterrows():
+                        # Get the parent lineage of the leaf. Some taxa may not have a parent
+                        # lineage or may not be in the metadata file. In this case, we'll just
+                        # assign the taxon name as the lineage. Zoraptera is one of these taxa.
+                        lineage = ''
+                        taxon = row['name']
+                        if taxon not in metadata.keys():
+                            lineage = taxon
+                        else:
+                            lineage = metadata[row['name']]
 
-                # Finally, write out a color map file. This file will be used by OpenSpace to
-                # color the leaves based on the color column. The first row is the number of
-                # colors, followed by the colors themselves. The colors are in the format of
-                # r, g, b, a. The colors are in the order of the parent lineages.
-                # NOTE that the filename here must be the same as the one in make_asset_nodes().
-                outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
-                common.test_path(outpath)
-                cmap_filename = datainfo['tree_dir'] + '.cmap'
-                cmap_path = outpath / cmap_filename
+                        # Look up the color index in the colormap dataframe and
+                        # assign the color index to the leaf.
+                        color_index = colormap_df[colormap_df['taxon'] == lineage]['index'].iloc[0]
+                        leaves.at[i, 'color'] = color_index
+                        leaves.at[i, 'clade'] = lineage
+
+                    # The color column is now a float, but we need it to be an integer. Convert it.
+                    leaves['color'] = leaves['color'].astype(int)
+
+                    # Finally, we need to copy the colormap file to the tree directory. This file
+                    # is used by OpenSpace to color the leaves based on the color column.
+                    # The outpath here is constructed as below when the CSV file for the 
+                    # leaves is written out.
+                    outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+                    common.test_path(outpath)
+                    shutil.copyfile(inpath, outpath / datainfo['os_colormap_file'])
+
                 
-                # This is a hardcoded viridis colormap. I'm partial to this particular
-                # colormap because it's colorblind friendly.
-                cmap = mpl.cm.viridis
-                norm = mpl.colors.Normalize(vmin=0, vmax=len(parent_lineages))
+                else:
+                    # We need to make a colormap from scratch. Start with the number of
+                    # colors we need, which is the number of lineages.
+                    parent_lineage_colors = {lineage: i + 1 for i, lineage in enumerate(parent_lineages)}
 
-                # Color map files are a very simple format. The first line is the number
-                # of colors in the file, followed by one line for each color. The color
-                # is in the format of r, g, b, a followed by a comment prefaced by a '#'
-                # with the color name. The color map file contains the number of colors in
-                # the parent lineage.
-                # Write out the color map file to cmap_path.
-                with open(cmap_path, 'wt') as cmap_file:
-                    print(len(parent_lineages), file=cmap_file)
-                    for i in range(len(parent_lineages)):
-                        c = cmap(norm(i))
-                        print(f"{c[0]:.8f} {c[1]:.8f} {c[2]:.8f} 1.0 # {i}", file=cmap_file)
+                    # Now we need to run through the leaves and assign a color index to each one
+                    # based on the parent lineage. We'll add a new column to the leaves dataframe
+                    # called 'color'. For each leaf:
+                    for i, row in leaves.iterrows():
+                        # Get the parent lineage of the leaf. Some taxa may not have a parent
+                        # lineage or may not be in the metadata file. In this case, we'll just
+                        # assign the taxon name as the lineage. Zoraptera is one of these taxa.
+                        lineage = ''
+                        taxon = row['name']
+                        if taxon not in metadata.keys():
+                            lineage = taxon
+                        else:
+                            lineage = metadata[row['name']]
+                        # Assign the color based on the parent lineage
+                        leaves.at[i, 'color'] = parent_lineage_colors[lineage]
 
-        # Write data to files
-        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
-        common.test_path(outpath)
+                    # The color column is now a float, but we need it to be an integer. Convert it.
+                    leaves['color'] = leaves['color'].astype(int)
 
-        outfile_csv = datainfo['dir'] + '_leaves.csv'
-        outpath_csv = outpath / outfile_csv
-        
+                    # Finally, write out a color map file. This file will be used by OpenSpace to
+                    # color the leaves based on the color column. The first row is the number of
+                    # colors, followed by the colors themselves. The colors are in the format of
+                    # r, g, b, a. The colors are in the order of the parent lineages.
+                    # NOTE that the filename here must be the same as the one in make_asset_nodes().
+                    outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+                    common.test_path(outpath)
+                    cmap_filename = datainfo['tree_dir'] + '.cmap'
+                    cmap_path = outpath / cmap_filename
+                    
+                    # This is a hardcoded viridis colormap. I'm partial to this particular
+                    # colormap because it's colorblind friendly.
+                    cmap = mpl.cm.viridis
+                    norm = mpl.colors.Normalize(vmin=0, vmax=len(parent_lineages))
 
-        with open(outpath_csv, 'w') as csvfile:
+                    # Color map files are a very simple format. The first line is the number
+                    # of colors in the file, followed by one line for each color. The color
+                    # is in the format of r, g, b, a followed by a comment prefaced by a '#'
+                    # with the color name. The color map file contains the number of colors in
+                    # the parent lineage.
+                    # Write out the color map file to cmap_path.
+                    with open(cmap_path, 'wt') as cmap_file:
+                        print(len(parent_lineages), file=cmap_file)
+                        for i in range(len(parent_lineages)):
+                            c = cmap(norm(i))
+                            print(f"{c[0]:.8f} {c[1]:.8f} {c[2]:.8f} 1.0 # {i}", file=cmap_file)
 
-            datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+            # Write data to files
+            outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+            common.test_path(outpath)
 
-            header = common.header(datainfo, script_name=Path(__file__).name)
-            print(header, file=csvfile)
-
-            leaves.to_csv(csvfile, index=False, lineterminator='\n')
+            outfile_csv = datainfo['dir'] + '_leaves.csv'
+            outpath_csv = outpath / outfile_csv
             
-        # Report to stdout
-        common.out_file_message(outpath_csv)
 
-    def process_internal(self, datainfo):
-        '''
-        Process the tree clades csv file. This file contains the internal branch points of
-        the tree. Not all of these are to be displayed - many are simply internal branch
-        points and do not have named clades. These are named "internalXX" where XX is a
-        number. (It may have more than two digits, or only have one. It depends on the
-        number of internal branch points.)
+            with open(outpath_csv, 'w') as csvfile:
 
-        Input:
-            dict(datainfo)
+                datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
 
-        Output:
-            .speck
-        '''
+                header = common.header(datainfo, script_name=Path(__file__).name)
+                print(header, file=csvfile)
 
-        common.print_subhead_status('Processing tree, internal/clades - ' + datainfo['tree_dir'])
+                leaves.to_csv(csvfile, index=False, lineterminator='\n')
+                
+            # Report to stdout
+            common.out_file_message(outpath_csv)
+        else:
+            # By default the internal nodes are named with just numbers or placeholders. 
+            # For some trees, we want to name internal nodes with the name of monophyletic
+            # groups (such as orders for trees that have families as leaves). Check to see
+            # if we need to do this.
+            # Are the leaf-type or clade-type keys set in the datainfo dictionary? If so,
+            # we need to do some work.
+            if ('leaf-type' in datainfo.keys()) and ('clade-type' in datainfo.keys()):
+                # First grab the metadata file. We need this to look up the parent lineage
+                # (clade name).
+                inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['metadata_file']
+                common.test_input_file(inpath)
 
-        datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
-        datainfo['data_group_desc'] = 'Data points for the tree - internal nodes (clades).'
+                # The Metadata file is in the format of taxon, parent-lineage. We want a dictionary
+                # where we can look up the parent lineage for every taxon. The name of the taxon
+                # (family, genus, or species) and parent-lineage (order, family, etc.) are in the
+                # header of the csv file.
+                metadata = pd.read_csv(inpath)
 
-        tree_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['newick_file']
-        coords_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['coordinates_file']
-        common.test_input_file(tree_file_path)
-        common.test_input_file(coords_file_path)
+                # The first row holds the taxon name and parent-lineage name. We want to use the
+                # taxon name as the index, and the parent-lineage as the value. 
+                taxon_name = metadata.columns[0]
+                parent_lineage = metadata.columns[1]
+                metadata = metadata.set_index(taxon_name).to_dict()[parent_lineage]
 
-        # By default, use the provided Z coordinates. If the tree is spherical, the Z
-        # coordinates are projected to lie on a sphere.
-        use_provided_z = True
-        spherical_tree = False
+                # The metadata probably (hopefully?) has more information than we need. 
+                # We need to deal with only the clades we've seen, not *all* clades. Let's
+                # keep track of those we've seen so we can iterate over just these when
+                # naming the internal nodes.
+                all_clades_seen = set()
 
-        if (datainfo['tree_type'] == 'tabletop'):
-            use_provided_z = False
-            spherical_tree = False
-        elif (datainfo['tree_type'] == 'spherical'):
-            use_provided_z = False
-            spherical_tree = True
-        elif (datainfo['tree_type'] == '3D'):
-            use_provided_z = True
-            spherical_tree = False
+                # Start by iterating over all the leaves and naming the clade type for each.
+                for leaf in self.tree.get_leaves():
+                    clade_name = metadata[leaf.name]
+                    leaf.add_features(clade_type=clade_name)
 
-        # Use Wandrille's projection to get the XYZ coordinates for the leaves, depending
-        # on the projection (spherical or not). Default behavior is to not use
-        # spherical projection.
-        tree, missing_leaves = itt.integrate_tree_to_XYZ(inputFile = coords_file_path,
-                                                         inputTree = tree_file_path,
-                                                         use_z_from_file=use_provided_z,
-                                                         spherical_layout=spherical_tree)
-        
-        # By default the internal nodes are named with just numbers or placeholders. 
-        # For some trees, we want to name internal nodes with the name of monophyletic
-        # groups (such as orders for trees that have families as leaves). Check to see
-        # if we need to do this.
-        # Are the leaf-type or clade-type keys set in the datainfo dictionary? If so,
-        # we need to do some work.
-        if ('leaf-type' in datainfo.keys()) and ('clade-type' in datainfo.keys()):
-            # First grab the metadata file. We need this to look up the parent lineage
-            # (clade name).
-            inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['metadata_file']
-            common.test_input_file(inpath)
+                    all_clades_seen.add(clade_name)
 
-            # The Metadata file is in the format of taxon, parent-lineage. We want a dictionary
-            # where we can look up the parent lineage for every taxon. The name of the taxon
-            # (family, genus, or species) and parent-lineage (order, family, etc.) are in the
-            # header of the csv file.
-            metadata = pd.read_csv(inpath)
+                # Now for each clade that we've seen (which is the parent lineage), we need to
+                # find the most recent common ancestor of all the leaves in that clade. This
+                # will be the internal node that we want to name with the clade type.
+                for clade in all_clades_seen:
+                    # Get all the leaves that are in this clade.
+                    leaves_in_clade = [leaf for leaf in self.tree.get_leaves() if leaf.clade_type == clade]
 
-            # The first row holds the taxon name and parent-lineage name. We want to use the
-            # taxon name as the index, and the parent-lineage as the value. 
-            taxon_name = metadata.columns[0]
-            parent_lineage = metadata.columns[1]
-            metadata = metadata.set_index(taxon_name).to_dict()[parent_lineage]
+                    # Get the most recent common ancestor of all the leaves in the clade.
+                    clade_node = self.tree.get_common_ancestor(leaves_in_clade)
 
-            # The metadata probably (hopefully?) has more information than we need. 
-            # We need to deal with only the clades we've seen, not *all* clades. Let's
-            # keep track of those we've seen so we can iterate over just these when
-            # naming the internal nodes.
-            all_clades_seen = set()
-
-            # Start by iterating over all the leaves and naming the clade type for each.
-            for leaf in tree.get_leaves():
-                clade_name = metadata[leaf.name]
-                leaf.add_features(clade_type=clade_name)
-
-                all_clades_seen.add(clade_name)
-
-            # Now for each clade that we've seen (which is the parent lineage), we need to
-            # find the most recent common ancestor of all the leaves in that clade. This
-            # will be the internal node that we want to name with the clade type.
-            for clade in all_clades_seen:
-                # Get all the leaves that are in this clade.
-                leaves_in_clade = [leaf for leaf in tree.get_leaves() if leaf.clade_type == clade]
-
-                # Get the most recent common ancestor of all the leaves in the clade.
-                clade_node = tree.get_common_ancestor(leaves_in_clade)
-
-                # Name the node with the clade type.
-                clade_node.name = clade
-            # Finally, we need to clear out all the node names set by Wandrille's code.
-            # We only want the internal nodes that we've named to have names. 
-            # Wandrille's code names the internal nodes with single-quoted numbers.
-            for node in tree.traverse():
-                if re.match(r"\'\d+\'", node.name):
-                    node.name = ""
+                    # Name the node with the clade type.
+                    clade_node.name = clade
+                # Finally, we need to clear out all the node names set by Wandrille's code.
+                # We only want the internal nodes that we've named to have names. 
+                # Wandrille's code names the internal nodes with single-quoted numbers.
+                for node in self.tree.traverse():
+                    if re.match(r"\'\d+\'", node.name):
+                        node.name = ""
 
 
-        nodes = itt.get_internal_nodes_dataframe(tree)
+            nodes = itt.get_internal_nodes_dataframe(self.tree)
 
-        # Rearrange the columns
-        nodes = nodes[['x', 'y', 'z', 'name']]
+            # Rearrange the columns
+            nodes = nodes[['x', 'y', 'z', 'name']]
 
-        # Add underscores to the taxon names
-        nodes['name'] = nodes['name'].str.replace(' ', '_')
+            # Add underscores to the taxon names
+            nodes['name'] = nodes['name'].str.replace(' ', '_')
 
-        # Move the z values down
-        #nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
-        nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x * datainfo['scale_tree_z'])
-        nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
-        
-
-        # Write data to files
-        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
-        common.test_path(outpath)
-
-        outfile_csv = datainfo['dir'] + '_internal.csv'
-        outpath_csv = outpath / outfile_csv
-        
-
-        with open(outpath_csv, 'w') as csvfile:
-
-            datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
-
-            header = common.header(datainfo, script_name=Path(__file__).name)
-            print(header, file=csvfile)
-
-            nodes.to_csv(csvfile, index=False, lineterminator='\n')
+            # Move the z values down
+            #nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
+            nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x * datainfo['scale_tree_z'])
+            nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
             
-        # Report to stdout
-        common.out_file_message(outpath_csv)
-        
+
+            # Write data to files
+            outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+            common.test_path(outpath)
+
+            outfile_csv = datainfo['dir'] + '_internal.csv'
+            outpath_csv = outpath / outfile_csv
+            
+
+            with open(outpath_csv, 'w') as csvfile:
+
+                datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+
+                header = common.header(datainfo, script_name=Path(__file__).name)
+                print(header, file=csvfile)
+
+                nodes.to_csv(csvfile, index=False, lineterminator='\n')
+                
+            # Report to stdout
+            common.out_file_message(outpath_csv)
+
 
     def process_leaves_interpolated(self, datainfo):
         '''

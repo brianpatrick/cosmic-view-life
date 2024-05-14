@@ -628,9 +628,9 @@ def primates(datainfo, vocab, do_tree = False):
         # but it's separated out here for now.
         # Metadata processing is broken for primates and birds for trees.
         datainfo['metadata_file'] = None
-        mytree.process_leaves(datainfo)
+        mytree.process_nodes(datainfo, 'leaves')
         mytree.make_asset_nodes(datainfo, 'leaves')
-        mytree.process_internal(datainfo)
+        mytree.process_nodes(datainfo, 'internal')
         mytree.make_asset_nodes(datainfo, 'internal')
         mytree.process_branches(datainfo)
         mytree.make_asset_branches(datainfo)
@@ -757,9 +757,9 @@ def birds(datainfo, vocab,
         # metadata file so that the tree processing doesn't try to read it.
         datainfo['metadata_file'] = None
         mytree = tree.tree()
-        mytree.process_leaves(datainfo)
+        mytree.process_nodes(datainfo, 'leaves')
         mytree.make_asset_nodes(datainfo, 'leaves')
-        mytree.process_internal(datainfo)
+        mytree.process_nodes(datainfo, 'internal')
         mytree.make_asset_nodes(datainfo, 'internal')
         mytree.process_branches(datainfo)
         mytree.make_asset_branches(datainfo)
@@ -782,9 +782,9 @@ def insects(datainfo, vocab, do_tree = True):
 
     if (do_tree):
         mytree = tree.tree()
-        mytree.process_leaves(datainfo)
+        mytree.process_nodes(datainfo, 'leaves')
         mytree.make_asset_nodes(datainfo, 'leaves')
-        mytree.process_internal(datainfo)
+        mytree.process_nodes(datainfo, 'internal')
         mytree.make_asset_nodes(datainfo, 'internal')
         mytree.process_branches(datainfo)
         mytree.make_asset_branches(datainfo)
