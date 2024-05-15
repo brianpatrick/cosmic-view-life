@@ -530,7 +530,8 @@ class tree:
                                                          use_z_from_file=use_provided_z,
                                                          spherical_layout=spherical_tree)
 
-        branch_lines = itt.get_branches_dataframe(tree)
+
+        branch_lines = itt.get_branches_dataframe(tree, omit_last_branch=datainfo['omit_last_branch'])
 
         # Transform the 'z' axis
         #branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - datainfo['transform_tree_z'])

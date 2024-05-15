@@ -376,6 +376,10 @@ def main():
         # color file are used for lookups.
         datainfo['os_colormap_file'] = 'insect_orders.cmap'
 
+        # You can omit the last branch of the tree for clarity. For now, let's
+        # keep it in.
+        datainfo['omit_last_branch'] = False
+
         ####################################################
         # Insect order trees. This is fewer points than the family or (hopefully soon
         # to be incorporated) genus level tree.
