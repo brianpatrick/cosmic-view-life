@@ -100,6 +100,16 @@ class tree:
                                                                       inputTree = tree_file_path,
                                                                       use_z_from_file=use_provided_z,
                                                                       spherical_layout=spherical_tree)
+            
+        if ('dump_debug_tree' in datainfo.keys()) and (datainfo['dump_debug_tree'] == True):
+            (itt.get_branches_dataframe(self.tree)).to_csv(f"{datainfo['tree_dir']}_debugHH_tree_branches.csv")
+
+        # Output filenames and paths. Construction of these must match the filenames in
+        # make_asset_nodes() so that the asset file can find them.
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+        common.test_path(outpath)
+        outfile_csv = outpath.name + '_' + node_type + '.csv'
+        outpath_csv = outpath / outfile_csv
 
         if node_type == 'leaves':
             leaves = itt.get_leaves_dataframe(self.tree, self.missing_leaves)
@@ -246,14 +256,6 @@ class tree:
                             c = cmap(norm(i))
                             print(f"{c[0]:.8f} {c[1]:.8f} {c[2]:.8f} 1.0 # {i}", file=cmap_file)
 
-            # Write data to files
-            outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
-            common.test_path(outpath)
-
-            outfile_csv = datainfo['dir'] + '_leaves.csv'
-            outpath_csv = outpath / outfile_csv
-            
-
             with open(outpath_csv, 'w') as csvfile:
 
                 datainfo['author'] = 'Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
@@ -335,15 +337,6 @@ class tree:
             #nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
             nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x * datainfo['scale_tree_z'])
             nodes.loc[:, 'z'] = nodes['z'].apply(lambda x: x - datainfo['transform_tree_z'])
-            
-
-            # Write data to files
-            outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
-            common.test_path(outpath)
-
-            outfile_csv = datainfo['dir'] + '_internal.csv'
-            outpath_csv = outpath / outfile_csv
-            
 
             with open(outpath_csv, 'w') as csvfile:
 
@@ -531,8 +524,9 @@ class tree:
                                                          use_z_from_file=use_provided_z,
                                                          spherical_layout=spherical_tree)
 
-
-        branch_lines = itt.get_branches_dataframe(tree, omit_last_branch=datainfo['omit_last_branch'])
+        omit_last_branch = ('omit_last_branch' in datainfo.keys()) \
+            and (datainfo['omit_last_branch'] == True)
+        branch_lines = itt.get_branches_dataframe(tree, omit_last_branch)
 
         # Transform the 'z' axis
         #branch_lines.loc[:, 'z0'] = branch_lines['z0'].apply(lambda x: x - datainfo['transform_tree_z'])
@@ -556,9 +550,9 @@ class tree:
 
         # These speck and dat filenames must be generated in the same way as in
         # make_asset_branches() so that the asset file can find them.
-        outfile_speck = datainfo['dir'] + '_branches.speck'
+        outfile_speck = outpath.name + '_branches.speck'
         outpath_speck = outpath / outfile_speck
-        outfile_dat = datainfo['dir'] + '_branches.dat'
+        outfile_dat = outpath.name + '_branches.dat'
         outpath_dat = outpath / outfile_dat
 
         with open(outpath_speck, 'wt') as speck, open(outpath_dat, 'wt') as dat:
@@ -622,19 +616,19 @@ class tree:
         # Set the nested dict
         asset_info[file] = {}
 
-        asset_info[file]['speck_file'] = datainfo['dir'] + '_branches.speck'
+        asset_info[file]['speck_file'] = path.name + '_branches.speck'
         
-        #print(asset_info[file]['speck_file'], path, path.name)
-        asset_info[file]['speck_var'] = common.file_variable_generator(asset_info[file]['speck_file'])
+        asset_info[file]['speck_var'] = 'speck_' + common.file_variable_generator(asset_info[file]['speck_file'])
 
-        #asset_info[file]['label_file'] = path.stem + '.label'
+
+        #asset_info[file]['label_file'] = path.name + '.label'
         #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
 
-        #asset_info[file]['cmap_file'] = path.stem + '.cmap'
+        #asset_info[file]['cmap_file'] = path.name + '.cmap'
         #asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
-        asset_info[file]['dat_file'] = datainfo['dir'] + '_branches.dat'
-        asset_info[file]['dat_var'] = common.file_variable_generator(asset_info[file]['dat_file'])
+        asset_info[file]['dat_file'] = path.name + '_branches.dat'
+        asset_info[file]['dat_var'] = 'dat_' + common.file_variable_generator(asset_info[file]['dat_file'])
 
         asset_info[file]['asset_rel_path'] = '.'
 
@@ -747,7 +741,7 @@ class tree:
             str(taxa): 'internal' or 'leaves'
 
         Output:
-            datainfo['dir']_'taxa'.asset
+            xxxxxxx_'taxa'.asset
         '''
 
         # We shift the stdout to our filehandle so that we don't have to keep putting
@@ -773,10 +767,10 @@ class tree:
         # Set the nested dict
         asset_info[file] = {}
 
-        asset_info[file]['csv_file'] = datainfo['dir'] + '_' + taxa + '.csv'
+        asset_info[file]['csv_file'] = path.name + '_' + taxa + '.csv'
         asset_info[file]['csv_var'] = common.file_variable_generator(asset_info[file]['csv_file'])
 
-        #asset_info[file]['label_file'] = path.stem + '.label'
+        #asset_info[file]['label_file'] = path.name + '.label'
         #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
 
         # If there is an os_colormap_file defined and not empty, use that as the colormap
@@ -786,14 +780,14 @@ class tree:
             if datainfo['os_colormap_file']:
                 asset_info[file]['cmap_file'] = datainfo['os_colormap_file']
             else:
-                asset_info[file]['cmap_file'] = path.stem + '.cmap'
+                asset_info[file]['cmap_file'] = path.name + '.cmap'
         except KeyError:
-            asset_info[file]['cmap_file'] = path.stem + '.cmap'
+            asset_info[file]['cmap_file'] = path.name + '.cmap'
 
 
         asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
-        asset_info[file]['dat_file'] = path.stem + '.dat'
+        asset_info[file]['dat_file'] = path.name + '.dat'
         asset_info[file]['dat_var'] = common.file_variable_generator(asset_info[file]['dat_file'])
 
         asset_info[file]['asset_rel_path'] = '.'
@@ -830,7 +824,7 @@ class tree:
             cmap_filename = asset_info[file]['cmap_file']
             use_colormap = False
             if Path(full_cmap_file_path).exists():
-                print(f'local {asset_info[file]['cmap_var']} = asset.resource("./{cmap_filename}")')
+                print(f'local {asset_info[file]["cmap_var"]} = asset.resource("./{cmap_filename}")')
                 use_colormap = True
 
             for file in asset_info:
@@ -955,10 +949,10 @@ class tree:
         asset_info[file]['csv_file'] = datainfo['dir'] + '_interpolated.csv'
         asset_info[file]['csv_var'] = common.file_variable_generator(asset_info[file]['csv_file'])
 
-        #asset_info[file]['label_file'] = path.stem + '.label'
+        #asset_info[file]['label_file'] = path.name + '.label'
         #asset_info[file]['label_var'] = common.file_variable_generator(asset_info[file]['label_file'])
 
-        #asset_info[file]['cmap_file'] = path.stem + '.cmap'
+        #asset_info[file]['cmap_file'] = path.name + '.cmap'
         #asset_info[file]['cmap_var'] = common.file_variable_generator(asset_info[file]['cmap_file'])
 
         asset_info[file]['asset_rel_path'] = '.'
@@ -1064,299 +1058,48 @@ class tree:
             common.out_file_message(outpath)
             print()
 
-    def phylo_draw_ascii(self, tree, file=None, column_width=80):
-        """Draw an ascii-art phylogram of the given tree.
 
-        The printed result looks like::
+    def process_newick(self, datainfo):
+        '''
+        Process the newick file. This file contains the tree structure in newick format.
 
-                                            _________ Orange
-                             ______________|
-                            |              |______________ Tangerine
-              ______________|
-             |              |          _________________________ Grapefruit
-            _|              |_________|
-             |                        |______________ Pummelo
-             |
-             |__________________________________ Apple
+        This function does processing of both branches and nodes. The outputs are csv
+        files for the nodes and leaves, and a speck file for the branches. Nodes and
+        leaves are RenderablePointClouds, while branches are RenderableConstellationLines.
 
+        Positions of the nodes and lines in space are calculated using modified/adapted
+        tree drawing functions from Biopython's Phylo code.
 
-        :Parameters:
-            file : file-like object
-                File handle opened for writing the output drawing. (Default:
-                standard output)
-            column_width : int
-                Total number of text columns used by the drawing.
+        Trees often need to be scaled depending on branch lengths and number of
+        taxa in the tree. Some trees have no branch lengths, some are scaled by
+        coalescent units, and some are nucleotide substitutions over time. The
+        data_info branch_scaling_factor and taxon_scaling_factor are used to scale
+        the tree.
 
-        """
-        if file is None:
-            file = sys.stdout
+        Input:
+            dict(datainfo), which points to a newick file
 
-        taxa = tree.get_terminals()
-        # Some constants for the drawing calculations
-        max_label_width = max(len(str(taxon)) for taxon in taxa)
-        drawing_width = column_width - max_label_width - 1
-        drawing_height = 2 * len(taxa) - 1
+        Output:
+            speck file for branches
+            csv files for nodes and leaves
+            
+        '''
+        x_node_positions = []
+        y_node_positions = []
 
-        def get_col_positions(tree):
-            """Create a mapping of each clade to its column position."""
-            # Column position is tree depth as this is a horizontal tree.
-            depths = tree.depths()
-            # If there are no branch lengths, assume unit branch lengths
-            if max(depths.values()) == 0:
-                depths = tree.depths(unit_branch_lengths=True)
-            # Potential drawing overflow due to rounding -- 1 char per tree layer
-            fudge_margin = int(math.ceil(math.log(len(taxa), 2)))
-            cols_per_branch_unit = (drawing_width - fudge_margin) / max(depths.values())
-            return {
-                clade: int(blen * cols_per_branch_unit + 1.0)
-                for clade, blen in depths.items()
-            }
+        common.print_subhead_status('Processing tree data - newick')
 
-        def get_row_positions(tree):
-            # First, calculate the depth of each tip. This is the vertical position
-            # in the tree drawing, and is used to avoid collisions. This is a 
-            # horizontal tree.
-            # taxa is generated earlier by get_terminals(), which is in the same order
-            # as the tree's clades (postorder traversal). This is important for the
-            # vertical positioning of the clades. If this was *not* a postorder
-            # traversal, then the branches would wind up being all over the place. This
-            # is because the vertical position is calculated by averaging the vertical
-            # positions of the first and last tips in the clade.
-            positions = {taxon: 2 * idx for idx, taxon in enumerate(taxa)}
+        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir']
+        inpath /= Path(datainfo['tree_dir']) / datainfo['newick_file']
+        common.test_input_file(inpath)
 
-            def calc_row(clade):
-                # Go through all the subclades in this clade. If this clade is a tip,
-                # then the position is already calculated. If it's an internal node,
-                # then the position is the average of the positions of the first and
-                # last tips in this clade.
-                #           
-                # Recurse down until we get to something that has already been calculated.
-                for subclade in clade:
+        phylo_tree = Phylo.read(inpath, 'newick')
 
-                    # The first time this is called, this will recurse down to the tips
-                    # and calculate the positions. The second (and successive) time(s)
-                    # this is called, this will average the positions of the tips.
-                    if subclade not in positions:
-                        calc_row(subclade)
-
-                # We've handled calculating the children's positions. Now we can
-                # calculate the position of this clade. This is halfway between the
-                # first and last tips in this clade. The // 2 is integer division,
-                # NOT a C++ style comment.    
-                positions[clade] = (
-                    positions[clade.clades[0]] + positions[clade.clades[-1]]
-                ) // 2
-
-            # Kick the whole thing off by starting at the root and recursing down.
-            calc_row(tree.root)
-            return positions
-
-        col_positions = get_col_positions(tree)
-        row_positions = get_row_positions(tree)
-
-        # Initialize the drawing matrix. This is basically a 2D array of characters
-        # that we draw into with ascii art.
-        char_matrix = [[" " for x in range(drawing_width)] for y in range(drawing_height)]
-
-        # Draw the tree. Note that draw_clade() draws the lines but not the
-        # labels.
-        def draw_clade(clade, startcol):
-
-            # Position of this clade. This is always some distance from the
-            # start column - for example, at the start this is 0, but the 
-            # first clade will be at position 1, so there is at least a
-            # small horizontal line. The next clades are further to the right
-            # from startcol, and so on, as they're children of the currently 
-            # passed-in clade.
-            thiscol = col_positions[clade]
-            thisrow = row_positions[clade]
-            # Draw a horizontal line from the left margin of where we are now
-            # to the start of the label for this clade.
-            for col in range(startcol, thiscol):
-                char_matrix[thisrow][col] = "_"
-
-            if clade.clades:
-                # This node has children, i.e., it's an actual "clade".
-
-                # On the left hand side, draw a vertical line. This is really the only
-                # thing that happens for a "clade" with children. The top is the first tip
-                # in the clade, and the bottom is the last tip in the clade.
-                toprow = row_positions[clade.clades[0]]
-                botrow = row_positions[clade.clades[-1]]
-                for row in range(toprow + 1, botrow + 1):
-                    char_matrix[row][thiscol] = "|"
-
-                # NB: Short terminal branches need something to stop rstrip(), which
-                # is used below to remove trailing spaces so that the taxon name is
-                # positioned at the end of the branch.
-                if (col_positions[clade.clades[0]] - thiscol) < 2:
-                    char_matrix[toprow][thiscol] = ","
-
-                # Draw descendents, which start being drawn one space over to the right.
-                # They're arranged properly by branch lengths when horizontal lines are
-                # drawn.
-                for child in clade:
-                    draw_clade(child, thiscol + 1)
-
-        # Start the whole thing off beginnibg with the root of the tree, and
-        # recurse down. The starting column is 0.
-        draw_clade(tree.root, 0)
-
-        # Print the complete drawing by writing out the character matrix line by line.
-        for idx, row in enumerate(char_matrix):
-            # Convert the row list to a string, remove trailing spaces, and write it out.
-            line = "".join(row).rstrip()
-            # Add labels for terminal taxa in the right margin. Note that the labels
-            # are not arranged at the tip of the line for shorter trees.
-            if idx % 2 == 0:
-                line += " " + str(taxa[idx // 2])
-            file.write(line + "\n")
-        file.write("\n")
-
-
-    def phylo_draw(self,
-        tree,
-        label_func=str,
-        do_show=True,
-        show_confidence=True,
-        # For power users
-        axes=None,
-        branch_labels=None,
-        label_colors=None,
-        *args,
-        **kwargs,
-    ):
-        """Plot the given tree using matplotlib (or pylab).
-
-        The graphic is a rooted tree, drawn with roughly the same algorithm as
-        draw_ascii.
-
-        Additional keyword arguments passed into this function are used as pyplot
-        options. The input format should be in the form of:
-        pyplot_option_name=(tuple), pyplot_option_name=(tuple, dict), or
-        pyplot_option_name=(dict).
-
-        Example using the pyplot options 'axhspan' and 'axvline'::
-
-            from Bio import Phylo, AlignIO
-            from Bio.Phylo.TreeConstruction import DistanceCalculator, DistanceTreeConstructor
-            constructor = DistanceTreeConstructor()
-            aln = AlignIO.read(open('TreeConstruction/msa.phy'), 'phylip')
-            calculator = DistanceCalculator('identity')
-            dm = calculator.get_distance(aln)
-            tree = constructor.upgma(dm)
-            Phylo.draw(tree, axhspan=((0.25, 7.75), {'facecolor':'0.5'}),
-            ... axvline={'x':0, 'ymin':0, 'ymax':1})
-
-        Visual aspects of the plot can also be modified using pyplot's own functions
-        and objects (via pylab or matplotlib). In particular, the pyplot.rcParams
-        object can be used to scale the font size (rcParams["font.size"]) and line
-        width (rcParams["lines.linewidth"]).
-
-        :Parameters:
-            label_func : callable
-                A function to extract a label from a node. By default this is str(),
-                but you can use a different function to select another string
-                associated with each node. If this function returns None for a node,
-                no label will be shown for that node.
-            do_show : bool
-                Whether to show() the plot automatically.
-            show_confidence : bool
-                Whether to display confidence values, if present on the tree.
-            axes : matplotlib/pylab axes
-                If a valid matplotlib.axes.Axes instance, the phylogram is plotted
-                in that Axes. By default (None), a new figure is created.
-            branch_labels : dict or callable
-                A mapping of each clade to the label that will be shown along the
-                branch leading to it. By default this is the confidence value(s) of
-                the clade, taken from the ``confidence`` attribute, and can be
-                easily toggled off with this function's ``show_confidence`` option.
-                But if you would like to alter the formatting of confidence values,
-                or label the branches with something other than confidence, then use
-                this option.
-            label_colors : dict or callable
-                A function or a dictionary specifying the color of the tip label.
-                If the tip label can't be found in the dict or label_colors is
-                None, the label will be shown in black.
-
-        """
-        try:
-            import matplotlib.pyplot as plt
-        except ImportError:
-            try:
-                import pylab as plt
-            except ImportError:
-                raise MissingPythonDependencyError(
-                    "Install matplotlib or pylab if you want to use draw."
-                ) from None
-
-        import matplotlib.collections as mpcollections
-
-        # Arrays that store lines for the plot of clades
-        horizontal_linecollections = []
-        vertical_linecollections = []
-
-        # Options for displaying branch labels / confidence
-        def conf2str(conf):
-            if int(conf) == conf:
-                return str(int(conf))
-            return str(conf)
-
-        if not branch_labels:
-            if show_confidence:
-
-                def format_branch_label(clade):
-                    try:
-                        confidences = clade.confidences
-                        # phyloXML supports multiple confidences
-                    except AttributeError:
-                        pass
-                    else:
-                        return "/".join(conf2str(cnf.value) for cnf in confidences)
-                    if clade.confidence is not None:
-                        return conf2str(clade.confidence)
-                    return None
-
-            else:
-
-                def format_branch_label(clade):
-                    return None
-
-        elif isinstance(branch_labels, dict):
-
-            def format_branch_label(clade):
-                return branch_labels.get(clade)
-
-        else:
-            if not callable(branch_labels):
-                raise TypeError(
-                    "branch_labels must be either a dict or a callable (function)"
-                )
-            format_branch_label = branch_labels
-
-        # options for displaying label colors.
-        if label_colors:
-            if callable(label_colors):
-
-                def get_label_color(label):
-                    return label_colors(label)
-
-            else:
-                # label_colors is presumed to be a dict
-                def get_label_color(label):
-                    return label_colors.get(label, "black")
-
-        else:
-
-            def get_label_color(label):
-                # if label_colors is not specified, use black
-                return "black"
-
-        # Layout
-
+        # These two functions were lifted verbatim from Biopython's Phylo code. They are
+        # used to calculate the positions of the nodes and leaves in the tree.
         def get_x_positions(tree):
-            """Create a mapping of each clade to its horizontal position.
-
+            """
+            Create a mapping of each clade to its horizontal position.
             Dict of {clade: x-coord}
             """
             depths = tree.depths()
@@ -1366,8 +1109,8 @@ class tree:
             return depths
 
         def get_y_positions(tree):
-            """Create a mapping of each clade to its vertical position.
-
+            """
+            Create a mapping of each clade to its vertical position.
             Dict of {clade: y-coord}.
             Coordinates are negative, and integers for tips.
             """
@@ -1390,176 +1133,136 @@ class tree:
             if tree.root.clades:
                 calc_row(tree.root)
             return heights
+        
+        # Dataframe to hold the start and end coordinates of the branch lines. This is
+        # used to create the branch lines in the speck file and is ordered [x0, y0, z0,
+        # x1, y1, z1, name]. The branch name is the clade for that particular branch and
+        # may be empty.
+        branch_lines_df = pd.DataFrame(columns=['name', 
+                                                'x0', 'y0', 'z0', 
+                                                'x1', 'y1', 'z1'])
 
-        x_posns = get_x_positions(tree)
-        y_posns = get_y_positions(tree)
-        # The function draw_clade closes over the axes object
-        if axes is None:
-            fig = plt.figure()
-            axes = fig.add_subplot(1, 1, 1)
-        elif not isinstance(axes, plt.matplotlib.axes.Axes):
-            raise ValueError(f"Invalid argument for axes: {axes}")
+        # The next two functions are largely from Biopython's Phylo code but are
+        # modified - color and line width removed, for example, as well as
+        # linecollection stuff used by matplotlib.
+        def draw_clade_lines(orientation="horizontal", 
+                             y_here=0, x_start=0, x_here=0, y_bot=0, y_top=0):
+            if orientation == "horizontal":
+                #print(f'(x_start, y_here), (x_here, y_here): {(x_start, y_here), (x_here, y_here)}')
+                branch_lines_df.loc[len(branch_lines_df.index)] = \
+                    ['dummy', x_start, y_here, 0.0, x_here, y_here, 0.0]
+            elif  orientation == "vertical":
+                #print(f'(x_here, y_bot), (x_here, y_top): {(x_here, y_bot), (x_here, y_top)}')
+                branch_lines_df.loc[len(branch_lines_df.index)] = \
+                    ['dummy', x_here, y_bot, 0.0, x_here, y_top, 0.0]
 
-        def draw_clade_lines(
-            use_linecollection=False,
-            orientation="horizontal",
-            y_here=0,
-            x_start=0,
-            x_here=0,
-            y_bot=0,
-            y_top=0,
-            color="black",
-            lw=".1",
-        ):
-            """Create a line with or without a line collection object.
-
-            Graphical formatting of the lines representing clades in the plot can be
-            customized by altering this function.
-            """
-            if not use_linecollection and orientation == "horizontal":
-                axes.hlines(y_here, x_start, x_here, color=color, lw=lw)
-            elif use_linecollection and orientation == "horizontal":
-                horizontal_linecollections.append(
-                    mpcollections.LineCollection(
-                        [[(x_start, y_here), (x_here, y_here)]], color=color, lw=lw
-                    )
-                )
-            elif not use_linecollection and orientation == "vertical":
-                axes.vlines(x_here, y_bot, y_top, color=color)
-            elif use_linecollection and orientation == "vertical":
-                vertical_linecollections.append(
-                    mpcollections.LineCollection(
-                        [[(x_here, y_bot), (x_here, y_top)]], color=color, lw=lw
-                    )
-                )
-
-        def draw_clade(clade, x_start, color, lw):
+        def draw_clade(clade, x_start):
             """Recursively draw a tree, down from the given clade."""
-            x_here = x_posns[clade]
-            y_here = y_posns[clade]
-            # phyloXML-only graphics annotations
-            if hasattr(clade, "color") and clade.color is not None:
-                color = clade.color.to_hex()
-            if hasattr(clade, "width") and clade.width is not None:
-                lw = clade.width * plt.rcParams["lines.linewidth"]
+            x_here = x_node_positions[clade]
+            y_here = y_node_positions[clade]
+
             # Draw a horizontal line from start to here
-            draw_clade_lines(
-                use_linecollection=True,
-                orientation="horizontal",
+            draw_clade_lines(orientation="horizontal",
                 y_here=y_here,
                 x_start=x_start,
-                x_here=x_here,
-                color=color,
-                lw=lw,
-            )
-            # Add node/taxon labels
-            label = label_func(clade)
-            if label not in (None, clade.__class__.__name__):
-                axes.text(
-                    x_here,
-                    y_here,
-                    f" {label}",
-                    verticalalignment="center",
-                    color=get_label_color(label),
-                )
-            # Add label above the branch (optional)
-            conf_label = format_branch_label(clade)
-            if conf_label:
-                axes.text(
-                    0.5 * (x_start + x_here),
-                    y_here,
-                    conf_label,
-                    fontsize="small",
-                    horizontalalignment="center",
-                )
+                x_here=x_here)
+
             if clade.clades:
                 # Draw a vertical line connecting all children
-                y_top = y_posns[clade.clades[0]]
-                y_bot = y_posns[clade.clades[-1]]
+                y_top = y_node_positions[clade.clades[0]]
+                y_bot = y_node_positions[clade.clades[-1]]
                 # Only apply widths to horizontal lines, like Archaeopteryx
-                draw_clade_lines(
-                    use_linecollection=True,
-                    orientation="vertical",
+                draw_clade_lines(orientation="vertical",
                     x_here=x_here,
                     y_bot=y_bot,
-                    y_top=y_top,
-                    color=color,
-                    lw=lw,
-                )
+                    y_top=y_top,)
                 # Draw descendents
                 for child in clade:
-                    draw_clade(child, x_here, color, lw)
+                    draw_clade(child, x_here)
 
-        draw_clade(tree.root, 0, "k", plt.rcParams["lines.linewidth"])
+        # Get the positions of the leaves and internal nodes.
+        x_node_positions = get_x_positions(phylo_tree)
+        y_node_positions = get_y_positions(phylo_tree)
 
-        # If line collections were used to create clade lines, here they are added
-        # to the pyplot plot.
-        print("Horizontal collections:")
-        for i in horizontal_linecollections:
-            print(i)
-            axes.add_collection(i)
-        for i in vertical_linecollections:
-            axes.add_collection(i)
+        # Now make a dataframe of the nodes and leaves. The dataframe will have the
+        # columns: name, x, y, z. The z values are all set to 0.0.
+        nodes = []
+        leaves = []
+        for node in phylo_tree.find_clades():
+            x = x_node_positions.get(node)
+            y = y_node_positions.get(node)
+            if node.is_terminal():
+                leaves.append([x, y, 0.0, node.name])
+            else:
+                nodes.append([x, y, 0.0, node.name])
 
-        # Aesthetics
+        nodes = pd.DataFrame(nodes, columns=['x', 'y', 'z', 'name'])
+        leaves = pd.DataFrame(leaves, columns=['x', 'y', 'z', 'name'])
 
-        try:
-            name = tree.name
-        except AttributeError:
-            pass
-        else:
-            if name:
-                axes.set_title(name)
-        axes.set_xlabel("branch length")
-        axes.set_ylabel("taxa")
-        # Add margins around the tree to prevent overlapping the axes
-        xmax = max(x_posns.values())
-        axes.set_xlim(-0.05 * xmax, 1.25 * xmax)
-        # Also invert the y-axis (origin at the top)
-        # Add a small vertical margin, but avoid including 0 and N+1 on the y axis
-        axes.set_ylim(max(y_posns.values()) + 0.8, 0.2)
+        # Add color and clade columns.
+        nodes['color'] = '1'
+        nodes['clade'] = 'dummy'
+        leaves['color'] = '1'
+        leaves['clade'] = 'dummy'
 
-        # Parse and process key word arguments as pyplot options
-        for key, value in kwargs.items():
-            try:
-                # Check that the pyplot option input is iterable, as required
-                list(value)
-            except TypeError:
-                raise ValueError(
-                    'Keyword argument "%s=%s" is not in the format '
-                    "pyplot_option_name=(tuple), pyplot_option_name=(tuple, dict),"
-                    " or pyplot_option_name=(dict) " % (key, value)
-                ) from None
-            if isinstance(value, dict):
-                getattr(plt, str(key))(**dict(value))
-            elif not (isinstance(value[0], tuple)):
-                getattr(plt, str(key))(*value)
-            elif isinstance(value[0], tuple):
-                getattr(plt, str(key))(*value[0], **dict(value[1]))
+        # Scale the node positions (if required).
+        if 'branch_scaling_factor' in datainfo:
+            nodes.loc[:, 'x'] = nodes['x'].apply(lambda x: x * datainfo['branch_scaling_factor'])
+            leaves.loc[:, 'x'] = leaves['x'].apply(lambda x: x * datainfo['branch_scaling_factor'])
+        if 'taxon_scaling_factor' in datainfo:
+            nodes.loc[:, 'y'] = nodes['y'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
+            leaves.loc[:, 'y'] = leaves['y'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
 
-        if do_show:
-            plt.show()
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+        common.test_path(outpath)
+        nodes_outfile = outpath / (outpath.name + '_internal.csv')
+        leaves_outfile = outpath / (outpath.name + '_leaves.csv')
+        nodes.to_csv(nodes_outfile, index=False, lineterminator='\n')
+        common.out_file_message(nodes_outfile)
+        common.out_file_message(leaves_outfile)
 
+        leaves.to_csv(leaves_outfile, index=False, lineterminator='\n')
 
-    def process_newick(self, datainfo):
-        '''
-        Process the newick file. This file contains the tree structure in newick format.
+        # Draw the branches. draw_clade populates the branch_lines_df dataframe.
+        draw_clade(phylo_tree.root, 0)
 
-        Input:
-            dict(datainfo)
+        # Scale the branch positions (if required).
+        if 'branch_scaling_factor' in datainfo:
+            branch_lines_df.loc[:, 'x0'] = branch_lines_df['x0'].apply(lambda x: x * datainfo['branch_scaling_factor'])
+            branch_lines_df.loc[:, 'x1'] = branch_lines_df['x1'].apply(lambda x: x * datainfo['branch_scaling_factor'])
+        if 'taxon_scaling_factor' in datainfo:
+            branch_lines_df.loc[:, 'y0'] = branch_lines_df['y0'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
+            branch_lines_df.loc[:, 'y1'] = branch_lines_df['y1'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
 
-        Output:
-            .newick
-        '''
+        # Write data to files
+        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
+        common.test_path(outpath)
 
-        common.print_subhead_status('Processing tree data - newick')
+        # These speck and dat filenames must be generated in the same way as in
+        # make_asset_branches() so that the asset file can find them.
+        outfile_speck = outpath.name + '_branches.speck'
+        outpath_speck = outpath / outfile_speck
+        outfile_dat = outpath.name + '_branches.dat'
+        outpath_dat = outpath / outfile_dat
 
-        inpath = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['tree_dir'] / datainfo['newick_file']
-        common.test_input_file(inpath)
+        with open(outpath_speck, 'wt') as speck, open(outpath_dat, 'wt') as dat:
 
-        tree = Phylo.read(inpath, 'newick')
+            datainfo['author'] = 'Hollister Herhold and Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+            datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
+            datainfo['data_group_desc'] = 'Data points for the tree - branches.'
 
-        self.phylo_draw_ascii(tree)
-        
+            header = common.header(datainfo, script_name=Path(__file__).name)
+            print(header, file=speck)
 
+            for _, row in branch_lines_df.iterrows():
+                print('mesh -c 1 {', file=speck)
+                print(f"  id {row['name']}", file=speck)
+                print('  2', file=speck)
+                print(f"  {row['x0']:.8f} {row['y0']:.8f} {row['z0']:.8f}", file=speck)
+                print(f"  {row['x1']:.8f} {row['y1']:.8f} {row['z1']:.8f}", file=speck)
+                print('}', file=speck)
 
+                print(f"{row['name']} {row['name']}", file=dat)
+
+            common.out_file_message(outpath_speck)
+            common.out_file_message(outpath_dat)

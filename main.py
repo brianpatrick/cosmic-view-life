@@ -361,6 +361,8 @@ def main():
     if ('insects' not in args.skip):
         datainfo['dir'] = 'insects'
         datainfo['sub_project'] = 'Insects'
+        datainfo['metadata_file'] = None
+
 
         # Right now, all insect plots are sorted by order, meaning that points are
         # colored by order. This is a bit of a simplification, but it's a start.
@@ -389,7 +391,6 @@ def main():
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_order_mMDS_xy'
         datainfo['tree_dir'] = 'timetree_insecta_order_mMDS_xy'
-        datainfo['metadata_file'] = None
         datainfo['tree_type'] = 'tabletop'
         datainfo['newick_file'] = 'Insecta_order.nwk'
         datainfo['coordinates_file'] = 'Insecta_order.mMDS.xy.csv'
@@ -406,8 +407,9 @@ def main():
         datainfo['coordinates_file'] = 'Insecta_order_mds3.xyz.csv'
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
+        #datainfo['dump_debug_tree'] = True
         insects(datainfo, vocab, do_tree = True)
-
+        
         # 3D tree, spherical.
         datainfo['version'] = '1'
         datainfo['catalog_directory'] = 'timetree_insecta_order_mMDS_xyz_spherical'
@@ -418,7 +420,7 @@ def main():
         datainfo['transform_tree_z'] = 0.0 # 75.0
         datainfo['scale_tree_z'] = 1.0
         insects(datainfo, vocab, do_tree = True)
-
+        
         
         ####################################################
         # Insect family trees. 
@@ -432,7 +434,7 @@ def main():
         # than loading in the NCBI taxonomy db and trying to match everything up
         # on every single run.
         ####################################################
-
+        
         # Common parameters for all insect family trees.
         datainfo['leaf-type'] = 'family'
         datainfo['clade-type'] = 'order'
@@ -521,13 +523,20 @@ def main():
         """
         
 
-        """
+        
         datainfo['version'] = '1'
-        datainfo['catalog_directory'] = 'Weigmann_et_al_2011'
+        # This tree does not have coordinates from data reduction runs, so the
+        # tree geometry needs to be generated/drawn on the fly.
+        datainfo['coordinates_file'] = None
+        datainfo['catalog_directory'] = 'Wiegmann_et_al_tree'
+        datainfo['tree_dir'] = 'Wiegmann_et_al_tree'
         datainfo['newick_file'] = 'Wiegmann_et_al.nwk'
-        datainfo['tree_dir'] = 'tree'
+        datainfo['branch_scaling_factor'] = 400.0
+        datainfo['taxon_scaling_factor'] = 10.0
+        #datainfo['newick_file'] = 'simple.nwk'
+        datainfo['tree_dir'] = 'Wiegmann_et_al_tree'
         insects(datainfo, vocab)
-        """
+        
 
 
 
@@ -786,12 +795,23 @@ def insects(datainfo, vocab, do_tree = True):
 
     if (do_tree):
         mytree = tree.tree()
-        mytree.process_nodes(datainfo, 'leaves')
-        mytree.make_asset_nodes(datainfo, 'leaves')
-        mytree.process_nodes(datainfo, 'internal')
-        mytree.make_asset_nodes(datainfo, 'internal')
-        mytree.process_branches(datainfo)
-        mytree.make_asset_branches(datainfo)
+        
+        # Is this a newick tree or a table of coordinates?
+        if (datainfo['coordinates_file'] is not None):
+            mytree.process_nodes(datainfo, 'leaves')
+            mytree.make_asset_nodes(datainfo, 'leaves')
+            mytree.process_nodes(datainfo, 'internal')
+            mytree.make_asset_nodes(datainfo, 'internal')
+            mytree.process_branches(datainfo)
+            mytree.make_asset_branches(datainfo)
+        else:
+            # process_newick() creates node and leaf csv files and the
+            # branches speck file in one shot.
+            mytree.process_newick(datainfo)
+            mytree.make_asset_nodes(datainfo, 'leaves')
+            mytree.make_asset_nodes(datainfo, 'internal')
+            mytree.make_asset_branches(datainfo)
+
 
     #if (do_tree):
     #    mytree = tree.tree()

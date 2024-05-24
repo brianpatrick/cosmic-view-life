@@ -8,6 +8,7 @@ Thumbs.db
 
 # Virtual Environment folder
 .venv
+/venv/
 
 # Output directories (e.g., primates, birds, etc.)
 /birds/
@@ -33,7 +34,7 @@ clean-data.ps1
 clean-data-target.ps1
 
 # I occasionally dump dataframes and such for debug. They always have debugHH in them, so ignore those.
-**debugHH.csv
+**debugHH*.csv
 
 # Ignore the data files that are too large to check in
 /catalogs_raw/birds/202308_bird_dataset_mMDS.xy_3Dprojection/timetree_mMDS.xy_aves_groups_indicator_vectors_grafted_cMDS/
