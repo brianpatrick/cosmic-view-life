@@ -1,0 +1,39 @@
+local timetreeInsectaFamilyXYZ_on = {
+  Identifier = "os.timetreeInsectaFamilyXYZ_on",
+  Name = "Insecta family XYZ tree on",
+  Command = [[
+    openspace.setPropertyValueSingle("Scene.insects_timetree_insecta_family_mMDS_xyz_branches.Renderable.Enabled", true)
+    openspace.setPropertyValueSingle("Scene.insects_timetree_insecta_family_mMDS_xyz_internal.Renderable.Enabled", true)
+    openspace.setPropertyValueSingle("Scene.insects_timetree_insecta_family_mMDS_xyz_leaves.Renderable.Enabled", true)
+  ]],
+  Documentation = "Insect family XYZ tree on",
+  GuiPath = "/Insects",
+  IsLocal = false
+}
+
+local timetreeInsectaFamilyXYZ_off = {
+  Identifier = "os.timetreeInsectaFamilyXYZ_off",
+  Name = "Insecta family XYZ tree off",
+  Command = [[
+    openspace.setPropertyValueSingle("Scene.insects_timetree_insecta_family_mMDS_xyz_branches.Renderable.Enabled", false)
+    openspace.setPropertyValueSingle("Scene.insects_timetree_insecta_family_mMDS_xyz_internal.Renderable.Enabled", false)
+    openspace.setPropertyValueSingle("Scene.insects_timetree_insecta_family_mMDS_xyz_leaves.Renderable.Enabled", false)
+  ]],
+  Documentatioff = "Insect family XYZ tree off",
+  GuiPath = "/Insects",
+  IsLocal = false
+}
+
+
+asset.onInitialize(function()
+  openspace.action.registerAction(timetreeInsectaFamilyXYZ_on)
+  openspace.action.registerAction(timetreeInsectaFamilyXYZ_off)
+end)
+
+asset.onDeinitialize(function()
+  openspace.action.removeAction(timetreeInsectaFamilyXYZ_on)
+  openspace.action.removeAction(timetreeInsectaFamilyXYZ_off)
+end)
+
+asset.export("timetreeInsectaFamilyXYZ_on", timetreeInsectaFamilyXYZ_on.Identifier)
+asset.export("timetreeInsectaFamilyXYZ_off", timetreeInsectaFamilyXYZ_off.Identifier)
