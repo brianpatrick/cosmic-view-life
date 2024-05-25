@@ -1195,48 +1195,44 @@ class tree:
                 leaves.append([x, y, 0.0, node.name])
             else:
                 nodes.append([x, y, 0.0, node.name])
-
         nodes = pd.DataFrame(nodes, columns=['x', 'y', 'z', 'name'])
         leaves = pd.DataFrame(leaves, columns=['x', 'y', 'z', 'name'])
 
         # Add color and clade columns.
+        # FIXME: This is hardcoded for now. The color mapping is done at the order level
+        # for the internal nodes and the leaves. This is because there are hundreds of
+        # families and only 30 orders (at least, for insects). The colors for the orders
+        # are the same for the internal nodes and the leaves.
         nodes['color'] = '1'
         nodes['clade'] = 'dummy'
         leaves['color'] = '1'
         leaves['clade'] = 'dummy'
 
-        # Scale the node positions (if required).
+        # Now draw the branches. draw_clade populates the branch_lines_df dataframe,
+        # so we don't have to make one after the fact. Maybe it would be more 
+        # consistent if draw_clade returned a dataframe, but this is fine for now.
+        draw_clade(phylo_tree.root, 0)
+
+        # Scale the node and branch positions (if required).
         if 'branch_scaling_factor' in datainfo:
             nodes.loc[:, 'x'] = nodes['x'].apply(lambda x: x * datainfo['branch_scaling_factor'])
             leaves.loc[:, 'x'] = leaves['x'].apply(lambda x: x * datainfo['branch_scaling_factor'])
-        if 'taxon_scaling_factor' in datainfo:
-            nodes.loc[:, 'y'] = nodes['y'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
-            leaves.loc[:, 'y'] = leaves['y'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
-
-        outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
-        common.test_path(outpath)
-        nodes_outfile = outpath / (outpath.name + '_internal.csv')
-        leaves_outfile = outpath / (outpath.name + '_leaves.csv')
-        nodes.to_csv(nodes_outfile, index=False, lineterminator='\n')
-        common.out_file_message(nodes_outfile)
-        common.out_file_message(leaves_outfile)
-
-        leaves.to_csv(leaves_outfile, index=False, lineterminator='\n')
-
-        # Draw the branches. draw_clade populates the branch_lines_df dataframe.
-        draw_clade(phylo_tree.root, 0)
-
-        # Scale the branch positions (if required).
-        if 'branch_scaling_factor' in datainfo:
             branch_lines_df.loc[:, 'x0'] = branch_lines_df['x0'].apply(lambda x: x * datainfo['branch_scaling_factor'])
             branch_lines_df.loc[:, 'x1'] = branch_lines_df['x1'].apply(lambda x: x * datainfo['branch_scaling_factor'])
         if 'taxon_scaling_factor' in datainfo:
+            nodes.loc[:, 'y'] = nodes['y'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
+            leaves.loc[:, 'y'] = leaves['y'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
             branch_lines_df.loc[:, 'y0'] = branch_lines_df['y0'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
             branch_lines_df.loc[:, 'y1'] = branch_lines_df['y1'].apply(lambda x: x * datainfo['taxon_scaling_factor'])
 
-        # Write data to files
+        # Finally, write everything to files. First the nodes and leaves.
         outpath = Path.cwd() / datainfo['dir'] / datainfo['tree_dir']
         common.test_path(outpath)
+        # CSV files don't get headers. (Should they? Can they?)
+        nodes_outfile = outpath / (outpath.name + '_internal.csv')
+        leaves_outfile = outpath / (outpath.name + '_leaves.csv')
+        nodes.to_csv(nodes_outfile, index=False, lineterminator='\n')
+        leaves.to_csv(leaves_outfile, index=False, lineterminator='\n')
 
         # These speck and dat filenames must be generated in the same way as in
         # make_asset_branches() so that the asset file can find them.
@@ -1246,7 +1242,6 @@ class tree:
         outpath_dat = outpath / outfile_dat
 
         with open(outpath_speck, 'wt') as speck, open(outpath_dat, 'wt') as dat:
-
             datainfo['author'] = 'Hollister Herhold and Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
             datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
             datainfo['data_group_desc'] = 'Data points for the tree - branches.'
@@ -1264,5 +1259,8 @@ class tree:
 
                 print(f"{row['name']} {row['name']}", file=dat)
 
-            common.out_file_message(outpath_speck)
-            common.out_file_message(outpath_dat)
+        common.out_file_message(outpath_speck)
+        common.out_file_message(outpath_dat)
+        common.out_file_message(nodes_outfile)
+        common.out_file_message(leaves_outfile)
+
