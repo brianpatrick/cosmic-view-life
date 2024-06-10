@@ -124,6 +124,10 @@ def process_data(datainfo, vocab):
         print(file=log)
 
 
+    # Report back the path to the CSV file. This might be used as a start or end point
+    # for interpolated points.
+    datainfo['consensus_csv_file'] = outpath_csv
+
     # Report to stdout
     common.out_file_message(outpath_log)
 

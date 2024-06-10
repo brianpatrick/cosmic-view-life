@@ -6,11 +6,13 @@
 
 import pandas as pd
 from pathlib import Path
-
 import argparse
+import shutil
 
 
-from src import common, colors, human_origins, metadata, consensus_species, sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, takanori_trials, tree, metadata
+from src import common, colors, human_origins, metadata, consensus_species, \
+    sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, \
+        takanori_trials, tree, metadata, interpolated_points
 
 
 def main():
@@ -146,9 +148,29 @@ def main():
     # options, but it's more complex to use.
     parser.add_argument('--skip', nargs='+', help='Skip sections: primates, birds, human-origins, insects')
 
+    # Add an argument to see if we should clean up target directories before running.
+    parser.add_argument('--clean', action='store_true', help='Clean up target directories before running', default=False)
+
 
     # Check to see if the user has passed in any command line parameters.
     args = parser.parse_args()
+
+    # Do we need to remove the target directories before running?
+    if args.clean:
+        # Clean up the processed data directories before running. The list here is
+        # hard-coded, this is kinda hacky but it works for now. Perhaps at some point
+        # there should be a script that is read in by this code that tells it what to do
+        # rather than modifying it on the fly for each new dataset. Dirs to remove:
+        # catalogs_processed, birds, human_origins, logs, primates, insects, docs_build.
+        print("*** Cleaning up processed data directories ***")
+        shutil.rmtree('catalogs_processed', ignore_errors=True)
+        shutil.rmtree('birds', ignore_errors=True)
+        shutil.rmtree('human_origins', ignore_errors=True)
+        shutil.rmtree('logs', ignore_errors=True)
+        shutil.rmtree('primates', ignore_errors=True)
+        shutil.rmtree('insects', ignore_errors=True)
+        shutil.rmtree('docs_build', ignore_errors=True)
+
 
     # If there are no skip arguments, set it to an empty list. This keeps the checks
     # below from throwing an error.
@@ -622,10 +644,15 @@ def primates(datainfo, vocab, do_tree = False):
     #meta_data.to_csv('primates_metadata_debugHH.csv', index=False)
 
     # HH - The consensus points are a single point for each species. This is most likely
-    # the centroid or something like that; I need to look into this more.
+    # the centroid or something like that; I need to look into this more. The consensus
+    # dataframe is used by sequence_lineage (below), not entirely sure how.
     consensus = consensus_species.process_data(datainfo, vocab)
     consensus_species.make_asset(datainfo)
 
+    # We want to make an interpolated points asset that moves points between the consensus
+    # species "cloud" to the "tabletop" tree leaf nodes. To do this we need the
+    # start and end point CSV files, and the consensus is one of these.
+    consensus_csv_filename = datainfo['consensus_csv_file']
 
     seq = sequence.process_data(datainfo, meta_data)
     sequence.make_asset(datainfo)
@@ -643,17 +670,25 @@ def primates(datainfo, vocab, do_tree = False):
         datainfo['metadata_file'] = None
         mytree.process_nodes(datainfo, 'leaves')
         mytree.make_asset_nodes(datainfo, 'leaves')
+
+        # This is the second part of the interpolated points. The first part is the
+        # consensus CSV file, above. The second part is the tree leaf nodes.
+        leaves_filename = datainfo['nodes_csv_file']
+        
         mytree.process_nodes(datainfo, 'internal')
         mytree.make_asset_nodes(datainfo, 'internal')
         mytree.process_branches(datainfo)
         mytree.make_asset_branches(datainfo)
 
-        # The interpolated points are kinda-sorta associated with the tree, but not really.
-        # They are a separate set of points that are interpolated from the leaf points to the
-        # data-reduction points. This is to show the relationship between the established
-        # evolutionary relationships and the data-reduced points.
-        #mytree.process_leaves_interpolated(datainfo)
-        #mytree.make_asset_leaves_interpolated(datainfo)
+        # Now we need to make an interpolated points asset. The start point is the 
+        # consensus points (one for each species), and the end point is the tree
+        # leaf nodes. Save it in the tree directory (leaves).
+        datainfo['start_points'] = consensus_csv_filename
+        datainfo['end_points'] = leaves_filename
+        datainfo['save_path'] = Path(leaves_filename).parent
+        mypoints = interpolated_points.interpolated_points()
+        mypoints.process_interpolated_points(datainfo)
+        mypoints.make_asset_interpolated_points(datainfo)
 
     
 

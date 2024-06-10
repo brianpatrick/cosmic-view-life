@@ -28,10 +28,10 @@ Thumbs.db
 # Docs build files
 /docs/build/
 
-# Random powershell scripts to make my (HH) life a little easier. I'd check these in but they rely on specific pathnames.
-copy-data.ps1
-clean-data.ps1
-clean-data-target.ps1
+# I use random scripts to make my life a little easier, but these often rely
+# on hard-coded paths and such. They're not meant to be shared, so ignore them.
+*.ps1
+*.sh
 
 # I occasionally dump dataframes and such for debug. They always have debugHH in them, so ignore those.
 **debugHH*.csv
