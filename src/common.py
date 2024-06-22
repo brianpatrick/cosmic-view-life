@@ -75,6 +75,7 @@ TEXT_MAX_SIZE = '30'
 # the viewer when the camera is at its initial position.
 POSITION_SCALE_FACTOR = 5000.0
 HUMAN_POSITION_SCALE_FACTOR = 100000.0
+EARTH_RADIUS_IN_KM = 6371.0
 
 # common used to hold the translation and scaling numbers for trees. It turns out
 # that each dataset may have different scaling and translation needs, so this

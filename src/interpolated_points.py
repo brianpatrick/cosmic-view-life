@@ -25,7 +25,7 @@ class interpolated_points:
         self.interpolated_points_csv_full_path = Path()
         self.num_objects = 0
 
-    def process_interpolated_points(self, datainfo):
+    def process_interpolated_points(self, datainfo, check_duplicates=True):
         '''
         Process  interpolated points. These are points that move between two locations
         in 3D space.
@@ -38,59 +38,80 @@ class interpolated_points:
 
         common.print_subhead_status('Processing interpolated points')
 
+        start_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['start_points']
+        end_file_path = Path.cwd() / common.DATA_DIRECTORY / datainfo['dir'] / datainfo['end_points']
+        common.test_input_file(start_file_path)
+        common.test_input_file(end_file_path)
+
         # Read in the CSV files. # is the comment character and the first line is the
         # header containing the column names.
-        start_points_df = pd.read_csv(datainfo['start_points'], comment='#')
-        end_points_df = pd.read_csv(datainfo['end_points'], comment='#')
+        start_points_df = pd.read_csv(start_file_path, comment='#')
+        end_points_df = pd.read_csv(end_file_path, comment='#')
 
-        # Some CSV files use 'taxon' instead of 'name'. Rename 'taxon' to 'name' if
-        # 'name' does not exist.
-        if 'name' not in start_points_df.columns:
-            start_points_df = start_points_df.rename(columns={'taxon': 'name'})
-        if 'name' not in end_points_df.columns:
-            end_points_df = end_points_df.rename(columns={'taxon': 'name'})
+        # Some datasets come in already clean with no need to check for duplicates or
+        # renaming of columns.
+        if check_duplicates:
+            # Some CSV files use 'taxon' instead of 'name'. Rename 'taxon' to 'name' if
+            # 'name' does not exist.
+            if 'name' not in start_points_df.columns:
+                start_points_df = start_points_df.rename(columns={'taxon': 'name'})
+            if 'name' not in end_points_df.columns:
+                end_points_df = end_points_df.rename(columns={'taxon': 'name'})
 
-        # Duplicated points in either dataframe are not allowed. Filter them based on
-        # the 'name' column.
-        start_points_df = start_points_df.drop_duplicates(subset='name')
-        end_points_df = end_points_df.drop_duplicates(subset='name')
+            # Duplicated points in either dataframe are not allowed. Filter them based on
+            # the 'name' column.
+            start_points_df = start_points_df.drop_duplicates(subset='name')
+            end_points_df = end_points_df.drop_duplicates(subset='name')
 
-        # The list of names in each dataframe must be identical. If they are not, we
-        # need to drop the names that are not in both dataframes.
-        start_names = start_points_df['name'].tolist()
-        end_names = end_points_df['name'].tolist()
+            # The list of names in each dataframe must be identical. If they are not, we
+            # need to drop the names that are not in both dataframes.
+            start_names = start_points_df['name'].tolist()
+            end_names = end_points_df['name'].tolist()
 
-        # Find the names that are in one dataframe but not the other
-        start_not_end = [name for name in start_names if name not in end_names]
-        end_not_start = [name for name in end_names if name not in start_names]
+            # Find the names that are in one dataframe but not the other
+            start_not_end = [name for name in start_names if name not in end_names]
+            end_not_start = [name for name in end_names if name not in start_names]
 
-        # Drop the names that are not in both dataframes
-        start_points_df = start_points_df[~start_points_df['name'].isin(start_not_end)]
-        end_points_df = end_points_df[~end_points_df['name'].isin(end_not_start)]
+            # Drop the names that are not in both dataframes
+            start_points_df = start_points_df[~start_points_df['name'].isin(start_not_end)]
+            end_points_df = end_points_df[~end_points_df['name'].isin(end_not_start)]
 
-        # Check that the start and end points have the same number of points
-        if len(start_points_df) != len(end_points_df):
-            common.print_error('The number of points in the start and end files must be the same.')
-            sys.exit(1)
+            # Check that the start and end points have the same number of points
+            if len(start_points_df) != len(end_points_df):
+                common.print_error('The number of points in the start and end files must be the same.')
+                sys.exit(1)
+
+            # Before writing the data to a file, we need to sort the dataframes by the name
+            # column. This is because the data may not be in the same order in both dataframes.
+            start_points_df = start_points_df.sort_values(by='name')
+            end_points_df = end_points_df.sort_values(by='name')
 
         # Save the number of points for use in making the asset file.
         self.num_objects = len(start_points_df)
 
-        # Before writing the data to a file, we need to sort the dataframes by the name
-        # column. This is because the data may not be in the same order in both dataframes.
-        start_points_df = start_points_df.sort_values(by='name')
-        end_points_df = end_points_df.sort_values(by='name')
 
         # Finally, we need to make a dataframe that contains the start points followed by
         # the end points. This is the data that will be written to the csv file.
+        interpolated_points_df = pd.concat([start_points_df, end_points_df], ignore_index=True)
+
         # We also need to add a new column at the beginning of the dataframe that contains
         # the time value. This is the value that will be used to interpolate between the
-        # start and end points. For this example, start is 0 and end is 1.
-        interpolated_points_df = pd.concat([start_points_df, end_points_df], ignore_index=True)
-        interpolated_points_df.insert(0, 'time', [0] * len(start_points_df) + [1] * len(end_points_df))
+        # start and end points. For this example, start is 0 and end is 1. If a time
+        # column already exists, do nothing.
+        if 'time' not in interpolated_points_df.columns:
+            interpolated_points_df.insert(0, 'time', [0] * len(start_points_df) + [1] * len(end_points_df))
+
+        # If datainfo has a scale_factor, use it to scale the data. Otherwise,
+        # do nothing - the default is no scaling.
+        if 'scale_factor' in datainfo:
+            interpolated_points_df['x'] = interpolated_points_df['x'].multiply(datainfo['scale_factor'])
+            interpolated_points_df['y'] = interpolated_points_df['y'].multiply(datainfo['scale_factor'])
+            interpolated_points_df['z'] = interpolated_points_df['z'].multiply(datainfo['scale_factor'])
 
         # Write the data to a csv file, and put it where we're told.
         outfile = datainfo['dir'] + '_interpolated.csv'
+        if ('save_path' not in datainfo) or (datainfo['save_path'] == None):
+            datainfo['save_path'] = Path.cwd() / datainfo['dir']
         self.interpolated_points_csv_full_path = datainfo['save_path'] / outfile
         interpolated_points_df.to_csv(self.interpolated_points_csv_full_path, index=False)
 

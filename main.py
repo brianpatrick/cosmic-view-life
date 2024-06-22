@@ -12,7 +12,7 @@ import shutil
 
 from src import common, colors, human_origins, metadata, consensus_species, \
     sequence, sequence_lineage, slice_by_taxon, slice_by_clade, slice_by_lineage, \
-        takanori_trials, tree, metadata, interpolated_points
+        takanori_trials, tree, metadata, interpolated_points, splattergram
 
 
 def main():
@@ -169,6 +169,7 @@ def main():
         shutil.rmtree('logs', ignore_errors=True)
         shutil.rmtree('primates', ignore_errors=True)
         shutil.rmtree('insects', ignore_errors=True)
+        shutil.rmtree('splattergram', ignore_errors=True)
         shutil.rmtree('docs_build', ignore_errors=True)
 
 
@@ -559,6 +560,44 @@ def main():
         datainfo['tree_dir'] = 'Wiegmann_et_al_tree'
         insects(datainfo, vocab)
         
+
+    # Splattergram of animal life
+    # ------------------------------------------------------------------------
+    # This is Wandrille's splattergram of life, sorted taxonomically. The
+    # idea is a field of stars, where each star is a species.
+    if ('splattergram' not in args.skip):
+        datainfo['dir'] = 'animal_splattergram'
+        datainfo['sub_project'] = 'Animalia'
+
+        
+        datainfo['version'] = '1'
+        #datainfo['csv_file'] = 'multicellular_animals_species.3DcMDS.csv'
+        #datainfo['csv_file'] = 'insects_on_sphere_10000.csv'
+        datainfo['csv_file'] = 'test_lat_lon.csv'
+        datainfo['scale_factor'] = common.EARTH_RADIUS_IN_KM
+        datainfo['taxonomy_file'] = 'multicellular_animals_species.timetree.lineages.csv'
+
+        do_splattergram(datainfo)
+        
+        datainfo['start_points'] = 'anax_junius_start_on_unit_sphere_xyz.csv'
+        datainfo['end_points'] = 'anax_junius_end_on_unit_sphere_xyz.csv'
+        datainfo['save_path'] = None
+        
+        mypoints = interpolated_points.interpolated_points()
+        mypoints.process_interpolated_points(datainfo, check_duplicates = False)
+        #mypoints.make_asset_interpolated_points(datainfo)
+
+def do_splattergram(datainfo):
+
+    common.print_head_status(datainfo['sub_project'])
+
+    # Make a new splattergram object.
+    mysplattergram = splattergram.splattergram()
+
+    mysplattergram.process_data(datainfo)
+    mysplattergram.make_random_points_on_sphere(datainfo)
+    #mysplattergram.make_test_points_on_sphere(datainfo)
+    #mysplattergram.make_asset(datainfo)
 
 
 
