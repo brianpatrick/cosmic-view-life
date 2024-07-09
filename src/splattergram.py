@@ -73,7 +73,7 @@ class splattergram:
 
         return df
 
-    def make_random_points_on_sphere(self, datainfo):
+    def make_random_points_on_sphere_csv_file(self, datainfo):
         # This function is not used in this module, but is included here for reference.
         # It generates random points on a sphere.
 

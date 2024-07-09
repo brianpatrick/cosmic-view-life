@@ -577,7 +577,15 @@ def main():
         datainfo['scale_factor'] = common.EARTH_RADIUS_IN_KM
         datainfo['taxonomy_file'] = 'multicellular_animals_species.timetree.lineages.csv'
 
-        do_splattergram(datainfo)
+        common.print_head_status(datainfo['sub_project'])
+
+        # Make a new splattergram object.
+        mysplattergram = splattergram.splattergram()
+
+        mysplattergram.process_data(datainfo)
+        mysplattergram.make_random_points_on_sphere_csv_file(datainfo)
+        #mysplattergram.make_test_points_on_sphere(datainfo)
+        #mysplattergram.make_asset(datainfo)
         
         datainfo['start_points'] = 'anax_junius_start_on_unit_sphere_xyz.csv'
         datainfo['end_points'] = 'anax_junius_end_on_unit_sphere_xyz.csv'
@@ -586,19 +594,6 @@ def main():
         mypoints = interpolated_points.interpolated_points()
         mypoints.process_interpolated_points(datainfo, check_duplicates = False)
         #mypoints.make_asset_interpolated_points(datainfo)
-
-def do_splattergram(datainfo):
-
-    common.print_head_status(datainfo['sub_project'])
-
-    # Make a new splattergram object.
-    mysplattergram = splattergram.splattergram()
-
-    mysplattergram.process_data(datainfo)
-    mysplattergram.make_random_points_on_sphere(datainfo)
-    #mysplattergram.make_test_points_on_sphere(datainfo)
-    #mysplattergram.make_asset(datainfo)
-
 
 
 def make_color_tables(datainfo):
