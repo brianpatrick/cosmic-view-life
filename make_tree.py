@@ -52,6 +52,16 @@ parser.add_argument('--taxon_scaling_factor', type=float, default=10.0,
 
 def main():
     args = parser.parse_args()
+
+    # Print out the arguments.
+    print("make_tree. Arguments:")
+    print(f"Input newick file:      {args.input_newick_file}")
+    print(f"Models file:            {args.models_file}")
+    print(f"Output path:            {args.out_path}")
+    print(f"Tree name:              {args.tree_name}")
+    print(f"Branch scaling factor:  {args.branch_scaling_factor}")
+    print(f"Taxon scaling factor:   {args.taxon_scaling_factor}")
+
     make_tree_files_for_OS(input_newick_file=args.input_newick_file,
                            branch_scaling_factor=args.branch_scaling_factor,
                            taxon_scaling_factor=args.taxon_scaling_factor,
@@ -60,12 +70,10 @@ def main():
 
 
 def make_tree_files_for_OS(input_newick_file, 
-                           branch_scaling_factor=400.0, 
-                           taxon_scaling_factor=10.0,
-                           tree_name='tree',
-                           output_path = '.',
-                           point_scale_factor = 1.25,
-                           point_scale_exponent=3.2):
+                           branch_scaling_factor, 
+                           taxon_scaling_factor,
+                           tree_name,
+                           output_path):
     '''
     Process the newick file. This file contains the tree structure in newick format.
 
@@ -230,6 +238,10 @@ def make_tree_files_for_OS(input_newick_file,
     # Make the output directory if it doesn't exist.
     output_path.mkdir(parents=True, exist_ok=True)
 
+    #
+    # Write out the nodes and leaves CSV files.
+    #
+
     # CSV files don't get headers. (Should they? Can they?)
     nodes_outfile = output_path / (tree_name + '_internal.csv')
     leaves_outfile = output_path / (tree_name + '_leaves.csv')
@@ -241,7 +253,11 @@ def make_tree_files_for_OS(input_newick_file,
     dat_out_filename = tree_name + '_branches.dat'
     dat_out_fullpath = output_path / dat_out_filename
 
-
+    #
+    # Write out the branch speck and dat files.
+    #
+    print(f"Writing branch speck file to {speck_out_fullpath}")
+    print(f"Writing branch dat file to {dat_out_fullpath}")
     with open(speck_out_fullpath, 'wt') as speck, open(dat_out_fullpath, 'wt') as dat:
         '''
         datainfo = {}
@@ -262,116 +278,131 @@ def make_tree_files_for_OS(input_newick_file,
 
             print(f"{row['name']} {row['name']}", file=dat)
 
-    # Next - write asset file.
-    asset_out_filename = tree_name + '.asset'
-    with open(outpath, 'wt') as asset:
+    #
+    # Asset files.
+    #
+    def print_common_local_vars(asset):
+        print(f"local scale_factor = {common.POINT_SCALE_FACTOR}", file=asset)
+        print(f"local scale_exponent = {common.POINT_SCALE_EXPONENT}", file=asset)
+        print(f"local text_size = {common.TEXT_SIZE}", file=asset)
+        print(f"local text_min_size = {common.TEXT_MIN_SIZE}", file=asset)
+        print(f"local text_max_size = {common.TEXT_MAX_SIZE}", file=asset)
 
-        # Switch stdout to the file
-        sys.stdout = asset
-
-        
-
-
-
-        print('local ' + asset_info[file]['dat_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['dat_file'] + '")')
-
-        # Not every asset has a color map file. Make the path to it given the data
-        # from the asset_info dict and check to see if it's there.
-        ## HH This hardcoded path finding is kinda dangerous...
-        full_cmap_file_path = Path.cwd() / datainfo['dir'] / datainfo['tree_dir'] / asset_info[file]['asset_rel_path'] / asset_info[file]['cmap_file']
-        cmap_filename = asset_info[file]['cmap_file']
-        use_colormap = False
-        if Path(full_cmap_file_path).exists():
-            print(f'local {asset_info[file]["cmap_var"]} = asset.resource("./{cmap_filename}")')
-            use_colormap = True
-
-        for file in asset_info:
-            print('local ' + asset_info[file]['csv_var'] + ' = asset.resource("' + asset_info[file]['asset_rel_path'] + '/' + asset_info[file]['csv_file'] + '")')
-
-
-
-
-
-
-        print('-- Set some parameters for OpenSpace settings')
-
-        print('local scale_factor = '   + str(point_scale_factor))
-        print('local scale_exponent = ' + str(point_scale_exponent))
-        print('local text_size = '      + common.TEXT_SIZE)
-        print('local text_min_size = '  + common.TEXT_MIN_SIZE)
-        print('local text_max_size = '  + common.TEXT_MAX_SIZE)
-        print()
-
-        for file in asset_info:
-
-            print('local ' + asset_info[file]['os_scenegraph_var'] + ' = {')
-            print('    Identifier = "' + asset_info[file]['os_identifier_var'] + '",')
-            print('    Renderable = {')
-            print('        UseCaching = false,')
-            print('        Type = "RenderablePointCloud",')
-            print('         Coloring = {')
-            #print('            FixedColor = { 0.8, 0.8, 0.8 }')
-            if (taxa == 'internal') or (use_colormap == False):
-                # Gotta fix this. The colors for the orders for the internal nodes and
-                # the leaves need to be the same, so we need to make this mapping once
-                # and then re-use it.
-                print('            FixedColor = { 0.8, 0.8, 0.8 }')
-            else:
-                print('            ColorMapping = { ')
-                print('                File = ' + asset_info[file]['cmap_var'] + ',')
-                print('                ParameterOptions = { { Key = "color" } }')
-                print('            }')
-            print('        },')
-            print('        Opacity = 1.0,')
-            print('        SizeSettings = { ScaleFactor = scale_factor, ScaleExponent = scale_exponent },')
-            print('        File = ' + asset_info[file]['csv_var'] + ',')
-            print('        DataMapping = { Name="name"},')
-            print('        Labels = { Enabled = false, Size = text_size  },')
-            print('        --FadeLabelDistances = { 0.0, 0.5 },')
-            print('        --FadeLabelWidths = { 0.001, 0.5 },')
-            print('        Unit = "Km",')
-            print('        BillboardMinMaxSize = { 0.0, 25.0 },')
-            print('        EnablePixelSizeControl = true,')
-            print('        EnableLabelFading = false,')
-            print('        Enabled = false')
-            print('    },')
-            print('    GUI = {')
-            print('        Name = "' + asset_info[file]['gui_name'] + '",')
-            print('        Path = "' + asset_info[file]['gui_path'] + '",')
-            print('    }')
-            print('}')
-            print()
-
-
-
-        print('asset.onInitialize(function()')
-        for file in asset_info:
-            print('    openspace.addSceneGraphNode(' + asset_info[file]['os_scenegraph_var'] + ')')
-
-        print('end)')
-        print()
-
-
-        print('asset.onDeinitialize(function()')
-        for file in asset_info:
-            print('    openspace.removeSceneGraphNode(' + asset_info[file]['os_scenegraph_var'] + ')')
-        
-        print('end)')
-        print()
-
-
-        for file in asset_info:
-            print('asset.export(' + asset_info[file]['os_scenegraph_var'] + ')')
-
-
-        # Switch the stdout back to normal stdout (screen)
-        sys.stdout = original_stdout
-
+    # Nodes asset file.
+    nodes_asset_filename = tree_name + '_internal.asset'
+    nodes_asset_outpath = output_path / nodes_asset_filename
+    print(f"Writing nodes asset file to {nodes_asset_outpath}")
+    with open(nodes_asset_outpath, 'wt') as asset:
+        print(f"local dat_{tree_name}_internal = asset.resource(\"./{dat_out_filename}\")", file=asset)
+        print(f"local csv_{tree_name}_internal = asset.resource(\"./{tree_name}_internal.csv\")", file=asset)
+        print_common_local_vars(asset)
+        print(f"local {tree_name}_internal = {{", file=asset)
+        print(f"    Identifier = \"{tree_name}_internal\",", file=asset)
+        print(f"    Renderable = {{", file=asset)
+        print(f"        UseCaching = false,", file=asset)
+        print(f"        Type = \"RenderablePointCloud\",", file=asset)
+        print(f"        Coloring = {{", file=asset)
+        print(f"            FixedColor = {{ 0.8, 0.8, 0.8 }}", file=asset)
+        print(f"        }},", file=asset)
+        print(f"        Opacity = 1.0,", file=asset)
+        print(f"        SizeSettings = {{ ScaleFactor = scale_factor, ScaleExponent = scale_exponent }},", file=asset)
+        print(f"        File = csv_{tree_name}_internal,", file=asset)
+        print(f"        DataMapping = {{ Name=\"name\"}},", file=asset)
+        print(f"        Labels = {{ Enabled = false, Size = text_size  }},", file=asset)
+        print(f"        Unit = \"Km\",", file=asset)
+        print(f"        BillboardMinMaxSize = {{ 0.0, 25.0 }},", file=asset)
+        print(f"        EnablePixelSizeControl = true,", file=asset)
+        print(f"        EnableLabelFading = false,", file=asset)
+        print(f"        Enabled = true", file=asset)
+        print(f"    }},", file=asset)
+        print(f"    GUI = {{", file=asset)
+        print(f"        Name = \"Internal\",", file=asset)
+        print(f"        Path = \"/Insects/{tree_name}\"", file=asset)
+        print(f"    }}", file=asset)
+        print(f"}}", file=asset)
+        print(f"asset.onInitialize(function()", file=asset)
+        print(f"    openspace.addSceneGraphNode({tree_name}_internal)", file=asset)
+        print(f"end)", file=asset)
+        print(f"asset.onDeinitialize(function()", file=asset)
+        print(f"    openspace.removeSceneGraphNode({tree_name}_internal)", file=asset)
+        print(f"end)", file=asset)
+        print(f"asset.export({tree_name}_internal)", file=asset)
+    asset.close()
     
-        # Report to stdout
-        common.out_file_message(outpath)
-        print()
+    # Leaves asset file.
+    leaves_asset_filename = tree_name + '_leaves.asset'
+    leaves_asset_outpath = output_path / leaves_asset_filename
+    print(f"Writing leaves asset file to {leaves_asset_outpath}")
+    with open(leaves_asset_outpath, 'wt') as asset:
+        print(f"local dat_{tree_name}_leaves = asset.resource(\"./{dat_out_filename}\")", file=asset)
+        print(f"local csv_{tree_name}_leaves = asset.resource(\"./{tree_name}_leaves.csv\")", file=asset)
+        print_common_local_vars(asset)
+        print(f"local {tree_name}_leaves = {{", file=asset)
+        print(f"    Identifier = \"{tree_name}_leaves\",", file=asset)
+        print(f"    Renderable = {{", file=asset)
+        print(f"        UseCaching = false,", file=asset)
+        print(f"        Type = \"RenderablePointCloud\",", file=asset)
+        print(f"        Coloring = {{", file=asset)
+        print(f"            FixedColor = {{ 0.8, 0.8, 0.8 }}", file=asset)
+        print(f"        }},", file=asset)
+        print(f"        Opacity = 1.0,", file=asset)
+        print(f"        SizeSettings = {{ ScaleFactor = scale_factor, ScaleExponent = scale_exponent }},", file=asset)
+        print(f"        File = csv_{tree_name}_leaves,", file=asset)
+        print(f"        DataMapping = {{ Name=\"name\"}},", file=asset)
+        print(f"        Labels = {{ Enabled = false, Size = text_size  }},", file=asset)
+        print(f"        Unit = \"Km\",", file=asset)
+        print(f"        BillboardMinMaxSize = {{ 0.0, 25.0 }},", file=asset)
+        print(f"        EnablePixelSizeControl = true,", file=asset)
+        print(f"        EnableLabelFading = false,", file=asset)
+        print(f"        Enabled = true", file=asset)
+        print(f"    }},", file=asset)
+        print(f"    GUI = {{", file=asset)
+        print(f"        Name = \"Leaves\",", file=asset)
+        print(f"        Path = \"/Insects/{tree_name}\"", file=asset)
+        print(f"    }}", file=asset)
+        print(f"}}", file=asset)
+        print(f"asset.onInitialize(function()", file=asset)
+        print(f"    openspace.addSceneGraphNode({tree_name}_leaves)", file=asset)
+        print(f"end)", file=asset)
+        print(f"asset.onDeinitialize(function()", file=asset)
+        print(f"    openspace.removeSceneGraphNode({tree_name}_leaves)", file=asset)
+        print(f"end)", file=asset)
+        print(f"asset.export({tree_name}_leaves)", file=asset)
+    asset.close()
 
+    # Branches asset file.
+    branches_asset_filename = tree_name + '_branches.asset'
+    branches_asset_outpath = output_path / branches_asset_filename
+    print(f"Writing branches asset file to {branches_asset_outpath}")
+    with open(branches_asset_outpath, 'wt') as asset:
+        print(f"local dat_{tree_name}_branches = asset.resource(\"./{dat_out_filename}\")", file=asset)
+        print(f"local speck_{tree_name}_branches = asset.resource(\"./{speck_out_filename}\")", file=asset)
+        print(f"local {tree_name}_branches = {{", file=asset)
+        print(f"    Identifier = \"{tree_name}_branches\",", file=asset)
+        print(f"    Renderable = {{", file=asset)
+        print(f"        UseCache = false,", file=asset)
+        print(f"        Type = \"RenderableConstellationLines\",", file=asset)
+        print(f"        Colors = {{ {{ 0.6, 0.4, 0.4 }}, {{ 0.8, 0.0, 0.0 }}, {{ 0.0, 0.3, 0.8 }} }},",
+               file=asset)
+        print(f"        Opacity = 0.7,", file=asset)
+        print(f"        NamesFile = dat_{tree_name}_branches,", file=asset)
+        print(f"        File = speck_{tree_name}_branches,", file=asset)
+        print(f"        Unit = \"Km\",", file=asset)
+        print(f"        Enabled = true", file=asset)
+        print(f"    }},", file=asset)
+        print(f"    GUI = {{", file=asset)
+        print(f"        Name = \"Branches\",", file=asset)
+        print(f"        Path = \"/Insects/{tree_name}\"", file=asset)
+        print(f"    }}", file=asset)
+        print(f"}}", file=asset)
+        print(f"asset.onInitialize(function()", file=asset)
+        print(f"    openspace.addSceneGraphNode({tree_name}_branches)", file=asset)
+        print(f"end)", file=asset)
+        print(f"asset.onDeinitialize(function()", file=asset)
+        print(f"    openspace.removeSceneGraphNode({tree_name}_branches)", file=asset)
+        print(f"end)", file=asset)
+        print(f"asset.export({tree_name}_branches)", file=asset)
+    asset.close()
 
 
 if __name__ == '__main__':
