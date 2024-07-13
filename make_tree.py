@@ -54,7 +54,7 @@ def main():
     args = parser.parse_args()
 
     # Print out the arguments.
-    print("make_tree. Arguments:")
+    print("make_tree.\n -= Arguments =-")
     print(f"Input newick file:      {args.input_newick_file}")
     print(f"Models file:            {args.models_file}")
     print(f"Output path:            {args.out_path}")
@@ -63,13 +63,15 @@ def main():
     print(f"Taxon scaling factor:   {args.taxon_scaling_factor}")
 
     make_tree_files_for_OS(input_newick_file=args.input_newick_file,
+                           models_filename=args.models_file,
                            branch_scaling_factor=args.branch_scaling_factor,
                            taxon_scaling_factor=args.taxon_scaling_factor,
                            tree_name=args.tree_name,
                            output_path=args.out_path)
 
 
-def make_tree_files_for_OS(input_newick_file, 
+def make_tree_files_for_OS(input_newick_file,
+                           models_filename, 
                            branch_scaling_factor, 
                            taxon_scaling_factor,
                            tree_name,
@@ -256,8 +258,9 @@ def make_tree_files_for_OS(input_newick_file,
     #
     # Write out the branch speck and dat files.
     #
-    print(f"Writing branch speck file to {speck_out_fullpath}")
-    print(f"Writing branch dat file to {dat_out_fullpath}")
+    print(" -= Output files =-")
+    print(f"Branch speck file:      {speck_out_fullpath}")
+    print(f"Branch dat file:        {dat_out_fullpath}")
     with open(speck_out_fullpath, 'wt') as speck, open(dat_out_fullpath, 'wt') as dat:
         '''
         datainfo = {}
@@ -291,7 +294,8 @@ def make_tree_files_for_OS(input_newick_file,
     # Nodes asset file.
     nodes_asset_filename = tree_name + '_internal.asset'
     nodes_asset_outpath = output_path / nodes_asset_filename
-    print(f"Writing nodes asset file to {nodes_asset_outpath}")
+
+    print(f"Nodes asset file:       {nodes_asset_outpath}")
     with open(nodes_asset_outpath, 'wt') as asset:
         print(f"local dat_{tree_name}_internal = asset.resource(\"./{dat_out_filename}\")", file=asset)
         print(f"local csv_{tree_name}_internal = asset.resource(\"./{tree_name}_internal.csv\")", file=asset)
@@ -332,7 +336,7 @@ def make_tree_files_for_OS(input_newick_file,
     # Leaves asset file.
     leaves_asset_filename = tree_name + '_leaves.asset'
     leaves_asset_outpath = output_path / leaves_asset_filename
-    print(f"Writing leaves asset file to {leaves_asset_outpath}")
+    print(f"Leaves asset file:      {leaves_asset_outpath}")
     with open(leaves_asset_outpath, 'wt') as asset:
         print(f"local dat_{tree_name}_leaves = asset.resource(\"./{dat_out_filename}\")", file=asset)
         print(f"local csv_{tree_name}_leaves = asset.resource(\"./{tree_name}_leaves.csv\")", file=asset)
@@ -373,7 +377,7 @@ def make_tree_files_for_OS(input_newick_file,
     # Branches asset file.
     branches_asset_filename = tree_name + '_branches.asset'
     branches_asset_outpath = output_path / branches_asset_filename
-    print(f"Writing branches asset file to {branches_asset_outpath}")
+    print(f"Branches asset file:    {branches_asset_outpath}")
     with open(branches_asset_outpath, 'wt') as asset:
         print(f"local dat_{tree_name}_branches = asset.resource(\"./{dat_out_filename}\")", file=asset)
         print(f"local speck_{tree_name}_branches = asset.resource(\"./{speck_out_filename}\")", file=asset)
@@ -404,6 +408,110 @@ def make_tree_files_for_OS(input_newick_file,
         print(f"asset.export({tree_name}_branches)", file=asset)
     asset.close()
 
+
+
+    # Models asset file.
+    # First, read the models file into a dictionary. Each line has a key, which is
+    # the name of the node, a model file, and a scale value. Each node may have more
+    # than one model.
+    models = {}
+    if models_filename:
+        with open(models_filename, 'rt') as models_file:
+            for line in models_file:
+                # Ignore any lines starting with # as a comment.
+                if not line.startswith('#'):
+                    parts = line.split(',')
+                    model_name = parts[0]
+                    model_url = parts[1].strip()
+                    model_scale = float(parts[2].strip())
+                    
+                    if model_name in models:
+                        models[model_name].append((model_url, model_scale))
+                    else:
+                        models[model_name] = [(model_url, model_scale)]
+
+    # Return the x, y, and z position of a leaf given the name of the leaf.
+    def get_leaf_position(leaf_name):
+        for _, row in leaves.iterrows():
+            if row['name'] == leaf_name:
+                return row['x'], row['y'], row['z']
+        return None
+
+    # Run through the list of leaves, checking for a model.
+    for _, row in leaves.iterrows():
+        # print(row['name'])
+        if row['name'] in models:
+            print(f"Model found for {row['name']}: {models[row['name']]}")
+            for model in models[row['name']]:
+                model_url = model[0]
+                model_scale = model[1]
+                # Get the position of the leaf.
+                x, y, z = get_leaf_position(row['name'])
+                print(f"Position: {x}, {y}, {z}")
+
+                # Grab the filename. This is the last part of the URL. Remove any quotes
+                # from the filename.
+                model_filename = model_url.split('/')[-1]
+                model_filename = model_filename.replace('"', '')
+                # Remove any %20s from the filename.
+                model_filename = model_filename.replace('%20', '_')
+                # Remove any spaces.
+                model_filename = model_filename.replace(' ', '_')
+
+                # We need some kind of identifier inside the asset file. Let's construct
+                # this from the filename by just removing the extension.
+                model_identifier = model_filename.split('.')[0]
+                
+                # Write out the asset file.
+                asset_filename = row['name'] + '.asset'
+                asset_outpath = output_path / asset_filename
+                print(f"Asset file:             {asset_outpath}")
+                with open(asset_outpath, 'wt') as asset:
+                    print(f"local sun = asset.require(\"scene/solarsystem/sun/transforms\")", file=asset)
+                    print(f"local syncData = asset.resource({{", file=asset)
+                    print(f"    Name = \"{model_identifier}\",", file=asset)
+                    print(f"    Type = \"UrlSynchronization\",", file=asset)
+                    print(f"    Identifier = \"{model_identifier}\",", file=asset)
+                    print(f"    Url = {model_url},", file=asset)
+                    print(f"    Filename = \"{model_filename}\"", file=asset)
+                    print(f"}})", file=asset)
+
+                    print(f"local {row['name']} = {{", file=asset)
+                    print(f"    Identifier = \"{row['name']}\",", file=asset)
+                    print(f"    Transform = {{", file=asset)
+                    print(f"        Translation = {{", file=asset)
+                    print(f"            Type = \"StaticTranslation\",", file=asset)
+                    print(f"            Position = {{ {x * 1000}, {y * 1000}, {z * 1000} }}", file=asset)
+                    print(f"        }}", file=asset)
+                    print(f"    }},", file=asset)
+                    print(f"    Renderable = {{", file=asset)
+                    print(f"        UseCaching = false,", file=asset)
+                    print(f"        Type = \"RenderableModel\",", file=asset)
+                    print(f"        Coloring = {{", file=asset)
+                    print(f"            FixedColor = {{ 0.8, 0.8, 0.8 }}", file=asset)
+                    print(f"        }},", file=asset)
+                    print(f"        Opacity = 1.0,", file=asset)
+                    print(f"        GeometryFile = syncData .. \"{model_filename}\",", file=asset)
+                    print(f"        ModelScale = {model_scale},", file=asset)
+                    print(f"        Enabled = true,", file=asset)
+                    print(f"        LightSources = {{", file=asset)
+                    print(f"            sun.LightSource", file=asset)
+                    print(f"        }}", file=asset)
+                    print(f"    }},", file=asset)
+                    print(f"    GUI = {{", file=asset)
+                    print(f"        Name = \"{row['name']}\",", file=asset)
+                    print(f"        Path = \"/Leaves\",", file=asset)
+                    print(f"    }}", file=asset)
+                    print(f"}}", file=asset)
+
+                    print(f"asset.onInitialize(function()", file=asset)
+                    print(f"    openspace.addSceneGraphNode({row['name']})", file=asset)
+                    print(f"end)", file=asset)
+                    print(f"asset.onDeinitialize(function()", file=asset)
+                    print(f"    openspace.removeSceneGraphNode({row['name']})", file=asset)
+                    print(f"end)", file=asset)
+                    print(f"asset.export({row['name']})", file=asset)
+                asset.close()
 
 if __name__ == '__main__':
     main()
