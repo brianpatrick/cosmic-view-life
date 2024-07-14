@@ -22,13 +22,24 @@ from Bio import Phylo
 from pathlib import Path
 from src import common
 import pandas as pd
+import json
 
 parser = argparse.ArgumentParser(description='Process a newick file to create asset '
                                  'and data files for OpenSpace.')
 
-# Gotta have an input file.
+# There are two ways to input parameters. The first way is to use a parameter
+# file. This is a JSON file that contains all the parameters for the script. The
+# second way is to specify them individually. The parameter file is specified with
+# the -p flag. If the parameter file is specified, all other parameters are ignored.
+# If the parameter file is not specified, the script will look for individual
+# parameters. If the parameter file is specified, the script will ignore any
+# individual parameters.
+parser.add_argument('-p', '--param_file', dest='param_file', type=str,
+                    help='The parameter file for the script.')
+
+# Input file.
 parser.add_argument('-i', '--input', dest="input_newick_file", 
-                    help='The newick file to process.', required=True)
+                    help='The newick file to process.')
 
 # Models file. This is a csv file with the columns: name, model1, model2, model3, etc.
 # See the model reader function below for more details on the model file. Note
@@ -53,21 +64,30 @@ parser.add_argument('--taxon_scaling_factor', type=float, default=10.0,
 def main():
     args = parser.parse_args()
 
+    # If a parameter file is specified, read it in and use it to set the arguments.
+    if args.param_file:
+        print("*** Reading parameter file {} ***".format(args.param_file))
+        with open(args.param_file, 'rt') as json_file:
+            args = json.load(json_file)
+    else:
+        # Just use the specified arguments.
+        args = vars(args)
+
     # Print out the arguments.
     print("make_tree.\n -= Arguments =-")
-    print(f"Input newick file:      {args.input_newick_file}")
-    print(f"Models file:            {args.models_file}")
-    print(f"Output path:            {args.out_path}")
-    print(f"Tree name:              {args.tree_name}")
-    print(f"Branch scaling factor:  {args.branch_scaling_factor}")
-    print(f"Taxon scaling factor:   {args.taxon_scaling_factor}")
+    print(f"Input newick file:      {args['input_newick_file']}")
+    print(f"Models file:            {args['models_file']}")
+    print(f"Output path:            {args['out_path']}")
+    print(f"Tree name:              {args['tree_name']}")
+    print(f"Branch scaling factor:  {args['branch_scaling_factor']}")
+    print(f"Taxon scaling factor:   {args['taxon_scaling_factor']}")
 
-    make_tree_files_for_OS(input_newick_file=args.input_newick_file,
-                           models_filename=args.models_file,
-                           branch_scaling_factor=args.branch_scaling_factor,
-                           taxon_scaling_factor=args.taxon_scaling_factor,
-                           tree_name=args.tree_name,
-                           output_path=args.out_path)
+    make_tree_files_for_OS(input_newick_file=args['input_newick_file'],
+                           models_filename=args['models_file'],
+                           branch_scaling_factor=args['branch_scaling_factor'],
+                           taxon_scaling_factor=args['taxon_scaling_factor'],
+                           tree_name=args['tree_name'],
+                           output_path=args['out_path'])
 
 
 def make_tree_files_for_OS(input_newick_file,
@@ -468,7 +488,7 @@ def make_tree_files_for_OS(input_newick_file,
                 print(f"Asset file:             {asset_outpath}")
                 with open(asset_outpath, 'wt') as asset:
                     print(f"local sun = asset.require(\"scene/solarsystem/sun/transforms\")", file=asset)
-                    print(f"local syncData = asset.resource({{", file=asset)
+                    print(f"local syncData_{row['name']} = asset.resource({{", file=asset)
                     print(f"    Name = \"{model_identifier}\",", file=asset)
                     print(f"    Type = \"UrlSynchronization\",", file=asset)
                     print(f"    Identifier = \"{model_identifier}\",", file=asset)
@@ -491,7 +511,7 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"            FixedColor = {{ 0.8, 0.8, 0.8 }}", file=asset)
                     print(f"        }},", file=asset)
                     print(f"        Opacity = 1.0,", file=asset)
-                    print(f"        GeometryFile = syncData .. \"{model_filename}\",", file=asset)
+                    print(f"        GeometryFile = syncData_{row['name']} .. \"{model_filename}\",", file=asset)
                     print(f"        ModelScale = {model_scale},", file=asset)
                     print(f"        Enabled = true,", file=asset)
                     print(f"        LightSources = {{", file=asset)
