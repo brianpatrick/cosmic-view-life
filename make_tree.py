@@ -457,37 +457,43 @@ def make_tree_files_for_OS(input_newick_file,
                 return row['x'], row['y'], row['z']
         return None
 
-    # Run through the list of leaves, checking for a model.
-    for _, row in leaves.iterrows():
-        # print(row['name'])
-        if row['name'] in models:
-            print(f"Model found for {row['name']}: {models[row['name']]}")
-            for model in models[row['name']]:
-                model_url = model[0]
-                model_scale = model[1]
-                # Get the position of the leaf.
-                x, y, z = get_leaf_position(row['name'])
-                print(f"Position: {x}, {y}, {z}")
+    # Write out the asset file. One asset file for all models.
+    asset_filename = tree_name + '_models.asset'
+    asset_outpath = output_path / asset_filename
+    print(f"Asset file:             {asset_outpath}")
+    with open(asset_outpath, 'wt') as asset:
+        print(f"local sun = asset.require(\"scene/solarsystem/sun/transforms\")", file=asset)
 
-                # Grab the filename. This is the last part of the URL. Remove any quotes
-                # from the filename.
-                model_filename = model_url.split('/')[-1]
-                model_filename = model_filename.replace('"', '')
-                # Remove any %20s from the filename.
-                model_filename = model_filename.replace('%20', '_')
-                # Remove any spaces.
-                model_filename = model_filename.replace(' ', '_')
+        # Make a list scene graph node names. We will need this later for the
+        # code that initializes and adds assets to OpenSpace.
+        scene_graph_nodes = []
 
-                # We need some kind of identifier inside the asset file. Let's construct
-                # this from the filename by just removing the extension.
-                model_identifier = model_filename.split('.')[0]
-                
-                # Write out the asset file.
-                asset_filename = row['name'] + '.asset'
-                asset_outpath = output_path / asset_filename
-                print(f"Asset file:             {asset_outpath}")
-                with open(asset_outpath, 'wt') as asset:
-                    print(f"local sun = asset.require(\"scene/solarsystem/sun/transforms\")", file=asset)
+        # Run through the list of leaves, checking for a model.
+        for _, row in leaves.iterrows():
+            # print(row['name'])
+            if row['name'] in models:
+                scene_graph_nodes.append(row['name'])
+                print(f"Model found for {row['name']}: {models[row['name']]}")
+                for model in models[row['name']]:
+                    model_url = model[0]
+                    model_scale = model[1]
+                    # Get the position of the leaf.
+                    x, y, z = get_leaf_position(row['name'])
+                    print(f"Position: {x}, {y}, {z}")
+
+                    # Grab the filename. This is the last part of the URL. Remove any quotes
+                    # from the filename.
+                    model_filename = model_url.split('/')[-1]
+                    model_filename = model_filename.replace('"', '')
+                    # Remove any %20s from the filename.
+                    model_filename = model_filename.replace('%20', '_')
+                    # Remove any spaces.
+                    model_filename = model_filename.replace(' ', '_')
+
+                    # We need some kind of identifier inside the asset file. Let's construct
+                    # this from the filename by just removing the extension.
+                    model_identifier = model_filename.split('.')[0]
+                    
                     print(f"local syncData_{row['name']} = asset.resource({{", file=asset)
                     print(f"    Name = \"{model_identifier}\",", file=asset)
                     print(f"    Type = \"UrlSynchronization\",", file=asset)
@@ -524,14 +530,18 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"    }}", file=asset)
                     print(f"}}", file=asset)
 
-                    print(f"asset.onInitialize(function()", file=asset)
-                    print(f"    openspace.addSceneGraphNode({row['name']})", file=asset)
-                    print(f"end)", file=asset)
-                    print(f"asset.onDeinitialize(function()", file=asset)
-                    print(f"    openspace.removeSceneGraphNode({row['name']})", file=asset)
-                    print(f"end)", file=asset)
-                    print(f"asset.export({row['name']})", file=asset)
-                asset.close()
+        print(f"asset.onInitialize(function()", file=asset)
+        for node in scene_graph_nodes:
+            print(f"    openspace.addSceneGraphNode({node})", file=asset)
+        print(f"end)", file=asset)
+        print(f"asset.onDeinitialize(function()", file=asset)
+        for node in scene_graph_nodes:
+            print(f"    openspace.removeSceneGraphNode({node})", file=asset)
+        print(f"end)", file=asset)
+        for node in scene_graph_nodes:
+            print(f"asset.export({node})", file=asset)
+            
+        asset.close()
 
 if __name__ == '__main__':
     main()
