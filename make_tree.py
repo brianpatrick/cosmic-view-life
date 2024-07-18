@@ -440,7 +440,7 @@ def make_tree_files_for_OS(input_newick_file,
             for line in models_file:
                 # Ignore any lines starting with # as a comment.
                 if not line.startswith('#'):
-                    parts = line.split(',')
+                    parts = line.strip().split(',')
                     model_name = parts[0]
                     model_url = parts[1].strip()
                     model_scale = float(parts[2].strip())
