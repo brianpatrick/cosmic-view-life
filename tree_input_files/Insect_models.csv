@@ -8,14 +8,14 @@ Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata%20-%
 #Plecoptera,
 Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthoptera%20-%20Gryllus.ply",1800
 #Mantophasmatodea,"",1500
-#Grylloblatta,
+Grylloblatta,"http://files.openspace.amnh.org/static/life/openspace_sync/Grylloblattodea%20-%20Grylloblatta.ply",2300
 #Embioptera,
 Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea%20-%20Extatosoma.ply",900
 #Mantodea,
 #Blattodea,
 #Isoptera,
 #Thysanoptera,
-#Hemiptera,
+Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera%20-%20Cicada%20solid%20body.ply",1900
 #Psocodea,
 Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera%20-%20Pepsis.ply",3000
 #Raphidioptera,
