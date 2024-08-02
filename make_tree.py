@@ -23,6 +23,7 @@ from pathlib import Path
 from src import common
 import pandas as pd
 import json
+import urllib.parse
 
 parser = argparse.ArgumentParser(description='Process a newick file to create asset '
                                  'and data files for OpenSpace.')
@@ -481,24 +482,29 @@ def make_tree_files_for_OS(input_newick_file,
                     x, y, z = get_leaf_position(row['name'])
                     print(f"Position: {x}, {y}, {z}")
 
-                    # Grab the filename. This is the last part of the URL. Remove any quotes
-                    # from the filename.
+                    # Grab the filename and format it to be used as an identifier in
+                    # OpenSpace. The filename is the last part of the URL.
                     model_filename = model_url.split('/')[-1]
-                    model_filename = model_filename.replace('"', '')
-                    # Remove any %20s from the filename.
-                    model_filename = model_filename.replace('%20', '_')
-                    # Remove any spaces.
-                    model_filename = model_filename.replace(' ', '_')
 
-                    # We need some kind of identifier inside the asset file. Let's construct
-                    # this from the filename by just removing the extension.
+                    # It can't have any quotes or spaces, so remove the quotes and replace
+                    # any spaces or encoded spaces with an underscore instead.
+                    # 1. Remove any quotes from the filename.
+                    model_filename = model_filename.replace('"', '')
+                    # 2. Remove any %20s from the filename.
+                    model_filename = model_filename.replace('%20', '_')
+                    # 3. Remove any spaces.
+                    model_filename = model_filename.replace(' ', '_')
+                    # 4. Let's construct this from the filename by just removing the
+                    #    extension.
                     model_identifier = model_filename.split('.')[0]
                     
                     print(f"local syncData_{row['name']} = asset.resource({{", file=asset)
                     print(f"    Name = \"{model_identifier}\",", file=asset)
                     print(f"    Type = \"UrlSynchronization\",", file=asset)
                     print(f"    Identifier = \"{model_identifier}\",", file=asset)
-                    print(f"    Url = {model_url},", file=asset)
+                    # Now before placing the correct URL in the asset file, replace any
+                    # spaces with %20.
+                    print(f"    Url = {model_url.replace(' ','%20')},", file=asset)
                     print(f"    Filename = \"{model_filename}\"", file=asset)
                     print(f"}})", file=asset)
 
@@ -521,7 +527,8 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"        ModelScale = {model_scale},", file=asset)
                     print(f"        Enabled = true,", file=asset)
                     print(f"        LightSources = {{", file=asset)
-                    print(f"            sun.LightSource", file=asset)
+                    #print(f"            sun.LightSource", file=asset)
+                    print(f"             {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensty=0.3 }}", file=asset)    
                     print(f"        }}", file=asset)
                     print(f"    }},", file=asset)
                     print(f"    GUI = {{", file=asset)

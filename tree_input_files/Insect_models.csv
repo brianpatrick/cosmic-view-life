@@ -1,30 +1,31 @@
 # Order, URL, model scale value for renderable
-Archaeognatha,"http://files.openspace.amnh.org/static/life/openspace_sync/Archaeognatha%20-%20Trigoniophthalmus.ply",2500
+Archaeognatha,"http://files.openspace.amnh.org/static/life/openspace_sync/Archaeognatha - Trigoniophthalmus.ply",2500
 #Zygentoma,
 #Ephemeroptera,
-Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata%20-%20Aeshnidae.ply",1000
+Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Aeshnidae.ply",1000
 #Zoraptera,
 #Dermaptera,
-#Plecoptera,
-Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthoptera%20-%20Gryllus.ply",1800
+#Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae.glb",1800
+Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae.ply",1800
+Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthoptera - Gryllus.ply",1800
 #Mantophasmatodea,"",1500
-Grylloblatta,"http://files.openspace.amnh.org/static/life/openspace_sync/Grylloblattodea%20-%20Grylloblatta.ply",2300
+Grylloblatta,"http://files.openspace.amnh.org/static/life/openspace_sync/Grylloblattodea - Grylloblatta.ply",2300
 #Embioptera,
-Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea%20-%20Extatosoma.ply",900
+Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea - Extatosoma.ply",900
 #Mantodea,
 #Blattodea,
 #Isoptera,
 #Thysanoptera,
-Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera%20-%20Cicada%20solid%20body.ply",1900
+Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada solid body.ply",1900
 #Psocodea,
-Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera%20-%20Pepsis.ply",3000
+Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera - Pepsis.ply",3000
 #Raphidioptera,
 #Megaloptera,
 #Neuroptera,
 #Strepsiptera,
-Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera%20-%20Carabidae.ply",1300
+Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae.ply",1300
 #Trichoptera,
 #Lepidoptera,
 #Siphonaptera,
-#Mecoptera,
-Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera%20-%20Stratiomyidae.ply",1300
+Mecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Mecoptera - Bittacidae.glb",1300
+Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae.ply",1300
