@@ -338,7 +338,8 @@ def make_tree_files_for_OS(input_newick_file,
         print(f"        BillboardMinMaxSize = {{ 0.0, 25.0 }},", file=asset)
         print(f"        EnablePixelSizeControl = true,", file=asset)
         print(f"        EnableLabelFading = false,", file=asset)
-        print(f"        Enabled = true", file=asset)
+        #print(f"        Enabled = true", file=asset)
+        print(f"        Enabled = false", file=asset)
         print(f"    }},", file=asset)
         print(f"    GUI = {{", file=asset)
         print(f"        Name = \"Internal\",", file=asset)
@@ -379,7 +380,8 @@ def make_tree_files_for_OS(input_newick_file,
         print(f"        BillboardMinMaxSize = {{ 0.0, 25.0 }},", file=asset)
         print(f"        EnablePixelSizeControl = true,", file=asset)
         print(f"        EnableLabelFading = false,", file=asset)
-        print(f"        Enabled = true", file=asset)
+        #print(f"        Enabled = true", file=asset)
+        print(f"        Enabled = false", file=asset)
         print(f"    }},", file=asset)
         print(f"    GUI = {{", file=asset)
         print(f"        Name = \"Leaves\",", file=asset)
@@ -473,7 +475,6 @@ def make_tree_files_for_OS(input_newick_file,
         for _, row in leaves.iterrows():
             # print(row['name'])
             if row['name'] in models:
-                scene_graph_nodes.append(row['name'])
                 print(f"Model found for {row['name']}: {models[row['name']]}")
                 for model in models[row['name']]:
                     model_url = model[0]
@@ -497,8 +498,11 @@ def make_tree_files_for_OS(input_newick_file,
                     # 4. Let's construct this from the filename by just removing the
                     #    extension.
                     model_identifier = model_filename.split('.')[0]
+                    # 5. To make a lua variable out of this, remove any dashes. There are
+                    #    probably no other characters that need to be removed.
+                    model_identifier = model_identifier.replace('-', '_')
                     
-                    print(f"local syncData_{row['name']} = asset.resource({{", file=asset)
+                    print(f"local syncData_{model_identifier} = asset.resource({{", file=asset)
                     print(f"    Name = \"{model_identifier}\",", file=asset)
                     print(f"    Type = \"UrlSynchronization\",", file=asset)
                     print(f"    Identifier = \"{model_identifier}\",", file=asset)
@@ -508,8 +512,8 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"    Filename = \"{model_filename}\"", file=asset)
                     print(f"}})", file=asset)
 
-                    print(f"local {row['name']} = {{", file=asset)
-                    print(f"    Identifier = \"{row['name']}\",", file=asset)
+                    print(f"local {model_identifier} = {{", file=asset)
+                    print(f"    Identifier = \"{model_identifier}\",", file=asset)
                     print(f"    Transform = {{", file=asset)
                     print(f"        Translation = {{", file=asset)
                     print(f"            Type = \"StaticTranslation\",", file=asset)
@@ -523,19 +527,21 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"            FixedColor = {{ 0.8, 0.8, 0.8 }}", file=asset)
                     print(f"        }},", file=asset)
                     print(f"        Opacity = 1.0,", file=asset)
-                    print(f"        GeometryFile = syncData_{row['name']} .. \"{model_filename}\",", file=asset)
+                    print(f"        GeometryFile = syncData_{model_identifier} .. \"{model_filename}\",", file=asset)
                     print(f"        ModelScale = {model_scale},", file=asset)
                     print(f"        Enabled = true,", file=asset)
                     print(f"        LightSources = {{", file=asset)
                     #print(f"            sun.LightSource", file=asset)
-                    print(f"             {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensty=0.3 }}", file=asset)    
+                    print(f"             {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.3 }}", file=asset)    
                     print(f"        }}", file=asset)
                     print(f"    }},", file=asset)
                     print(f"    GUI = {{", file=asset)
-                    print(f"        Name = \"{row['name']}\",", file=asset)
-                    print(f"        Path = \"/Leaves\",", file=asset)
+                    print(f"        Name = \"{model_identifier}\",", file=asset)
+                    print(f"        Path = \"/Leaves/{row['name']}\",", file=asset)
                     print(f"    }}", file=asset)
                     print(f"}}", file=asset)
+
+                    scene_graph_nodes.append(model_identifier)
 
         print(f"asset.onInitialize(function()", file=asset)
         for node in scene_graph_nodes:

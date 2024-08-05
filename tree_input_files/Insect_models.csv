@@ -8,16 +8,16 @@ Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Ae
 Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae.glb",1800
 Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthoptera - Gryllus.glb",1800
 #Mantophasmatodea,"",1500
-#Grylloblatta,"http://files.openspace.amnh.org/static/life/openspace_sync/Grylloblattodea - Grylloblatta.ply",2300
+Grylloblatta,"http://files.openspace.amnh.org/static/life/openspace_sync/Grylloblattodea - Grylloblatta.glb",2300
 #Embioptera,
-#Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea - Extatosoma.ply",900
+Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea - Extatosoma.glb",900
 #Mantodea,
 #Blattodea,
 #Isoptera,
 #Thysanoptera,
-#Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada solid body.ply",1900
+Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada.glb",1900
 #Psocodea,
-#Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera - Pepsis.ply",3000
+Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera - Pepsis.glb",3000
 #Raphidioptera,
 #Megaloptera,
 #Neuroptera,
@@ -25,6 +25,7 @@ Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthopter
 Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae.glb",1300
 #Trichoptera,
 #Lepidoptera,
-#Siphonaptera,
+#Siphonaptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae tracheae.glb",1300
 Mecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Mecoptera - Bittacidae.glb",1300
-#Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae.ply",1300
+Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae.glb",1300
+Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae tracheae.glb",1300
