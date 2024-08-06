@@ -8,8 +8,8 @@ Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Ae
 Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Aeshnidae air sacs.glb",1000
 #Zoraptera,
 #Dermaptera,
-Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae.glb",1800
-Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae tracheae.glb",1800
+Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae.glb",9000
+Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae tracheae.glb",9000
 Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthoptera - Gryllus.glb",1800
 Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthoptera - Gryllus tracheae.glb",1800
 #Mantophasmatodea,"",1500
@@ -19,14 +19,18 @@ Grylloblatta,"http://files.openspace.amnh.org/static/life/openspace_sync/Gryllob
 Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea - Extatosoma.glb",900
 Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea - Extatosoma tracheae.glb",900
 #Mantodea,
-#Blattodea,
-#Isoptera,
+Blattodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Blattodea - Hissing cockroach body.glb",900
+Blattodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Blattodea - Hissing cockroach high res body.glb",900
+Blattodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Blattodea - Hissing cockroach tracheae.glb",900
+Isoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Isoptera - termite soldier body.glb",1800
+Isoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Isoptera - termite soldier tracheae.glb",1800
 #Thysanoptera,
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada.glb",1900
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada no wings.glb",1900
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada tracheae.glb",1900
 #Psocodea,
 Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera - Pepsis.glb",3000
+Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera - Pepsis tracheae.glb",3000
 #Raphidioptera,
 #Megaloptera,
 #Neuroptera,
@@ -35,7 +39,8 @@ Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleopter
 Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae tracheae.glb",1300
 #Trichoptera,
 #Lepidoptera,
-#Siphonaptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae tracheae.glb",1300
+#Siphonaptera,
 Mecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Mecoptera - Bittacidae.glb",1300
-Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae.glb",1300
-Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae tracheae.glb",1300
+Mecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Mecoptera - Bittacidae tracheae.glb",1300
+Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae.glb",4000
+Diptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae tracheae.glb",4000
