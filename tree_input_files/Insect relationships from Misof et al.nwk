@@ -1,30 +1,30 @@
 (
-    Archaeognatha,   
+    Archaeognatha_420,   
         (
-            Zygentoma,
+            Zygentoma_550,
                 (
                     (
                         Odonata,
-                        Ephemeroptera
+                        Ephemeroptera_3000
                     )Palaeoptera,
                     (
                         (
                             (
-                                Zoraptera,
-                                Dermaptera
+                                Zoraptera_51,
+                                Dermaptera_2000
                             ),
                             (
-                                Plecoptera,
+                                Plecoptera_3500,
                                     (
-                                        Orthoptera,
+                                        Orthoptera_20000,
                                         (
                                             (
-                                                (Mantophasmatodea,Grylloblatta),
-                                                (Embioptera,Phasmatodea)
+                                                (Mantophasmatodea_21,Grylloblatta_33),
+                                                (Embioptera_400,Phasmatodea_3500)
                                             ),
                                             (
-                                                Mantodea,
-                                                (Blattodea,Isoptera)
+                                                Mantodea_2400,
+                                                (Blattodea_4400,Isoptera_3000)
                                             )
                                         )
                                     )
@@ -32,38 +32,38 @@
                         )Polyneoptera,
                         (
                             (
-                                Thysanoptera,
-                                Hemiptera
+                                Thysanoptera_7700,
+                                Hemiptera_80000
                             )Condylognatha,
                             (
-                                Psocodea,
+                                Psocodea_11000,
                                 (
-                                    Hymenoptera,
+                                    Hymenoptera_150000,
                                     (
                                         (
                                             (
-                                                Raphidioptera,
+                                                Raphidioptera_260,
                                                 (
-                                                    Megaloptera,
-                                                    Neuroptera
+                                                    Megaloptera_300,
+                                                    Neuroptera_6000
                                                 )
                                             ),
                                             (
-                                                Strepsiptera,
-                                                Coleoptera
+                                                Strepsiptera_600,
+                                                Coleoptera_400000
                                             )
                                         ),
                                         (
                                             (
-                                                Trichoptera,
-                                                Lepidoptera
+                                                Trichoptera_14500,
+                                                Lepidoptera_180000
                                             ),
                                             (
                                                 (
-                                                    Siphonaptera,
-                                                    Mecoptera
+                                                    Siphonaptera_2500,
+                                                    Mecoptera_438
                                                 ),
-                                                Diptera
+                                                Diptera_125000
                                             )
                                         )
                                     )
