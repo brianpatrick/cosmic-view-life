@@ -1,21 +1,30 @@
 # Order, URL, model scale value for renderable
 Archaeognatha,"http://files.openspace.amnh.org/static/life/openspace_sync/Archaeognatha - Trigoniophthalmus.glb",2500
+Archaeognatha,"http://files.openspace.amnh.org/static/life/openspace_sync/Archaeognatha - Trigoniophthalmus tracheae.glb",2500
 #Zygentoma,
 #Ephemeroptera,
 Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Aeshnidae.glb",1000
+Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Aeshnidae simple tracheae plus air sac tracheae.glb",1000
+Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Aeshnidae air sacs.glb",1000
 #Zoraptera,
 #Dermaptera,
 Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae.glb",1800
+Plecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Plecoptera - Nemouridae tracheae.glb",1800
 Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthoptera - Gryllus.glb",1800
+Orthoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Orthoptera - Gryllus tracheae.glb",1800
 #Mantophasmatodea,"",1500
 Grylloblatta,"http://files.openspace.amnh.org/static/life/openspace_sync/Grylloblattodea - Grylloblatta.glb",2300
+Grylloblatta,"http://files.openspace.amnh.org/static/life/openspace_sync/Grylloblattodea - Grylloblatta tracheae.glb",2300
 #Embioptera,
 Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea - Extatosoma.glb",900
+Phasmatodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Phasmatodea - Extatosoma tracheae.glb",900
 #Mantodea,
 #Blattodea,
 #Isoptera,
 #Thysanoptera,
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada.glb",1900
+Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada no wings.glb",1900
+Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada tracheae.glb",1900
 #Psocodea,
 Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera - Pepsis.glb",3000
 #Raphidioptera,
@@ -23,6 +32,7 @@ Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenopt
 #Neuroptera,
 #Strepsiptera,
 Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae.glb",1300
+Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae tracheae.glb",1300
 #Trichoptera,
 #Lepidoptera,
 #Siphonaptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Diptera - Stratiomyidae tracheae.glb",1300

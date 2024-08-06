@@ -16,14 +16,12 @@ Some of the code here was borrowed from tree.py.
 
 '''
 
-import ete3
 import argparse
 from Bio import Phylo
 from pathlib import Path
 from src import common
 import pandas as pd
 import json
-import urllib.parse
 
 parser = argparse.ArgumentParser(description='Process a newick file to create asset '
                                  'and data files for OpenSpace.')
@@ -126,6 +124,12 @@ def make_tree_files_for_OS(input_newick_file,
     y_node_positions = []
 
     phylo_tree = Phylo.read(input_newick_file, 'newick')
+
+    # Node names may have the name followed by an underscore and a number. This
+    # is the species count and is not useful for visualization. Remove it.
+    for clade in phylo_tree.find_clades():
+        if clade.name:
+            clade.name = clade.name.split('_')[0]
 
     # These two functions were lifted verbatim from Biopython's Phylo code. They are
     # used to calculate the positions of the nodes and leaves in the tree.
@@ -526,6 +530,7 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"        Coloring = {{", file=asset)
                     print(f"            FixedColor = {{ 0.8, 0.8, 0.8 }}", file=asset)
                     print(f"        }},", file=asset)
+                    print(f"        AmbientIntensity = 0.0,", file=asset)
                     print(f"        Opacity = 1.0,", file=asset)
                     print(f"        GeometryFile = syncData_{model_identifier} .. \"{model_filename}\",", file=asset)
                     print(f"        ModelScale = {model_scale},", file=asset)
@@ -543,19 +548,35 @@ def make_tree_files_for_OS(input_newick_file,
 
                     scene_graph_nodes.append(model_identifier)
 
+        # Now let's make a couple of handy actions, first one that turns off all the
+        # models.
+        print(f"local all_models_off = {{", file=asset)
+        print(f"    Identifier = \"os.allModelsOff\",", file=asset)
+        print(f"    Name = \"All models off\",", file=asset)
+        print(f"    Command = [[", file=asset)
+        for node in scene_graph_nodes:
+            print(f"        openspace.setPropertyValueSingle(\"Scene.{node}.Renderable.Enabled\", false)", file=asset)
+        print(f"    ]],", file=asset)
+        print(f"    Documentation = \"Turn all models off\",", file=asset)
+        print(f"    GuiPath = \"/Leaves\",", file=asset)
+        print(f"    IsLocal = false", file=asset)
+        print(f"}}", file=asset)
+
         print(f"asset.onInitialize(function()", file=asset)
         for node in scene_graph_nodes:
             print(f"    openspace.addSceneGraphNode({node})", file=asset)
+        print("    openspace.action.registerAction(all_models_off)", file=asset)
         print(f"end)", file=asset)
         print(f"asset.onDeinitialize(function()", file=asset)
         for node in scene_graph_nodes:
             print(f"    openspace.removeSceneGraphNode({node})", file=asset)
+        print("    openspace.action.removeAction(all_models_off)", file=asset)
         print(f"end)", file=asset)
         for node in scene_graph_nodes:
             print(f"asset.export({node})", file=asset)
+        print(f"asset.export(\"all_models_off\", all_models_off.Identifier)", file=asset)
             
         asset.close()
 
 if __name__ == '__main__':
     main()
-    
