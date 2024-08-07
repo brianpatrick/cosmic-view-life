@@ -2,7 +2,8 @@
 # Layers: A - Body, B - Tracheae, C - High resolution body (or other high resolution part)
 Archaeognatha,"http://files.openspace.amnh.org/static/life/openspace_sync/Archaeognatha - Trigoniophthalmus.glb",2500,A
 Archaeognatha,"http://files.openspace.amnh.org/static/life/openspace_sync/Archaeognatha - Trigoniophthalmus tracheae.glb",2500,B
-#Zygentoma,
+Zygentoma,"http://files.openspace.amnh.org/static/life/openspace_sync/Zygentoma - Thermobia body.glb",2500,A
+Zygentoma,"http://files.openspace.amnh.org/static/life/openspace_sync/Zygentoma - Thermobia tracheae.glb",2500,B
 #Ephemeroptera,
 Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Aeshnidae.glb",1000,A
 Odonata,"http://files.openspace.amnh.org/static/life/openspace_sync/Odonata - Aeshnidae simple tracheae plus air sac tracheae.glb",1000,B
