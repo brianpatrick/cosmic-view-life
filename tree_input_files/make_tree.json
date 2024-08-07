@@ -3,6 +3,7 @@
     "models_file": "tree_input_files/insect_models.csv", 
     "out_path": "/mnt/e/OpenSpace/user/data/assets/insect_tree_with_models", 
     "tree_name": "Insect_tree", 
-    "branch_scaling_factor": 50.0,
-    "taxon_scaling_factor": 50.0
+    "branch_scaling_factor": 10.0,
+    "taxon_scaling_factor": 50.0,
+    "ultrametric": true
 }

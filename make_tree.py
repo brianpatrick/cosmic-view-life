@@ -60,6 +60,10 @@ parser.add_argument('--branch_scaling_factor', type=float, default=400.0,
 parser.add_argument('--taxon_scaling_factor', type=float, default=10.0, 
                     help='Scale the taxa by this factor.')
 
+# Flag for an ultrametric tree.
+parser.add_argument('--ultrametric', action='store_true', default=False,
+                    help='Make an ultrametric tree.')
+
 def main():
     args = parser.parse_args()
 
@@ -80,13 +84,15 @@ def main():
     print(f"Tree name:              {args['tree_name']}")
     print(f"Branch scaling factor:  {args['branch_scaling_factor']}")
     print(f"Taxon scaling factor:   {args['taxon_scaling_factor']}")
+    print(f"Ultrametric:            {args['ultrametric']}")
 
     make_tree_files_for_OS(input_newick_file=args['input_newick_file'],
                            models_filename=args['models_file'],
                            branch_scaling_factor=args['branch_scaling_factor'],
                            taxon_scaling_factor=args['taxon_scaling_factor'],
                            tree_name=args['tree_name'],
-                           output_path=args['out_path'])
+                           output_path=args['out_path'],
+                           ultrametric=args['ultrametric'])
 
 
 def make_tree_files_for_OS(input_newick_file,
@@ -94,7 +100,8 @@ def make_tree_files_for_OS(input_newick_file,
                            branch_scaling_factor, 
                            taxon_scaling_factor,
                            tree_name,
-                           output_path):
+                           output_path,
+                           ultrametric):
     '''
     Process the newick file. This file contains the tree structure in newick format.
 
@@ -135,13 +142,25 @@ def make_tree_files_for_OS(input_newick_file,
     # used to calculate the positions of the nodes and leaves in the tree.
     def get_x_positions(tree):
         """
-        Create a mapping of each clade to its horizontal position.
+        Create a mapping of each clade to its horizontal position. Horizontal
+        in this context is the depth of the clade in the tree.
         Dict of {clade: x-coord}
         """
         depths = tree.depths()
         # If there are no branch lengths, assume unit branch lengths
         if not max(depths.values()):
             depths = tree.depths(unit_branch_lengths=True)
+
+        if ultrametric:
+            maxdepth = max(depths.values())
+
+            # For each clade, if the clade is a terminal, set its depth
+            # to the maximum depth. If the clade is an internal node, do
+            # nothing.
+            for clade in tree.find_clades():
+                if clade.is_terminal():
+                    depths[clade] = maxdepth
+
         return depths
 
     def get_y_positions(tree):
