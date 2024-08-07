@@ -592,6 +592,60 @@ def make_tree_files_for_OS(input_newick_file,
         print(f"}}", file=asset)
         action_names.append(all_models_on_action_name)
 
+        # Now we want to make actions that turn on and off the models in a given layer.
+        # First, we need to make a list of all the layers.
+        layers = set()
+        for _, model_list in models.items():
+            for model in model_list:
+                for layer in model[2]:
+                    layers.add(layer)
+        layers = sorted(list(layers))
+
+        # Now we can make the actions.
+        for layer in layers:
+            # Turn the models in this layer off.
+            layer_off_action_name = f"layer_{layer}_off"
+            print(f"local {layer_off_action_name} = {{", file=asset)
+            print(f"    Identifier = \"os.{layer_off_action_name}\",", file=asset)
+            print(f"    Name = \"Layer {layer} off\",", file=asset)
+            print(f"    Command = [[", file=asset)
+            for _, model_list in models.items():
+                for model in model_list:
+                    if layer in model[2]:
+                        # This is a little hacky, it basically repicates part of the
+                        # multi-step process above for making an identifier from
+                        # the URL by removing/replacing spaces and dashes.
+                        model_identifier = model[0].split('/')[-1].split('.')[0].replace('-', '_').replace(' ', '_')
+                        print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", false)", file=asset)
+            print(f"    ]],", file=asset)
+            print(f"    Documentation = \"Turn off all models in layer {layer}\",", file=asset)
+            print(f"    GuiPath = \"/Leaves\",", file=asset)
+            print(f"    IsLocal = false", file=asset)
+            print(f"}}", file=asset)
+            action_names.append(layer_off_action_name)
+
+            # Turn the models in this layer on.
+            layer_on_action_name = f"layer_{layer}_on"
+            print(f"local {layer_on_action_name} = {{", file=asset)
+            print(f"    Identifier = \"os.{layer_on_action_name}\",", file=asset)
+            print(f"    Name = \"Layer {layer} on\",", file=asset)
+            print(f"    Command = [[", file=asset)
+            for _, model_list in models.items():
+                for model in model_list:
+                    if layer in model[2]:
+                        # This is a little hacky, it basically repicates part of the
+                        # multi-step process above for making an identifier from
+                        # the URL by removing/replacing spaces and dashes.
+                        model_identifier = model[0].split('/')[-1].split('.')[0].replace('-', '_').replace(' ', '_')
+                        print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", true)", file=asset)
+            print(f"    ]],", file=asset)
+            print(f"    Documentation = \"Turn on all models in layer {layer}\",", file=asset)
+            print(f"    GuiPath = \"/Leaves\",", file=asset)
+            print(f"    IsLocal = false", file=asset)
+            print(f"}}", file=asset)
+            action_names.append(layer_on_action_name)
+
+
         #
         # We've made all these local lua variables, now we need to export them so
         # OpenSpace knows they can be actually used.
