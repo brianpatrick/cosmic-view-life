@@ -436,11 +436,16 @@ def make_tree_files_for_OS(input_newick_file,
     asset.close()
 
 
-
+    #
     # Models asset file.
     # First, read the models file into a dictionary. Each line has a key, which is
-    # the name of the node, a model file, and a scale value. Each node may have more
-    # than one model.
+    # the name of the node, a model file (or files), a scale value, and a list of
+    # layers this model is present in. Each node may have more than one model.
+    # The layers are used to automatically generate actions to turn on and off the
+    # models in a given layer. The layers themselves are not part of the asset.
+    # A model may be in more than one layer. For example, a model in one layer 
+    # would have A, and in two layers would have AB.
+    #
     models = {}
     if models_filename:
         with open(models_filename, 'rt') as models_file:
@@ -451,11 +456,12 @@ def make_tree_files_for_OS(input_newick_file,
                     model_name = parts[0]
                     model_url = parts[1].strip()
                     model_scale = float(parts[2].strip())
+                    model_layers = parts[3].strip().split()
                     
                     if model_name in models:
-                        models[model_name].append((model_url, model_scale))
+                        models[model_name].append((model_url, model_scale, model_layers))
                     else:
-                        models[model_name] = [(model_url, model_scale)]
+                        models[model_name] = [(model_url, model_scale, model_layers)]
 
     # Return the x, y, and z position of a leaf given the name of the leaf.
     def get_leaf_position(leaf_name):
@@ -473,7 +479,7 @@ def make_tree_files_for_OS(input_newick_file,
 
         # Make a list scene graph node names. We will need this later for the
         # code that initializes and adds assets to OpenSpace.
-        scene_graph_nodes = []
+        scene_graph_model_identifiers = []
 
         # Run through the list of leaves, checking for a model.
         for _, row in leaves.iterrows():
@@ -546,35 +552,72 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"    }}", file=asset)
                     print(f"}}", file=asset)
 
-                    scene_graph_nodes.append(model_identifier)
+                    scene_graph_model_identifiers.append(model_identifier)
+
+        #
+        # Actions!
+        #
+
+        # Make a list of action names that will later be exported.
+        action_names = []
 
         # Now let's make a couple of handy actions, first one that turns off all the
         # models.
-        print(f"local all_models_off = {{", file=asset)
-        print(f"    Identifier = \"os.allModelsOff\",", file=asset)
+        all_models_off_action_name = "all_models_off"
+        print(f"local {all_models_off_action_name} = {{", file=asset)
+        print(f"    Identifier = \"os.{all_models_off_action_name}\",", file=asset)
         print(f"    Name = \"All models off\",", file=asset)
         print(f"    Command = [[", file=asset)
-        for node in scene_graph_nodes:
-            print(f"        openspace.setPropertyValueSingle(\"Scene.{node}.Renderable.Enabled\", false)", file=asset)
+        for model_identfier in scene_graph_model_identifiers:
+            print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identfier}.Renderable.Enabled\", false)", file=asset)
         print(f"    ]],", file=asset)
         print(f"    Documentation = \"Turn all models off\",", file=asset)
         print(f"    GuiPath = \"/Leaves\",", file=asset)
         print(f"    IsLocal = false", file=asset)
         print(f"}}", file=asset)
+        action_names.append(all_models_off_action_name)
 
+        # Next, an action that turns all the models on.
+        all_models_on_action_name = "all_models_on"
+        print(f"local {all_models_on_action_name} = {{", file=asset)
+        print(f"    Identifier = \"os.{all_models_on_action_name}\",", file=asset)
+        print(f"    Name = \"All models on\",", file=asset)
+        print(f"    Command = [[", file=asset)
+        for model_identfier in scene_graph_model_identifiers:
+            print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identfier}.Renderable.Enabled\", true)", file=asset)
+        print(f"    ]],", file=asset)
+        print(f"    Documentation = \"Turn all models on\",", file=asset)
+        print(f"    GuiPath = \"/Leaves\",", file=asset)
+        print(f"    IsLocal = false", file=asset)
+        print(f"}}", file=asset)
+        action_names.append(all_models_on_action_name)
+
+        #
+        # We've made all these local lua variables, now we need to export them so
+        # OpenSpace knows they can be actually used.
+        #
+
+        # Initialize...
         print(f"asset.onInitialize(function()", file=asset)
-        for node in scene_graph_nodes:
-            print(f"    openspace.addSceneGraphNode({node})", file=asset)
-        print("    openspace.action.registerAction(all_models_off)", file=asset)
+        for model_identfier in scene_graph_model_identifiers:
+            print(f"    openspace.addSceneGraphNode({model_identfier})", file=asset)
+        for action_name in action_names:
+            print(f"    openspace.action.registerAction({action_name})", file=asset)
         print(f"end)", file=asset)
+
+        # Deinitialize...
         print(f"asset.onDeinitialize(function()", file=asset)
-        for node in scene_graph_nodes:
-            print(f"    openspace.removeSceneGraphNode({node})", file=asset)
-        print("    openspace.action.removeAction(all_models_off)", file=asset)
+        for model_identfier in scene_graph_model_identifiers:
+            print(f"    openspace.removeSceneGraphNode({model_identfier})", file=asset)
+        for action_name in action_names:
+            print(f"    openspace.action.removeAction({action_name})", file=asset)
         print(f"end)", file=asset)
-        for node in scene_graph_nodes:
-            print(f"asset.export({node})", file=asset)
-        print(f"asset.export(\"all_models_off\", all_models_off.Identifier)", file=asset)
+
+        # Export.
+        for model_identfier in scene_graph_model_identifiers:
+            print(f"asset.export({model_identfier})", file=asset)
+        for action_name in action_names:
+            print(f"asset.export(\"{action_name}\", {action_name}.Identifier)", file=asset)
             
         asset.close()
 
