@@ -192,7 +192,8 @@ def make_tree_files_for_OS(input_newick_file,
     # Dataframe to hold the start and end coordinates of the branch lines. This is
     # used to create the branch lines in the speck file and is ordered [x0, y0, z0,
     # x1, y1, z1, name]. The branch name is the clade for that particular branch and
-    # may be empty.
+    # may be empty. draw_clade() and draw_clade_lines() populate this dataframe.
+    # I guess draw_clade could return the dataframe, but this is fine for now.
     branch_lines_df = pd.DataFrame(columns=['name', 
                                             'x0', 'y0', 'z0', 
                                             'x1', 'y1', 'z1'])
@@ -201,39 +202,59 @@ def make_tree_files_for_OS(input_newick_file,
     # modified - color and line width removed, for example, as well as
     # linecollection stuff used by matplotlib.
     def draw_clade_lines(orientation="horizontal", 
-                            y_here=0, x_start=0, x_here=0, y_bot=0, y_top=0):
+                         y_here=0,
+                         x_start=0,
+                         x_here=0,
+                         y_bot=0,
+                         y_top=0):
         if orientation == "horizontal":
             #print(f'(x_start, y_here), (x_here, y_here): {(x_start, y_here), (x_here, y_here)}')
             branch_lines_df.loc[len(branch_lines_df.index)] = \
                 ['dummy', x_start, y_here, 0.0, x_here, y_here, 0.0]
-        elif  orientation == "vertical":
+        elif orientation == "vertical":
             #print(f'(x_here, y_bot), (x_here, y_top): {(x_here, y_bot), (x_here, y_top)}')
             branch_lines_df.loc[len(branch_lines_df.index)] = \
                 ['dummy', x_here, y_bot, 0.0, x_here, y_top, 0.0]
 
-    def draw_clade(clade, x_start):
+    # This drawing code uses "horizontal" and "vertical" to refer to
+    # the orientation of the branch lines. This is assuming the tree is
+    # oriented such that the root of the tree is on the left and the leaves
+    # are on the right. This also assumes that the X axis is horizontal and
+    # the Y axis is vertical.
+    #
+    # x_start is the starting x position of the branch line. At the root of the
+    # tree, this is 0, and it increments as the tree is drawn.
+    def draw_clade(clade, x_start, branch_type):
         """Recursively draw a tree, down from the given clade."""
         x_here = x_node_positions[clade]
         y_here = y_node_positions[clade]
 
-        # Draw a horizontal line from start to here
-        draw_clade_lines(orientation="horizontal",
-            y_here=y_here,
-            x_start=x_start,
-            x_here=x_here)
+        if branch_type == "rectangular":
+            # Draw a horizontal line from start to here
+            draw_clade_lines(orientation="horizontal",
+                            y_here=y_here,
+                            x_start=x_start,
+                            x_here=x_here)
 
-        if clade.clades:
-            # Draw a vertical line connecting all children
-            y_top = y_node_positions[clade.clades[0]]
-            y_bot = y_node_positions[clade.clades[-1]]
-            # Only apply widths to horizontal lines, like Archaeopteryx
-            draw_clade_lines(orientation="vertical",
-                x_here=x_here,
-                y_bot=y_bot,
-                y_top=y_top,)
-            # Draw descendents
+            if clade.clades:
+                # Draw a vertical line connecting all children
+                y_top = y_node_positions[clade.clades[0]]
+                y_bot = y_node_positions[clade.clades[-1]]
+                draw_clade_lines(orientation="vertical",
+                                x_here=x_here,
+                                y_bot=y_bot,
+                                y_top=y_top,)
+                # Draw descendents
+                for child in clade:
+                    draw_clade(child, x_here, "rectangular")
+        elif branch_type == "diagonal":
+            # Draw diagonal lines directly from the start to each child.
             for child in clade:
-                draw_clade(child, x_here)
+                x_child = x_node_positions[child]
+                y_child = y_node_positions[child]
+                branch_lines_df.loc[len(branch_lines_df.index)] = \
+                    ['dummy', x_here, y_here, 0.0, x_child, y_child, 0.0]
+                draw_clade(child, x_here, "diagonal")
 
     # Get the positions of the leaves and internal nodes.
     x_node_positions = get_x_positions(phylo_tree)
@@ -266,7 +287,7 @@ def make_tree_files_for_OS(input_newick_file,
     # Now draw the branches. draw_clade populates the branch_lines_df dataframe,
     # so we don't have to make one after the fact. Maybe it would be more 
     # consistent if draw_clade returned a dataframe, but this is fine for now.
-    draw_clade(phylo_tree.root, 0)
+    draw_clade(phylo_tree.root, 0, "rectangular")
 
     # Scale the node and branch positions (if required).
     nodes.loc[:, 'x'] = nodes['x'].apply(lambda x: x * branch_scaling_factor)
@@ -476,11 +497,12 @@ def make_tree_files_for_OS(input_newick_file,
                     model_url = parts[1].strip()
                     model_scale = float(parts[2].strip())
                     model_layers = parts[3].strip().split()
+                    model_enabled = parts[4].strip()
                     
                     if model_name in models:
-                        models[model_name].append((model_url, model_scale, model_layers))
+                        models[model_name].append((model_url, model_scale, model_layers, model_enabled))
                     else:
-                        models[model_name] = [(model_url, model_scale, model_layers)]
+                        models[model_name] = [(model_url, model_scale, model_layers, model_enabled)]
 
     # Return the x, y, and z position of a leaf given the name of the leaf.
     def get_leaf_position(leaf_name):
@@ -506,8 +528,10 @@ def make_tree_files_for_OS(input_newick_file,
             if row['name'] in models:
                 print(f"Model found for {row['name']}: {models[row['name']]}")
                 for model in models[row['name']]:
+                    # I hate magic numbers like this.
                     model_url = model[0]
                     model_scale = model[1]
+                    model_enabled = model[3]
                     # Get the position of the leaf.
                     x, y, z = get_leaf_position(row['name'])
                     print(f"Position: {x}, {y}, {z}")
@@ -559,7 +583,8 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"        Opacity = 1.0,", file=asset)
                     print(f"        GeometryFile = syncData_{model_identifier} .. \"{model_filename}\",", file=asset)
                     print(f"        ModelScale = {model_scale},", file=asset)
-                    print(f"        Enabled = true,", file=asset)
+                    # I hate magic numbers like this.
+                    print(f"        Enabled = {model_enabled},", file=asset)
                     print(f"        LightSources = {{", file=asset)
                     #print(f"            sun.LightSource", file=asset)
                     print(f"             {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.3 }}", file=asset)    
@@ -616,6 +641,7 @@ def make_tree_files_for_OS(input_newick_file,
         layers = set()
         for _, model_list in models.items():
             for model in model_list:
+                # Magic number 2 is the index of the layers in the model tuple.
                 for layer in model[2]:
                     layers.add(layer)
         layers = sorted(list(layers))
