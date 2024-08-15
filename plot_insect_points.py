@@ -30,23 +30,51 @@ file.
 import argparse
 import pandas as pd
 import os
+import json
 
 import sys
 from src import common
 
 parser = argparse.ArgumentParser(description='Import and plot insect family data.')
 
+# There are two ways to input parameters. The first way is to use a parameter
+# file. This is a JSON file that contains all the parameters for the script. The
+# second way is to specify them individually. The parameter file is specified with
+# the -p flag. If the parameter file is specified, all other parameters are ignored.
+# If the parameter file is not specified, the script will look for individual
+# parameters. If the parameter file is specified, the script will ignore any
+# individual parameters.
+parser.add_argument('-p', '--param_file', dest='param_file', type=str,
+                    help='The parameter file for the script.')
+
 parser.add_argument('-i', dest='input_filename', type=str,
                     help='The input filename containing the family data.')
 
-parser.add_argument('-o', '--output_path', dest='out_path', type=str, required=True,
+parser.add_argument('-o', '--output_path', dest='out_path', type=str,
                      help='Output directory for the CSV and asset files.')
 
 parser.add_argument('--xy_scaling_factor', type=float, default=1000.0)
 parser.add_argument('--z_scaling_factor',  type=float, default=1.0)
 
-def load_and_process_family_data(input_filename):
-    family_data = pd.read_csv(input_filename)
+def main():
+    args = parser.parse_args()
+
+    # If a parameter file is specified, read it in and use it to set the arguments.
+    if args.param_file:
+        print("*** Reading parameter file {} ***".format(args.param_file))
+        with open(args.param_file, 'rt') as json_file:
+            args = json.load(json_file)
+    else:
+        # Just use the specified arguments.
+        args = vars(args)
+
+    # Passing in the args dictionary is really kinda hacky. I'd rather pass in the
+    # individual parameters, but I'm in a hurry.
+    load_and_process_family_data(args)
+
+
+def load_and_process_family_data(args):
+    family_data = pd.read_csv(args['input_filename'])
 
     # Sometimes the data is all placed far away from the origin. To make it easier
     # to view, we can translate the data to the origin. This is done by finding the
@@ -58,13 +86,13 @@ def load_and_process_family_data(input_filename):
     family_data['z'] = family_data['z'] - centroid['z']
 
     # First make sure the output path exists. If it does not, create the dir.
-    if not os.path.exists(args.out_path):
-        print(f"Creating output directory: {args.out_path}")
-        os.makedirs(args.out_path)
+    if not os.path.exists(args['out_path']):
+        print(f"Creating output directory: {args['out_path']}")
+        os.makedirs(args['out_path'])
 
     # Let's also make the CSV files dir.
     csv_dirname = "csv"
-    csv_path = os.path.join(args.out_path, csv_dirname)
+    csv_path = os.path.join(args['out_path'], csv_dirname)
     if not os.path.exists(csv_path):
         print(f"Creating CSV directory: {csv_path}")
         os.makedirs(csv_path)
@@ -72,10 +100,10 @@ def load_and_process_family_data(input_filename):
     # Now some filenames. Base these off the input filename.
     # The main asset filename is the same as the input filename but with
     # .asset replacing .csv.
-    filename_base = os.path.basename(input_filename).replace(".csv", "")
+    filename_base = os.path.basename(args['input_filename']).replace(".csv", "")
     asset_filename = filename_base + ".asset"
 
-    asset_file = open(os.path.join(args.out_path, asset_filename), "w")
+    asset_file = open(os.path.join(args['out_path'], asset_filename), "w")
 
     # Let's print the "header" info in the asset file. These are variables
     # used by all the assets.
@@ -107,9 +135,9 @@ def load_and_process_family_data(input_filename):
 
         # if the scaling factor is set, use it for everything.
         for index, row in family.iterrows():
-            x = row['x'] * args.xy_scaling_factor
-            y = row['y'] * args.xy_scaling_factor
-            z = row['z'] * args.z_scaling_factor
+            x = row['x'] * args['xy_scaling_factor']
+            y = row['y'] * args['xy_scaling_factor']
+            z = row['z'] * args['z_scaling_factor']
             name = row['name']
             print(f"{x},{y},{z},{name}", file=family_csv_file)
 
@@ -119,9 +147,9 @@ def load_and_process_family_data(input_filename):
         # normailized value, so we need to scale it up. These scaling factors
         # are for a given aesthetic. They can be adjusted as needed.
         scale_factor = 3.0 * row['r'] * 50.0
-        scale_exponent = 10.0
+        scale_exponent = 5.0
 
-        scene_graph_node_name = f"{family_name}_points"
+        scene_graph_node_name = f"{filename_base}_{family_name}_points"
         print(f"local {scene_graph_node_name} = {{", file=asset_file)
         print(f"    Identifier = \"{scene_graph_node_name}\",", file=asset_file)
         print(f"    Renderable = {{", file=asset_file)
@@ -241,7 +269,5 @@ def load_and_process_family_data(input_filename):
         print(f"asset.export({action_name})", file=asset_file)
 
 if __name__ == "__main__":
-    args = parser.parse_args()
-    load_and_process_family_data(args.input_filename)
-
+    main()
 
