@@ -64,6 +64,10 @@ parser.add_argument('--taxon_scaling_factor', type=float, default=10.0,
 parser.add_argument('--ultrametric', action='store_true', default=False,
                     help='Make an ultrametric tree.')
 
+# Flag for diagnoal branches.
+parser.add_argument('--diagonal', action='store_true', default=False,
+                    help='Use diagonal branches.')
+
 def main():
     args = parser.parse_args()
 
@@ -85,6 +89,7 @@ def main():
     print(f"Branch scaling factor:  {args['branch_scaling_factor']}")
     print(f"Taxon scaling factor:   {args['taxon_scaling_factor']}")
     print(f"Ultrametric:            {args['ultrametric']}")
+    print(f"Diagonal branches:      {args['diagonal']}")
 
     make_tree_files_for_OS(input_newick_file=args['input_newick_file'],
                            models_filename=args['models_file'],
@@ -92,7 +97,8 @@ def main():
                            taxon_scaling_factor=args['taxon_scaling_factor'],
                            tree_name=args['tree_name'],
                            output_path=args['out_path'],
-                           ultrametric=args['ultrametric'])
+                           ultrametric=args['ultrametric'],
+                           diagonal=args['diagonal'])
 
 
 def make_tree_files_for_OS(input_newick_file,
@@ -101,7 +107,8 @@ def make_tree_files_for_OS(input_newick_file,
                            taxon_scaling_factor,
                            tree_name,
                            output_path,
-                           ultrametric):
+                           ultrametric,
+                           diagonal):
     '''
     Process the newick file. This file contains the tree structure in newick format.
 
@@ -287,7 +294,10 @@ def make_tree_files_for_OS(input_newick_file,
     # Now draw the branches. draw_clade populates the branch_lines_df dataframe,
     # so we don't have to make one after the fact. Maybe it would be more 
     # consistent if draw_clade returned a dataframe, but this is fine for now.
-    draw_clade(phylo_tree.root, 0, "rectangular")
+    if diagonal:
+        draw_clade(phylo_tree.root, 0, "diagonal")
+    else:
+        draw_clade(phylo_tree.root, 0, "rectangular")
 
     # Scale the node and branch positions (if required).
     nodes.loc[:, 'x'] = nodes['x'].apply(lambda x: x * branch_scaling_factor)
@@ -690,6 +700,16 @@ def make_tree_files_for_OS(input_newick_file,
             print(f"}}", file=asset)
             action_names.append(layer_on_action_name)
 
+        #
+        # Something to think about. Loading all these assets can take a bit of time. We
+        # can load and unload them dynamically within openspace like this:
+        #
+        #     openspace.asset.add("E:/OpenSpace/user/data/assets/insect_tree_with_models/Bristletail.asset");
+        #
+        # We can also remove them using remove() with the full path provided by add.
+        #
+        # This stuff would likely be put in some kind of action.
+        #
 
         #
         # We've made all these local lua variables, now we need to export them so
