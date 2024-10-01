@@ -44,7 +44,8 @@ Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera 
 Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera - Pepsis.glb",3000,A,true
 Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenoptera - Pepsis tracheae.glb",3000,B,false
 #Raphidioptera,
-#Megaloptera,
+Megaloptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Megaloptera - Corydalus body.glb",3000,A,true
+Megaloptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Megaloptera - Corydalus tracheae.glb",3000,B,false
 #Neuroptera,
 #Strepsiptera,
 Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae.glb",1300,A,true
