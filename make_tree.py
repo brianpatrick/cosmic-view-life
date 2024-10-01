@@ -508,11 +508,12 @@ def make_tree_files_for_OS(input_newick_file,
                     model_scale = float(parts[2].strip())
                     model_layers = parts[3].strip().split()
                     model_enabled = parts[4].strip()
+                    model_other_names = parts[5].strip()
                     
                     if model_name in models:
-                        models[model_name].append((model_url, model_scale, model_layers, model_enabled))
+                        models[model_name].append((model_url, model_scale, model_layers, model_enabled, model_other_names))
                     else:
-                        models[model_name] = [(model_url, model_scale, model_layers, model_enabled)]
+                        models[model_name] = [(model_url, model_scale, model_layers, model_enabled, model_other_names)]
 
     # Return the x, y, and z position of a leaf given the name of the leaf.
     def get_leaf_position(leaf_name):
@@ -542,6 +543,8 @@ def make_tree_files_for_OS(input_newick_file,
                     model_url = model[0]
                     model_scale = model[1]
                     model_enabled = model[3]
+                    model_other_names = model[4]
+                    print(model_other_names)
                     # Get the position of the leaf.
                     x, y, z = get_leaf_position(row['name'])
                     print(f"Position: {x}, {y}, {z}")
@@ -593,7 +596,6 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"        Opacity = 1.0,", file=asset)
                     print(f"        GeometryFile = syncData_{model_identifier} .. \"{model_filename}\",", file=asset)
                     print(f"        ModelScale = {model_scale},", file=asset)
-                    # I hate magic numbers like this.
                     print(f"        Enabled = {model_enabled},", file=asset)
                     print(f"        LightSources = {{", file=asset)
                     #print(f"            sun.LightSource", file=asset)
@@ -602,7 +604,7 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"    }},", file=asset)
                     print(f"    GUI = {{", file=asset)
                     print(f"        Name = \"{model_identifier}\",", file=asset)
-                    print(f"        Path = \"/Leaves/{row['name']}\",", file=asset)
+                    print(f"        Path = \"/Leaves/{row['name']} ({model_other_names})\",", file=asset)
                     print(f"    }}", file=asset)
                     print(f"}}", file=asset)
 
