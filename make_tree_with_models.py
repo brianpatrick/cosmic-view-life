@@ -1,7 +1,7 @@
 #!/bin/env python3
 
 '''
-make_tree.py
+make_tree_with_models.py
 
 This script processes newick files to create asset and data files to visualize
 trees with models in OpenSpace. It's separate from the other scripts in this directory
@@ -339,7 +339,7 @@ def make_tree_files_for_OS(input_newick_file,
     with open(speck_out_fullpath, 'wt') as speck, open(dat_out_fullpath, 'wt') as dat:
         '''
         datainfo = {}
-        datainfo['author'] = 'Hollister Herhold and Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics), Robin Ridell (Univ Linköping), Märta Nilsson (Univ Linköping)'
+        datainfo['author'] = 'Hollister Herhold and Brian Abbott (American Museum of Natural History, New York), Wandrille Duchemin (University of Basel & SIB Swiss Institute of Bioinformatics)'
         datainfo['data_group_title'] = datainfo['sub_project'] + ': Tree, ' + datainfo['tree_dir']
         datainfo['data_group_desc'] = 'Data points for the tree - branches.'
 
@@ -544,7 +544,6 @@ def make_tree_files_for_OS(input_newick_file,
                     model_scale = model[1]
                     model_enabled = model[3]
                     model_other_names = model[4]
-                    print(model_other_names)
                     # Get the position of the leaf.
                     x, y, z = get_leaf_position(row['name'])
                     print(f"Position: {x}, {y}, {z}")
