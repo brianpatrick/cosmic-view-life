@@ -36,7 +36,7 @@ Blattodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Blattodea 
 Isoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Isoptera - termite soldier body.glb",1800,A,true,termite
 Isoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Isoptera - termite soldier tracheae.glb",1800,B,false,termite
 Thysanoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Thysanoptera - Phlaeothripidae.glb",1800,A,true,thrips
-Thysanoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Thysanoptera - Phlaeothripidae tracheae.glb",1800,A,false,thrips
+Thysanoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Thysanoptera - Phlaeothripidae tracheae.glb",1800,B,false,thrips
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada.glb",1900,A,true,cicada
 #Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada no wings.glb",1900,C,false,cicada
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada tracheae.glb",1900,B,false,cicada

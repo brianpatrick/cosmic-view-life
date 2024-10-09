@@ -522,11 +522,23 @@ def make_tree_files_for_OS(input_newick_file,
                 return row['x'], row['y'], row['z']
         return None
 
-    # Write out the asset file. One asset file for all models.
+    # Make a list of action names that will later be exported. This initialization
+    # used to be further down with the "Acions!" section below, but it's been moved
+    # up here because I add some actions for turning each model on and off.
+    action_names = []
+
+    # Write out the asset and actions files. One asset file for all models,
+    # one for all the actions.
     asset_filename = tree_name + '_models.asset'
+    actions_filename = tree_name + '_actions.asset'
+
+
     asset_outpath = output_path / asset_filename
+    actions_outpath = output_path / actions_filename
     print(f"Asset file:             {asset_outpath}")
+    print(f"Actions file:           {actions_outpath}")
     with open(asset_outpath, 'wt') as asset:
+        action_file = open(actions_outpath, 'wt')
         print(f"local sun = asset.require(\"scene/solarsystem/sun/transforms\")", file=asset)
 
         # Make a list scene graph node names. We will need this later for the
@@ -542,11 +554,12 @@ def make_tree_files_for_OS(input_newick_file,
                     # I hate magic numbers like this.
                     model_url = model[0]
                     model_scale = model[1]
+                    model_layers = model[2]
                     model_enabled = model[3]
                     model_other_names = model[4]
                     # Get the position of the leaf.
                     x, y, z = get_leaf_position(row['name'])
-                    print(f"Position: {x}, {y}, {z}")
+                    #print(f"Position: {x}, {y}, {z}")
 
                     # Grab the filename and format it to be used as an identifier in
                     # OpenSpace. The filename is the last part of the URL.
@@ -607,44 +620,98 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"    }}", file=asset)
                     print(f"}}", file=asset)
 
+                    # Let's make two actions for each model, one to turn it on and one to
+                    # turn it off.
+                    model_on_action_name = f"{model_identifier}_on"
+                    print(f"local {model_on_action_name} = {{", file=action_file)
+                    print(f"    Identifier = \"os.{model_on_action_name}\",", file=action_file)
+                    print(f"    Name = \"{model_identifier} on\",", file=action_file)
+                    print(f"    Command = [[", file=action_file)
+                    print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", true)", file=action_file)
+                    print(f"    ]],", file=action_file)
+                    print(f"    Documentation = \"Turn on {model_other_names}\",", file=action_file)
+                    print(f"    GuiPath = \"/Leaves/{row['name']} ({model_other_names})\",", file=action_file)
+                    print(f"    IsLocal = false", file=action_file)
+                    print(f"}}", file=action_file)
+                    action_names.append(model_on_action_name)
+
+                    model_off_action_name = f"{model_identifier}_off"
+                    print(f"local {model_off_action_name} = {{", file=action_file)
+                    print(f"    Identifier = \"os.{model_off_action_name}\",", file=action_file)
+                    print(f"    Name = \"{model_identifier} off\",", file=action_file)
+                    print(f"    Command = [[", file=action_file)
+                    print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", false)", file=action_file)
+                    print(f"    ]],", file=action_file)
+                    print(f"    Documentation = \"Turn off {model_other_names}\",", file=action_file)
+                    print(f"    GuiPath = \"/Leaves/{row['name']} ({model_other_names})\",", file=action_file)
+                    print(f"    IsLocal = false", file=action_file)
+                    print(f"}}", file=action_file)
+                    action_names.append(model_off_action_name)
+
+                    # Make an action for focusing on the model. For simplicity, only models
+                    # with a layer A can be found by this action. This is kinda hacky, but
+                    # if we don't do this, there are too many actions to make. Also, 
+                    # you only need a single focus action for each model, so this is fine.
+                    if 'A' in model_layers:
+                        model_focus_action_name = f"{model_identifier}_focus"
+                        print(f"local {model_focus_action_name} = {{", file=action_file)
+                        print(f"    Identifier = \"os.{model_focus_action_name}\",", file=action_file)
+                        print(f"    Name = \"Focus on {model_other_names}\",", file=action_file)
+                        print(f"    Command = [[", file=action_file)
+                        print(f"        openspace.setPropertyValueSingle(\"NavigationHandler.OrbitalNavigator.Anchor\", '{model_identifier}')", file=action_file)
+                        print(f"        openspace.setPropertyValueSingle(\"NavigationHandler.OrbitalNavigator.Aim\", '')", file=action_file)
+                        print(f"        openspace.setPropertyValueSingle(\"NavigationHandler.OrbitalNavigator.RetargetAnchor\", nil)", file=action_file)
+                        print(f"    ]],", file=action_file)
+                        print(f"    Documentation = \"Focus on {model_other_names}\",", file=action_file)
+                        print(f"    GuiPath = \"/Leaves/{row['name']} ({model_other_names})\",", file=action_file)
+                        print(f"    IsLocal = false", file=action_file)
+                        print(f"}}", file=action_file)
+                        action_names.append(model_focus_action_name)
+
+
+                    '''
+                    openspace.setPropertyValueSingle("NavigationHandler.OrbitalNavigator.Anchor", 'Blattodea___Hissing_cockroach_body')
+                    openspace.setPropertyValueSingle("NavigationHandler.OrbitalNavigator.Aim", '')
+                    openspace.setPropertyValueSingle("NavigationHandler.OrbitalNavigator.RetargetAnchor", nil)
+                    '''
+
                     scene_graph_model_identifiers.append(model_identifier)
 
         #
         # Actions!
         #
 
-        # Make a list of action names that will later be exported.
-        action_names = []
+
 
         # Now let's make a couple of handy actions, first one that turns off all the
         # models.
         all_models_off_action_name = "all_models_off"
-        print(f"local {all_models_off_action_name} = {{", file=asset)
-        print(f"    Identifier = \"os.{all_models_off_action_name}\",", file=asset)
-        print(f"    Name = \"All models off\",", file=asset)
-        print(f"    Command = [[", file=asset)
+        print(f"local {all_models_off_action_name} = {{", file=action_file)
+        print(f"    Identifier = \"os.{all_models_off_action_name}\",", file=action_file)
+        print(f"    Name = \"All models off\",", file=action_file)
+        print(f"    Command = [[", file=action_file)
         for model_identfier in scene_graph_model_identifiers:
-            print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identfier}.Renderable.Enabled\", false)", file=asset)
-        print(f"    ]],", file=asset)
-        print(f"    Documentation = \"Turn all models off\",", file=asset)
-        print(f"    GuiPath = \"/Leaves\",", file=asset)
-        print(f"    IsLocal = false", file=asset)
-        print(f"}}", file=asset)
+            print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identfier}.Renderable.Enabled\", false)", file=action_file)
+        print(f"    ]],", file=action_file)
+        print(f"    Documentation = \"Turn all models off\",", file=action_file)
+        print(f"    GuiPath = \"/Models global\",", file=action_file)
+        print(f"    IsLocal = false", file=action_file)
+        print(f"}}", file=action_file)
         action_names.append(all_models_off_action_name)
 
         # Next, an action that turns all the models on.
         all_models_on_action_name = "all_models_on"
-        print(f"local {all_models_on_action_name} = {{", file=asset)
-        print(f"    Identifier = \"os.{all_models_on_action_name}\",", file=asset)
-        print(f"    Name = \"All models on\",", file=asset)
-        print(f"    Command = [[", file=asset)
+        print(f"local {all_models_on_action_name} = {{", file=action_file)
+        print(f"    Identifier = \"os.{all_models_on_action_name}\",", file=action_file)
+        print(f"    Name = \"All models on\",", file=action_file)
+        print(f"    Command = [[", file=action_file)
         for model_identfier in scene_graph_model_identifiers:
-            print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identfier}.Renderable.Enabled\", true)", file=asset)
-        print(f"    ]],", file=asset)
-        print(f"    Documentation = \"Turn all models on\",", file=asset)
-        print(f"    GuiPath = \"/Leaves\",", file=asset)
-        print(f"    IsLocal = false", file=asset)
-        print(f"}}", file=asset)
+            print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identfier}.Renderable.Enabled\", true)", file=action_file)
+        print(f"    ]],", file=action_file)
+        print(f"    Documentation = \"Turn all models on\",", file=action_file)
+        print(f"    GuiPath = \"/Models global\",", file=action_file)
+        print(f"    IsLocal = false", file=action_file)
+        print(f"}}", file=action_file)
         action_names.append(all_models_on_action_name)
 
         # Now we want to make actions that turn on and off the models in a given layer.
@@ -661,10 +728,10 @@ def make_tree_files_for_OS(input_newick_file,
         for layer in layers:
             # Turn the models in this layer off.
             layer_off_action_name = f"layer_{layer}_off"
-            print(f"local {layer_off_action_name} = {{", file=asset)
-            print(f"    Identifier = \"os.{layer_off_action_name}\",", file=asset)
-            print(f"    Name = \"Layer {layer} off\",", file=asset)
-            print(f"    Command = [[", file=asset)
+            print(f"local {layer_off_action_name} = {{", file=action_file)
+            print(f"    Identifier = \"os.{layer_off_action_name}\",", file=action_file)
+            print(f"    Name = \"Layer {layer} off\",", file=action_file)
+            print(f"    Command = [[", file=action_file)
             for _, model_list in models.items():
                 for model in model_list:
                     if layer in model[2]:
@@ -672,20 +739,20 @@ def make_tree_files_for_OS(input_newick_file,
                         # multi-step process above for making an identifier from
                         # the URL by removing/replacing spaces and dashes.
                         model_identifier = model[0].split('/')[-1].split('.')[0].replace('-', '_').replace(' ', '_')
-                        print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", false)", file=asset)
-            print(f"    ]],", file=asset)
-            print(f"    Documentation = \"Turn off all models in layer {layer}\",", file=asset)
-            print(f"    GuiPath = \"/Leaves\",", file=asset)
-            print(f"    IsLocal = false", file=asset)
-            print(f"}}", file=asset)
+                        print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", false)", file=action_file)
+            print(f"    ]],", file=action_file)
+            print(f"    Documentation = \"Turn off all models in layer {layer}\",", file=action_file)
+            print(f"    GuiPath = \"/Models global\",", file=action_file)
+            print(f"    IsLocal = false", file=action_file)
+            print(f"}}", file=action_file)
             action_names.append(layer_off_action_name)
 
             # Turn the models in this layer on.
             layer_on_action_name = f"layer_{layer}_on"
-            print(f"local {layer_on_action_name} = {{", file=asset)
-            print(f"    Identifier = \"os.{layer_on_action_name}\",", file=asset)
-            print(f"    Name = \"Layer {layer} on\",", file=asset)
-            print(f"    Command = [[", file=asset)
+            print(f"local {layer_on_action_name} = {{", file=action_file)
+            print(f"    Identifier = \"os.{layer_on_action_name}\",", file=action_file)
+            print(f"    Name = \"Layer {layer} on\",", file=action_file)
+            print(f"    Command = [[", file=action_file)
             for _, model_list in models.items():
                 for model in model_list:
                     if layer in model[2]:
@@ -693,12 +760,12 @@ def make_tree_files_for_OS(input_newick_file,
                         # multi-step process above for making an identifier from
                         # the URL by removing/replacing spaces and dashes.
                         model_identifier = model[0].split('/')[-1].split('.')[0].replace('-', '_').replace(' ', '_')
-                        print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", true)", file=asset)
-            print(f"    ]],", file=asset)
-            print(f"    Documentation = \"Turn on all models in layer {layer}\",", file=asset)
-            print(f"    GuiPath = \"/Leaves\",", file=asset)
-            print(f"    IsLocal = false", file=asset)
-            print(f"}}", file=asset)
+                        print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", true)", file=action_file)
+            print(f"    ]],", file=action_file)
+            print(f"    Documentation = \"Turn on all models in layer {layer}\",", file=action_file)
+            print(f"    GuiPath = \"/Models global\",", file=action_file)
+            print(f"    IsLocal = false", file=action_file)
+            print(f"}}", file=action_file)
             action_names.append(layer_on_action_name)
 
         #
@@ -721,9 +788,11 @@ def make_tree_files_for_OS(input_newick_file,
         print(f"asset.onInitialize(function()", file=asset)
         for model_identfier in scene_graph_model_identifiers:
             print(f"    openspace.addSceneGraphNode({model_identfier})", file=asset)
-        for action_name in action_names:
-            print(f"    openspace.action.registerAction({action_name})", file=asset)
         print(f"end)", file=asset)
+        print(f"asset.onInitialize(function()", file=action_file)
+        for action_name in action_names:
+            print(f"    openspace.action.registerAction({action_name})", file=action_file)
+        print(f"end)", file=action_file)
 
         # Deinitialize...
         print(f"asset.onDeinitialize(function()", file=asset)
@@ -732,14 +801,19 @@ def make_tree_files_for_OS(input_newick_file,
         for action_name in action_names:
             print(f"    openspace.action.removeAction({action_name})", file=asset)
         print(f"end)", file=asset)
+        print(f"asset.onDeinitialize(function()", file=action_file)
+        for action_name in action_names:
+            print(f"    openspace.action.removeAction({action_name})", file=action_file)
+        print(f"end)", file=action_file)
 
         # Export.
         for model_identfier in scene_graph_model_identifiers:
             print(f"asset.export({model_identfier})", file=asset)
         for action_name in action_names:
-            print(f"asset.export(\"{action_name}\", {action_name}.Identifier)", file=asset)
+            print(f"asset.export(\"{action_name}\", {action_name}.Identifier)", file=action_file)
             
         asset.close()
+        action_file.close()
 
 if __name__ == '__main__':
     main()
