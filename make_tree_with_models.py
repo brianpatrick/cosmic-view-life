@@ -22,6 +22,7 @@ from pathlib import Path
 from src import common
 import pandas as pd
 import json
+import re
 
 parser = argparse.ArgumentParser(description='Process a newick file to create asset '
                                  'and data files for OpenSpace.')
@@ -579,6 +580,9 @@ def make_tree_files_for_OS(input_newick_file,
                     # 5. To make a lua variable out of this, remove any dashes. There are
                     #    probably no other characters that need to be removed.
                     model_identifier = model_identifier.replace('-', '_')
+                    # 6. This results in names with multiple underscores. Collapse them
+                    #    to a single underscore.
+                    model_identifier = re.sub('_+', '_', model_identifier)
                     
                     print(f"local syncData_{model_identifier} = asset.resource({{", file=asset)
                     print(f"    Name = \"{model_identifier}\",", file=asset)
@@ -625,25 +629,31 @@ def make_tree_files_for_OS(input_newick_file,
                     model_on_action_name = f"{model_identifier}_on"
                     print(f"local {model_on_action_name} = {{", file=action_file)
                     print(f"    Identifier = \"os.{model_on_action_name}\",", file=action_file)
-                    print(f"    Name = \"{model_identifier} on\",", file=action_file)
+                    # The model identifier string can have lots of underscores to make it
+                    # a valid variable name. Collapse any number of underscores to a single
+                    # space to make the action name more readable.
+                    action_name = model_identifier.replace('_',' ')
+
+                    print(f"    Name = \"{action_name} on\",", file=action_file)
                     print(f"    Command = [[", file=action_file)
                     print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", true)", file=action_file)
                     print(f"    ]],", file=action_file)
                     print(f"    Documentation = \"Turn on {model_other_names}\",", file=action_file)
-                    print(f"    GuiPath = \"/Leaves/{row['name']} ({model_other_names})\",", file=action_file)
+                    print(f"    GuiPath = \"/Leaves/{model_other_names} ({row['name']})\",", file=action_file)
                     print(f"    IsLocal = false", file=action_file)
                     print(f"}}", file=action_file)
                     action_names.append(model_on_action_name)
 
                     model_off_action_name = f"{model_identifier}_off"
+                    action_name = model_identifier.replace('_',' ')
                     print(f"local {model_off_action_name} = {{", file=action_file)
                     print(f"    Identifier = \"os.{model_off_action_name}\",", file=action_file)
-                    print(f"    Name = \"{model_identifier} off\",", file=action_file)
+                    print(f"    Name = \"{action_name} off\",", file=action_file)
                     print(f"    Command = [[", file=action_file)
                     print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", false)", file=action_file)
                     print(f"    ]],", file=action_file)
                     print(f"    Documentation = \"Turn off {model_other_names}\",", file=action_file)
-                    print(f"    GuiPath = \"/Leaves/{row['name']} ({model_other_names})\",", file=action_file)
+                    print(f"    GuiPath = \"/Leaves/{model_other_names} ({row['name']})\",", file=action_file)
                     print(f"    IsLocal = false", file=action_file)
                     print(f"}}", file=action_file)
                     action_names.append(model_off_action_name)
@@ -663,7 +673,7 @@ def make_tree_files_for_OS(input_newick_file,
                         print(f"        openspace.setPropertyValueSingle(\"NavigationHandler.OrbitalNavigator.RetargetAnchor\", nil)", file=action_file)
                         print(f"    ]],", file=action_file)
                         print(f"    Documentation = \"Focus on {model_other_names}\",", file=action_file)
-                        print(f"    GuiPath = \"/Leaves/{row['name']} ({model_other_names})\",", file=action_file)
+                        print(f"    GuiPath = \"/Leaves/{model_other_names} ({row['name']})\",", file=action_file)
                         print(f"    IsLocal = false", file=action_file)
                         print(f"}}", file=action_file)
                         action_names.append(model_focus_action_name)
