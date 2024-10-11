@@ -533,6 +533,39 @@ def make_tree_files_for_OS(input_newick_file,
     asset_filename = tree_name + '_models.asset'
     actions_filename = tree_name + '_actions.asset'
 
+    # The following two functions used to be in the main asset code below but
+    # I pulled them out here because they are used in the model code as well.
+    def get_model_filename_from_url(model_url):
+         # Grab the filename and format it to be used as an identifier in
+        # OpenSpace. The filename is the last part of the URL.
+        model_filename = model_url.split('/')[-1]
+
+        # It can't have any quotes or spaces, so remove the quotes and replace
+        # any spaces or encoded spaces with an underscore instead.
+        # 1. Remove any quotes from the filename.
+        model_filename = model_filename.replace('"', '')
+        # 2. Remove any %20s from the filename.
+        model_filename = model_filename.replace('%20', '_')
+        # 3. Remove any spaces.
+        model_filename = model_filename.replace(' ', '_')
+
+        return model_filename
+        
+    def make_model_identifier_from_url(model_url):
+
+        model_filename = get_model_filename_from_url(model_url)
+
+        # 4. Let's construct this from the filename by just removing the
+        #    extension.
+        model_identifier = model_filename.split('.')[0]
+        # 5. To make a lua variable out of this, remove any dashes. There are
+        #    probably no other characters that need to be removed.
+        model_identifier = model_identifier.replace('-', '_')
+        # 6. This results in names with multiple underscores. Collapse them
+        #    to a single underscore.
+        model_identifier = re.sub('_+', '_', model_identifier)
+
+        return model_identifier
 
     asset_outpath = output_path / asset_filename
     actions_outpath = output_path / actions_filename
@@ -562,27 +595,8 @@ def make_tree_files_for_OS(input_newick_file,
                     x, y, z = get_leaf_position(row['name'])
                     #print(f"Position: {x}, {y}, {z}")
 
-                    # Grab the filename and format it to be used as an identifier in
-                    # OpenSpace. The filename is the last part of the URL.
-                    model_filename = model_url.split('/')[-1]
-
-                    # It can't have any quotes or spaces, so remove the quotes and replace
-                    # any spaces or encoded spaces with an underscore instead.
-                    # 1. Remove any quotes from the filename.
-                    model_filename = model_filename.replace('"', '')
-                    # 2. Remove any %20s from the filename.
-                    model_filename = model_filename.replace('%20', '_')
-                    # 3. Remove any spaces.
-                    model_filename = model_filename.replace(' ', '_')
-                    # 4. Let's construct this from the filename by just removing the
-                    #    extension.
-                    model_identifier = model_filename.split('.')[0]
-                    # 5. To make a lua variable out of this, remove any dashes. There are
-                    #    probably no other characters that need to be removed.
-                    model_identifier = model_identifier.replace('-', '_')
-                    # 6. This results in names with multiple underscores. Collapse them
-                    #    to a single underscore.
-                    model_identifier = re.sub('_+', '_', model_identifier)
+                    model_filename = get_model_filename_from_url(model_url)
+                    model_identifier = make_model_identifier_from_url(model_url)
                     
                     print(f"local syncData_{model_identifier} = asset.resource({{", file=asset)
                     print(f"    Name = \"{model_identifier}\",", file=asset)
@@ -678,20 +692,11 @@ def make_tree_files_for_OS(input_newick_file,
                         print(f"}}", file=action_file)
                         action_names.append(model_focus_action_name)
 
-
-                    '''
-                    openspace.setPropertyValueSingle("NavigationHandler.OrbitalNavigator.Anchor", 'Blattodea___Hissing_cockroach_body')
-                    openspace.setPropertyValueSingle("NavigationHandler.OrbitalNavigator.Aim", '')
-                    openspace.setPropertyValueSingle("NavigationHandler.OrbitalNavigator.RetargetAnchor", nil)
-                    '''
-
                     scene_graph_model_identifiers.append(model_identifier)
 
         #
         # Actions!
         #
-
-
 
         # Now let's make a couple of handy actions, first one that turns off all the
         # models.
@@ -745,10 +750,7 @@ def make_tree_files_for_OS(input_newick_file,
             for _, model_list in models.items():
                 for model in model_list:
                     if layer in model[2]:
-                        # This is a little hacky, it basically repicates part of the
-                        # multi-step process above for making an identifier from
-                        # the URL by removing/replacing spaces and dashes.
-                        model_identifier = model[0].split('/')[-1].split('.')[0].replace('-', '_').replace(' ', '_')
+                        model_identifier = make_model_identifier_from_url(model[0])
                         print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", false)", file=action_file)
             print(f"    ]],", file=action_file)
             print(f"    Documentation = \"Turn off all models in layer {layer}\",", file=action_file)
@@ -766,10 +768,7 @@ def make_tree_files_for_OS(input_newick_file,
             for _, model_list in models.items():
                 for model in model_list:
                     if layer in model[2]:
-                        # This is a little hacky, it basically repicates part of the
-                        # multi-step process above for making an identifier from
-                        # the URL by removing/replacing spaces and dashes.
-                        model_identifier = model[0].split('/')[-1].split('.')[0].replace('-', '_').replace(' ', '_')
+                        model_identifier = make_model_identifier_from_url(model[0])
                         print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", true)", file=action_file)
             print(f"    ]],", file=action_file)
             print(f"    Documentation = \"Turn on all models in layer {layer}\",", file=action_file)

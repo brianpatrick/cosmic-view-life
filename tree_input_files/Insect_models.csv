@@ -38,8 +38,8 @@ Blattodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Blattodea 
 Blattodea,"http://files.openspace.amnh.org/static/life/openspace_sync/Blattodea - Hissing cockroach tracheae.glb",900,B,false,roach
 Isoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Isoptera - termite soldier v2.glb",1800,A,true,termite
 Isoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Isoptera - termite soldier tracheae.glb",1800,B,false,termite
-Thysanoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Thysanoptera - Phlaeothripidae v2.glb",1800,A,true,thrips
-Thysanoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Thysanoptera - Phlaeothripidae tracheae.glb",1800,B,false,thrips
+Thysanoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Thysanoptera - Phlaeothripidae v2.glb",2800,A,true,thrips
+Thysanoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Thysanoptera - Phlaeothripidae tracheae.glb",2800,B,false,thrips
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada v2.glb",1900,A,true,cicada
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada no wings v2.glb",1900,C,false,cicada
 Hemiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hemiptera - Cicada tracheae v2.glb",1900,B,false,cicada
@@ -50,14 +50,15 @@ Hymenoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Hymenopt
 Megaloptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Megaloptera - Corydalus v3.glb",1500,A,true,dobson fly
 Megaloptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Megaloptera - Corydalus tracheae.glb",1500,B,false,dobson fly
 #Neuroptera,
-Strepsiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Strepsiptera - Xenidae v2.glb",1500,A,true,twisted wing parasite
-Strepsiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Strepsiptera - Xenidae tracheae.glb",1500,B,false,twisted wing parasite
-Strepsiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Strepsiptera - Xenidae air sac.glb",1500,D,false,twisted wing parasite
+Strepsiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Strepsiptera - Xenidae v2.glb",6000,A,true,twisted wing parasite
+Strepsiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Strepsiptera - Xenidae tracheae.glb",6000,B,false,twisted wing parasite
+Strepsiptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Strepsiptera - Xenidae air sac.glb",6000,D,false,twisted wing parasite
 #Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae.glb",1300,A,false,tiger beetle
 Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae v2.glb",1300,A,true,tiger beetle
 Coleoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Coleoptera - Carabidae tracheae.glb",1300,B,false,tiger beetle
 #Trichoptera,
-#Lepidoptera,
+Lepidoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Lepidoptera - Macroglossum.glb",1300,A,true,hummingbird hawk moth
+Lepidoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Lepidoptera - Macroglossum tracheae.glb",1300,B,false,hummingbird hawk moth
 #Siphonaptera,
 #Mecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Mecoptera - Bittacidae.glb",1300,A,true,hanging fly
 #Mecoptera,"http://files.openspace.amnh.org/static/life/openspace_sync/Mecoptera - Bittacidae tracheae.glb",1300,B,false,hanging fly
