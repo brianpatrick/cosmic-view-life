@@ -692,6 +692,36 @@ def make_tree_files_for_OS(input_newick_file,
                         print(f"}}", file=action_file)
                         action_names.append(model_focus_action_name)
 
+                        # Fade actions. One to fade to 0.3, another to fade back to 1.0.
+                        model_fade_down_action_name = f"{model_identifier}_fade_down"
+                        action_name = model_identifier.replace('_',' ')
+                        print(f"local {model_fade_down_action_name} = {{", file=action_file)
+                        print(f"    Identifier = \"os.{model_fade_down_action_name}\",", file=action_file)
+                        print(f"    Name = \"{action_name} fade down\",", file=action_file)
+                        print(f"    Command = [[", file=action_file)
+                        print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Fade\", 0.3)", file=action_file)
+                        print(f"    ]],", file=action_file)
+                        print(f"    Documentation = \"Fade down {model_other_names}\",", file=action_file)
+                        print(f"    GuiPath = \"/Leaves/{model_other_names} ({row['name']})\",", file=action_file)
+                        print(f"    IsLocal = false", file=action_file)
+                        print(f"}}", file=action_file)
+                        action_names.append(model_fade_down_action_name)
+
+                        model_fade_up_action_name = f"{model_identifier}_fade_up"
+                        action_name = model_identifier.replace('_',' ')
+                        print(f"local {model_fade_up_action_name} = {{", file=action_file)
+                        print(f"    Identifier = \"os.{model_fade_up_action_name}\",", file=action_file)
+                        print(f"    Name = \"{action_name} fade up\",", file=action_file)
+                        print(f"    Command = [[", file=action_file)
+                        print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Fade\", 1.0)", file=action_file)
+                        print(f"    ]],", file=action_file)
+                        print(f"    Documentation = \"Fade up {model_other_names}\",", file=action_file)
+                        print(f"    GuiPath = \"/Leaves/{model_other_names} ({row['name']})\",", file=action_file)
+                        print(f"    IsLocal = false", file=action_file)
+                        print(f"}}", file=action_file)
+                        action_names.append(model_fade_up_action_name)
+
+
                     scene_graph_model_identifiers.append(model_identifier)
 
         #
