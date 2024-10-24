@@ -629,7 +629,17 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"        Enabled = {model_enabled},", file=asset)
                     print(f"        LightSources = {{", file=asset)
                     #print(f"            sun.LightSource", file=asset)
-                    print(f"             {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.3 }}", file=asset)    
+                    
+                    # This is a hack for the Oct 22 2024 family party, as the projector is
+                    # rather dim. If the model is not a tracheae, make the intensity 0.5.
+                    # If it *is* tracheae, make it 0.85. If the model identifier matches
+                    # "*rache*", then it's a tracheae.
+                    if 'rache' in model_identifier:
+                        print("tracheae")
+                        print(f"            {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.85 }}", file=asset)
+                    else:
+                        print(f"            {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.5 }}", file=asset)
+                    #print(f"             {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.3 }}", file=asset)    
                     print(f"        }}", file=asset)
                     print(f"    }},", file=asset)
                     print(f"    GUI = {{", file=asset)
@@ -647,8 +657,10 @@ def make_tree_files_for_OS(input_newick_file,
                     # a valid variable name. Collapse any number of underscores to a single
                     # space to make the action name more readable.
                     action_name = model_identifier.replace('_',' ')
-
-                    print(f"    Name = \"{action_name} on\",", file=action_file)
+                    part = ""
+                    if "rache" in model_identifier:
+                        part = "tracheae "
+                    print(f"    Name = \"{model_other_names} {part}on\",", file=action_file)
                     print(f"    Command = [[", file=action_file)
                     print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", true)", file=action_file)
                     print(f"    ]],", file=action_file)
@@ -660,9 +672,12 @@ def make_tree_files_for_OS(input_newick_file,
 
                     model_off_action_name = f"{model_identifier}_off"
                     action_name = model_identifier.replace('_',' ')
+                    part = ""
+                    if "rache" in model_identifier:
+                        part = "tracheae "
                     print(f"local {model_off_action_name} = {{", file=action_file)
                     print(f"    Identifier = \"os.{model_off_action_name}\",", file=action_file)
-                    print(f"    Name = \"{action_name} off\",", file=action_file)
+                    print(f"    Name = \"{model_other_names} {part}off\",", file=action_file)
                     print(f"    Command = [[", file=action_file)
                     print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Enabled\", false)", file=action_file)
                     print(f"    ]],", file=action_file)
@@ -697,7 +712,7 @@ def make_tree_files_for_OS(input_newick_file,
                         action_name = model_identifier.replace('_',' ')
                         print(f"local {model_fade_down_action_name} = {{", file=action_file)
                         print(f"    Identifier = \"os.{model_fade_down_action_name}\",", file=action_file)
-                        print(f"    Name = \"{action_name} fade down\",", file=action_file)
+                        print(f"    Name = \"{model_other_names} fade down\",", file=action_file)
                         print(f"    Command = [[", file=action_file)
                         print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Fade\", 0.3)", file=action_file)
                         print(f"    ]],", file=action_file)
@@ -711,7 +726,7 @@ def make_tree_files_for_OS(input_newick_file,
                         action_name = model_identifier.replace('_',' ')
                         print(f"local {model_fade_up_action_name} = {{", file=action_file)
                         print(f"    Identifier = \"os.{model_fade_up_action_name}\",", file=action_file)
-                        print(f"    Name = \"{action_name} fade up\",", file=action_file)
+                        print(f"    Name = \"{model_other_names} fade up\",", file=action_file)
                         print(f"    Command = [[", file=action_file)
                         print(f"        openspace.setPropertyValueSingle(\"Scene.{model_identifier}.Renderable.Fade\", 1.0)", file=action_file)
                         print(f"    ]],", file=action_file)
