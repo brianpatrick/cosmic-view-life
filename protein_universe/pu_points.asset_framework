@@ -1,0 +1,57 @@
+local colormaps = asset.require("util/default_colormaps")
+
+-- Exclude some meta columns for position computation (will not be able to colormap based on these columns)
+local excludeColumns = {
+  "x", "y", "z", "x_centered", "y_centered", "x_centered_n", "y_centered_n", "r",
+  "circle_r", "circle_theta", "ra", "dec", "x_3d_sphere", "y_3d_sphere", "z_3d_sphere"
+}
+
+local PC1 = {
+  Identifier = "PU1_not_modified",
+  Renderable = {
+    Type = "RenderablePointCloud",
+    File = asset.resource("<<ASSET_DATA_FILE>>"),
+    Coloring = {
+      ColorMapping = {
+        File = colormaps.Uniform.Viridis
+      }
+    },
+    -- Make it bigger, to spread out the points and make them visible in the default
+    -- OpenSpace profile. The dataset contains so many points that it leads to rendering
+    -- issues (a crash, even?) when they are all drawn on top of eachother.
+    -- TODO: You should set the scale based on your own use case and context.
+    Unit = "pc",
+    DataMapping = {
+      X = "x_centered",
+      Y = "y_centered",
+      ExcludeColumns = excludeColumns
+    },
+    SizeSettings = {
+      ScaleExponent = 17.37
+    }
+  },
+  GUI = {
+    Name = "PU - Flat XY(Z)",
+    Path = "/Protein Universe",
+    Description = [[The original XY coordinates of the protein universe points, but
+      transformed so that the origin is in the center of the circle.]]
+  }
+}
+asset.onInitialize(function()
+  openspace.addSceneGraphNode(PC1)
+end)
+
+asset.onDeinitialize(function()
+  openspace.removeSceneGraphNode(PC2)
+end)
+
+asset.export(PC1)
+
+asset.meta = {
+  Name = "Protein Universe Point Clouds",
+  Version = "1.0",
+  Description = "Made to work with OpenSpace version 0.20.0.",
+  Author = "OpenSpace Team",
+  URL = "http://openspaceproject.com",
+  License = "MIT license"
+}
