@@ -1,0 +1,6 @@
+{
+    "input_filename": "Wandrille_Aug_13/diptera_families_hemisphere.csv", 
+    "out_path": "/mnt/e/OpenSpace/user/data/assets/wandrille-aug-13-insect-points", 
+    "xy_scaling_factor": 10000.0,
+    "z_scaling_factor": 10000.0
+}
