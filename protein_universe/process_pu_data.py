@@ -2,14 +2,14 @@
 
 process_pu_data.py
 
-This script processes the Protein Universe data from https://zenodo.org/records/8121336,
-associated with the publication:
+This script is derived from Emma Broman's Jupyter notebook that processes data from the
+Protein Universe (https://zenodo.org/records/8121336),associated with the publication:
 
 Durairaj, J., Waterhouse, A.M., Mets, T. et al. Uncovering new families and folds in the
 natural protein universe. Nature 622, 646–653 (2023). https://doi.org/10.1038/
 
-The script assumes data has been downloaded and extracted to a supplied path, and
-relies on the following files:
+The script assumes data has been downloaded and extracted to a supplied path, and relies
+on the following files:
 
  - communities_edge_list-coordinates.csv
  - communities_summary.csv
@@ -22,7 +22,7 @@ from pathlib import Path
 import pandas as pd
 import shutil
 
-def load_and_center_pu_data(data_path):
+def load_collate_and_center_pu_coordinates(data_path):
     print("Loading Protein Universe data...", end='', flush=True)
     inpath = Path(data_path) / Path('communities_edge_list-coordinates.csv')
     print(inpath)
@@ -40,8 +40,8 @@ def load_and_center_pu_data(data_path):
 
     return pu_data
 
-def make_pu_asset_file(pu_data_filename, asset_filename, asset_path):
-    print("Writing asset file...", end='', flush=True)
+def make_pu_points_asset_file(pu_data_filename, asset_filename, asset_path):
+    print("Writing points asset file...", end='', flush=True)
     # Make sure the asset path exists.
     asset_path.mkdir(parents=True, exist_ok=True)
 
@@ -90,18 +90,22 @@ def make_pu_speck_file(pu_data, data_path, speck_filename, speck_path):
             speck_file.write(f"  {outnode_data['x_centered']} {outnode_data['y_centered']} {outnode_data['z']}\n")
             print("}", file=speck_file)
 
-            # Every 100 connections, print a status message.
-            if i % 100 == 0:
-                print(f"{i}...", end='', flush=True)
+            # Every 100 connections, print a status message. Skip 0, the first one.
+            if (i % 100 == 0) and (i != 0):
+                print(f"\b{i}...", end='', flush=True)
             # Every 1000 connections, start a new line.
-            if i % 1000 == 0:
+            if (i % 1000 == 0) and (i != 0):
                 print()
 
+            # Print a spinning baton to indicate progress.
+            baton = ['|', '/', '-', '\\']
+            print(f"\b{baton[i % 4]}", end='', flush=True)
+
             # Testing - let's exit after 1000 connections.
-            if i > 100000:
+            if i > 1000:
                 break
 
-    print("done.")
+    print("\bdone.")
 
 # Command line arguments.
 def parse_args():
@@ -118,31 +122,36 @@ def parse_args():
     # data has been updated.
     parser.add_argument('--cache_path', type=str, help='Path to OpenSpace cache directory')
 
+    # Do we want to skdoidop the connection lines? Processing these can take a while.
+    parser.add_argument('--do_connections', action='store_true', help='Process connection data.',
+                        default=False)
+
     return parser.parse_args()
 
 def main():
     args = parse_args()
 
-    pu_data = load_and_center_pu_data(Path(args.data_path))
+    pu_data = load_collate_and_center_pu_coordinates(Path(args.data_path))
 
     pu_data_filename = 'pu_data.csv'
 
-    print("Writing processed PU data...", end='', flush=True)
+    print("Writing processed PU coordinate data...", end='', flush=True)
     # Make sure the output path exists, and write the data.
     Path(args.asset_path).mkdir(parents=True, exist_ok=True)
     pu_data.to_csv(Path(args.asset_path) / pu_data_filename)
     print("done.")
 
     # Now make asset file.
-    make_pu_asset_file(pu_data_filename=pu_data_filename, 
+    make_pu_points_asset_file(pu_data_filename=pu_data_filename, 
                        asset_filename='pu_points.asset',
                        asset_path=Path(args.asset_path))
-
-    # Now make speck file.
-    make_pu_speck_file(pu_data=pu_data,
-                       data_path=Path(args.data_path),
-                       speck_filename='pu_connections.speck',
-                       speck_path=Path(args.asset_path))
+    
+    if args.do_connections:
+        # Now make speck file.
+        make_pu_speck_file(pu_data=pu_data,
+                        data_path=Path(args.data_path),
+                        speck_filename='pu_connections.speck',
+                        speck_path=Path(args.asset_path))
 
 if __name__ == '__main__':
     main()
