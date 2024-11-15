@@ -109,15 +109,48 @@ This is an example of how to list things you need to use the software and how to
 
 The repository is organized into by following directory structure:
 
+### `/make_tree_with_models.py` and `/tree_input_files`
 
-### /main.py:
+This python script (and the associated files in `tree_input_files` takes a Newick format
+input file and a list of models in CSV format to create a 3D phylogenetic tree with models
+at leaves and nodes.
 
-The main function that all other programs are called from. This allows for a modular style of processing by commenting and uncommenting function calls to various parts of the code.
+### `/plot_insect_points.py`
+
+This is a proof-of-concept script to process some updated data from Wandrille. Its logic
+was ported to the much more flexible `csv_to_openspace.py` script.
+
+### `/integrate_tree_to_XYZ`
+
+This git submodule is Wandrille's code to convert Timetree data (`timetree.org`) into
+3-dimensional points. Some of the code in `/src` and `make_tree_with_models.py` benefitted
+from access to internal data structures in Wandrille's original project, so it was
+modified to allow inclusion as a python `import`. 
+
+
+### **BELOW THIS POINT, SOME OF THE CODE IS OUTDATED, BUT SOME IS STILL IN USE.**
+
+### `/actions`:
+
+This folder contains some pre-coded actions for insect plots. It's largely outdated,
+since now actions are typically created programatically at runtime.
+
+### `/main.py`:
+
+The (original) main function that all other programs are called from. This script has been
+partially subsumed by the previous scripts noted above.
+
+The placement of most of the logic in this file allows for a modular style of processing
+by commenting and uncommenting function calls to various parts of the code. The scripts
+above tend to use parameter files as inputs to direct the scripts as to what data to
+process and where to find it. Much of that code is based on the original code in `main.py`
+and the `/src` subdirectory.
 
 
 ### /catalogs_raw:
 
-All the raw data after processing by Wandrille 
+All (well, most, but not all) of the raw data after processing by Wandrille. Note that
+some datasets added after June 2024 are in various subdirectories noted above.
   
 
 ### /src:
