@@ -50,6 +50,8 @@ parser.add_argument("-a", "--asset_dir", help="OpenSpace directory for assets.",
                     required=True)
 parser.add_argument("-o", "--output_dir", help="Directory for local copy of output files.",
                     default=".")
+parser.add_argument("-t", "--texture_dir", help="Directory holding texture files for points.",
+                    default="textures")
 parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_true")
 args = parser.parse_args()
 
@@ -297,7 +299,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              input_points_world_position,
                                              filename_base,
                                              fade_targets,
-                                             color_by_column):
+                                             color_by_column,
+                                             default_texture):
     output_files = []
 
     # First the CSV file. This is just the points in CSV format, however we may need to
@@ -416,7 +419,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
-        print("         Texture = { File = asset.resource(\"point3A.png\") },", file=output_file)
+        print(f"         Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
         print("         Unit = \"pc\",", file=output_file)
         #print(f"        Coloring = {{ FixedColor = {{ 1.0, 0.0, 0.0 }} }},", file=output_file)
         print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
@@ -654,7 +657,8 @@ def main():
                                                          input_points_world_position=input_points_world_position,
                                                          filename_base=filename_base,
                                                          fade_targets=fade_targets,
-                                                         color_by_column=row["color_by_column"])
+                                                         color_by_column=row["color_by_column"],
+                                                         default_texture=row["default_texture"])
             
         # Datasets contain many points that fall into common groupings, such as phyla,
         # classes, kingdoms, etc. Rather than have many points with the same label, we
@@ -734,6 +738,15 @@ def main():
             print(f"{file} ", end="", flush=True)
         shutil.copy2(file, args.asset_dir)
     print("Done.")
+
+    # Now copy any texture files to the output directory. Run through the input_points_df
+    # and make a list of unique textures, then copy them all from the texture directory
+    # to the output dir.
+    textures = input_dataset_df["default_texture"].unique()
+    for texture in textures:
+        if args.verbose:
+            print(f"Copying {texture} ", end="", flush=True)
+        shutil.copy2(args.texture_dir + "/" + texture, args.asset_dir)
 
 if __name__ == '__main__':
     main()
