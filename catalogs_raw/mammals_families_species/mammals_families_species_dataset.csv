@@ -1,5 +1,5 @@
 # Mammals dataset CSV files and parameters,,,,,,,,,,,,,,,,,,,,
-# Magnitude through texnum are star renderable params and currently not used.,,,,,,,,,,,,,,,,,,,,
+# Magnitude through texnum are star renderable params and currently not used (since the star renderable is not used).,,,,,,,,,,,,,,,,,,,,
 csv_file,type,label_column,label_size,label_minsize,label_maxsize,MagnitudeExponent,core_multiplier,core_gamma,core_scale,glare_multiplier,glare_gamma,glare_scale,lum,absmag,colorb_v,texnum,default_texture,enabled,color_by_column,fade_targets
 # Outermost level - all complex life.,,,,,,,,,,,,,,,,,,,,
 #eukaryotes_class.csv,stars,,,,,6.56,1.07,1.6,0.05,0.65,1.41,0.24,10,-20,1,1,,,,

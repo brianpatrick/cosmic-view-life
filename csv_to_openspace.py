@@ -4,7 +4,16 @@
 
 # CSV to OpenSpace
 
-Each CSV file needs to be turned into a number of other files for OpenSpace.
+Datasets provided from various sources (various in this instance means
+Wandrille and Takanori, as well as "The Internet") are typically provided in
+CSV files with at least X, Y, and hopefully Z coordinates. A number of other
+parameters, loosely termed "metadata", may also be provided. This script takes
+the CSV file as input, centers and scales the points as necessary for display
+in openspace, and then creates OpenSpace files (asset, label, etc) as necessary.
+
+Originally, this script created stars and labels, and this stuff still works. However,
+the preferred method is to use RenderablePointCloud as it is more flexible, specifically
+regarding point sizes and colors.
 
 For Stars, first is the speck file, which contains the actual XYZ coordinates of the
 points, drawn using RenderableStars. We also need to create label files, which are
@@ -14,8 +23,7 @@ have more than one set of labels.
 
 Additionally, every CSV file has slightly different parameters as far as how it's drawn by
 openspace. This info is all contained in the dataset csv file and these parameters are
-used to create the speck and asset files. Some parameters affect the speck file and some
-are renderable parameters and go in the asset file.
+used to create the speck and asset files.
 
 Labels are handled differently than stars, even though they're plotted at the same
 locations as the stars. The labels are RenderablePointClouds that have no points, only the
@@ -40,6 +48,7 @@ import shutil
 import os
 import math
 from pathlib import Path
+import sys
 
 parser = argparse.ArgumentParser(description="Process input CSV files for OpenSpace.")
 parser.add_argument("-i", "--input_dataset_csv_file", help="Input dataset CSV file.", 
@@ -583,8 +592,12 @@ def main():
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
 
     # Read the dataset CSV file into a pandas dataframe.
-    input_dataset_df = pd.read_csv(args.input_dataset_csv_file, 
-                                   comment="#")
+    try:
+        input_dataset_df = pd.read_csv(args.input_dataset_csv_file, 
+                                    comment="#")
+    except FileNotFoundError:
+        print("Error: Could not open dataset CSV file: " + args.input_dataset_csv_file)
+        sys.exit(1)
 
     # A list of all the files created for this dataset. Each function below
     # returns the files it creates, so we can use this list to clean up the
@@ -610,8 +623,10 @@ def main():
             fade_targets = row["fade_targets"].split(",")
 
         # Let's get the base of the filename (no extension) to use for generating
-        # output files.
+        # output files. Also, replace all the periods with underscores, as periods
+        # are not allowed in asset names.
         filename_base = row["csv_file"].replace(".csv", "")
+        filename_base = filename_base.replace(".", "_")
 
         # All points are originally in world coordinates. A problem with this is we
         # need to be able to point the camera to certain locations, such as the center
