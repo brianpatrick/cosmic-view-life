@@ -11,6 +11,13 @@ parameters, loosely termed "metadata", may also be provided. This script takes
 the CSV file as input, centers and scales the points as necessary for display
 in openspace, and then creates OpenSpace files (asset, label, etc) as necessary.
 
+A critial component of centering and scaling the points the position of the center
+of the points. Initially, all points are centered at the origin. However, if we want to
+look at a specific group of points in the dataset, we need to be able to change 
+the focus to the center of that group. This is done by calculating the center of the
+points in the group and then translating all the points so that the center of the group
+can be "focused" on.
+
 Originally, this script created stars and labels, and this stuff still works. However,
 the preferred method is to use RenderablePointCloud as it is more flexible, specifically
 regarding point sizes and colors.
@@ -205,6 +212,10 @@ def make_stars_asset_from_dataframe(input_points_df,
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
         print("      Position = {", file=output_file)
+        # Each group of points is centered around its own local origin, and needs to
+        # be translated to its proper world coordinate position. This is so we're able
+        # to focus on it properly. OpenSpace understands this translation in world
+        # space and points the camera appropriately if it knows about the translation.
         print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
         print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
         print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
@@ -409,6 +420,10 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
         print("      Position = {", file=output_file)
+        # Each group of points is centered around its own local origin, and needs to
+        # be translated to its proper world coordinate position. This is so we're able
+        # to focus on it properly. OpenSpace understands this translation in world
+        # space and points the camera appropriately if it knows about the translation.
         print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
         print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
         print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
@@ -494,6 +509,10 @@ def make_labels_from_dataframe(input_points_df,
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
         print("      Position = {", file=output_file)
+        # Each group of points is centered around its own local origin, and needs to
+        # be translated to its proper world coordinate position. This is so we're able
+        # to focus on it properly. OpenSpace understands this translation in world
+        # space and points the camera appropriately if it knows about the translation.
         print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
         print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
         print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
@@ -633,6 +652,15 @@ def main():
         # of a set of points. To do this, we need to translate the points so that the
         # centroid of the points is locally at 0,0,0, and then move that whole set of
         # points to its original location using a transform.
+        #
+        # Each group of points is centered around its own local origin, and needs to
+        # be translated to its proper world coordinate position. This is so we're able
+        # to focus on it properly. OpenSpace understands this translation in world
+        # space and points the camera appropriately if it knows about the translation.
+        #
+        # This world position is passed to each function below that creates an asset
+        # file. The asset file will contain a transform that moves the points to the
+        # proper world position.
         input_points_world_position = {}
         input_points_world_position["x"] = input_points_df["x"].mean()
         input_points_world_position["y"] = input_points_df["y"].mean()
@@ -727,8 +755,6 @@ def main():
                                                 fade_targets=fade_targets)
         print("Done.")
 
-    # Now we need to make a list of all the .asset and .speck files we created
-    # so these can be flushed from the cache directory.
     print("Cleaning cache directory...", end="", flush=True)
     for file in files_created:
         # Get just the filename, not the path.
@@ -745,7 +771,6 @@ def main():
             print(f"Error removing file {args.cache_dir + '/' + file}: {e}")
     print("Done.")
     
-    # Now copy the speck and asset files to the output directory.
     print(f"Copying files to output directory ({args.asset_dir}).")
     Path(args.asset_dir).mkdir(parents=True, exist_ok=True)
     for file in files_created:
@@ -754,7 +779,7 @@ def main():
         shutil.copy2(file, args.asset_dir)
     print("Done.")
 
-    # Now copy any texture files to the output directory. Run through the input_points_df
+    # Copy any texture files to the output directory. Run through the input_points_df
     # and make a list of unique textures, then copy them all from the texture directory
     # to the output dir.
     textures = input_dataset_df["default_texture"].unique()
