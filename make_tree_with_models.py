@@ -45,7 +45,8 @@ parser.add_argument('-i', '--input', dest="input_newick_file",
 # See the model reader function below for more details on the model file. Note
 # that the models file is optional, and not every node must have a model.
 parser.add_argument('-m', '--models', dest='models_file', type=str,
-                    help='The csv file with the models for the nodes.')
+                    help='The csv file with the models for the nodes.', 
+                    default="")
 
 # Output directory for speck and asset files.
 parser.add_argument('-o', '--output_path', dest='out_path', type=str, default='trees',
@@ -84,7 +85,11 @@ def main():
     # Print out the arguments.
     print("make_tree.\n -= Arguments =-")
     print(f"Input newick file:      {args['input_newick_file']}")
-    print(f"Models file:            {args['models_file']}")
+    if 'models_file' in args.keys():
+        print(f"Models file:            {args['models_file']}")
+    else:
+        print(f"Models file:        None")
+        args['models_file'] = ""
     print(f"Output path:            {args['out_path']}")
     print(f"Tree name:              {args['tree_name']}")
     print(f"Branch scaling factor:  {args['branch_scaling_factor']}")
@@ -140,11 +145,26 @@ def make_tree_files_for_OS(input_newick_file,
 
     phylo_tree = Phylo.read(input_newick_file, 'newick')
 
-    # Node names may have the name followed by an underscore and a number. This
-    # is the species count and is not useful for visualization. Remove it.
+    # Node names are not consistent and come from many sources. There are
+    # a number of cases that need to be handled here, and this list is 
+    # likely to expand.
+    #
+    # 1. Node names may have the name followed by an underscore and a number. This
+    #    is the species count and is not useful for visualization. Remove it.
+
+    # At the end, convert any underscores to spaces. This is a common practice
+    # in phylogenetics to use underscores instead of spaces in names. This is
+    # because spaces are not allowed in many formats, and underscores are easier
+    # to work with in code. However, for visualization, spaces are better.
+    #
     for clade in phylo_tree.find_clades():
         if clade.name:
-            clade.name = clade.name.split('_')[0]
+            # Case 1: Remove the species count from the name.
+            if re.search(r'_\d+', clade.name):
+                clade.name = clade.name.split('_')[0]
+        
+            # When all is said and done, convert any underscores to spaces.
+            clade.name = clade.name.replace('_', ' ')
 
     # These two functions were lifted verbatim from Biopython's Phylo code. They are
     # used to calculate the positions of the nodes and leaves in the tree.
@@ -373,7 +393,6 @@ def make_tree_files_for_OS(input_newick_file,
 
     print(f"Nodes asset file:       {nodes_asset_outpath}")
     with open(nodes_asset_outpath, 'wt') as asset:
-        print(f"local dat_{tree_name}_internal = asset.resource(\"./{dat_out_filename}\")", file=asset)
         print(f"local csv_{tree_name}_internal = asset.resource(\"./{tree_name}_internal.csv\")", file=asset)
         print_common_local_vars(asset)
         print(f"local {tree_name}_internal = {{", file=asset)
@@ -415,7 +434,6 @@ def make_tree_files_for_OS(input_newick_file,
     leaves_asset_outpath = output_path / leaves_asset_filename
     print(f"Leaves asset file:      {leaves_asset_outpath}")
     with open(leaves_asset_outpath, 'wt') as asset:
-        print(f"local dat_{tree_name}_leaves = asset.resource(\"./{dat_out_filename}\")", file=asset)
         print(f"local csv_{tree_name}_leaves = asset.resource(\"./{tree_name}_leaves.csv\")", file=asset)
         print_common_local_vars(asset)
         print(f"local {tree_name}_leaves = {{", file=asset)
@@ -498,7 +516,7 @@ def make_tree_files_for_OS(input_newick_file,
     # would have A, and in two layers would have AB.
     #
     models = {}
-    if models_filename:
+    if models_filename != "":
         with open(models_filename, 'rt') as models_file:
             for line in models_file:
                 # Ignore any lines starting with # as a comment.
