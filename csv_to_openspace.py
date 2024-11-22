@@ -206,6 +206,7 @@ def make_stars_asset_from_dataframe(input_points_df,
             print("}", file=output_file)
 
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
+        print("local meters_in_Km = 1000", file = output_file)
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
         print("  Transform = {", file=output_file)
@@ -216,9 +217,12 @@ def make_stars_asset_from_dataframe(input_points_df,
         # be translated to its proper world coordinate position. This is so we're able
         # to focus on it properly. OpenSpace understands this translation in world
         # space and points the camera appropriately if it knows about the translation.
-        print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
-        print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
-        print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
+        print(f"        {input_points_world_position["x"]} * meters_in_Km,", file=output_file)
+        print(f"        {input_points_world_position["y"]} * meters_in_Km,", file=output_file)
+        print(f"        {input_points_world_position["z"]} * meters_in_Km,", file=output_file)
         print("      }", file=output_file)
         print("     }", file=output_file)
         print("    },", file=output_file)
@@ -283,7 +287,8 @@ def make_stars_asset_from_dataframe(input_points_df,
         print("    },", file=output_file)
         print("    DimInAtmosphere = true", file=output_file)
         print("  },", file=output_file)
-        print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
+        #print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
+        print("    InteractionSphere = 1 * meters_in_Km,", file=output_file)
         print("    ApproachFactor = 1000.0,", file=output_file)
         print("    ReachFactor = 5.0,", file=output_file)
         print("", file=output_file)
@@ -320,7 +325,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              filename_base,
                                              fade_targets,
                                              color_by_column,
-                                             default_texture):
+                                             default_texture,
+                                             size_scale_factor,
+                                             size_scale_exponent):
     output_files = []
 
     # First the CSV file. This is just the points in CSV format, however we may need to
@@ -346,6 +353,10 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     else:
         color_by_column = False
 
+    #
+    # COLOR MAPS. THIS STUFF IS TOTALLY IN FLUX AND DOESN'T WORK QUITE RIGHT YET.
+    #
+
     # Now a color file, since we know how many colors we need.
     color_filename = args.output_dir + "/" + filename_base + ".cmap"
     color_local_filename = os.path.basename(color_filename)
@@ -365,6 +376,10 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     output_files.append(color_filename)
 
     # Now write the CSV file.
+    #
+    # TODO: Right now this just writes the transformed XYZ coords with
+    #       whatever other info is required for color maps, etc. Should I just be
+    #       write everything from the orig input file (i.e., all the other columns)?
     points_csv_filename = args.output_dir + "/" + filename_base + "_points.csv"
     # Local filename is just the filename with no path.
     local_points_csv_filename = os.path.basename(points_csv_filename)
@@ -389,6 +404,12 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     output_asset_position_name = output_asset_variable_name + "_position"
     with open(output_asset_filename, "w") as output_file:
 
+        # The earth is the parent for all of the points, as there are many visualizations
+        # where we move points from above the earth down to specific locations. Use
+        # OpenSpace's provided transformations for this.
+        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",
+              file=output_file)
+
         # "Declare" fade var so it can be used below.
         fade_varname = ""
         if fade_targets:
@@ -402,7 +423,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("      openspace.printInfo(\"Transition: \" .. args.Transition)", file=output_file)
             print("", file=output_file)
             print("      if args.Transition == \"Approaching\" then", file=output_file)
-            # This is pretty hacky - adding in the _points suffix...
+            # TODO: This is pretty hacky - adding in the _points suffix...
             for fade_target in fade_targets:
                 print(f"        openspace.setPropertyValueSingle(\"Scene.{fade_target + "_points"}.Renderable.Fade\", 0.0, 1.0)", file=output_file)
             print("      elseif args.Transition == \"Exiting\" then", file=output_file)
@@ -414,8 +435,10 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("}", file=output_file)
 
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
+        print("local meters_in_Km = 1000", file = output_file)
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
+        print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
         print("  Transform = {", file=output_file)
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
@@ -424,9 +447,12 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # be translated to its proper world coordinate position. This is so we're able
         # to focus on it properly. OpenSpace understands this translation in world
         # space and points the camera appropriately if it knows about the translation.
-        print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
-        print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
-        print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
+        print(f"        {input_points_world_position["x"]} * meters_in_Km,", file=output_file)
+        print(f"        {input_points_world_position["y"]} * meters_in_Km,", file=output_file)
+        print(f"        {input_points_world_position["z"]} * meters_in_Km,", file=output_file)
         print("      }", file=output_file)
         print("     }", file=output_file)
         print("    },", file=output_file)
@@ -442,14 +468,17 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
+        print(f"        SizeSettings = {{ ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor} }},", file=output_file)
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
         print(f"         Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
-        print("         Unit = \"pc\",", file=output_file)
+        #print("         Unit = \"pc\",", file=output_file)
+        print("         Unit = \"Km\",", file=output_file)
         #print(f"        Coloring = {{ FixedColor = {{ 1.0, 0.0, 0.0 }} }},", file=output_file)
         print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
         print(f"                                      Parameter = \"color\" }} }},", file=output_file)
         print("    },", file=output_file)
-        print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
+        #print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
+        print("    InteractionSphere = 1 * meters_in_Km,", file=output_file)
         print("    ApproachFactor = 1000.0,", file=output_file)
         print("    ReachFactor = 5.0,", file=output_file)
         if fade_targets:
@@ -502,9 +531,17 @@ def make_labels_from_dataframe(input_points_df,
     output_asset_variable_name = filename_base + "_" + label_column + "_labels"
     output_asset_position_name = output_asset_variable_name + "_position"
     with open(output_asset_filename, "w") as output_file:
+        # The earth is the parent for all of the points, as there are many visualizations
+        # where we move points from above the earth down to specific locations. Use
+        # OpenSpace's provided transformations for this.
+        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",
+              file=output_file)
+
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
+        print("local meters_in_Km = 1000", file = output_file)
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
+        print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
         print("  Transform = {", file=output_file)
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
@@ -513,9 +550,12 @@ def make_labels_from_dataframe(input_points_df,
         # be translated to its proper world coordinate position. This is so we're able
         # to focus on it properly. OpenSpace understands this translation in world
         # space and points the camera appropriately if it knows about the translation.
-        print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
-        print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
-        print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
+        #print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
+        print(f"        {input_points_world_position["x"]} * meters_in_Km,", file=output_file)
+        print(f"        {input_points_world_position["y"]} * meters_in_Km,", file=output_file)
+        print(f"        {input_points_world_position["z"]} * meters_in_Km,", file=output_file)
         print("      }", file=output_file)
         print("     }", file=output_file)
         print("    },", file=output_file)
@@ -534,7 +574,8 @@ def make_labels_from_dataframe(input_points_df,
         print("        Labels = {", file=output_file)
         print(f"            File = asset.resource(\"{local_label_filename}\"),", file=output_file)
         print(f"            Enabled = {enabled},", file=output_file)
-        print("            Unit = \"pc\",", file=output_file)
+        #print("            Unit = \"pc\",", file=output_file)
+        print("            Unit = \"Km\",", file=output_file)
         print(f"            Size = {label_size},", file=output_file)
         print(f"            MinMaxSize = {{ {label_minsize},{label_maxsize} }}", file=output_file)
         print("        }", file=output_file)
@@ -701,7 +742,9 @@ def main():
                                                          filename_base=filename_base,
                                                          fade_targets=fade_targets,
                                                          color_by_column=row["color_by_column"],
-                                                         default_texture=row["default_texture"])
+                                                         default_texture=row["default_texture"],
+                                                         size_scale_factor=row["point_scale_factor"],
+                                                         size_scale_exponent=row["point_scale_exponent"])
             
         # Datasets contain many points that fall into common groupings, such as phyla,
         # classes, kingdoms, etc. Rather than have many points with the same label, we
