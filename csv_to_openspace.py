@@ -50,7 +50,6 @@ can also have a custom glyph/texture, which (I think) is not available for stars
 
 import argparse
 import pandas as pd
-from glob import glob
 import shutil
 import os
 import math
@@ -327,7 +326,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              color_by_column,
                                              default_texture,
                                              size_scale_factor,
-                                             size_scale_exponent):
+                                             size_scale_exponent,
+                                             dataset_name):
     output_files = []
 
     # First the CSV file. This is just the points in CSV format, however we may need to
@@ -458,7 +458,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print("    },", file=output_file)
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
-        print(f"    Path = \"/Points\",", file=output_file)
+        print(f"    Path = \"/{dataset_name}/Points\",", file=output_file)
         print(f"    Hidden = true", file=output_file)
         print("  }", file=output_file)
         print(" }", file=output_file)
@@ -488,7 +488,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print(f"    OnExit = {{ \"{fade_varname}\" }},", file=output_file)
         print("    GUI = {", file=output_file)
         print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"        Path = \"/Points\"", file=output_file)
+        print(f"        Path = \"/{dataset_name}/Points\"", file=output_file)
         print("    }", file=output_file)
         print("}", file=output_file)
         print("asset.onInitialize(function()", file=output_file)
@@ -514,7 +514,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 def make_labels_from_dataframe(input_points_df, 
                                input_points_world_position,
                                filename_base,
-                               label_column, label_size, label_minsize, label_maxsize, enabled):
+                               label_column, label_size, label_minsize, label_maxsize, enabled,
+                               dataset_name):
     output_files = []
 
     label_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".label"
@@ -582,7 +583,7 @@ def make_labels_from_dataframe(input_points_df,
         print("    },", file=output_file)
         print("    GUI = {", file=output_file)
         print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"        Path = \"/Labels\"", file=output_file)
+        print(f"        Path = \"/{dataset_name}/Labels\"", file=output_file)
         print("    }", file=output_file)
         print("}", file=output_file)
         print("asset.onInitialize(function()", file=output_file)
@@ -608,7 +609,8 @@ def make_group_labels_from_dataframe(input_points_df,
                                      label_size, 
                                      label_minsize, 
                                      label_maxsize, 
-                                     enabled):
+                                     enabled,
+                                     dataset_name):
 
     # First we want to figure out the unique values in the label column. These
     # are the groups we want to create labels for.
@@ -642,11 +644,18 @@ def make_group_labels_from_dataframe(input_points_df,
                                               label_size=label_size,
                                               label_minsize=label_minsize,
                                               label_maxsize=label_maxsize,
-                                              enabled=enabled)
+                                              enabled=enabled,
+                                              dataset_name=dataset_name)
 
     return(output_files)
 
 def main():
+    # This script should be run in a UNIX-like environment (Linux, or maybe one day MacOS,
+    # if OpenSpace ever gets running there properly). Make sure we're not in Windows.
+    if os.name == "nt":
+        print("Error: This script should be run in Linux.")
+        sys.exit(1)
+
     # If an output directory was specified, make sure it exists.
     if args.output_dir != ".":
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
@@ -664,6 +673,13 @@ def main():
     # cache directory.
     files_created = []
 
+    # The dataset name is used to create a GUI folder for ease of use with lots of
+    # other assets. It's basically the dataset CSV file with the extension taken
+    # off. Remove all the path stuff that may be in front of the actual filename,
+    # and also strip off the extension.
+    dataset_name = os.path.basename(args.input_dataset_csv_file)
+    dataset_name = dataset_name.split(".")[0]
+    
     # Now run the functions to create the speck and asset files for each csv
     # file in the dataset csv file.
     for index, row in input_dataset_df.iterrows():
@@ -732,7 +748,8 @@ def main():
                                            label_size=row["label_size"],
                                            label_minsize=row["label_minsize"],
                                            label_maxsize=row["label_maxsize"],
-                                           enabled=row["enabled"])
+                                           enabled=row["enabled"],
+                                           dataset_name=dataset_name)
             
         elif row["type"] == "points":
             print("Creating points... ", end="", flush=True)
@@ -744,7 +761,8 @@ def main():
                                                          color_by_column=row["color_by_column"],
                                                          default_texture=row["default_texture"],
                                                          size_scale_factor=row["point_scale_factor"],
-                                                         size_scale_exponent=row["point_scale_exponent"])
+                                                         size_scale_exponent=row["point_scale_exponent"],
+                                                         dataset_name=dataset_name)
             
         # Datasets contain many points that fall into common groupings, such as phyla,
         # classes, kingdoms, etc. Rather than have many points with the same label, we
@@ -766,7 +784,8 @@ def main():
                                                  label_size=row["label_size"],
                                                  label_minsize=row["label_minsize"],
                                                  label_maxsize=row["label_maxsize"],
-                                                 enabled=row["enabled"])
+                                                 enabled=row["enabled"],
+                                                 dataset_name=dataset_name)
 
 
 

@@ -11,9 +11,9 @@ eukaryotes_class.csv,group_labels,phylum_eng,4.3,8,58,point3a.png,,,1,,,,,,,,,,,
 eukaryotes_class.csv,group_labels,kingdom_eng,4.3,8,125,point3a.png,,,1,,,,,,,,,,,,,
 # Mammal families.,,,,,,,,,,,,,,,,,,,,,,
 #mammals_family.csv,stars,,,,,,,,,,eukaryotes_class,4.5,15,1.66,0.05,0.65,1,0,10,-20,2,2
-mammals_family.csv,points,,,,,point3a.png,12,4.6,,order,eukaryotes_class,,,,,,,,,,,
+mammals_family.csv,points,,,,,point3a.png,12.23,2.2,,order,eukaryotes_class,,,,,,,,,,,
 mammals_family.csv,labels,name,4.3,8,30,point3a.png,,,1,,,,,,,,,,,,,
 # Lowest level - species.,,,,,,,,,,,,,,,,,,,,,,
 #mammals_species.csv,stars,,,,,,,,,,"eukaryotes_class,mammals_family",6.35,15,1.66,0.18,0.65,1,0,10,-5,3,3
-mammals_species.csv,points,,,,,point3a.png,12,4.6,,,"eukaryotes_class,mammals_family",,,,,,,,,,,
+mammals_species.csv,points,,,,,point3a.png,1.93,2.2,,,"eukaryotes_class,mammals_family",,,,,,,,,,,
 mammals_species.csv,labels,name_eng,4.3,8,30,point3a.png,,,1,,,,,,,,,,,,,
