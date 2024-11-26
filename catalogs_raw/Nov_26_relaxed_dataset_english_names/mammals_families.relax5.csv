@@ -1,0 +1,155 @@
+,x,y,z,order,family,order_eng,family_eng
+Ornithorhynchidae,-0.15121117062254502,-0.6510218461759677,-0.7426454559576677,Monotremata,Ornithorhynchidae,egg-laying mammals,platypus
+Tachyglossidae,-0.15148725288141518,-0.6509467951181341,-0.7428260586451636,Monotremata,Tachyglossidae,egg-laying mammals,echidnas
+Didelphidae,-0.15104619689348955,-0.6499684694934517,-0.7391516569222826,Didelphimorphia,Didelphidae,Opossums,American opossums
+Caenolestidae,-0.1535562635931036,-0.6495025498147828,-0.7419730205427465,Paucituberculata,Caenolestidae,shrew opossums,shrew opossums
+Microbiotheriidae,-0.15148937490429804,-0.6496949951630063,-0.738893975682515,Microbiotheria,Microbiotheriidae,Monito del monte,Monito del Monte
+Thylacinidae,-0.15077874365482546,-0.6502225215744764,-0.7400248487630796,Dasyuromorphia,Thylacinidae,Dasyuromorphia,Thylacine
+Dasyuridae,-0.1509007719144028,-0.650108539388345,-0.7398691990825569,Dasyuromorphia,Dasyuridae,Dasyuromorphia,Dasyuridae
+Myrmecobiidae,-0.15089034141894672,-0.6501793772035661,-0.7402710144530291,Dasyuromorphia,Myrmecobiidae,Dasyuromorphia,Numbat
+Macropodidae,-0.1524851514055823,-0.6493650464362806,-0.7406311587250386,Diprotodontia,Macropodidae,Diprotodontia,Macropodidae
+Petauridae,-0.15217779559958136,-0.6493709666263472,-0.7399190032889247,Diprotodontia,Petauridae,Diprotodontia,gliding and striped possums
+Phalangeridae,-0.15307589487007983,-0.6492689216582387,-0.7410272460103517,Diprotodontia,Phalangeridae,Diprotodontia,possums and cuscuses
+Vombatidae,-0.15362099115545566,-0.6491724997132083,-0.7411428896092631,Diprotodontia,Vombatidae,Diprotodontia,wombats
+Burramyidae,-0.15362418413686474,-0.648962439468819,-0.740218963994357,Diprotodontia,Burramyidae,Diprotodontia,pygmy possums
+Pseudocheiridae,-0.1533572407177028,-0.648962674549131,-0.7397294860419816,Diprotodontia,Pseudocheiridae,Diprotodontia,ring-tailed possums
+Acrobatidae,-0.152951944061791,-0.6491230777305723,-0.7402017473340371,Diprotodontia,Acrobatidae,Diprotodontia,feather-tailed possums
+Phascolarctidae,-0.1524350245129133,-0.6492276867672434,-0.7393102178368433,Diprotodontia,Phascolarctidae,Diprotodontia,koalas
+Tarsipedidae,-0.1529997392660724,-0.6490380448154593,-0.7393722735703087,Diprotodontia,Tarsipedidae,Diprotodontia,honey possums
+Potoroidae,-0.15371044736485476,-0.6490375178821318,-0.7406979351786813,Diprotodontia,Potoroidae,Diprotodontia,Rat-kangaroos
+Notoryctidae,-0.15272350495418913,-0.6496625686079723,-0.7417917052278656,Notoryctemorphia,Notoryctidae,marsupial moles,marsupial moles
+Peramelidae,-0.15136564503737185,-0.6500638297006399,-0.7410770613121503,Peramelemorphia,Peramelidae,bandicoots and bilbies,bandicoots
+Peroryctidae,-0.15159183319544592,-0.6499744331934775,-0.7412229089365436,Peramelemorphia,Peroryctidae,bandicoots and bilbies,New Guinean bandicoots
+Myrmecophagidae,-0.15510734504289475,-0.6535797138058661,-0.7456028771874368,Pilosa,Myrmecophagidae,Pilosa,anteaters
+Cyclopedidae,-0.15504518631138614,-0.6533777604879244,-0.7455441405306571,Pilosa,Cyclopedidae,Pilosa,silky anteater
+Bradypodidae,-0.15440446319341117,-0.6538309575150673,-0.745661122647327,Pilosa,Bradypodidae,Pilosa,three-fingered sloths
+Megalonychidae,-0.15416285396069315,-0.6537781202104975,-0.7456273375176583,Pilosa,Megalonychidae,Pilosa,two-toed sloths
+Dasypodidae,-0.15584988874342506,-0.6536552438451991,-0.7455480495590167,Cingulata,Dasypodidae,Armadillos,armadillos
+Chlamyphoridae,-0.15561739387065596,-0.6536213746320485,-0.7455718850971611,Cingulata,Chlamyphoridae,Armadillos,Chlamyphoridae
+Tenrecidae,-0.15768905917116693,-0.6515335311390033,-0.7437956843965523,Mammalia,Tenrecidae,mammals,tenrecs
+Chrysochloridae,-0.1574106124183904,-0.6518733352421444,-0.7442182200016288,Mammalia,Chrysochloridae,mammals,Golden moles
+Trichechidae,-0.15670569771551923,-0.6529459565055661,-0.7450998717228471,Sirenia,Trichechidae,manatees and dugongs (seacows),manatees
+Dugongidae,-0.1566882657076418,-0.6530148546738812,-0.7451337482565475,Sirenia,Dugongidae,manatees and dugongs (seacows),dugong and sea cow
+Elephantidae,-0.15670280356447783,-0.6526397060884676,-0.7449630770941386,Proboscidea,Elephantidae,elephants,elephants
+Procaviidae,-0.15659234471512087,-0.6528712402480438,-0.7451033544938872,Hyracoidea,Procaviidae,rock rabbits/dassies,conies
+Orycteropodidae,-0.1570442240177259,-0.6523579468097629,-0.7446919029869642,Tubulidentata,Orycteropodidae,aardvarks,aardvarks
+Macroscelididae,-0.1531111993541874,-0.6536989247228232,-0.7454062391627458,Macroscelidea,Macroscelididae,elephants shrews,elephant shrew
+Erinaceidae,-0.15759556277234776,-0.6514268649851197,-0.7347316612441707,Eulipotyphla,Erinaceidae,"hedgehogs, shrews, moles and others",hedgehogs
+Talpidae,-0.1580816201346869,-0.6511026470387438,-0.7354017773369452,Eulipotyphla,Talpidae,"hedgehogs, shrews, moles and others","moles, shrew-moles, and desmans"
+Soricidae,-0.15558354857651402,-0.6525389740246147,-0.7333262120900308,Eulipotyphla,Soricidae,"hedgehogs, shrews, moles and others",shrews
+Solenodontidae,-0.1566966379107464,-0.6519127832121938,-0.733939300738482,Eulipotyphla,Solenodontidae,"hedgehogs, shrews, moles and others",Solenodons
+Pteropodidae,-0.15998428377993545,-0.6512459229251437,-0.7392705430323773,Chiroptera,Pteropodidae,bats,Old World fruit bats
+Megadermatidae,-0.16090073887586687,-0.6530946590636508,-0.7379676409734178,Chiroptera,Megadermatidae,bats,false vampire bats
+Phyllostomidae,-0.16139289510054514,-0.6558683760510854,-0.738551429979057,Chiroptera,Phyllostomidae,bats,American leaf-nosed and vampire bats
+Vespertilionidae,-0.15979883723445965,-0.6517813587380391,-0.7367902816649389,Chiroptera,Vespertilionidae,bats,vespertilionid bats
+Molossidae,-0.16011789968957318,-0.651649231755433,-0.7405841974592122,Chiroptera,Molossidae,bats,free-tailed bats
+Emballonuridae,-0.16128698981971862,-0.6539500282536971,-0.7392360002971967,Chiroptera,Emballonuridae,bats,"sac-winged, sheath-tailed, and ghost bats"
+Rhinolophidae,-0.16021470844001937,-0.6521068203021186,-0.7412401600285872,Chiroptera,Rhinolophidae,bats,Old World leaf-nosed bats
+Mormoopidae,-0.15990867589604799,-0.6512448220639315,-0.7383719435994885,Chiroptera,Mormoopidae,bats,Mormoopidae
+Natalidae,-0.1606349541729897,-0.6532146807553335,-0.7415551849422336,Chiroptera,Natalidae,bats,funnel-eared bats
+Nycteridae,-0.16053121645387516,-0.6536176034788026,-0.7363975317201056,Chiroptera,Nycteridae,bats,hollow-faced bats
+Noctilionidae,-0.16139469882094276,-0.6555613701166657,-0.7400567471654592,Chiroptera,Noctilionidae,bats,bulldog bats
+Mystacinidae,-0.16124781457213608,-0.6548062398743449,-0.7377483189676609,Chiroptera,Mystacinidae,bats,New Zealand short-tailed bats
+Rhinopomatidae,-0.1609686997857565,-0.6545297641880072,-0.7369341319029921,Chiroptera,Rhinopomatidae,bats,Mouse-tailed bats
+Thyropteridae,-0.1596713580549979,-0.6511130811920496,-0.7378294801371591,Chiroptera,Thyropteridae,bats,Disc-winged bats
+Furipteridae,-0.16104655147927738,-0.6540636042209346,-0.7410802605867118,Chiroptera,Furipteridae,bats,Smoky bats
+Myzopodidae,-0.16093854335662863,-0.6530968312191416,-0.7403353575463042,Chiroptera,Myzopodidae,bats,Myzopodidae
+Hipposideridae,-0.16125858541085544,-0.6545036855418828,-0.7405346466170891,Chiroptera,Hipposideridae,bats,Old World leaf-nosed bats
+Craseonycteridae,-0.16094030502829026,-0.652859972114754,-0.7393855161113518,Chiroptera,Craseonycteridae,bats,Kitti's hog-nosed bat
+Rhinonycteridae,-0.15990179612999314,-0.6511926765320052,-0.7398785763116696,Chiroptera,Rhinonycteridae,bats,Rhinonycteridae
+Equidae,-0.1596496278725176,-0.6529332150732405,-0.7430532887077899,Perissodactyla,Equidae,odd-toed ungulates,horses
+Tapiridae,-0.1597194468910977,-0.652794878633463,-0.7428677831173841,Perissodactyla,Tapiridae,odd-toed ungulates,tapirs
+Rhinocerotidae,-0.15951051607633118,-0.6522263088730356,-0.7426864825467541,Perissodactyla,Rhinocerotidae,odd-toed ungulates,rhinoceroses
+Manidae,-0.15724207427573128,-0.6519605507224623,-0.7341314641646113,Pholidota,Manidae,pangolins,pangolins
+Viverridae,-0.15917601890318614,-0.6585367221601751,-0.743121596928602,Carnivora,Viverridae,carnivores,civets
+Hyaenidae,-0.1594548633076375,-0.6594011999831548,-0.7417634043328714,Carnivora,Hyaenidae,carnivores,hyaenas
+Felidae,-0.1592013834557653,-0.6592008169117027,-0.742437211995796,Carnivora,Felidae,carnivores,cat family
+Herpestidae,-0.16024547965238142,-0.6575124638341522,-0.7424033435202861,Carnivora,Herpestidae,carnivores,mongooses
+Nandiniidae,-0.15971553001929514,-0.6582839467110835,-0.7426466478234388,Carnivora,Nandiniidae,carnivores,African palm civet family
+Eupleridae,-0.16019910482796215,-0.6582236883514855,-0.7418822319956153,Carnivora,Eupleridae,carnivores,"falanouc, Malagasy civet, ring-tailed mongoose and others"
+Canidae,-0.15897709426319434,-0.6570326840967528,-0.744134832965027,Carnivora,Canidae,carnivores,"dog, coyote, wolf, fox"
+Ursidae,-0.15982162841587827,-0.6554292746540947,-0.7435894371277572,Carnivora,Ursidae,carnivores,bears
+Procyonidae,-0.15865199095712754,-0.6563722882848061,-0.7445581751045358,Carnivora,Procyonidae,carnivores,"raccoon, coati & olingo"
+Mustelidae,-0.15999920389329214,-0.6561155362962049,-0.7433132226554624,Carnivora,Mustelidae,carnivores,"weasel, mink, badger, martens and others"
+Otariidae,-0.15941842277129697,-0.6551178790484492,-0.744005509598842,Carnivora,Otariidae,carnivores,fur seals & sea lions
+Odobenidae,-0.15928013396100515,-0.6558843099322312,-0.7441183142480328,Carnivora,Odobenidae,carnivores,walruses
+Phocidae,-0.15953471840311487,-0.6565827832631199,-0.7437444973494126,Carnivora,Phocidae,carnivores,crawling seals
+Mephitidae,-0.15870050561041635,-0.6558453471268163,-0.7445937952935531,Carnivora,Mephitidae,carnivores,skunks
+Ailuridae,-0.15901628484490432,-0.6553476242406281,-0.7443700505602027,Carnivora,Ailuridae,carnivores,Red Panda family
+Camelidae,-0.15559925157731722,-0.659761565338531,-0.7343364239584325,Artiodactyla,Camelidae,"whales, hippos, ruminants, pigs, camels etc.",Camelids
+Tragulidae,-0.15521068347937533,-0.6574507457383282,-0.7329697118984732,Artiodactyla,Tragulidae,"whales, hippos, ruminants, pigs, camels etc.",chevrotains
+Cervidae,-0.1560482736691796,-0.6563577303691276,-0.7328153230483696,Artiodactyla,Cervidae,"whales, hippos, ruminants, pigs, camels etc.",deer
+Antilocapridae,-0.1558935471860793,-0.6575805910384549,-0.7330933062104105,Artiodactyla,Antilocapridae,"whales, hippos, ruminants, pigs, camels etc.",pronghorn
+Giraffidae,-0.15694037774878722,-0.6559019113337277,-0.7329965467498122,Artiodactyla,Giraffidae,"whales, hippos, ruminants, pigs, camels etc.",giraffes and okapi
+Bovidae,-0.15758536841213439,-0.6563207424257316,-0.733303110583337,Artiodactyla,Bovidae,"whales, hippos, ruminants, pigs, camels etc.",cloven-hoofed ruminant mammals
+Moschidae,-0.15671899914190132,-0.6574347049006345,-0.7332429911530719,Artiodactyla,Moschidae,"whales, hippos, ruminants, pigs, camels etc.",musk deer
+Suidae,-0.15912252672584343,-0.6563736278903215,-0.7343077436920571,Artiodactyla,Suidae,"whales, hippos, ruminants, pigs, camels etc.",boars
+Tayassuidae,-0.155461002347807,-0.6588220761340474,-0.7336228796113718,Artiodactyla,Tayassuidae,"whales, hippos, ruminants, pigs, camels etc.",peccaries
+Platanistidae,-0.15821935004690768,-0.6596390341923525,-0.7354687683573091,Artiodactyla,Platanistidae,"whales, hippos, ruminants, pigs, camels etc.",freshwater dolphins
+Delphinidae,-0.1584691458060178,-0.6601527583211144,-0.7364373885279473,Artiodactyla,Delphinidae,"whales, hippos, ruminants, pigs, camels etc.",marine dolphins
+Phocoenidae,-0.1576582519018601,-0.6599951981795777,-0.7354243341596866,Artiodactyla,Phocoenidae,"whales, hippos, ruminants, pigs, camels etc.",porpoises
+Monodontidae,-0.15831009043134847,-0.6604838973107413,-0.7368459938503809,Artiodactyla,Monodontidae,"whales, hippos, ruminants, pigs, camels etc.",narwhal and beluga
+Physeteridae,-0.1587507026368072,-0.6597832527073484,-0.7362228069175437,Artiodactyla,Physeteridae,"whales, hippos, ruminants, pigs, camels etc.",sperm whales
+Ziphiidae,-0.15792266899895557,-0.6602247274355652,-0.7359481526406486,Artiodactyla,Ziphiidae,"whales, hippos, ruminants, pigs, camels etc.",beaked whales
+Lipotidae,-0.15766349651090317,-0.6608808121223432,-0.7368702877178742,Artiodactyla,Lipotidae,"whales, hippos, ruminants, pigs, camels etc.",Lipotidae
+Pontoporiidae,-0.15801195517630162,-0.6605253361513954,-0.7365400807027376,Artiodactyla,Pontoporiidae,"whales, hippos, ruminants, pigs, camels etc.",La Plata dolphin
+Iniidae,-0.15859420281487238,-0.6595831702794495,-0.7357735582270856,Artiodactyla,Iniidae,"whales, hippos, ruminants, pigs, camels etc.",Iniidae
+Eschrichtiidae,-0.157237666052091,-0.6603173000769064,-0.7355393280609965,Artiodactyla,Eschrichtiidae,"whales, hippos, ruminants, pigs, camels etc.",gray whales
+Balaenopteridae,-0.15735659355440662,-0.6608255951120551,-0.7364369091249369,Artiodactyla,Balaenopteridae,"whales, hippos, ruminants, pigs, camels etc.",rorquals
+Balaenidae,-0.15710741480922638,-0.6605866965242764,-0.7358364652303614,Artiodactyla,Balaenidae,"whales, hippos, ruminants, pigs, camels etc.",right whales
+Neobalaenidae,-0.15727208403785095,-0.6606604968660316,-0.7360716617567855,Artiodactyla,Neobalaenidae,"whales, hippos, ruminants, pigs, camels etc.",Neobalaenidae
+Hippopotamidae,-0.15848676518993307,-0.6607570024194805,-0.7379629480029816,Artiodactyla,Hippopotamidae,"whales, hippos, ruminants, pigs, camels etc.",hippopotamids
+Tupaiidae,-0.15120728296248573,-0.6608425872039537,-0.7382656233930134,Scandentia,Tupaiidae,tree shrews,tree shrews
+Lemuridae,-0.14839237130346902,-0.6558575581761096,-0.7377948880980062,Primates,Lemuridae,Primates,lemurs
+Indriidae,-0.14831301612536824,-0.6560300856720217,-0.7383032926464218,Primates,Indriidae,Primates,Indriidae
+Lepilemuridae,-0.148370117734413,-0.6565123248879774,-0.738360413797821,Primates,Lepilemuridae,Primates,Sportive lemurs
+Cheirogaleidae,-0.14848454187907628,-0.6563368902799079,-0.737630397861846,Primates,Cheirogaleidae,Primates,dwarf and mouse lemurs
+Paleopropithecidae,-0.14850727710073053,-0.6568939670045782,-0.7380056925828831,Primates,Paleopropithecidae,Primates,sloth lemurs
+Daubentoniidae,-0.14947003896628375,-0.6587762082150802,-0.737348974954157,Primates,Daubentoniidae,Primates,aye-ayes
+Lorisidae,-0.14875314516854304,-0.6554572475543708,-0.7366325559023804,Primates,Lorisidae,Primates,lorises
+Galagidae,-0.14871513832646865,-0.6558888376159249,-0.7367708409334536,Primates,Galagidae,Primates,galagos
+Cebidae,-0.150815161282555,-0.6588012174504836,-0.7352412410387035,Primates,Cebidae,Primates,capuchin and squirrel monkeys
+Aotidae,-0.1509697373538833,-0.659160746801496,-0.7354149574851987,Primates,Aotidae,Primates,owl monkeys
+Pitheciidae,-0.1504087564445263,-0.6588205807088338,-0.7357136563417488,Primates,Pitheciidae,Primates,Pitheciidae
+Atelidae,-0.15066879033187744,-0.6592145241098339,-0.735802888050704,Primates,Atelidae,Primates,Atelidae
+Cercopithecidae,-0.15055173569993502,-0.6572954639472489,-0.7345721964489096,Primates,Cercopithecidae,Primates,Old World monkeys
+Hylobatidae,-0.14982788503278124,-0.6570720382028207,-0.735255211196165,Primates,Hylobatidae,Primates,lesser apes
+Hominidae,-0.1499044537265838,-0.6566788457657408,-0.735020963290055,Primates,Hominidae,Primates,great apes
+Tarsiidae,-0.15101439686815818,-0.6601868268315875,-0.736748084935096,Primates,Tarsiidae,Primates,tarsiers
+Cynocephalidae,-0.1510955743278566,-0.6605250056050795,-0.7373758029997463,Dermoptera,Cynocephalidae,flying lemurs,colugos
+Ochotonidae,-0.14827909272526868,-0.6559996972400182,-0.7399424669971608,Lagomorpha,Ochotonidae,Rabbits and pikas,pikas
+Leporidae,-0.14836705424602784,-0.6564632227543474,-0.7401702579028624,Lagomorpha,Leporidae,Rabbits and pikas,rabbits and hares
+Hystricidae,-0.1537598330715804,-0.6597431285766587,-0.7441164267630247,Rodentia,Hystricidae,rodent,Old World porcupines
+Caviidae,-0.15246430235201436,-0.6601167011169514,-0.7432308021961856,Rodentia,Caviidae,rodent,cavies
+Hydrochaeridae,-0.1536489594377904,-0.6612349799774128,-0.7421214548904744,Rodentia,Hydrochaeridae,rodent,Capybara
+Chinchillidae,-0.15413807635604584,-0.6612320164171188,-0.7422823939503468,Rodentia,Chinchillidae,rodent,chinchillas
+Myocastoridae,-0.15234992994931867,-0.6607515158105841,-0.7422334130579532,Rodentia,Myocastoridae,rodent,Myocastoridae
+Octodontidae,-0.15313535385752933,-0.6599627593690672,-0.7437220347004312,Rodentia,Octodontidae,rodent,Octodontidae
+Echimyidae,-0.15444631644468454,-0.6603808216478422,-0.7435780162887142,Rodentia,Echimyidae,rodent,American spiny rats
+Ctenodactylidae,-0.15424209639937198,-0.6615121817257915,-0.741696056895346,Rodentia,Ctenodactylidae,rodent,gundis
+Bathyergidae,-0.1537128732070197,-0.6615531777122856,-0.741389873221343,Rodentia,Bathyergidae,rodent,African mole-rats
+Capromyidae,-0.1531859094207743,-0.6591193999294698,-0.7444612432175892,Rodentia,Capromyidae,rodent,hutias
+Ctenomyidae,-0.15301566544411394,-0.6607153989774862,-0.742734635933583,Rodentia,Ctenomyidae,rodent,tuco-tucos
+Dasyproctidae,-0.1526815504217301,-0.6595044181250727,-0.743964923698076,Rodentia,Dasyproctidae,rodent,agoutis and pacas
+Erethizontidae,-0.15440598618148285,-0.6595857456053341,-0.7443481132965202,Rodentia,Erethizontidae,rodent,New World porcupines
+Thryonomyidae,-0.15426158152760994,-0.6610227063883752,-0.7426775974412074,Rodentia,Thryonomyidae,rodent,cane rats
+Petromuridae,-0.15335913227483453,-0.6615246687546849,-0.7412536093745137,Rodentia,Petromuridae,rodent,dassie rat
+Abrocomidae,-0.1527784120239785,-0.6612372158859172,-0.7415754475624106,Rodentia,Abrocomidae,rodent,Chinchilla rat
+Dinomyidae,-0.1536613420661996,-0.658826189140356,-0.7447809205712804,Rodentia,Dinomyidae,rodent,pacarana
+Laonastidae,-0.15369389339923012,-0.660607157575344,-0.7431591948219721,Rodentia,Laonastidae,rodent,Laotian rock rat
+Cuniculidae,-0.15415774658647916,-0.6588144787325224,-0.7448700624942836,Rodentia,Cuniculidae,rodent,paca
+Gliridae,-0.15168405227055215,-0.6611955256715965,-0.7397153484257455,Rodentia,Gliridae,rodent,dormice
+Aplodontiidae,-0.14959248034887138,-0.6592791801385955,-0.7403619337150728,Rodentia,Aplodontiidae,rodent,Mountain beaver
+Sciuridae,-0.15177087820712695,-0.6565075863028637,-0.7450060873940331,Rodentia,Sciuridae,rodent,squirrels
+Geomyidae,-0.15338563919570583,-0.6568718726591306,-0.7455316519280313,Rodentia,Geomyidae,rodent,pocket gophers
+Heteromyidae,-0.15060716410647515,-0.6604334328659619,-0.7399843269517467,Rodentia,Heteromyidae,rodent,Heteromyidae
+Castoridae,-0.1511017116458043,-0.6562615455967442,-0.7446425456950511,Rodentia,Castoridae,rodent,beavers
+Muridae,-0.14898908354404222,-0.6573690845932286,-0.7416446014225117,Rodentia,Muridae,rodent,Muridae
+Spalacidae,-0.14944710681410736,-0.6586663104715619,-0.7412679622043458,Rodentia,Spalacidae,rodent,Spalacidae
+Calomyscidae,-0.1501558191998727,-0.657519566854911,-0.7434183099865384,Rodentia,Calomyscidae,rodent,Mouse-like hamsters
+Nesomyidae,-0.15045606618914154,-0.6574307519676031,-0.7437731620134999,Rodentia,Nesomyidae,rodent,Nesomyidae
+Cricetidae,-0.14938429854199792,-0.6566215212211862,-0.7427969421473412,Rodentia,Cricetidae,rodent,Cricetidae
+Platacanthomyidae,-0.15011996410814182,-0.6587415347864977,-0.7424683828880639,Rodentia,Platacanthomyidae,rodent,Oriental dormice
+Dipodidae,-0.15042259935466284,-0.6565558286551945,-0.7440417533173144,Rodentia,Dipodidae,rodent,jerboas
+Pedetidae,-0.15403797089712667,-0.6568264682639516,-0.7456570267199685,Rodentia,Pedetidae,rodent,springhares
+Anomaluridae,-0.15262150315703674,-0.6562699257847351,-0.745421226388402,Rodentia,Anomaluridae,rodent,scaly-tailed squirrels
