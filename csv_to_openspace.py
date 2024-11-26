@@ -323,6 +323,7 @@ def make_stars_asset_from_dataframe(input_points_df,
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
                                              filename_base,
                                              fade_targets,
+                                             interaction_sphere,
                                              color_by_column,
                                              default_texture,
                                              size_scale_factor,
@@ -484,7 +485,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"                                      Parameter = \"color\" }} }},", file=output_file)
         print("    },", file=output_file)
         #print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
-        print("    InteractionSphere = 1 * meters_in_Km,", file=output_file)
+        print(f"    InteractionSphere = {interaction_sphere} * meters_in_Km,", file=output_file)
         print("    ApproachFactor = 1000.0,", file=output_file)
         print("    ReachFactor = 5.0,", file=output_file)
         if fade_targets:
@@ -585,11 +586,12 @@ def make_labels_from_dataframe(input_points_df,
         print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
+        print(f"        Enabled = {enabled},", file=output_file)
         print("        Labels = {", file=output_file)
         print(f"            File = asset.resource(\"{local_label_filename}\"),", file=output_file)
-        print(f"            Enabled = {enabled},", file=output_file)
         #print("            Unit = \"pc\",", file=output_file)
         print("            Unit = \"Km\",", file=output_file)
+        print("            FaceCamera = false,", file=output_file)
         print(f"            Size = {label_size},", file=output_file)
         print(f"            MinMaxSize = {{ {label_minsize},{label_maxsize} }}", file=output_file)
         print("        }", file=output_file)
@@ -752,6 +754,7 @@ def main():
                 make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
                                                          filename_base=filename_base,
                                                          fade_targets=fade_targets,
+                                                         interaction_sphere=row["interaction_sphere"],
                                                          color_by_column=row["color_by_column"],
                                                          default_texture=row["default_texture"],
                                                          size_scale_factor=row["point_scale_factor"],
