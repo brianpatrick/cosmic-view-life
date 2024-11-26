@@ -146,9 +146,11 @@ The asset dir is where you want the assets placed when run.
 
 Example run:
 
-First `cd` into the data dir, then run:
+Note that the paths below need to be modified for your particular setup.
 
-`../csv_to_openspace.py -i mammals_families_species_dataset.csv -c /mnt/e/OpenSpace/user/cache -a /mnt/e/OpenSpace/user/data/assets/mammals_families_species_stars`
+First `cd` into the data dir, for the example below this would be `catalogs_raw/Nov_26_relaxed_dataset_english_names`. Then run:
+
+`../../csv_to_openspace.py -i Nov_26_mammals_dataset.csv -c /mnt/e/git/OpenSpace/cache -a /mnt/e/OpenSpace/user/data/assets/Nov_26_mammals_dataset -o ./outfiles -t ../../textures`
 
 Then make sure your profile is set up to load the new assets.
 
