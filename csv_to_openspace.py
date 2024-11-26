@@ -678,10 +678,10 @@ def main():
 
         input_points_df = pd.read_csv(row["csv_file"])
 
-        # The first column might be unnamed. It's basically the ID, so we'll
-        # call it that for now.
-        input_points_df.rename(columns={input_points_df.columns[0]: "ID"},
-                                inplace=True)
+        # If the first column name is blank, rename it to "ID".
+        if input_points_df.columns[0] == "":
+            input_points_df.rename(columns={input_points_df.columns[0]: "ID"},
+                                   inplace=True)
         
         # The fade_targets argument is optional. If it's blank, it's a NaN, which
         # is weird to test for if it might be a string. So convert it.
@@ -701,24 +701,27 @@ def main():
         # each dataset according to a provided, empirically determined scaling factor.
         # This is so that the points are a reasonable size in OpenSpace.
         # We need to translate the data to 0,0,0, scale it, and then move it back to
-        # its original location.
+        # its original location. We'll save the world center of the points because
+        # it's useful for pointing the camera at the points.
         input_points_world_position = {}
         # Find origin in world coords...
-        input_points_world_position["x"] = input_points_df["x"].mean()
-        input_points_world_position["y"] = input_points_df["y"].mean()
-        input_points_world_position["z"] = input_points_df["z"].mean()
+        #input_points_world_position["x"] = input_points_df["x"].mean()
+        #input_points_world_position["y"] = input_points_df["y"].mean()
+        #input_points_world_position["z"] = input_points_df["z"].mean()
+        # Dump it out for debugging.
+        print("Centroid (world position of center of points): ", input_points_world_position)
         # Translate to 0,0,0...
-        input_points_df["x"] = input_points_df["x"] - input_points_world_position["x"]
-        input_points_df["y"] = input_points_df["y"] - input_points_world_position["y"]
-        input_points_df["z"] = input_points_df["z"] - input_points_world_position["z"]
+        #input_points_df["x"] = input_points_df["x"] - input_points_world_position["x"]
+        #input_points_df["y"] = input_points_df["y"] - input_points_world_position["y"]
+        #input_points_df["z"] = input_points_df["z"] - input_points_world_position["z"]
         # Scale...
         input_points_df["x"] = input_points_df["x"] * row["data_scale_factor"]
         input_points_df["y"] = input_points_df["y"] * row["data_scale_factor"]
         input_points_df["z"] = input_points_df["z"] * row["data_scale_factor"]
         # and translate back.
-        input_points_df["x"] = input_points_df["x"] + input_points_world_position["x"]
-        input_points_df["y"] = input_points_df["y"] + input_points_world_position["y"]
-        input_points_df["z"] = input_points_df["z"] + input_points_world_position["z"]     
+        #input_points_df["x"] = input_points_df["x"] + input_points_world_position["x"]
+        #input_points_df["y"] = input_points_df["y"] + input_points_world_position["y"]
+        #input_points_df["z"] = input_points_df["z"] + input_points_world_position["z"]     
 
         '''
         # All points are originally in world coordinates. A problem with this is we
@@ -876,6 +879,8 @@ def main():
     # and make a list of unique textures, then copy them all from the texture directory
     # to the output dir.
     textures = input_dataset_df["default_texture"].unique()
+    # Remove any NaNs.
+    textures = [x for x in textures if str(x) != "nan"]
     for texture in textures:
         if args.verbose:
             print(f"Copying {texture} ", end="", flush=True)

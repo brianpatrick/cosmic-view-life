@@ -1,0 +1,7 @@
+# Mammals dataset CSV files and parameters,,,,,,,,,,,,,,,,,,,,,,,
+# Magnitude through texnum are star renderable params and currently not used (since the star renderable is not used).,,,,,,,,,,,,,,,,,,,,,,,
+csv_file,type,data_scale_factor,label_column,label_size,label_minsize,label_maxsize,default_texture,point_scale_factor,point_scale_exponent,enabled,color_by_column,fade_targets,MagnitudeExponent,core_multiplier,core_gamma,core_scale,glare_multiplier,glare_gamma,glare_scale,lum,absmag,colorb_v,texnum
+eukaryotes_class.relax45.csv,points,100000,,,,,point3a.png,12,4.6,,phylum,,,,,,,,,,,,
+eukaryotes_class.relax45.csv,labels,100000,phylum,4.3,8,125,,,,1,,,,,,,,,,,,,
+mammals_species.relax55.csv,points,100000,,,,,point3a.png,12,4.6,,order,,,,,,,,,,,,
+mammals_species.relax55.csv,labels,100000,family_eng,4.3,8,125,,,,1,,,,,,,,,,,,,
