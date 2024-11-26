@@ -130,6 +130,8 @@ The program:
                             Output directory for assets.
     -o OUTPUT_DIR, --output_dir OUTPUT_DUR
                             Directory for local copy of output files.
+    -t TEXTURE_DIR, --texture_dir TEXTURE_DIR
+                            Directory holding texture files for points.
     -v, --verbose         Verbose output.
 
 The input CSV file tells the program what to do. In each dir (mammals_families_species
