@@ -142,7 +142,6 @@ def make_stars_speck_from_dataframe(input_points_df, filename_base,
     return([output_speck_filename])
 
 def make_stars_asset_from_dataframe(input_points_df, 
-                                    #input_points_world_position,
                                     filename_base, 
                                     magnitude_exponent,
                                     core_multiplier,
@@ -322,7 +321,6 @@ def make_stars_asset_from_dataframe(input_points_df,
     return([output_filename, cmap_filename])
 
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
-                                             input_points_world_position,
                                              filename_base,
                                              fade_targets,
                                              color_by_column,
@@ -399,8 +397,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
     output_files.append(points_csv_filename)
 
-    # Next the asset file for the label file. Same name as the label file, but with .asset
-    # extension.
     output_asset_filename = args.output_dir + "/" + filename_base + "_points.asset"
     output_asset_variable_name = filename_base + "_points"
     output_asset_position_name = output_asset_variable_name + "_position"
@@ -441,6 +437,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
         print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
+        '''
         if (input_points_world_position is not None):
             print("  Transform = {", file=output_file)
             print("    Translation = {", file=output_file)
@@ -452,6 +449,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("      }", file=output_file)
             print("     }", file=output_file)
             print("    },", file=output_file)
+        '''
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
         print(f"    Path = \"/{dataset_name}/Points\",", file=output_file)
@@ -461,7 +459,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
+        print(f"    Parent = earthAsset.Earth.Identifier,", file=output_file)
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
         print(f"        SizeSettings = {{ ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor} }},", file=output_file)
@@ -508,7 +506,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     return(output_files)
 
 def make_labels_from_dataframe(input_points_df, 
-                               input_points_world_position,
                                filename_base,
                                label_column, label_size, label_minsize, label_maxsize, enabled,
                                dataset_name):
@@ -522,8 +519,8 @@ def make_labels_from_dataframe(input_points_df,
 
     output_files.append(label_filename)
 
-    # Next the asset file for the label file. Same name as the label file, but with .asset
-    # extension.
+    # Asset filename for labels. Same name as points filename, but with the label column
+    # included.
     output_asset_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".asset"
     output_asset_variable_name = filename_base + "_" + label_column + "_labels"
     output_asset_position_name = output_asset_variable_name + "_position"
@@ -539,6 +536,7 @@ def make_labels_from_dataframe(input_points_df,
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
         print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
+        '''
         if (input_points_world_position is not None):
             print("  Transform = {", file=output_file)
             print("    Translation = {", file=output_file)
@@ -550,7 +548,7 @@ def make_labels_from_dataframe(input_points_df,
             print("      }", file=output_file)
             print("     }", file=output_file)
             print("    },", file=output_file)
-
+        '''
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
         print(f"    Path = \"/Positions\",", file=output_file)
@@ -560,7 +558,7 @@ def make_labels_from_dataframe(input_points_df,
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
+        print(f"    Parent = earthAsset.Earth.Identifier,", file=output_file)
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
         print("        Labels = {", file=output_file)
@@ -594,7 +592,6 @@ def make_labels_from_dataframe(input_points_df,
     return(output_files)
 
 def make_group_labels_from_dataframe(input_points_df,
-                                     #input_points_world_position,
                                      filename_base,
                                      label_column, 
                                      label_size, 
@@ -629,7 +626,6 @@ def make_group_labels_from_dataframe(input_points_df,
     # Now we have a dataframe with the centroids of the groups. We can use this
     # to create the labels using the make_labels_from_dataframe function.
     output_files = make_labels_from_dataframe(input_points_df=centroids_df,
-                                              input_points_world_position=None,
                                               filename_base=filename_base + "_group",
                                               label_column=label_column,
                                               label_size=label_size,
@@ -700,67 +696,9 @@ def main():
         # Different datasets may have different scaling factors. We need to scale
         # each dataset according to a provided, empirically determined scaling factor.
         # This is so that the points are a reasonable size in OpenSpace.
-        # We need to translate the data to 0,0,0, scale it, and then move it back to
-        # its original location. We'll save the world center of the points because
-        # it's useful for pointing the camera at the points.
-        input_points_world_position = {}
-        # Find origin in world coords...
-        #input_points_world_position["x"] = input_points_df["x"].mean()
-        #input_points_world_position["y"] = input_points_df["y"].mean()
-        #input_points_world_position["z"] = input_points_df["z"].mean()
-        # Dump it out for debugging.
-        print("Centroid (world position of center of points): ", input_points_world_position)
-        # Translate to 0,0,0...
-        #input_points_df["x"] = input_points_df["x"] - input_points_world_position["x"]
-        #input_points_df["y"] = input_points_df["y"] - input_points_world_position["y"]
-        #input_points_df["z"] = input_points_df["z"] - input_points_world_position["z"]
-        # Scale...
         input_points_df["x"] = input_points_df["x"] * row["data_scale_factor"]
         input_points_df["y"] = input_points_df["y"] * row["data_scale_factor"]
         input_points_df["z"] = input_points_df["z"] * row["data_scale_factor"]
-        # and translate back.
-        #input_points_df["x"] = input_points_df["x"] + input_points_world_position["x"]
-        #input_points_df["y"] = input_points_df["y"] + input_points_world_position["y"]
-        #input_points_df["z"] = input_points_df["z"] + input_points_world_position["z"]     
-
-        '''
-        # All points are originally in world coordinates. A problem with this is we
-        # need to be able to point the camera to certain locations, such as the center
-        # of a set of points. To do this, we need to translate the points so that the
-        # centroid of the points is locally at 0,0,0, and then move that whole set of
-        # points to its original location using a transform.
-        #
-        # Each group of points is centered around its own local origin, and needs to
-        # be translated to its proper world coordinate position. This is so we're able
-        # to focus on it properly. OpenSpace understands this translation in world
-        # space and points the camera appropriately if it knows about the translation.
-        #
-        # This world position is passed to each function below that creates an asset
-        # file. The asset file will contain a transform that moves the points to the
-        # proper world position.
-        input_points_world_position = {}
-        input_points_world_position["x"] = input_points_df["x"].mean()
-        input_points_world_position["y"] = input_points_df["y"].mean()
-        input_points_world_position["z"] = input_points_df["z"].mean()
-        #print("Centroid (world position of center of points): ", input_points_world_position)
-
-        # Translate all the points so that the new centroid of the points is 0,0,0.
-        input_points_df["x"] = input_points_df["x"] - input_points_world_position["x"]
-        input_points_df["y"] = input_points_df["y"] - input_points_world_position["y"]
-        input_points_df["z"] = input_points_df["z"] - input_points_world_position["z"]
-
-        # Input datasets can be in any range. Use the provided scaling factor, which is
-        # empirically determined, to scale the points to a reasonable size.
-        input_points_df["x"] = input_points_df["x"] * row["data_scale_factor"]
-        input_points_df["y"] = input_points_df["y"] * row["data_scale_factor"]
-        input_points_df["z"] = input_points_df["z"] * row["data_scale_factor"]
-
-        # The input points world position needs to be scaled as well, since it's
-        # originally in pre-scaled world data coordinates.
-        input_points_world_position["x"] = input_points_world_position["x"] * row["data_scale_factor"]
-        input_points_world_position["y"] = input_points_world_position["y"] * row["data_scale_factor"]
-        input_points_world_position["z"] = input_points_world_position["z"] * row["data_scale_factor"]
-        '''
 
 
         if row["type"] == "labels":
@@ -776,7 +714,6 @@ def main():
                 row["enabled"] = "false"
             files_created += \
                 make_labels_from_dataframe(input_points_df=input_points_df,
-                                           input_points_world_position=None,
                                            filename_base=filename_base,
                                            label_column=row["label_column"],
                                            label_size=row["label_size"],
@@ -789,7 +726,6 @@ def main():
             print("Creating points... ", end="", flush=True)
             files_created += \
                 make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
-                                                         input_points_world_position=None,
                                                          filename_base=filename_base,
                                                          fade_targets=fade_targets,
                                                          color_by_column=row["color_by_column"],
@@ -812,7 +748,6 @@ def main():
                 row["enabled"] = "false"
             files_created += \
                 make_group_labels_from_dataframe(input_points_df=input_points_df,
-                                                 #input_points_world_position=input_points_world_position,
                                                  filename_base=filename_base,
                                                  label_column=row["label_column"],
                                                  label_size=row["label_size"],
@@ -839,7 +774,6 @@ def main():
             # Now an asset file that will be used to load the speck file into OpenSpace.
             files_created += \
                 make_stars_asset_from_dataframe(input_points_df=input_points_df, 
-                                                #input_points_world_position=input_points_world_position,
                                                 filename_base=filename_base,
                                                 magnitude_exponent=row["MagnitudeExponent"],
                                                 core_multiplier=row["core_multiplier"],
