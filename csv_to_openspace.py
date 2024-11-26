@@ -375,6 +375,19 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         color_file.close()
     output_files.append(color_filename)
 
+    # Centering the points. We need to find the center of the points and then
+    # translate all the points so that the center is at the origin. Then OpenSpace
+    # moves the points to the correct location in the world using its transforms.
+    # This is so we can focus on the points properly.
+    # Let's start by making a copy of the dataframe so we don't mess up the original.
+    points_df = input_points_df.copy()
+    center_x = points_df["x"].mean()
+    center_y = points_df["y"].mean()
+    center_z = points_df["z"].mean()
+    points_df["x"] = points_df["x"] - center_x
+    points_df["y"] = points_df["y"] - center_y
+    points_df["z"] = points_df["z"] - center_z
+
     # Now write the CSV file.
     #
     # TODO: Right now this just writes the transformed XYZ coords with
@@ -388,7 +401,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print(f"x,y,z,color,{color_by_column}", file=output_file)
         else:
             print("x,y,z", file=output_file)
-        for index, row in input_points_df.iterrows():
+        for index, row in points_df.iterrows():
             if color_by_column:
                 print(f"{row['x']},{row['y']},{row['z']},{row['color']},{row['color_by_column']}", file=output_file)
             else:
@@ -437,19 +450,18 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
         print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
-        '''
-        if (input_points_world_position is not None):
-            print("  Transform = {", file=output_file)
-            print("    Translation = {", file=output_file)
-            print("      Type = \"StaticTranslation\",", file=output_file)
-            print("      Position = {", file=output_file)
-            print(f"        {input_points_world_position["x"]},", file=output_file)
-            print(f"        {input_points_world_position["y"]},", file=output_file)
-            print(f"        {input_points_world_position["z"]},", file=output_file)
-            print("      }", file=output_file)
-            print("     }", file=output_file)
-            print("    },", file=output_file)
-        '''
+
+        print("  Transform = {", file=output_file)
+        print("    Translation = {", file=output_file)
+        print("      Type = \"StaticTranslation\",", file=output_file)
+        print("      Position = {", file=output_file)
+        print(f"        {center_x} * meters_in_Km,", file=output_file)
+        print(f"        {center_y} * meters_in_Km,", file=output_file)
+        print(f"        {center_z} * meters_in_Km,", file=output_file)
+        print("      }", file=output_file)
+        print("     }", file=output_file)
+        print("    },", file=output_file)
+
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
         print(f"    Path = \"/{dataset_name}/Points\",", file=output_file)
@@ -459,7 +471,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"    Parent = earthAsset.Earth.Identifier,", file=output_file)
+        print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
         print(f"        SizeSettings = {{ ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor} }},", file=output_file)
@@ -511,10 +523,23 @@ def make_labels_from_dataframe(input_points_df,
                                dataset_name):
     output_files = []
 
+    # Centering the points. We need to find the center of the points and then
+    # translate all the points so that the center is at the origin. Then OpenSpace
+    # moves the points to the correct location in the world using its transforms.
+    # This is so we can focus on the points properly.
+    # Let's start by making a copy of the dataframe so we don't mess up the original.
+    points_df = input_points_df.copy()
+    center_x = points_df["x"].mean()
+    center_y = points_df["y"].mean()
+    center_z = points_df["z"].mean()
+    points_df["x"] = points_df["x"] - center_x
+    points_df["y"] = points_df["y"] - center_y
+    points_df["z"] = points_df["z"] - center_z
+
     label_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".label"
     local_label_filename = os.path.basename(label_filename)
     with open(label_filename, "w") as output_file:
-        for index, row in input_points_df.iterrows():
+        for index, row in points_df.iterrows():
             print(f"{row['x']} {row['y']} {row['z']} id {index} text {row[label_column]}", file=output_file)
 
     output_files.append(label_filename)
@@ -536,19 +561,18 @@ def make_labels_from_dataframe(input_points_df,
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
         print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
-        '''
-        if (input_points_world_position is not None):
-            print("  Transform = {", file=output_file)
-            print("    Translation = {", file=output_file)
-            print("      Type = \"StaticTranslation\",", file=output_file)
-            print("      Position = {", file=output_file)
-            print(f"        {input_points_world_position["x"]},", file=output_file)
-            print(f"        {input_points_world_position["y"]},", file=output_file)
-            print(f"        {input_points_world_position["z"]},", file=output_file)
-            print("      }", file=output_file)
-            print("     }", file=output_file)
-            print("    },", file=output_file)
-        '''
+
+        print("  Transform = {", file=output_file)
+        print("    Translation = {", file=output_file)
+        print("      Type = \"StaticTranslation\",", file=output_file)
+        print("      Position = {", file=output_file)
+        print(f"        {center_x} * meters_in_Km,", file=output_file)
+        print(f"        {center_y} * meters_in_Km,", file=output_file)
+        print(f"        {center_z} * meters_in_Km,", file=output_file)
+        print("      }", file=output_file)
+        print("     }", file=output_file)
+        print("    },", file=output_file)
+
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
         print(f"    Path = \"/Positions\",", file=output_file)
@@ -558,7 +582,7 @@ def make_labels_from_dataframe(input_points_df,
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"    Parent = earthAsset.Earth.Identifier,", file=output_file)
+        print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
         print("        Labels = {", file=output_file)
