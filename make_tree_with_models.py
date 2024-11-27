@@ -164,7 +164,7 @@ def make_tree_files_for_OS(input_newick_file,
                 clade.name = clade.name.split('_')[0]
         
             # When all is said and done, convert any underscores to spaces.
-            clade.name = clade.name.replace('_', ' ')
+            #clade.name = clade.name.replace('_', ' ')
 
     # These two functions were lifted verbatim from Biopython's Phylo code. They are
     # used to calculate the positions of the nodes and leaves in the tree.
@@ -616,15 +616,23 @@ def make_tree_files_for_OS(input_newick_file,
                     model_filename = get_model_filename_from_url(model_url)
                     model_identifier = make_model_identifier_from_url(model_url)
                     
-                    print(f"local syncData_{model_identifier} = asset.resource({{", file=asset)
-                    print(f"    Name = \"{model_identifier}\",", file=asset)
-                    print(f"    Type = \"UrlSynchronization\",", file=asset)
-                    print(f"    Identifier = \"{model_identifier}\",", file=asset)
-                    # Now before placing the correct URL in the asset file, replace any
-                    # spaces with %20.
-                    print(f"    Url = {model_url.replace(' ','%20')},", file=asset)
-                    print(f"    Filename = \"{model_filename}\"", file=asset)
-                    print(f"}})", file=asset)
+                    if 'http' in model_url:
+                        print(f"local syncData_{model_identifier} = asset.resource({{", file=asset)
+                        print(f"    Name = \"{model_identifier}\",", file=asset)
+                        print(f"    Identifier = \"{model_identifier}\",", file=asset)
+                        # If the URL has an http in it, then it's URL synchronization. Otherwise,
+                        # it's just a local file.
+
+                        print(f"    Type = \"UrlSynchronization\",", file=asset)
+                        # Now before placing the correct URL in the asset file, replace any
+                        # spaces with %20.
+                        print(f"    Url = {model_url.replace(' ','%20')},", file=asset)
+                        print(f"    Filename = \"{model_filename}\"", file=asset)
+                        print(f"}})", file=asset)
+                    else:
+                        # If we're not using URL synchronization, then we're just grabbing
+                        # it from the current directory.
+                        print(f"local syncData_{model_identifier} = asset.resource(\"./\")", file=asset)
 
                     print(f"local {model_identifier} = {{", file=asset)
                     print(f"    Identifier = \"{model_identifier}\",", file=asset)
@@ -643,6 +651,7 @@ def make_tree_files_for_OS(input_newick_file,
                     print(f"        AmbientIntensity = 0.0,", file=asset)
                     print(f"        Opacity = 1.0,", file=asset)
                     print(f"        GeometryFile = syncData_{model_identifier} .. \"{model_filename}\",", file=asset)
+                    #print(f"        GeometryFile = syncData_{model_identifier},", file=asset)
                     print(f"        ModelScale = {model_scale},", file=asset)
                     print(f"        Enabled = {model_enabled},", file=asset)
                     print(f"        LightSources = {{", file=asset)
