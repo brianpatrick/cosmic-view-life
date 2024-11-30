@@ -419,8 +419,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # The earth is the parent for all of the points, as there are many visualizations
         # where we move points from above the earth down to specific locations. Use
         # OpenSpace's provided transformations for this.
-        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",
-              file=output_file)
+        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",file=output_file)
+        print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=output_file)
 
         # "Declare" fade var so it can be used below.
         fade_varname = ""
@@ -450,7 +450,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print("local meters_in_Km = 1000", file = output_file)
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
-        print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
+        #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
+        print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
 
         print("  Transform = {", file=output_file)
         print("    Translation = {", file=output_file)
@@ -554,14 +555,15 @@ def make_labels_from_dataframe(input_points_df,
         # The earth is the parent for all of the points, as there are many visualizations
         # where we move points from above the earth down to specific locations. Use
         # OpenSpace's provided transformations for this.
-        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",
-              file=output_file)
+        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",file=output_file)
+        print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=output_file)
 
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
         print("local meters_in_Km = 1000", file = output_file)
         print(f"local {output_asset_position_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
-        print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
+        #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
+        print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
 
         print("  Transform = {", file=output_file)
         print("    Translation = {", file=output_file)
@@ -591,7 +593,8 @@ def make_labels_from_dataframe(input_points_df,
         print(f"            File = asset.resource(\"{local_label_filename}\"),", file=output_file)
         #print("            Unit = \"pc\",", file=output_file)
         print("            Unit = \"Km\",", file=output_file)
-        print("            FaceCamera = false,", file=output_file)
+        print("            FaceCamera = true,", file=output_file)
+        print("            Enabled= true,", file=output_file)
         print(f"            Size = {label_size},", file=output_file)
         print(f"            MinMaxSize = {{ {label_minsize},{label_maxsize} }}", file=output_file)
         print("        }", file=output_file)
