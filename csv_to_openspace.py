@@ -831,7 +831,7 @@ def main():
             print(f"Error removing file {args.cache_dir + '/' + file}: {e}")
     print("Done.")
     
-    print(f"Copying files to output directory ({args.asset_dir}).")
+    print(f"Copying files to output directory ({args.asset_dir})... ", end="", flush=True)
     Path(args.asset_dir).mkdir(parents=True, exist_ok=True)
     for file in files_created:
         if args.verbose:
@@ -845,10 +845,11 @@ def main():
     textures = input_dataset_df["default_texture"].unique()
     # Remove any NaNs.
     textures = [x for x in textures if str(x) != "nan"]
+    print(f"Copying textures to output directory ({args.asset_dir})... ", end="", flush=True)
     for texture in textures:
-        if args.verbose:
-            print(f"Copying {texture} ", end="", flush=True)
+        print(f"{texture} ", end="", flush=True)
         shutil.copy2(args.texture_dir + "/" + texture, args.asset_dir)
+    print("Done.")
 
 if __name__ == '__main__':
     main()
