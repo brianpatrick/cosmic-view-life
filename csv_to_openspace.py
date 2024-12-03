@@ -630,13 +630,17 @@ def make_group_labels_from_dataframe(input_points_df,
                                      dataset_name):
 
     # First we want to figure out the unique values in the label column. These
-    # are the groups we want to create labels for.
+    # are the groups we want to create labels for. Ignore NaN values in the label
+    # column.
     groups = input_points_df[label_column].unique()
+    groups = [x for x in groups if str(x) != "nan"]
 
     # Now we want to make a new empty dataframe with the same columns as the
     # input_points_df. This new dataframe will contain the centroids of the
     # groups.
     centroids_df = pd.DataFrame(columns=input_points_df.columns)
+
+    # Iterate over the groups and calculate the centroid of each group.
     for group in groups:
         # Get the rows that belong to this group.
         group_rows = input_points_df[input_points_df[label_column] == group]
@@ -645,6 +649,35 @@ def make_group_labels_from_dataframe(input_points_df,
         centroid["x"] = group_rows["x"].mean()
         centroid["y"] = group_rows["y"].mean()
         centroid["z"] = group_rows["z"].mean()
+
+        # dump the number of points and the centroid.
+        print("Group: " + group + " number of points: " + str(len(group_rows)))
+        print("Group: " + group + " centroid before placing on sphere: " + str(centroid))
+
+        # The points all have the same radius from the origin, but the centroid
+        # may be placed inside the sphere. We need to move the centroid to the
+        # surface of the sphere. We can do this by normalizing the centroid vector
+        # and then multiplying by the radius of the sphere.
+        # First let's normalize the centroid vector.
+        centroid_radius = math.sqrt(centroid["x"]**2 + centroid["y"]**2 + centroid["z"]**2)
+        centroid["x"] = centroid["x"] / centroid_radius
+        centroid["y"] = centroid["y"] / centroid_radius
+        centroid["z"] = centroid["z"] / centroid_radius
+
+        # Now multiply by the radius of the sphere. Get the first point in the group.
+        first_point = group_rows.iloc[0]
+        sphere_radius = math.sqrt(first_point["x"]**2 + first_point["y"]**2 + first_point["z"]**2)
+        centroid["x"] = centroid["x"] * sphere_radius
+        centroid["y"] = centroid["y"] * sphere_radius
+        centroid["z"] = centroid["z"] * sphere_radius
+
+        # Dump the centroid and its radius (to double check).
+        print("Group: " + group + " centroid on sphere: " + str(centroid))
+        print("Group: " + group + " centroid radius: " + str(math.sqrt(centroid["x"]**2 + centroid["y"]**2 + centroid["z"]**2)))
+
+        # Add the number of points to the group name.
+        group = group + " (" + str(len(group_rows)) + ")"
+
         # Add the group name to the centroid.
         centroid[label_column] = group
 
