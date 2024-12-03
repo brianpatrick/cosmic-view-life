@@ -651,8 +651,8 @@ def make_group_labels_from_dataframe(input_points_df,
         centroid["z"] = group_rows["z"].mean()
 
         # dump the number of points and the centroid.
-        print("Group: " + group + " number of points: " + str(len(group_rows)))
-        print("Group: " + group + " centroid before placing on sphere: " + str(centroid))
+        #print("Group: " + group + " number of points: " + str(len(group_rows)))
+        #print("Group: " + group + " centroid before placing on sphere: " + str(centroid))
 
         # The points all have the same radius from the origin, but the centroid
         # may be placed inside the sphere. We need to move the centroid to the
@@ -672,8 +672,8 @@ def make_group_labels_from_dataframe(input_points_df,
         centroid["z"] = centroid["z"] * sphere_radius
 
         # Dump the centroid and its radius (to double check).
-        print("Group: " + group + " centroid on sphere: " + str(centroid))
-        print("Group: " + group + " centroid radius: " + str(math.sqrt(centroid["x"]**2 + centroid["y"]**2 + centroid["z"]**2)))
+        #print("Group: " + group + " centroid on sphere: " + str(centroid))
+        #print("Group: " + group + " centroid radius: " + str(math.sqrt(centroid["x"]**2 + centroid["y"]**2 + centroid["z"]**2)))
 
         # Add the number of points to the group name.
         group = group + " (" + str(len(group_rows)) + ")"
