@@ -54,6 +54,7 @@ import shutil
 import os
 import math
 from pathlib import Path
+import wslPath
 import sys
 
 parser = argparse.ArgumentParser(description="Process input CSV files for OpenSpace.")
@@ -69,6 +70,24 @@ parser.add_argument("-t", "--texture_dir", help="Directory holding texture files
                     default="textures")
 parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_true")
 args = parser.parse_args()
+
+# Convert all absolute paths to their appropriate os (WSL or Windows) paths.
+def convert_path(path):
+    # Is this path a relative path? If so, we can skip it.
+    if not os.path.isabs(path):
+        return path
+    if os.name == 'posix':
+        path = wslPath.to_posix(path)
+    else:
+        path = wslPath.to_windows(path)
+    return(path)
+
+args.input_dataset_csv_file = convert_path(args.input_dataset_csv_file)
+args.cache_dir = convert_path(args.cache_dir)
+args.asset_dir = convert_path(args.asset_dir)
+args.output_dir = convert_path(args.output_dir)
+args.texture_dir = convert_path(args.texture_dir)
+
 
 def make_stars_speck_from_dataframe(input_points_df, filename_base,
                                     lum, absmag, colorb_v, texnum):
@@ -242,7 +261,7 @@ def make_stars_asset_from_dataframe(input_points_df,
             print("1.0 1.0 1.0 0.5", file=cmap_file)
             print("1.0 0.0 0.0 1.0", file=cmap_file)
             print("0.0 1.0 0.0 1.0", file=cmap_file)
-            print("0.0 0.0 1.0 1.0", file=cmap_file)
+            print("0.0 0.5 1.0 1.0", file=cmap_file)
             print("1.0 1.0 1.0 1.0", file=cmap_file)
             cmap_file.close()
 
@@ -675,8 +694,10 @@ def make_group_labels_from_dataframe(input_points_df,
         #print("Group: " + group + " centroid on sphere: " + str(centroid))
         #print("Group: " + group + " centroid radius: " + str(math.sqrt(centroid["x"]**2 + centroid["y"]**2 + centroid["z"]**2)))
 
-        # Add the number of points to the group name.
-        group = group + " (" + str(len(group_rows)) + ")"
+        # If the number if points is more than 1, add the number of points to the group
+        # name.
+        if len(group_rows) > 1:
+            group = group + " (" + str(len(group_rows)) + ")"
 
         # Add the group name to the centroid.
         centroid[label_column] = group
@@ -699,12 +720,6 @@ def make_group_labels_from_dataframe(input_points_df,
     return(output_files)
 
 def main():
-    # This script should be run in a UNIX-like environment (Linux, or maybe one day MacOS,
-    # if OpenSpace ever gets running there properly). Make sure we're not in Windows.
-    #if os.name == "nt":
-    #    print("Error: This script should be run in Linux.")
-    #    sys.exit(1)
-
     # If an output directory was specified, make sure it exists.
     if args.output_dir != ".":
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
