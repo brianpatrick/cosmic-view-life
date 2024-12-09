@@ -423,10 +423,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     points_df["y"] = points_df["y"] - center_y
     points_df["z"] = points_df["z"] - center_z
 
-    # Let's add a color amd color_by_column column to the dataframe.
-    #points_df["color"] = row["color"]
-    #points_df["color_by_column"] = row["color_by_column"]
-
     # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
     # it includes the color, color_by_column, and any other columns that were in the
     # original CSV file. This is so we can use the color column to color the points in
@@ -511,10 +507,13 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
         print(f"         Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
         print(f"         Unit = \"{units}\",", file=output_file)
-        print(f"        Coloring = {{ ColorMapping = {{ File = colormaps.Uniform.Viridis }} }},", file=output_file)
+        if (str(color_by_column) != "nan"):
+            print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
+            print(f"                                      Parameter = \"color\" }} }},", file=output_file)
+        else:
+            print(f"        Coloring = {{ ColorMapping = {{ File = colormaps.Uniform.Viridis }} }},", file=output_file)
+
         #print(f"        Coloring = {{ FixedColor = {{ 1.0, 0.0, 0.0 }} }},", file=output_file)
-        #print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
-        #print(f"                                      Parameter = \"color\" }} }},", file=output_file)
         print("    },", file=output_file)
         #print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
         print(f"    InteractionSphere = {interaction_sphere} * meters_in_{units},", file=output_file)
@@ -663,6 +662,7 @@ def make_group_labels_from_dataframe(input_points_df,
                                      label_minsize, 
                                      label_maxsize, 
                                      enabled,
+                                     units,
                                      dataset_name):
 
     # First we want to figure out the unique values in the label column. These
@@ -732,6 +732,7 @@ def make_group_labels_from_dataframe(input_points_df,
                                               label_minsize=label_minsize,
                                               label_maxsize=label_maxsize,
                                               enabled=enabled,
+                                              units=units,
                                               dataset_name=dataset_name)
 
     return(output_files)
@@ -857,6 +858,7 @@ def main():
                                                  label_minsize=row["label_minsize"],
                                                  label_maxsize=row["label_maxsize"],
                                                  enabled=row["enabled"],
+                                                 units=units,
                                                  dataset_name=dataset_name)
 
 
