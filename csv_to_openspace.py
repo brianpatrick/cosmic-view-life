@@ -77,8 +77,15 @@ def convert_path(path):
     if not os.path.isabs(path):
         return path
     if os.name == 'posix':
+        # Is this already a posix path? If so, we can skip it.
+        if path.startswith("/mnt/"):
+            return path
         path = wslPath.to_posix(path)
     else:
+        # Is this already a windows path? Check to see if it starts with
+        # a drive letter.
+        if len(path) > 1 and path[1] == ":": 
+            return path
         path = wslPath.to_windows(path)
     return(path)
 
@@ -307,7 +314,7 @@ def make_stars_asset_from_dataframe(input_points_df,
         print("    DimInAtmosphere = true", file=output_file)
         print("  },", file=output_file)
         #print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
-        print("    InteractionSphere = 1 * meters_in_Km,", file=output_file)
+        print(f"    InteractionSphere = 1 * meters_in_Km,", file=output_file)
         print("    ApproachFactor = 1000.0,", file=output_file)
         print("    ReachFactor = 5.0,", file=output_file)
         print("", file=output_file)
@@ -347,6 +354,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              default_texture,
                                              size_scale_factor,
                                              size_scale_exponent,
+                                             units,
                                              dataset_name):
     output_files = []
 
@@ -395,11 +403,18 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         color_file.close()
     output_files.append(color_filename)
 
-    # Centering the points. We need to find the center of the points and then
-    # translate all the points so that the center is at the origin. Then OpenSpace
-    # moves the points to the correct location in the world using its transforms.
-    # This is so we can focus on the points properly.
-    # Let's start by making a copy of the dataframe so we don't mess up the original.
+    # Centering the points. We need to find the center of the points and then translate
+    # all the points so that the center is at the origin. Then OpenSpace moves the points
+    # to the correct location in the world using its transforms. This is so we can focus
+    # on the points properly.
+    #
+    # Let's start by making a copy of the dataframe so we don't mess up the original. This
+    # is because we're going to modify the dataframe by centering the points, and python
+    # is pass-by-reference. We don't want to mess up the original dataframe.
+    #
+    # This means we'll likely do this operation more than once. TODO: I should probably
+    # make a function for this, center it once, and then use the centered points for
+    # all the other operations.
     points_df = input_points_df.copy()
     center_x = points_df["x"].mean()
     center_y = points_df["y"].mean()
@@ -408,25 +423,21 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     points_df["y"] = points_df["y"] - center_y
     points_df["z"] = points_df["z"] - center_z
 
-    # Now write the CSV file.
-    #
-    # TODO: Right now this just writes the transformed XYZ coords with
-    #       whatever other info is required for color maps, etc. Should I just be
-    #       write everything from the orig input file (i.e., all the other columns)?
+    # Let's add a color amd color_by_column column to the dataframe.
+    #points_df["color"] = row["color"]
+    #points_df["color_by_column"] = row["color_by_column"]
+
+    # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
+    # it includes the color, color_by_column, and any other columns that were in the
+    # original CSV file. This is so we can use the color column to color the points in
+    # OpenSpace. OpenSpace color maps are kinda broken, this will likely just use a
+    # default viridis color map for now.
     points_csv_filename = args.output_dir + "/" + filename_base + "_points.csv"
     # Local filename is just the filename with no path.
     local_points_csv_filename = os.path.basename(points_csv_filename)
-    with open(points_csv_filename, "w") as output_file:
-        if color_by_column:
-            print(f"x,y,z,color,{color_by_column}", file=output_file)
-        else:
-            print("x,y,z", file=output_file)
-        for index, row in points_df.iterrows():
-            if color_by_column:
-                print(f"{row['x']},{row['y']},{row['z']},{row['color']},{row['color_by_column']}", file=output_file)
-            else:
-                print(f"{row['x']},{row['y']},{row['z']}", file=output_file)
-        output_file.close()
+
+    # Now just dump the points to the CSV file.
+    points_df.to_csv(points_csv_filename, index=False)
 
     output_files.append(points_csv_filename)
 
@@ -440,6 +451,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # OpenSpace's provided transformations for this.
         print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",file=output_file)
         print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=output_file)
+        print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
 
         # "Declare" fade var so it can be used below.
         fade_varname = ""
@@ -476,9 +488,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
         print("      Position = {", file=output_file)
-        print(f"        {center_x} * meters_in_Km,", file=output_file)
-        print(f"        {center_y} * meters_in_Km,", file=output_file)
-        print(f"        {center_z} * meters_in_Km,", file=output_file)
+        print(f"        {center_x} * meters_in_{units},", file=output_file)
+        print(f"        {center_y} * meters_in_{units},", file=output_file)
+        print(f"        {center_z} * meters_in_{units},", file=output_file)
         print("      }", file=output_file)
         print("     }", file=output_file)
         print("    },", file=output_file)
@@ -498,14 +510,14 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"        SizeSettings = {{ ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor} }},", file=output_file)
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
         print(f"         Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
-        #print("         Unit = \"pc\",", file=output_file)
-        print("         Unit = \"Km\",", file=output_file)
+        print(f"         Unit = \"{units}\",", file=output_file)
+        print(f"        Coloring = {{ ColorMapping = {{ File = colormaps.Uniform.Viridis }} }},", file=output_file)
         #print(f"        Coloring = {{ FixedColor = {{ 1.0, 0.0, 0.0 }} }},", file=output_file)
-        print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
-        print(f"                                      Parameter = \"color\" }} }},", file=output_file)
+        #print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
+        #print(f"                                      Parameter = \"color\" }} }},", file=output_file)
         print("    },", file=output_file)
         #print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
-        print(f"    InteractionSphere = {interaction_sphere} * meters_in_Km,", file=output_file)
+        print(f"    InteractionSphere = {interaction_sphere} * meters_in_{units},", file=output_file)
         print("    ApproachFactor = 1000.0,", file=output_file)
         print("    ReachFactor = 5.0,", file=output_file)
         if fade_targets:
@@ -540,7 +552,12 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
 def make_labels_from_dataframe(input_points_df, 
                                filename_base,
-                               label_column, label_size, label_minsize, label_maxsize, enabled,
+                               label_column, 
+                               label_size, 
+                               label_minsize, 
+                               label_maxsize,
+                               enabled,
+                               units,
                                dataset_name):
     output_files = []
 
@@ -588,9 +605,9 @@ def make_labels_from_dataframe(input_points_df,
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
         print("      Position = {", file=output_file)
-        print(f"        {center_x} * meters_in_Km,", file=output_file)
-        print(f"        {center_y} * meters_in_Km,", file=output_file)
-        print(f"        {center_z} * meters_in_Km,", file=output_file)
+        print(f"        {center_x} * meters_in_{units},", file=output_file)
+        print(f"        {center_y} * meters_in_{units},", file=output_file)
+        print(f"        {center_z} * meters_in_{units},", file=output_file)
         print("      }", file=output_file)
         print("     }", file=output_file)
         print("    },", file=output_file)
@@ -610,8 +627,7 @@ def make_labels_from_dataframe(input_points_df,
         print(f"        Enabled = {enabled},", file=output_file)
         print("        Labels = {", file=output_file)
         print(f"            File = asset.resource(\"{local_label_filename}\"),", file=output_file)
-        #print("            Unit = \"pc\",", file=output_file)
-        print("            Unit = \"Km\",", file=output_file)
+        print(f"         Unit = \"{units}\",", file=output_file)
         print("            FaceCamera = true,", file=output_file)
         print("            Enabled= true,", file=output_file)
         print(f"            Size = {label_size},", file=output_file)
@@ -778,6 +794,12 @@ def main():
         input_points_df["y"] = input_points_df["y"] * row["data_scale_factor"]
         input_points_df["z"] = input_points_df["z"] * row["data_scale_factor"]
 
+        # Is there a units column in the input_dataset_df table? If so, use it, 
+        # otherwise assume Km.
+        units = "Km"
+        if "units" in input_dataset_df.columns:
+            units = row["units"]
+
 
         if row["type"] == "labels":
             print("Creating labels... ", end="", flush=True)
@@ -798,6 +820,7 @@ def main():
                                            label_minsize=row["label_minsize"],
                                            label_maxsize=row["label_maxsize"],
                                            enabled=row["enabled"],
+                                           units=units,
                                            dataset_name=dataset_name)
             
         elif row["type"] == "points":
@@ -811,6 +834,7 @@ def main():
                                                          default_texture=row["default_texture"],
                                                          size_scale_factor=row["point_scale_factor"],
                                                          size_scale_exponent=row["point_scale_exponent"],
+                                                         units=units,
                                                          dataset_name=dataset_name)
             
         # Datasets contain many points that fall into common groupings, such as phyla,
