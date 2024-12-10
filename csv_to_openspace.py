@@ -72,21 +72,29 @@ parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_tru
 args = parser.parse_args()
 
 # Convert all absolute paths to their appropriate os (WSL or Windows) paths.
+#
+# WARNING - this doesn't work quite right.
+#
 def convert_path(path):
-    # Is this path a relative path? If so, we can skip it.
-    if not os.path.isabs(path):
-        return path
+    # DOESN'T WORK RIGHT YET. NEED TO FIGURE OUT HOW TO DO THIS.
+    '''
+    # Does this start with a letter and a colon? If so, it's a windows path.
+    if len(path) > 1 and path[1] == ":":
+        # Make this a valid windows path that we can feed to wslpath.    
+        path = path.replace("/", "\\")
+
     if os.name == 'posix':
         # Is this already a posix path? If so, we can skip it.
         if path.startswith("/mnt/"):
             return path
         path = wslPath.to_posix(path)
-    else:
+    elif os.name == 'nt':
         # Is this already a windows path? Check to see if it starts with
         # a drive letter.
         if len(path) > 1 and path[1] == ":": 
             return path
         path = wslPath.to_windows(path)
+    '''
     return(path)
 
 args.input_dataset_csv_file = convert_path(args.input_dataset_csv_file)
