@@ -773,6 +773,12 @@ def main():
     # Now run the functions to create the speck and asset files for each csv
     # file in the dataset csv file.
     for index, row in input_dataset_df.iterrows():
+
+        # If the CSV file starts with a #, it is commented out and we should
+        # skip this line.
+        if row["csv_file"].startswith("#"):
+            continue
+
         print("Reading file: " + row["csv_file"] + "... ", end="", flush=True)
 
         input_points_df = pd.read_csv(row["csv_file"])
@@ -811,7 +817,7 @@ def main():
 
 
         if row["type"] == "labels":
-            print("Creating labels... ", end="", flush=True)
+            print(f"Creating {row["label_column"]} labels... ", end="", flush=True)
             # Let's do the labels first. The following functions modify the original
             # dataframe, adding lots of columns for the speck file, but making labels
             # doesn't. So we can do this first.
@@ -852,7 +858,7 @@ def main():
         # points. This is useful for large datasets where the labels would otherwise
         # overlap.
         elif row["type"] == "group_labels":
-            print("Creating group labels... ", end="", flush=True)
+            print(f"Creating {row["label_column"]} group labels... ", end="", flush=True)
             # Same thing as above, for enabled.
             if row["enabled"] == 1:
                 row["enabled"] = "true"
