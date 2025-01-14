@@ -411,25 +411,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         color_file.close()
     output_files.append(color_filename)
 
-    # Centering the points. We need to find the center of the points and then translate
-    # all the points so that the center is at the origin. Then OpenSpace moves the points
-    # to the correct location in the world using its transforms. This is so we can focus
-    # on the points properly.
-    #
-    # Let's start by making a copy of the dataframe so we don't mess up the original. This
-    # is because we're going to modify the dataframe by centering the points, and python
-    # is pass-by-reference. We don't want to mess up the original dataframe.
-    #
-    # This means we'll likely do this operation more than once. TODO: I should probably
-    # make a function for this, center it once, and then use the centered points for
-    # all the other operations.
-    points_df = input_points_df.copy()
-    center_x = points_df["x"].mean()
-    center_y = points_df["y"].mean()
-    center_z = points_df["z"].mean()
-    points_df["x"] = points_df["x"] - center_x
-    points_df["y"] = points_df["y"] - center_y
-    points_df["z"] = points_df["z"] - center_z
+    (points_df, center_x, center_y, center_z) = center_points(input_points_df)
 
     # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
     # it includes the color, color_by_column, and any other columns that were in the
@@ -557,6 +539,26 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
     return(output_files)
 
+def center_points(input_points_df):
+    # Centering the points. We need to find the center of the points and then translate
+    # all the points so that the center is at the origin. Then OpenSpace moves the points
+    # to the correct location in the world using its transforms. This is so we can focus
+    # on the points properly.
+    #
+    # Let's start by making a copy of the dataframe so we don't mess up the original. This
+    # is because we're going to modify the dataframe by centering the points, and python
+    # is pass-by-reference. We don't want to mess up the original dataframe.
+    points_df = input_points_df.copy()
+    center_x = points_df["x"].mean()
+    center_y = points_df["y"].mean()
+    center_z = points_df["z"].mean()
+    #print(f"Centering points at {center_x}, {center_y}, {center_z}")
+    points_df["x"] = points_df["x"] - center_x
+    points_df["y"] = points_df["y"] - center_y
+    points_df["z"] = points_df["z"] - center_z
+
+    return(points_df, center_x, center_y, center_z)
+
 def make_labels_from_dataframe(input_points_df, 
                                filename_base,
                                label_column, 
@@ -565,21 +567,20 @@ def make_labels_from_dataframe(input_points_df,
                                label_maxsize,
                                enabled,
                                units,
-                               dataset_name):
+                               dataset_name,
+                               centered_already=False,
+                               pre_centered_x = 0,
+                               pre_centered_y = 0,
+                               pre_centered_z = 0):
     output_files = []
 
-    # Centering the points. We need to find the center of the points and then
-    # translate all the points so that the center is at the origin. Then OpenSpace
-    # moves the points to the correct location in the world using its transforms.
-    # This is so we can focus on the points properly.
-    # Let's start by making a copy of the dataframe so we don't mess up the original.
-    points_df = input_points_df.copy()
-    center_x = points_df["x"].mean()
-    center_y = points_df["y"].mean()
-    center_z = points_df["z"].mean()
-    points_df["x"] = points_df["x"] - center_x
-    points_df["y"] = points_df["y"] - center_y
-    points_df["z"] = points_df["z"] - center_z
+    if not centered_already:
+        (points_df, center_x, center_y, center_z) = center_points(input_points_df)
+    else:
+        points_df = input_points_df
+        center_x = pre_centered_x
+        center_y = pre_centered_y
+        center_z = pre_centered_z
 
     label_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".label"
     local_label_filename = os.path.basename(label_filename)
@@ -673,21 +674,23 @@ def make_group_labels_from_dataframe(input_points_df,
                                      units,
                                      dataset_name):
 
+    (points_df, center_x, center_y, center_z) = center_points(input_points_df)
+
     # First we want to figure out the unique values in the label column. These
     # are the groups we want to create labels for. Ignore NaN values in the label
     # column.
-    groups = input_points_df[label_column].unique()
+    groups = points_df[label_column].unique()
     groups = [x for x in groups if str(x) != "nan"]
 
     # Now we want to make a new empty dataframe with the same columns as the
-    # input_points_df. This new dataframe will contain the centroids of the
+    # points_df. This new dataframe will contain the centroids of the
     # groups.
-    centroids_df = pd.DataFrame(columns=input_points_df.columns)
+    centroids_df = pd.DataFrame(columns=points_df.columns)
 
     # Iterate over the groups and calculate the centroid of each group.
     for group in groups:
         # Get the rows that belong to this group.
-        group_rows = input_points_df[input_points_df[label_column] == group]
+        group_rows = points_df[points_df[label_column] == group]
         # Calculate the centroid of the group.
         centroid = {}
         centroid["x"] = group_rows["x"].mean()
@@ -708,9 +711,14 @@ def make_group_labels_from_dataframe(input_points_df,
         centroid["y"] = centroid["y"] / centroid_radius
         centroid["z"] = centroid["z"] / centroid_radius
 
+        # Dump normalized centroid for debugging.
+        #print("Group: " + group + " centroid normalized: " + str(centroid))
+
         # Now multiply by the radius of the sphere. Get the first point in the group.
         first_point = group_rows.iloc[0]
         sphere_radius = math.sqrt(first_point["x"]**2 + first_point["y"]**2 + first_point["z"]**2)
+        # Print the radius for debugging.
+        #print("Group: " + group + " sphere radius: " + str(sphere_radius))
         centroid["x"] = centroid["x"] * sphere_radius
         centroid["y"] = centroid["y"] * sphere_radius
         centroid["z"] = centroid["z"] * sphere_radius
@@ -741,7 +749,11 @@ def make_group_labels_from_dataframe(input_points_df,
                                               label_maxsize=label_maxsize,
                                               enabled=enabled,
                                               units=units,
-                                              dataset_name=dataset_name)
+                                              dataset_name=dataset_name,
+                                              centered_already=True,
+                                              pre_centered_x=center_x,
+                                              pre_centered_y=center_y,
+                                              pre_centered_z=center_z)
 
     return(output_files)
 
