@@ -1,0 +1,6 @@
+# Jan 2025 birds dataset CSV files and parameters,,,,,,,,,,,,,
+# Magnitude through texnum are star renderable params and currently not used (since the star renderable is not used).,,,,,,,,,,,,,
+csv_file,type,data_scale_factor,label_column,label_size,label_minsize,label_maxsize,default_texture,point_scale_factor,point_scale_exponent,enabled,color_by_column,interaction_sphere,fade_targets
+bird_species.sphere.relaxed.grafted.csv,points,100000,,,,,point3a.png,20.78,2.23,,family,1,eukaryotes_class_relax45
+bird_species.sphere.relaxed.grafted.csv,labels,100000,species_eng,1.57,8,125,,,,0,,1,
+bird_species.sphere.relaxed.grafted.csv,group_labels,100000,family_eng,4.82,8,125,,,,0,,,
