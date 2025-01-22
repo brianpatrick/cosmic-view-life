@@ -7,7 +7,7 @@
 REPO_PATH := $(shell pwd)
 
 # Important paths. Tweak as needed for your system.
-OPENSPACE_CACHE := /mnt/e/git/OpenSpace/cache
+OPENSPACE_CACHE := /mnt/e/git/OpenSpace-sonification/cache
 OPENSPACE_ASSET_DIR := /mnt/e/OpenSpace/user/data/assets
 
 mammals_nov_26:

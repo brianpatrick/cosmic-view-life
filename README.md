@@ -12,10 +12,10 @@
     <!-- <img src="images/logo.png" alt="Logo" width="80" height="80"> -->
   </a>
 
-<h3 align="center">Cosmic View of Life on Earth</h3>
+<h1 align="center">Cosmic View of Life on Earth</h3>
 
   <p align="center">
-    A project to create a 3-D tree of life based on DNA samples from the BOLD database.
+    Bringing Biology to Life Using Astronomy
     <br />
     <a href="https://github.com/brianpatrick/cosmic-view-life"><strong>Explore the docs »</strong></a>
     <br />
@@ -57,13 +57,21 @@
 
 
 <!-- ABOUT THE PROJECT -->
-## About The Project
+# About The Project
 
 <!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
-This project endeavors to create a 3-D tree of life based on DNA samples from the BOLD database. Based on these samples, we dimensionally reduce each DNA sample down to three. We then plot these data in [OpenSpace]() to examine the relationship between species and their lineage.
-<br />
-This project is in its nacient stages. Thus far, we have exampined the primates, and are beginning to examing other divisions of life, including birds.
+The goal of this project is to provide tools and pipelines for the display of biological
+data using astronomical visualization software. [OpenSpace]() is a powerful visualization
+tool with the ability to view point cloud, 3D model, and volume data on scales ranging
+from centimeters to megaparsecs. The Cosmic View of Life (CVoL) project provides a
+pipeline to create compelling and interactive visualizations in [OpenSpace]() from various
+forms of biological data, including CT scans, bioinformatic data, surface scans, molecular
+models, morphological data, species occurrences and distribution models, and more.
+
+Much of the documentation below assumes familiarity with OpenSpace - for example, asset,
+label, and speck files are discussed in gory detail.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -105,14 +113,14 @@ This is an example of how to list things you need to use the software and how to
 
 
 <!-- ORGANIZATION -->
-## Organization
+# Programs
 
-The repository is organized into by following directory structure:
+Well, scripts. But scripts can be programs, too. 
 
-### `/csv_to_openspace.py`
+## `csv_to_openspace.py`
 
-Transforms Wandrille's CSV file with points and taxonomy data to star (or point) assets
-and labels.
+Transforms CSV files with points and taxonomy data to point (or star) assets
+and labels in OpenSpace.
 
 The program:
 
@@ -146,43 +154,75 @@ on your setup.
 
 The asset dir is where you want the assets placed when run.
 
+** NEED TO CHANGE THIS TO USE MAKEFILES **
+
 Example run:
 
 Note that the paths below need to be modified for your particular setup.
 
-First `cd` into the data dir, for the example below this would be `catalogs_raw/Nov_26_relaxed_dataset_english_names`. Then run:
+First `cd` into the data dir, for the example below this would be
+`catalogs_raw/Nov_26_relaxed_dataset_english_names`. Then run:
 
 `../../csv_to_openspace.py -i Nov_26_mammals_dataset.csv -c /mnt/e/git/OpenSpace/cache -a /mnt/e/OpenSpace/user/data/assets/Nov_26_mammals_dataset -o ./outfiles -t ../../textures`
 
 Then make sure your profile is set up to load the new assets.
 
-### `/make_tree_with_models.py` and `/tree_input_files`
+## `make_tree_with_models.py` 
 
 This python script (and the associated files in `tree_input_files` takes a Newick format
 input file and a list of models in CSV format to create a 3D phylogenetic tree with models
 at leaves and nodes.
 
-### `/plot_insect_points.py`
+## `plot_insect_points.py`
 
 This is a proof-of-concept script to process some updated data from Wandrille. Its logic
 was ported to the much more flexible `csv_to_openspace.py` script.
 
-### `/integrate_tree_to_XYZ`
+# Directories
+
+The repository contains the following directories:
+
+## `./data`
+
+Input data from various sources can be found in `./data`.
+
+### `./data/points_around_earth`
+
+OpenSpace is geared towards astronomical visualizations, but is able to display a
+high-resolution globe of the earth with all kinds of data overlaid, such as distribution
+maps, sea surface temperatures, elevations, and so on. A key visualization mode of CVoL is
+to depict species as points over the globe as a "star field of life". A "nested" model is
+used, whereby larger points representing higher level groups such as "green plants",
+"protists", "insects", "chordates" is initially shown. Flying up to a group such as
+"mammals" results in a field of points around this "parent point", where points represent
+(for example) individual species and are grouped taxonomically. 
+
+(TODO: Need to make an example that can be run, sudh as mammals or something.)
+
+
+
+
+
+### `./data/archive`
+
+Archived datasets used in early trial visualizations. Not guaranteed to work properly as
+data formats and processing algorithms have changed quite a bit over the course of the
+project, so these will not be described in detail.
+
+
+## `./integrate_tree_to_XYZ`
 
 This git submodule is Wandrille's code to convert Timetree data (`timetree.org`) into
 3-dimensional points. Some of the code in `/src` and `make_tree_with_models.py` benefitted
 from access to internal data structures in Wandrille's original project, so it was
 modified to allow inclusion as a python `import`. 
 
+# Archived stuff
 
-### **BELOW THIS POINT, SOME OF THE CODE IS OUTDATED, BUT SOME IS STILL IN USE.**
+The following directories and programs are outdated. They're all from early incarnations
+of the project and various proofs-of-concept.
 
-### `/actions`:
-
-This folder contains some pre-coded actions for insect plots. It's largely outdated,
-since now actions are typically created programatically at runtime.
-
-### `/main.py`:
+## `main.py`:
 
 The (original) main function that all other programs are called from. This script has been
 partially subsumed by the previous scripts noted above.
@@ -192,6 +232,12 @@ by commenting and uncommenting function calls to various parts of the code. The 
 above tend to use parameter files as inputs to direct the scripts as to what data to
 process and where to find it. Much of that code is based on the original code in `main.py`
 and the `/src` subdirectory.
+
+## `/actions`:
+
+This folder contains some pre-coded actions for insect plots. It's largely outdated,
+since now actions are typically created programatically at runtime.
+
 
 
 ### /catalogs_raw:
