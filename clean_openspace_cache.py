@@ -25,8 +25,13 @@ parser.add_argument("-c", "--cache_dir", help="OpenSpace cache directory.",
 parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_true")
 args = parser.parse_args()
 
+
 # Get a list of all the files in the asset dir. Do not traverse subdirs.
 asset_dir = Path(args.asset_dir)
+# If the asset dir doesn't exist, just exit.
+if not asset_dir.exists():
+    print(f"Asset dir {asset_dir} does not exist.")
+    sys.exit(0)
 asset_files = [f for f in asset_dir.iterdir() if f.is_file()]
 
 # For each file in the asset dir, remove the directory with the same name from the cache
