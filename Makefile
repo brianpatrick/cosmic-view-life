@@ -21,7 +21,7 @@ mammals_nov_26: cache_clean_mammals_nov_26
 	-a ${OPENSPACE_ASSET_DIR}/Nov_26_mammals_dataset \
 	-o ./outfiles -t ${REPO_PATH}/textures
 
-birds_Jan_2025: cache_clean_birds_Jan_2025
+birds_Jan_2025: 
 	@echo "*** Cleaning ${OPENSPACE_CACHE} of files in ${OPENSPACE_ASSET_DIR}/Jan_2025_birds_dataset"
 	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
 	-a ${OPENSPACE_ASSET_DIR}/Jan_2025_birds_dataset -v
