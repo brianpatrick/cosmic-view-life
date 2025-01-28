@@ -13,3 +13,5 @@ bird_species.sphere.relaxed.grafted.csv,labels,100000,species_eng,1.57,8,125,,,,
 # Bird families file,,,,,,,,,,,,,
 bird_families.sphere.relaxed.grafted.csv,points,100000,,,,,point3a.png,20.78,2.23,,family,2,eukaryotes_class_relax45
 bird_families.sphere.relaxed.grafted.csv,labels,100000,family,1.57,8,125,,,,0,,,
+bird_families.tree_branches.csv,branches,100000,,,,,,,,,,,
+bird_families.tree_terminal_branches.csv,branches,100000,,,,,,,,,,,
