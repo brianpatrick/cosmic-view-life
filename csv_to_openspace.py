@@ -56,9 +56,10 @@ import math
 from pathlib import Path
 import wslPath
 import sys
+import json
 
 parser = argparse.ArgumentParser(description="Process input CSV files for OpenSpace.")
-parser.add_argument("-i", "--input_dataset_csv_file", help="Input dataset CSV file.", 
+parser.add_argument("-i", "--input_dataset_json_file", help="Input dataset JSON file.", 
                     required=True)
 parser.add_argument("-c", "--cache_dir", help="OpenSpace cache directory.",
                     required=True)
@@ -71,13 +72,17 @@ parser.add_argument("-t", "--texture_dir", help="Directory holding texture files
 parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_true")
 args = parser.parse_args()
 
+'''
+
+The idea here is to make the script OS-agnostic as far as paths go. The
+problem is it doesn't work yet.
+
 # Convert all absolute paths to their appropriate os (WSL or Windows) paths.
 #
 # WARNING - this doesn't work quite right.
 #
 def convert_path(path):
     # DOESN'T WORK RIGHT YET. NEED TO FIGURE OUT HOW TO DO THIS.
-    '''
     # Does this start with a letter and a colon? If so, it's a windows path.
     if len(path) > 1 and path[1] == ":":
         # Make this a valid windows path that we can feed to wslpath.    
@@ -94,15 +99,14 @@ def convert_path(path):
         if len(path) > 1 and path[1] == ":": 
             return path
         path = wslPath.to_windows(path)
-    '''
     return(path)
 
-args.input_dataset_csv_file = convert_path(args.input_dataset_csv_file)
+args.input_dataset__file = convert_path(args.input_dataset_csv_file)
 args.cache_dir = convert_path(args.cache_dir)
 args.asset_dir = convert_path(args.asset_dir)
 args.output_dir = convert_path(args.output_dir)
 args.texture_dir = convert_path(args.texture_dir)
-
+'''
 
 def make_stars_speck_from_dataframe(input_points_df, filename_base,
                                     lum, absmag, colorb_v, texnum):
@@ -411,9 +415,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         color_file.close()
     output_files.append(color_filename)
 
-    (points_df, center_x, center_y, center_z) = center_points(input_points_df)
-    print(f"Centering points at {center_x}, {center_y}, {center_z}")
-
     # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
     # it includes the color, color_by_column, and any other columns that were in the
     # original CSV file. This is so we can use the color column to color the points in
@@ -424,7 +425,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     local_points_csv_filename = os.path.basename(points_csv_filename)
 
     # Now just dump the points to the CSV file.
-    points_df.to_csv(points_csv_filename, index=False)
+    input_points_df.to_csv(points_csv_filename, index=False)
 
     output_files.append(points_csv_filename)
 
@@ -470,17 +471,18 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
         #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
         print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
-
-        print("  Transform = {", file=output_file)
-        print("    Translation = {", file=output_file)
-        print("      Type = \"StaticTranslation\",", file=output_file)
-        print("      Position = {", file=output_file)
+        '''
+        print( "  Transform = {", file=output_file)
+        print( "    Translation = {", file=output_file)
+        print( "      Type = \"StaticTranslation\",", file=output_file)
+        print( "      Position = {", file=output_file)
         print(f"        {center_x} * meters_in_{units},", file=output_file)
         print(f"        {center_y} * meters_in_{units},", file=output_file)
         print(f"        {center_z} * meters_in_{units},", file=output_file)
-        print("      }", file=output_file)
-        print("     }", file=output_file)
-        print("    },", file=output_file)
+        print( "      }", file=output_file)
+        print( "    }", file=output_file)
+        print( "  },", file=output_file)
+        '''
 
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
@@ -534,7 +536,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print("end)", file=output_file)
         print(f"asset.export({output_asset_position_name})", file=output_file)
         print(f"asset.export({output_asset_variable_name})", file=output_file)
-
 
     output_files.append(output_asset_filename)
 
@@ -590,25 +591,14 @@ def make_labels_from_dataframe(input_points_df,
                                label_maxsize,
                                enabled,
                                units,
-                               dataset_name,
-                               centered_already=False,
-                               pre_centered_x = 0,
-                               pre_centered_y = 0,
-                               pre_centered_z = 0):
-    output_files = []
+                               dataset_name):
 
-    if not centered_already:
-        (points_df, center_x, center_y, center_z) = center_points(input_points_df)
-    else:
-        points_df = input_points_df
-        center_x = pre_centered_x
-        center_y = pre_centered_y
-        center_z = pre_centered_z
+    output_files = []
 
     label_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".label"
     local_label_filename = os.path.basename(label_filename)
     with open(label_filename, "w") as output_file:
-        for index, row in points_df.iterrows():
+        for index, row in input_points_df.iterrows():
             print(f"{row['x']} {row['y']} {row['z']} id {index} text {row[label_column]}", file=output_file)
 
     output_files.append(label_filename)
@@ -632,6 +622,7 @@ def make_labels_from_dataframe(input_points_df,
         #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
         print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
 
+        '''
         print("  Transform = {", file=output_file)
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
@@ -642,6 +633,7 @@ def make_labels_from_dataframe(input_points_df,
         print("      }", file=output_file)
         print("     }", file=output_file)
         print("    },", file=output_file)
+        '''
 
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
@@ -696,24 +688,21 @@ def make_group_labels_from_dataframe(input_points_df,
                                      enabled,
                                      units,
                                      dataset_name):
-
-    (points_df, center_x, center_y, center_z) = center_points(input_points_df)
-
     # First we want to figure out the unique values in the label column. These
     # are the groups we want to create labels for. Ignore NaN values in the label
     # column.
-    groups = points_df[label_column].unique()
+    groups = input_points_df[label_column].unique()
     groups = [x for x in groups if str(x) != "nan"]
 
     # Now we want to make a new empty dataframe with the same columns as the
     # points_df. This new dataframe will contain the centroids of the
     # groups.
-    centroids_df = pd.DataFrame(columns=points_df.columns)
+    centroids_df = pd.DataFrame(columns=input_points_df.columns)
 
     # Iterate over the groups and calculate the centroid of each group.
     for group in groups:
         # Get the rows that belong to this group.
-        group_rows = points_df[points_df[label_column] == group]
+        group_rows = input_points_df[input_points_df[label_column] == group]
         # Calculate the centroid of the group.
         centroid = {}
         centroid["x"] = group_rows["x"].mean()
@@ -772,12 +761,7 @@ def make_group_labels_from_dataframe(input_points_df,
                                               label_maxsize=label_maxsize,
                                               enabled=enabled,
                                               units=units,
-                                              dataset_name=dataset_name,
-                                              centered_already=True,
-                                              pre_centered_x=center_x,
-                                              pre_centered_y=center_y,
-                                              pre_centered_z=center_z)
-
+                                              dataset_name=dataset_name)
     return(output_files)
 
 def make_branches_from_dataframe(input_points_df,
@@ -883,12 +867,14 @@ def main():
     if args.output_dir != ".":
         Path(args.output_dir).mkdir(parents=True, exist_ok=True)
 
-    # Read the dataset CSV file into a pandas dataframe.
+    # Read the dataset JSON file. This file contains the names of the CSV files
+    # that contain the data for the dataset. It also contains a bunch of other
+    # metadata that we will use to create the appropriate OpenSpace files.
+
     try:
-        input_dataset_df = pd.read_csv(args.input_dataset_csv_file, 
-                                    comment="#")
+        input_dataset = json.load(open(args.input_dataset_json_file))
     except FileNotFoundError:
-        print("Error: Could not open dataset CSV file: " + args.input_dataset_csv_file)
+        print("Error: Could not open dataset JSON file: " + args.input_dataset_json_file)
         sys.exit(1)
 
     # A list of all the files created for this dataset. Each function below
@@ -896,20 +882,18 @@ def main():
     # cache directory.
     files_created = []
 
-    # The dataset name is used to create a GUI folder for ease of use with lots of
-    # other assets. It's basically the dataset CSV file with the extension taken
-    # off. Remove all the path stuff that may be in front of the actual filename,
-    # and also strip off the extension.
-    dataset_name = os.path.basename(args.input_dataset_csv_file)
-    dataset_name = dataset_name.split(".")[0]
-    
-    # Now run the functions to create the speck and asset files for each csv
-    # file in the dataset csv file.
-    for index, row in input_dataset_df.iterrows():
+    # Get the dataset name from the input dataset JSON file. This is used to
+    # make the GUI folder in openspace for this dataset.
+    dataset_name = input_dataset["dataset_name"]
 
-        # If the CSV file starts with a #, it is commented out and we should
-        # skip this line.
-        if row["csv_file"].startswith("#"):
+    print("Creating dataset: " + dataset_name)
+
+    # For each entry in the datasets list, read the CSV file and create the
+    # appropriate OpenSpace files.    
+    for row in input_dataset["datasets"]:
+
+        # If there's a "skip" entry for this row, skip it.
+        if "skip" in row:
             continue
 
         print("Reading file: " + row["csv_file"] + "... ", end="", flush=True)
@@ -921,12 +905,10 @@ def main():
             input_points_df.rename(columns={input_points_df.columns[0]: "ID"},
                                    inplace=True)
         
-        # The fade_targets argument is optional. If it's blank, it's a NaN, which
-        # is weird to test for if it might be a string. So convert it.
+        # The fade_targets argument is optional. If it's not there, set it to None.
         fade_targets = None
-        if (str(row["fade_targets"]) != "nan"):
-            # There may be more than one fade target, separated by commas.
-            fade_targets = row["fade_targets"].split(",")
+        if "fade_targets" in row:
+            fade_targets = row["fade_targets"]
 
         # Let's get the base of the filename (no extension) to use for generating
         # output files. Also, replace all the periods with underscores, as periods
@@ -946,12 +928,10 @@ def main():
             if column in input_points_df.columns:
                 input_points_df[column] = input_points_df[column] * row["data_scale_factor"]
 
-        # Is there a units column in the input_dataset_df table? If so, use it, 
-        # otherwise assume Km.
+        # The units for the dataset. Assume Km if not specified.
         units = "Km"
-        if "units" in input_dataset_df.columns:
+        if "units" in row:
             units = row["units"]
-
 
         if row["type"] == "labels":
             print(f"Creating {row["label_column"]} labels... ", end="", flush=True)
@@ -1074,12 +1054,14 @@ def main():
         shutil.copy2(file, args.asset_dir)
     print("Done.")
 
-    # Copy any texture files to the output directory. Run through the input_points_df
-    # and make a list of unique textures, then copy them all from the texture directory
-    # to the output dir.
-    textures = input_dataset_df["default_texture"].unique()
-    # Remove any NaNs.
-    textures = [x for x in textures if str(x) != "nan"]
+    # Copy any texture files to the output directory. Get a list of all the 
+    # "default_texture" entries in the dataset JSON file. These are the texture
+    # files that need to be copied.
+    textures = []
+    for row in input_dataset["datasets"]:
+        if "default_texture" in row:
+            textures.append(row["default_texture"])
+    textures = list(set(textures))
     print(f"Copying textures to output directory ({args.asset_dir})... ", end="", flush=True)
     for texture in textures:
         print(f"{texture} ", end="", flush=True)
