@@ -10,6 +10,17 @@ REPO_PATH := $(shell pwd)
 OPENSPACE_CACHE := /mnt/e/git/OpenSpace-sonification/cache
 OPENSPACE_ASSET_DIR := /mnt/e/OpenSpace/user/data/assets
 
+jan_30_2025_recentered:
+	@echo "*** Cleaning jan_30_2025_recentered"
+	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
+	-a ${OPENSPACE_ASSET_DIR}/jan_30_2025_recentered
+	@echo "*** Building jan_30_2025_recentered"
+	@cd data/Jan_30_2025_recentered; \
+	python ${REPO_PATH}/csv_to_openspace.py -i Jan_30_2025_recentered.json \
+	-c ${OPENSPACE_CACHE} \
+	-a ${OPENSPACE_ASSET_DIR}/Jan_30_2025_recentered \
+	-o ./outfiles -t ${REPO_PATH}/textures
+
 mammals_nov_26: cache_clean_mammals_nov_26
 	@echo "*** Cleaning mammals"
 	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
@@ -24,7 +35,7 @@ mammals_nov_26: cache_clean_mammals_nov_26
 birds_Jan_2025: 
 	@echo "*** Cleaning ${OPENSPACE_CACHE} of files in ${OPENSPACE_ASSET_DIR}/Jan_2025_birds_dataset"
 	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
-	-a ${OPENSPACE_ASSET_DIR}/Jan_2025_birds_dataset -v
+	-a ${OPENSPACE_ASSET_DIR}/Jan_2025_birds_dataset
 	@echo "*** Building Birds"
 	@cd catalogs_raw/birds/Jan_2025_birds; \
 	python ${REPO_PATH}/csv_to_openspace.py -i Jan_2025_birds_dataset.csv \
