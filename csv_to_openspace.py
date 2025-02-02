@@ -4,47 +4,27 @@
 
 # CSV to OpenSpace
 
-Datasets provided from various sources (various in this instance means
-Wandrille and Takanori, as well as "The Internet") are typically provided in
-CSV files with at least X, Y, and hopefully Z coordinates. A number of other
-parameters, loosely termed "metadata", may also be provided. This script takes
-the CSV file as input, centers and scales the points as necessary for display
-in openspace, and then creates OpenSpace files (asset, label, etc) as necessary.
-
-A critial component of centering and scaling the points the position of the center
-of the points. Initially, all points are centered at the origin. However, if we want to
-look at a specific group of points in the dataset, we need to be able to change 
-the focus to the center of that group. This is done by calculating the center of the
-points in the group and then translating all the points so that the center of the group
-can be "focused" on.
-
-Originally, this script created stars and labels, and this stuff still works. However,
-the preferred method is to use RenderablePointCloud as it is more flexible, specifically
-regarding point sizes and colors.
-
-For Stars, first is the speck file, which contains the actual XYZ coordinates of the
-points, drawn using RenderableStars. We also need to create label files, which are
-RenderablePointClouds, except without the actual points (though it does have point
-locations for the labels). These turn into individual asset files. Each set of stars can
-have more than one set of labels.
+Datasets provided from various sources (various in this instance means Wandrille and
+Takanori, as well as "The Internet") are typically provided in CSV files with at least X,
+Y, and hopefully Z coordinates. A number of other parameters, loosely termed "metadata",
+may also be provided. This script takes the CSV file as input creates OpenSpace files
+(asset, label, etc) as necessary.
 
 Additionally, every CSV file has slightly different parameters as far as how it's drawn by
 openspace. This info is all contained in the dataset csv file and these parameters are
 used to create the speck and asset files.
 
-Labels are handled differently than stars, even though they're plotted at the same
-locations as the stars. The labels are RenderablePointClouds that have no points, only the
-locations of the labels. The label locations are in the CSV file, which must be converted
-and copied to the OpenSpace asset dir as a label file. Additionally, several different
-taxonomic levels and naming conventions may be used, which requires different label files
-for each. Each line of the dataset CSV file determines which column in the CSV file to use
-for generating labels. The 'type' column in the dataset CSV file determines whether to
-make a stars or labels asset file.
+Labels are handled differently than points, even though they're plotted at the same
+locations as the points. The labels are RenderablePointClouds that have no points, only
+the locations of the labels. The label locations are in the CSV file, which must be
+converted and copied to the OpenSpace asset dir as a label file. Additionally, several
+different taxonomic levels and naming conventions may be used, which requires different
+label files for each. Each line of the dataset CSV file determines which column in the CSV
+file to use for generating labels. The 'type' column in the dataset CSV file determines
+whether to make a stars or labels asset file.
 
-Alternatively, or additionally, points can be rendered as RenderablePointClouds. These are
-very similar to the stars, except for some parameter differences regarding size and color.
-Stars are a bit less flexible with colors, but a bit more flexible regarding sizes. Points
-can also have a custom glyph/texture, which (I think) is not available for stars.
+This scripyt used to create star assets as well, but these were removed because they were
+not used.
 
 """
 
@@ -60,8 +40,6 @@ import json
 
 parser = argparse.ArgumentParser(description="Process input CSV files for OpenSpace.")
 parser.add_argument("-i", "--input_dataset_json_file", help="Input dataset JSON file.", 
-                    required=True)
-parser.add_argument("-c", "--cache_dir", help="OpenSpace cache directory.",
                     required=True)
 parser.add_argument("-a", "--asset_dir", help="OpenSpace directory for assets.",
                     required=True)
@@ -108,256 +86,6 @@ args.output_dir = convert_path(args.output_dir)
 args.texture_dir = convert_path(args.texture_dir)
 '''
 
-def make_stars_speck_from_dataframe(input_points_df, filename_base,
-                                    lum, absmag, colorb_v, texnum):
-
-    output_speck_filename = args.output_dir + "/" + filename_base + ".speck"
-
-    with open(output_speck_filename, "w") as output_file:
-        # Dump the speck file header info. 
-        print("datavar 0 colorb_v", file=output_file)
-        print("datavar 1 lum", file=output_file)
-        print("datavar 2 absmag", file=output_file)
-        print("datavar 3 appmag", file=output_file)
-        print("datavar 4 texnum", file=output_file)
-        print("datavar 5 distly", file=output_file)
-        print("datavar 6 dcalc", file=output_file)
-        print("datavar 7 plx", file=output_file)
-        print("datavar 8 plxerr", file=output_file)
-        print("datavar 9 vx", file=output_file)
-        print("datavar 10 vy", file=output_file)
-        print("datavar 11 vz", file=output_file)
-        print("datavar 12 speed", file=output_file)
-        print("texturevar 4", file=output_file)
-        print("texture -M 1 halo.sgi", file=output_file)
-
-        # Let's add columns for all the data we need to add to the speck file.
-        input_points_df["colorb_v"] = colorb_v
-        input_points_df["lum"] = lum
-        input_points_df["absmag"] = absmag
-        input_points_df["appmag"] = 0.0
-        input_points_df["texnum"] = texnum
-        input_points_df["distly"] = 0.0
-        input_points_df["dcalc"] = 0
-        input_points_df["plx"] = 0.0
-        input_points_df["plxerr"] = 0.0
-        input_points_df["vx"] = 0
-        input_points_df["vy"] = 0
-        input_points_df["vz"] = 0
-        input_points_df["speed"] = 0
-
-        # For each row in the CSV file (pandas dataframe), we will write a line to the output file.
-        num_rows = len(input_points_df)
-        for index, row in input_points_df.iterrows():
-            # Split the line into a list of strings.
-            datavars = []
-
-            datavars.append(str(row["x"]))
-            datavars.append(str(row["y"]))
-            datavars.append(str(row["z"]))
-            
-            datavars.append(str(row["colorb_v"]))
-            #scale_fac = index / num_rows
-            #datavars.append(str(scale_fac))
-
-            datavars.append(str(row["lum"]))
-            datavars.append(str(row["absmag"]))
-            datavars.append(str(row["appmag"]))
-            datavars.append(str(row["texnum"]))
-            datavars.append(str(row["distly"]))
-            datavars.append(str(row["dcalc"]))
-            datavars.append(str(row["plx"]))
-            datavars.append(str(row["plxerr"]))
-            datavars.append(str(row["vx"]))
-            datavars.append(str(row["vy"]))
-            datavars.append(str(row["vz"]))
-            datavars.append(str(row["speed"]))
-
-            # Write the modified line to the output file.
-            output_file.write(" ".join(datavars) + "\n")
-
-    # Return the name of the speck file we created.
-    return([output_speck_filename])
-
-def make_stars_asset_from_dataframe(input_points_df, 
-                                    filename_base, 
-                                    magnitude_exponent,
-                                    core_multiplier,
-                                    core_gamma,
-                                    core_scale,
-                                    glare_multiplier,
-                                    glare_gamma,
-                                    glare_scale,
-                                    fade_targets):
-
-    output_filename = args.output_dir + "/" + filename_base + ".asset"
-    output_asset_position_name = filename_base + "_position"
-
-    with open(output_filename, "w") as output_file:
-        print("local sunspeck = asset.resource({", file=output_file)
-        print("  Name = \"Stars Speck Files\",", file=output_file)
-        print("  Type = \"HttpSynchronization\",", file=output_file)
-        print("  Identifier = \"digitaluniverse_sunstar_speck\",", file=output_file)
-        print("  Version = 1", file=output_file)
-        print("})", file=output_file)
-        print("", file=output_file)
-        """
-        print("local colormaps = asset.resource({", file=output_file)
-        print("  Name = \"Stars Color Table\",", file=output_file)
-        print("  Type = \"HttpSynchronization\",", file=output_file)
-        print("  Identifier = \"stars_colormap\",", file=output_file)
-        print("  Version = 3", file=output_file)
-        print("})", file=output_file)
-        print("", file=output_file)
-        """
-        print("local textures = asset.resource({", file=output_file)
-        print("  Name = \"Stars Textures\",", file=output_file)
-        print("  Type = \"HttpSynchronization\",", file=output_file)
-        print("  Identifier = \"stars_textures\",", file=output_file)
-        print("  Version = 1", file=output_file)
-        print("})", file=output_file)
-        print("", file=output_file)
-
-        # "Declare" fade var so it can be used below.
-        fade_varname = ""
-        if fade_targets:
-            fade_varname = f"{filename_base}_fade_command"
-
-            print(f"local {fade_varname} = {{", file=output_file)
-            print(f"    Identifier = \"{fade_varname}\",", file=output_file)
-            print(f"    Name = \"{fade_varname}\",", file=output_file)
-            print("    Command = [[", file=output_file)
-            print("      openspace.printInfo(\"Node: \" .. args.Node)", file=output_file)
-            print("      openspace.printInfo(\"Transition: \" .. args.Transition)", file=output_file)
-            print("", file=output_file)
-            print("      if args.Transition == \"Approaching\" then", file=output_file)
-            for fade_target in fade_targets:
-                print(f"        openspace.setPropertyValueSingle(\"Scene.{fade_target}.Renderable.Fade\", 0.0, 1.0)", file=output_file)
-            print("      elseif args.Transition == \"Exiting\" then", file=output_file)
-            for fade_target in fade_targets:
-                print(f"        openspace.setPropertyValueSingle(\"Scene.{fade_target}.Renderable.Fade\", 1.0, 1.0)", file=output_file)
-            print("      end", file=output_file)
-            print("    ]],", file=output_file)
-            print("    IsLocal = true", file=output_file)
-            print("}", file=output_file)
-
-        print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
-        print("local meters_in_Km = 1000", file = output_file)
-        print(f"local {output_asset_position_name} = {{", file=output_file)
-        print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
-        '''
-        print("  Transform = {", file=output_file)
-        print("    Translation = {", file=output_file)
-        print("      Type = \"StaticTranslation\",", file=output_file)
-        print("      Position = {", file=output_file)
-        # Each group of points is centered around its own local origin, and needs to
-        # be translated to its proper world coordinate position. This is so we're able
-        # to focus on it properly. OpenSpace understands this translation in world
-        # space and points the camera appropriately if it knows about the translation.
-        #print(f"        {input_points_world_position["x"]} * meters_in_pc,", file=output_file)
-        #print(f"        {input_points_world_position["y"]} * meters_in_pc,", file=output_file)
-        #print(f"        {input_points_world_position["z"]} * meters_in_pc,", file=output_file)
-        print(f"        {input_points_world_position["x"]} * meters_in_Km,", file=output_file)
-        print(f"        {input_points_world_position["y"]} * meters_in_Km,", file=output_file)
-        print(f"        {input_points_world_position["z"]} * meters_in_Km,", file=output_file)
-        print("      }", file=output_file)
-        print("     }", file=output_file)
-        print("    },", file=output_file)
-        '''
-        print("  GUI = {", file=output_file)
-        print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
-        print(f"    Path = \"/Positions\",", file=output_file)
-        print(f"    Hidden = true", file=output_file)
-        print("  }", file=output_file)
-        print("}", file=output_file)
-
-        # Hack - colormap file.
-        cmap_filename = args.output_dir + "/" + filename_base + ".cmap"
-        with open(cmap_filename, "w") as cmap_file:
-            print("# OpenSpace colormap file", file=cmap_file)
-            print("", file=cmap_file)
-            print("5", file=cmap_file)
-            print("1.0 1.0 1.0 0.5", file=cmap_file)
-            print("1.0 0.0 0.0 1.0", file=cmap_file)
-            print("0.0 1.0 0.0 1.0", file=cmap_file)
-            print("0.0 0.5 1.0 1.0", file=cmap_file)
-            print("1.0 1.0 1.0 1.0", file=cmap_file)
-            cmap_file.close()
-
-        print(f"local {filename_base}_speck = asset.resource(\"{filename_base}.speck\")", file=output_file)
-        print(f"local {filename_base}_color = asset.resource(\"{cmap_filename}\")", file=output_file)
-        print("", file=output_file)
-        print(f"local {filename_base} = {{", file=output_file)
-        print(f"  Identifier = \"{filename_base}\",", file=output_file)
-        print(f"  Parent = {output_asset_position_name}.Identifier,", file=output_file)
-        print(f"  Renderable = {{", file=output_file)
-        print("    UseCaching = false,", file=output_file)
-        print("    Type = \"RenderableStars\",", file=output_file)
-        print(f"    File = {filename_base}_speck,", file=output_file)
-        print("    Core = {", file=output_file)
-        print("      Texture = textures .. \"glare.png\",", file=output_file)
-        print(f"      Multiplier = {core_multiplier},", file=output_file)
-        print(f"      Gamma = {core_gamma},", file=output_file)
-        print(f"      Scale = {core_scale}", file=output_file)
-        print("    },", file=output_file)
-        print("    Glare = {", file=output_file)
-        print("      Texture = textures .. \"halo.png\",", file=output_file)
-        print(f"      Multiplier = {glare_multiplier},", file=output_file)
-        print(f"      Gamma = {glare_gamma},", file=output_file)
-        print(f"      Scale = {glare_scale}", file=output_file)
-        print("    },", file=output_file)
-        print(f"    MagnitudeExponent = {magnitude_exponent},", file=output_file)
-        print(f"    ColorMap = {filename_base}_color,", file=output_file)
-        print("     ColorOption = \"Other Data\",", file=output_file)
-        print("    OtherData = \"texnum\",", file=output_file)
-        print(f"    OtherDataColorMap = {filename_base}_color,", file=output_file)
-        print(f"    OtherDataValueRange = {{ 0.0, 4.0 }},", file=output_file)
-        print("    SizeComposition = \"Distance Modulus\",", file=output_file)
-        print("    DataMapping = {", file=output_file)
-        print("      Bv = \"colorb_v\",", file=output_file)
-        print("      Luminance = \"lum\",", file=output_file)
-        print("      AbsoluteMagnitude = \"absmag\",", file=output_file)
-        print("      ApparentMagnitude = \"appmag\",", file=output_file)
-        print("      Vx = \"vx\",", file=output_file)
-        print("      Vy = \"vy\",", file=output_file)
-        print("      Vz = \"vz\",", file=output_file)
-        print("      Speed = \"speed\"", file=output_file)
-        print("    },", file=output_file)
-        print("    DimInAtmosphere = true", file=output_file)
-        print("  },", file=output_file)
-        #print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
-        print(f"    InteractionSphere = 1 * meters_in_Km,", file=output_file)
-        print("    ApproachFactor = 1000.0,", file=output_file)
-        print("    ReachFactor = 5.0,", file=output_file)
-        print("", file=output_file)
-        if fade_targets:
-            print(f"    OnApproach = {{ \"{fade_varname}\" }},", file=output_file)
-            print(f"    OnReach = {{ \"{fade_varname}\" }},", file=output_file)
-            print(f"    OnRecede = {{ \"{fade_varname}\" }},", file=output_file)
-            print(f"    OnExit = {{ \"{fade_varname}\" }},", file=output_file)
-        print("  GUI = {", file=output_file)
-        print(f"    Name = \"{filename_base}\",", file=output_file)
-        print(f"    Path = \"/Stars\",", file=output_file)
-        print("  }", file=output_file)
-        print("}", file=output_file)
-        print("asset.onInitialize(function()", file=output_file)
-        if fade_targets:
-            print(f"  openspace.action.registerAction({fade_varname})", file=output_file)
-        print(f"  openspace.addSceneGraphNode({output_asset_position_name})", file=output_file)
-        print(f"  openspace.addSceneGraphNode({filename_base})", file=output_file)
-        print("end)", file=output_file)
-        print("asset.onDeinitialize(function()", file=output_file)
-        print(f"  openspace.removeSceneGraphNode({filename_base})", file=output_file)
-        print(f"  openspace.removeSceneGraphNode({output_asset_position_name})", file=output_file)
-        if fade_targets:
-            print(f"  openspace.action.removeAction({fade_varname})", file=output_file)
-        print("end)", file=output_file)
-        print(f"asset.export({output_asset_position_name})", file=output_file)
-        print(f"asset.export({filename_base})", file=output_file)
-
-    # Return the name of the asset file we created.
-    return([output_filename, cmap_filename])
-
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
                                              filename_base,
                                              fade_targets,
@@ -367,7 +95,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              size_scale_factor,
                                              size_scale_exponent,
                                              units,
-                                             dataset_name):
+                                             dataset_name,
+                                             parent):
     output_files = []
 
     # First the CSV file. This is just the points in CSV format, however we may need to
@@ -471,18 +200,37 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
         #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
         print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
-        '''
-        print( "  Transform = {", file=output_file)
-        print( "    Translation = {", file=output_file)
-        print( "      Type = \"StaticTranslation\",", file=output_file)
-        print( "      Position = {", file=output_file)
-        print(f"        {center_x} * meters_in_{units},", file=output_file)
-        print(f"        {center_y} * meters_in_{units},", file=output_file)
-        print(f"        {center_z} * meters_in_{units},", file=output_file)
-        print( "      }", file=output_file)
-        print( "    }", file=output_file)
-        print( "  },", file=output_file)
-        '''
+
+        if parent:
+            # Get the coordinates of the parent point. First get the dataframe for the parent
+            # points. This is in the dataset_dict dictionary.
+            parent_csv_file = parent['csv_file']
+            parent_type = parent['parent_type']
+
+            parent_df = dataset_dict[(parent_csv_file, parent_type)]['points']
+
+            # Now get the X, Y, and Z of the parent point from the parent_df.
+            parent_column = parent['parent_column']
+            parent_point = parent['parent_point']
+
+            # We want to get the row of the dataframe where the value in parent_point
+            # is found in the parent_column. This is the parent point.
+            parent_row = parent_df[parent_df[parent_column] == parent_point]
+
+            parent_x = parent_row['x'].values[0]
+            parent_y = parent_row['y'].values[0]
+            parent_z = parent_row['z'].values[0]
+
+            print( "  Transform = {", file=output_file)
+            print( "    Translation = {", file=output_file)
+            print( "      Type = \"StaticTranslation\",", file=output_file)
+            print( "      Position = {", file=output_file)
+            print(f"        {parent_x} * meters_in_{units},", file=output_file)
+            print(f"        {parent_y} * meters_in_{units},", file=output_file)
+            print(f"        {parent_z} * meters_in_{units},", file=output_file)
+            print( "      }", file=output_file)
+            print( "    }", file=output_file)
+            print( "  },", file=output_file)
 
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
@@ -540,48 +288,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     output_files.append(output_asset_filename)
 
     return(output_files)
-
-def center_points(input_points_df):
-    # Centering the points. We need to find the center of the points and then translate
-    # all the points so that the center is at the origin. Then OpenSpace moves the points
-    # to the correct location in the world using its transforms. This is so we can focus
-    # on the points properly.
-    #
-    # Let's start by making a copy of the dataframe so we don't mess up the original. This
-    # is because we're going to modify the dataframe by centering the points, and python
-    # is pass-by-reference. We don't want to mess up the original dataframe.
-    points_df = input_points_df.copy()
-    center_x = points_df["x"].mean()
-    center_y = points_df["y"].mean()
-    center_z = points_df["z"].mean()
-    #print(f"Centering points at {center_x}, {center_y}, {center_z}")
-    points_df["x"] = points_df["x"] - center_x
-    points_df["y"] = points_df["y"] - center_y
-    points_df["z"] = points_df["z"] - center_z
-
-    return(points_df, center_x, center_y, center_z)
-
-# I really don't like special casing like this. It assumes Wandrille's columns
-# will stay the same. This is a hack.
-def center_branch_points(input_points_df):
-    points_df = input_points_df.copy()
-    center_x0 = points_df["x0"].mean()
-    center_y0 = points_df["y0"].mean()
-    center_z0 = points_df["z0"].mean()
-    center_xup = points_df["xup"].mean()
-    center_yup = points_df["yup"].mean()
-    center_zup = points_df["zup"].mean()
-
-    #print(f"Centering points at {center_x}, {center_y}, {center_z}")
-    points_df["x0"] = points_df["x0"] - center_x0
-    points_df["y0"] = points_df["y0"] - center_y0
-    points_df["z0"] = points_df["z0"] - center_z0
-    points_df["xup"] = points_df["xup"] - center_xup
-    points_df["yup"] = points_df["yup"] - center_yup
-    points_df["zup"] = points_df["zup"] - center_zup
-
-    return(points_df, center_x0, center_y0, center_z0, center_xup, center_yup, center_zup)
-
 
 def make_labels_from_dataframe(input_points_df, 
                                filename_base,
@@ -862,6 +568,18 @@ def make_branches_from_dataframe(input_points_df,
 
     return(output_files)
 
+
+            
+# Some csv files refer to points in other CSV files in a parent-child relationship.
+# Let's keep all these around because we may need to refer to them later. We'll keep
+# them in a dictionary of dictionaries. The key for the first dictionary is the 
+# csv_file name. The second dictionary has a few keys, "points" is the dataframe 
+# created from the CSV file. "parent" is the name of the parent CSV file, if there is
+# one. "parent_column" is the name of the column in the parent CSV file that refers to
+# the child CSV file. "parent_point" is the name of the point in the parent CSV file
+# that this child data should be centered on.
+dataset_dict = {}
+
 def main():
     # If an output directory was specified, make sure it exists.
     if args.output_dir != ".":
@@ -877,9 +595,8 @@ def main():
         print("Error: Could not open dataset JSON file: " + args.input_dataset_json_file)
         sys.exit(1)
 
-    # A list of all the files created for this dataset. Each function below
-    # returns the files it creates, so we can use this list to clean up the
-    # cache directory.
+    # A list of all the files created for this dataset. These are all copied to
+    # the asset directory.
     files_created = []
 
     # Get the dataset name from the input dataset JSON file. This is used to
@@ -896,14 +613,22 @@ def main():
         if "skip" in row:
             continue
 
-        print("Reading file: " + row["csv_file"] + "... ", end="", flush=True)
+        dataset_csv_filename = row["csv_file"]
+        print("Reading file: " + dataset_csv_filename + "... ", end="", flush=True)
 
-        input_points_df = pd.read_csv(row["csv_file"])
+        input_points_df = pd.read_csv(dataset_csv_filename)
 
-        # If the first column name is blank, rename it to "ID".
-        if input_points_df.columns[0] == "":
+        # If the first column is empty, pandas renames it to "Unnamed: 0". Let's
+        # rename it to "ID" so we can refer to it later. This is kinda hacky.
+        if input_points_df.columns[0] == "Unnamed: 0":
             input_points_df.rename(columns={input_points_df.columns[0]: "ID"},
                                    inplace=True)
+            
+        # We can use the tuple of the csv filename and the type as a key to the
+        # dataset_dict. This is because the same CSV file may be used for different
+        # types of data, such as points and labels. We can use this key to refer to
+        # the dataframe later.
+        dataset_dict[(dataset_csv_filename, row["type"])] = {"points": input_points_df}
         
         # The fade_targets argument is optional. If it's not there, set it to None.
         fade_targets = None
@@ -913,9 +638,13 @@ def main():
         # Let's get the base of the filename (no extension) to use for generating
         # output files. Also, replace all the periods with underscores, as periods
         # are not allowed in asset names.
-        filename_base = row["csv_file"].replace(".csv", "")
+        filename_base = dataset_csv_filename.replace(".csv", "")
         filename_base = filename_base.replace(".", "_")
 
+        # Does this dataset have a parent?
+        parent = None
+        if "parent" in row:
+            parent = row["parent"]
 
         # Different datasets may have different scaling factors. We need to scale
         # each dataset according to a provided, empirically determined scaling factor.
@@ -967,7 +696,8 @@ def main():
                                                          size_scale_factor=row["point_scale_factor"],
                                                          size_scale_exponent=row["point_scale_exponent"],
                                                          units=units,
-                                                         dataset_name=dataset_name)
+                                                         dataset_name=dataset_name,
+                                                         parent=parent)
             
         # Datasets contain many points that fall into common groupings, such as phyla,
         # classes, kingdoms, etc. Rather than have many points with the same label, we
@@ -1003,49 +733,11 @@ def main():
                                              units=units)
 
         elif row["type"] == "stars":
-            print("Creating stars... ", end="", flush=True)
-            # Now the speck file. This is what RenderableStars will use to draw the
-            # points. The speck file doesn't care about the centroid; the translation
-            # to "world" space is applied by the renderable.
-            files_created += \
-                make_stars_speck_from_dataframe(input_points_df=input_points_df, 
-                                                filename_base=filename_base,
-                                                lum=row["lum"], 
-                                                absmag=row["absmag"],
-                                                colorb_v=row["colorb_v"],
-                                                texnum=row["texnum"])
-
-            # Now an asset file that will be used to load the speck file into OpenSpace.
-            files_created += \
-                make_stars_asset_from_dataframe(input_points_df=input_points_df, 
-                                                filename_base=filename_base,
-                                                magnitude_exponent=row["MagnitudeExponent"],
-                                                core_multiplier=row["core_multiplier"],
-                                                core_gamma=row["core_gamma"],
-                                                core_scale=row["core_scale"],
-                                                glare_multiplier=row["glare_multiplier"],
-                                                glare_gamma=row["glare_gamma"],
-                                                glare_scale=row["glare_scale"],
-                                                fade_targets=fade_targets)
-
+            print("*** Stars are no longer supported. ***")
+            sys.exit(1)
+ 
         print("Done.")
 
-    print("Cleaning cache directory...", end="", flush=True)
-    for file in files_created:
-        # Get just the filename, not the path.
-        file = os.path.basename(file)
-        # Ignore any errors if the file doesn't exist.
-        try:
-            if args.verbose:
-                print(f"Removing {args.cache_dir + '/' + file}")
-            shutil.rmtree(args.cache_dir + "/" + file)
-        except FileNotFoundError:
-            pass
-        # Notify all other exceptions.
-        except Exception as e:
-            print(f"Error removing file {args.cache_dir + '/' + file}: {e}")
-    print("Done.")
-    
     print(f"Copying files to output directory ({args.asset_dir})... ", end="", flush=True)
     Path(args.asset_dir).mkdir(parents=True, exist_ok=True)
     for file in files_created:

@@ -1,0 +1,56 @@
+{
+    "Description": "Recentered data for Jan 30 2025",
+    "dataset_name": "Jan_30_2025_recentered",
+    
+    "datasets": [
+        {
+            "csv_file": "eukaryotes_classes.csv",
+            "type": "points",
+            "data_scale_factor": 100000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 29.9,
+            "point_scale_exponent": 4.6,
+            "color_by_column": "phylum",
+            "interaction_sphere": 1
+        },
+        {
+            "csv_file": "eukaryotes_classes.csv",
+            "type": "labels",
+            "data_scale_factor": 100000,
+            "label_column": "class_eng",
+            "label_size": 4.3,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "enabled": true
+        },
+        {
+            "csv_file": "eukaryotes_classes.csv",
+            "type": "group_labels",
+            "data_scale_factor": 100000,
+            "label_column": "phylum",
+            "label_size": 4.3,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "enabled": true
+        },
+        {
+            "csv_file": "mammal_families.csv",
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Mammalia"
+            },
+            "type": "points",
+            "data_scale_factor": 1000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 17.12,
+            "point_scale_exponent": 3.03,
+            "color_by_column": "family",
+            "fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 1
+        }
+    ]
+}
