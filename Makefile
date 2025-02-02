@@ -24,6 +24,15 @@ jan_30_2025_recentered: jan_30_2025_recentered_clean_cache
 	-a ${OPENSPACE_ASSET_DIR}/Jan_30_2025_recentered \
 	-o ./outfiles -t ${REPO_PATH}/textures
 
+
+##################### 
+# EVERYTHING BELOW THIS POINT IS NOT GUARANTEED TO WORK. It all uses the
+# previous model of centering data and if run, will likely produce
+# garbage results (if it works at all).
+#
+# This will all be removed soon.
+#####################
+
 mammals_nov_26_clean_cache:
 	@echo "*** Cleaning mammals"
 	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
