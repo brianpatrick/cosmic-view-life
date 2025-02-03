@@ -67,9 +67,10 @@ transforms_filename = ""
 transform_list = []
 
 class Transform:
-    def __init__(self, output_asset_position_name, parent):
+    def __init__(self, output_asset_position_name, parent, csv_filename):
         self.output_asset_position_name = output_asset_position_name
         self.parent = parent
+        self.csv_filename = csv_filename
 
 def write_transform_file():
 
@@ -123,7 +124,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              size_scale_exponent,
                                              units,
                                              dataset_name,
-                                             parent):
+                                             parent,
+                                             dataset_csv_filename):
     output_files = []
 
     # First the CSV file. This is just the points in CSV format, however we may need to
@@ -223,7 +225,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("    IsLocal = true", file=output_file)
             print("}", file=output_file)
 
-        transform_list.append(Transform(output_asset_position_name, parent))
+        transform_list.append(Transform(output_asset_position_name, parent, dataset_csv_filename))
 
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
         print("local meters_in_Km = 1000", file = output_file)
@@ -316,7 +318,8 @@ def make_labels_from_dataframe(input_points_df,
                                label_maxsize,
                                enabled,
                                units,
-                               dataset_name):
+                               dataset_name,
+                               dataset_csv_filename):
 
     output_files = []
 
@@ -328,12 +331,12 @@ def make_labels_from_dataframe(input_points_df,
 
     output_files.append(label_filename)
 
-    # TODO: This name should be in the transform object
-    # HACKY - remove "_group" from the filename_base if it's there. This is really ugly.
-    if filename_base.endswith("_group"):
-        output_asset_position_name = filename_base[:-6] + "_points_position"
-    else:
-        output_asset_position_name = filename_base + "_points_position"
+    # Get the position name from the Transforms list. Search by the dataset_csv_filename.
+    # This is the name of the position asset that the labels will be attached to.
+    output_asset_position_name = ""
+    for transform in transform_list:
+        if transform.csv_filename == dataset_csv_filename:
+            output_asset_position_name = transform.output_asset_position_name
 
     # Asset filename for labels. Same name as points filename, but with the label column
     # included.
@@ -389,7 +392,8 @@ def make_group_labels_from_dataframe(input_points_df,
                                      label_maxsize, 
                                      enabled,
                                      units,
-                                     dataset_name):
+                                     dataset_name,
+                                     dataset_csv_filename):
     # First we want to figure out the unique values in the label column. These
     # are the groups we want to create labels for. Ignore NaN values in the label
     # column.
@@ -463,7 +467,8 @@ def make_group_labels_from_dataframe(input_points_df,
                                               label_maxsize=label_maxsize,
                                               enabled=enabled,
                                               units=units,
-                                              dataset_name=dataset_name)
+                                              dataset_name=dataset_name,
+                                              dataset_csv_filename=dataset_csv_filename)
     return(output_files)
 
 def make_branches_from_dataframe(input_points_df,
@@ -674,7 +679,8 @@ def main():
                                            label_maxsize=row["label_maxsize"],
                                            enabled=row["enabled"],
                                            units=units,
-                                           dataset_name=dataset_name)
+                                           dataset_name=dataset_name,
+                                           dataset_csv_filename=dataset_csv_filename)
             
         elif row["type"] == "points":
             print("Creating points... ", end="", flush=True)
@@ -689,7 +695,8 @@ def main():
                                                          size_scale_exponent=row["point_scale_exponent"],
                                                          units=units,
                                                          dataset_name=dataset_name,
-                                                         parent=parent)
+                                                         parent=parent,
+                                                         dataset_csv_filename=dataset_csv_filename)
             
         # Datasets contain many points that fall into common groupings, such as phyla,
         # classes, kingdoms, etc. Rather than have many points with the same label, we
@@ -712,7 +719,8 @@ def main():
                                                  label_maxsize=row["label_maxsize"],
                                                  enabled=row["enabled"],
                                                  units=units,
-                                                 dataset_name=dataset_name)
+                                                 dataset_name=dataset_name,
+                                                 dataset_csv_filename=dataset_csv_filename)
 
 
         elif row["type"] == "branches":
