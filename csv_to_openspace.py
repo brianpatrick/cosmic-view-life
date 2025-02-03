@@ -194,7 +194,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # The earth is the parent for all of the points, as there are many visualizations
         # where we move points from above the earth down to specific locations. Use
         # OpenSpace's provided transformations for this.
-        #print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=output_file)
         print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
         # We need the transforms asset name, which is the filename minus .asset extension
         transforms_filename_base = transforms_filename.split(".")[0]
@@ -329,48 +328,28 @@ def make_labels_from_dataframe(input_points_df,
 
     output_files.append(label_filename)
 
+    # TODO: This name should be in the transform object
+    # HACKY - remove "_group" from the filename_base if it's there. This is really ugly.
+    if filename_base.endswith("_group"):
+        output_asset_position_name = filename_base[:-6] + "_points_position"
+    else:
+        output_asset_position_name = filename_base + "_points_position"
+
     # Asset filename for labels. Same name as points filename, but with the label column
     # included.
     output_asset_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".asset"
     output_asset_variable_name = filename_base + "_" + label_column + "_labels"
-    output_asset_position_name = output_asset_variable_name + "_position"
+
     with open(output_asset_filename, "w") as output_file:
-        # The earth is the parent for all of the points, as there are many visualizations
-        # where we move points from above the earth down to specific locations. Use
-        # OpenSpace's provided transformations for this.
-        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",file=output_file)
-        print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=output_file)
+        transforms_filename_base = transforms_filename.split(".")[0]
+        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
 
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
         print("local meters_in_Km = 1000", file = output_file)
-        print(f"local {output_asset_position_name} = {{", file=output_file)
-        print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
-        #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
-        print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
-
-        '''
-        print("  Transform = {", file=output_file)
-        print("    Translation = {", file=output_file)
-        print("      Type = \"StaticTranslation\",", file=output_file)
-        print("      Position = {", file=output_file)
-        print(f"        {center_x} * meters_in_{units},", file=output_file)
-        print(f"        {center_y} * meters_in_{units},", file=output_file)
-        print(f"        {center_z} * meters_in_{units},", file=output_file)
-        print("      }", file=output_file)
-        print("     }", file=output_file)
-        print("    },", file=output_file)
-        '''
-
-        print("  GUI = {", file=output_file)
-        print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
-        print(f"    Path = \"/Positions\",", file=output_file)
-        print(f"    Hidden = true", file=output_file)
-        print("  }", file=output_file)
-        print(" }", file=output_file)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
+        print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
         print(f"        Enabled = {enabled},", file=output_file)
@@ -390,14 +369,11 @@ def make_labels_from_dataframe(input_points_df,
         print("    }", file=output_file)
         print("}", file=output_file)
         print("asset.onInitialize(function()", file=output_file)
-        print(f"    openspace.addSceneGraphNode({output_asset_position_name});", file=output_file)
         print(f"    openspace.addSceneGraphNode({output_asset_variable_name});", file=output_file)
         print("end)", file=output_file)
         print("asset.onDeinitialize(function()", file=output_file)
         print(f"    openspace.removeSceneGraphNode({output_asset_variable_name});", file=output_file)
-        print(f"    openspace.removeSceneGraphNode({output_asset_position_name});", file=output_file)
         print("end)", file=output_file)
-        print(f"asset.export({output_asset_position_name})", file=output_file)
         print(f"asset.export({output_asset_variable_name})", file=output_file)
 
 
