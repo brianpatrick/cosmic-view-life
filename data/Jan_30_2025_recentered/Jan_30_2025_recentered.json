@@ -50,7 +50,7 @@
             "fade_targets": [
                 "eukaryotes_classes"
             ],
-            "interaction_sphere": 1
+            "interaction_sphere": 2
         },
         {
             "csv_file": "mammal_families.csv",
@@ -67,6 +67,111 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "enabled": true
-        } 
+        },
+        {
+            "csv_file": "mammal_species.csv",
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Mammalia"
+            },
+            "type": "points",
+            "data_scale_factor": 1000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 7.99,
+            "point_scale_exponent": 3.03,
+            "color_by_column": "family",
+            "fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2
+        },
+        {
+            "csv_file": "mammal_species.csv",
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Mammalia"
+            },
+            "type": "labels",
+            "data_scale_factor": 1000,
+            "label_column": "species",
+            "label_size": 2.05,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "enabled": true
+        },
+        {
+            "csv_file": "bird_families.csv",
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Aves"
+            },
+            "type": "points",
+            "data_scale_factor": 1000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 17.12,
+            "point_scale_exponent": 3.03,
+            "color_by_column": "family",
+            "fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2
+        },
+        {
+            "csv_file": "bird_families.csv",
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Aves"
+            },
+            "type": "labels",
+            "data_scale_factor": 1000,
+            "label_column": "family_eng",
+            "label_size": 2.50,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "enabled": true
+        },
+        {
+            "csv_file": "bird_species.csv",
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Aves"
+            },
+            "type": "points",
+            "data_scale_factor": 1000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 7.99,
+            "point_scale_exponent": 3.03,
+            "color_by_column": "family",
+            "fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2
+        },
+        {
+            "csv_file": "bird_species.csv",
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Mammalia"
+            },
+            "type": "labels",
+            "data_scale_factor": 1000,
+            "label_column": "species",
+            "label_size": 2.05,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "enabled": true
+        }
     ]
 }
