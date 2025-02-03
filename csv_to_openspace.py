@@ -129,6 +129,11 @@ def write_transform_file():
                 print( "      }", file=transforms_file)
                 print( "    },", file=transforms_file)
                 
+            print( "    GUI = {", file=transforms_file)
+            print(f"        Name = \"{transform.output_asset_position_name}\",", file=transforms_file)
+            print( "        Path = \"/Transforms\",", file=transforms_file)
+            print( "        Hidden = true", file=transforms_file)
+            print( "    }", file=transforms_file)
             print( "}", file=transforms_file)
 
         print("asset.onInitialize(function()", file=transforms_file)
