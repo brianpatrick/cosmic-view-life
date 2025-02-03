@@ -34,7 +34,6 @@ import shutil
 import os
 import math
 from pathlib import Path
-import wslPath
 import sys
 import json
 
@@ -50,41 +49,69 @@ parser.add_argument("-t", "--texture_dir", help="Directory holding texture files
 parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_true")
 args = parser.parse_args()
 
-'''
 
-The idea here is to make the script OS-agnostic as far as paths go. The
-problem is it doesn't work yet.
+# Some csv files refer to points in other CSV files in a parent-child relationship.
+# Let's keep all these around because we may need to refer to them later. We'll keep
+# them in a dictionary of dictionaries. The key for the first dictionary is the 
+# csv_file name. The second dictionary has a few keys, "points" is the dataframe 
+# created from the CSV file. "parent" is the name of the parent CSV file, if there is
+# one. "parent_column" is the name of the column in the parent CSV file that refers to
+# the child CSV file. "parent_point" is the name of the point in the parent CSV file
+# that this child data should be centered on.
+dataset_dict = {}
 
-# Convert all absolute paths to their appropriate os (WSL or Windows) paths.
-#
-# WARNING - this doesn't work quite right.
-#
-def convert_path(path):
-    # DOESN'T WORK RIGHT YET. NEED TO FIGURE OUT HOW TO DO THIS.
-    # Does this start with a letter and a colon? If so, it's a windows path.
-    if len(path) > 1 and path[1] == ":":
-        # Make this a valid windows path that we can feed to wslpath.    
-        path = path.replace("/", "\\")
+# Transforms. These are global for all assets. The filename is the dataset name with
+# "_transforms.asset" appended. The transform_list is a list of Transform objects that
+# will be written to the transforms file. The actual filename is set in main().
+transforms_filename = ""
+transform_list = []
 
-    if os.name == 'posix':
-        # Is this already a posix path? If so, we can skip it.
-        if path.startswith("/mnt/"):
-            return path
-        path = wslPath.to_posix(path)
-    elif os.name == 'nt':
-        # Is this already a windows path? Check to see if it starts with
-        # a drive letter.
-        if len(path) > 1 and path[1] == ":": 
-            return path
-        path = wslPath.to_windows(path)
-    return(path)
+class Transform:
+    def __init__(self, output_asset_position_name, parent):
+        self.output_asset_position_name = output_asset_position_name
+        self.parent = parent
 
-args.input_dataset__file = convert_path(args.input_dataset_csv_file)
-args.cache_dir = convert_path(args.cache_dir)
-args.asset_dir = convert_path(args.asset_dir)
-args.output_dir = convert_path(args.output_dir)
-args.texture_dir = convert_path(args.texture_dir)
-'''
+def write_transform_file():
+
+    with open(transforms_filename, "w") as transforms_file:
+        # Some boilerpate that goes in every transform file.
+        print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=transforms_file)
+        print("local meters_in_pc = 3.0856775814913673e+16", file=transforms_file)
+        print("local meters_in_Km = 1000", file=transforms_file)
+
+        for transform in transform_list:
+            print(f"local {transform.output_asset_position_name} = {{", file=transforms_file)
+            print(f"    Identifier = \"{transform.output_asset_position_name}\",", file=transforms_file)
+            if not transform.parent:
+                print( "    Parent = earthTransforms.EarthCenter.Identifier,", file=transforms_file)
+            else:
+                print(f"    Parent = earthTransforms.{transform.parent}.Identifier,", file=transforms_file)
+
+                print( "    Transform = {", file=transforms_file)
+                print( "      Translation = {", file=transforms_file)
+                print( "        Type = \"StaticTranslation\",", file=transforms_file)
+                print( "        Position = {", file=transforms_file)
+                print( "        }", file=transforms_file)
+                print( "      }", file=transforms_file)
+                print( "    }", file=transforms_file)
+                
+            print( "}", file=transforms_file)
+
+        print("asset.onInitialize(function()", file=transforms_file)
+        for transform in transform_list:
+            print(f"    openspace.addSceneGraphNode({transform.output_asset_position_name})", file=transforms_file)
+        print("end)", file=transforms_file)
+
+        print("asset.onDeinitialize(function()", file=transforms_file)
+        for transform in transform_list:
+            print(f"    openspace.removeSceneGraphNode({transform.output_asset_position_name})", file=transforms_file)
+        print("end)", file=transforms_file)
+
+        for transform in transform_list:
+            print(f"asset.export({transform.output_asset_position_name})", file=transforms_file)
+
+    
+
 
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
                                              filename_base,
@@ -161,14 +188,17 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     output_asset_filename = args.output_dir + "/" + filename_base + "_points.asset"
     output_asset_variable_name = filename_base + "_points"
     output_asset_position_name = output_asset_variable_name + "_position"
+
     with open(output_asset_filename, "w") as output_file:
 
         # The earth is the parent for all of the points, as there are many visualizations
         # where we move points from above the earth down to specific locations. Use
         # OpenSpace's provided transformations for this.
-        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",file=output_file)
-        print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=output_file)
+        #print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=output_file)
         print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
+        # We need the transforms asset name, which is the filename minus .asset extension
+        transforms_filename_base = transforms_filename.split(".")[0]
+        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
 
         # "Declare" fade var so it can be used below.
         fade_varname = ""
@@ -194,12 +224,12 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("    IsLocal = true", file=output_file)
             print("}", file=output_file)
 
+        transform_list.append(Transform(output_asset_position_name, parent))
+
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
         print("local meters_in_Km = 1000", file = output_file)
-        print(f"local {output_asset_position_name} = {{", file=output_file)
-        print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
         #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
-        print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
+        #print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
 
         if parent:
             # Get the coordinates of the parent point. First get the dataframe for the parent
@@ -232,16 +262,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print( "    }", file=output_file)
             print( "  },", file=output_file)
 
-        print("  GUI = {", file=output_file)
-        print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
-        print(f"    Path = \"/{dataset_name}/Points\",", file=output_file)
-        print(f"    Hidden = true", file=output_file)
-        print("  }", file=output_file)
-        print(" }", file=output_file)
-
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
+        print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
         print("    Renderable = {", file=output_file)
         print("        Type = \"RenderablePointCloud\",", file=output_file)
         print(f"        SizeSettings = {{ ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor} }},", file=output_file)
@@ -273,16 +296,13 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print("asset.onInitialize(function()", file=output_file)
         if fade_targets:
             print(f"  openspace.action.registerAction({fade_varname})", file=output_file)
-        print(f"    openspace.addSceneGraphNode({output_asset_position_name});", file=output_file)
         print(f"    openspace.addSceneGraphNode({output_asset_variable_name});", file=output_file)
         print("end)", file=output_file)
         print("asset.onDeinitialize(function()", file=output_file)
         print(f"    openspace.removeSceneGraphNode({output_asset_variable_name});", file=output_file)
-        print(f"    openspace.removeSceneGraphNode({output_asset_position_name});", file=output_file)
         if fade_targets:
             print(f"  openspace.action.removeAction({fade_varname})", file=output_file)
         print("end)", file=output_file)
-        print(f"asset.export({output_asset_position_name})", file=output_file)
         print(f"asset.export({output_asset_variable_name})", file=output_file)
 
     output_files.append(output_asset_filename)
@@ -475,8 +495,10 @@ def make_branches_from_dataframe(input_points_df,
                                  units):
     output_files = []
 
-    (points_df, center_x0, center_y0, center_z0, center_xup, center_yup, center_zup) = \
-        center_branch_points(input_points_df)
+    # Make the linter happy. This entire function needs to be rewritten.
+    points_df=input_points_df
+    #(points_df, center_x0, center_y0, center_z0, center_xup, center_yup, center_zup) = \
+    #    center_branch_points(input_points_df)
 
     # First the speck and dat files. These are the points used to draw the
     # RenderableConstellationLines asset.
@@ -514,6 +536,7 @@ def make_branches_from_dataframe(input_points_df,
         #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
         print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
 
+        '''
         print("  Transform = {", file=output_file)
         print("    Translation = {", file=output_file)
         print("      Type = \"StaticTranslation\",", file=output_file)
@@ -527,7 +550,7 @@ def make_branches_from_dataframe(input_points_df,
         print("      }", file=output_file)
         print("     }", file=output_file)
         print("    },", file=output_file)
-
+        '''
         print("  GUI = {", file=output_file)
         print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
         print(f"    Path = \"/Branches\",", file=output_file)
@@ -568,18 +591,6 @@ def make_branches_from_dataframe(input_points_df,
 
     return(output_files)
 
-
-            
-# Some csv files refer to points in other CSV files in a parent-child relationship.
-# Let's keep all these around because we may need to refer to them later. We'll keep
-# them in a dictionary of dictionaries. The key for the first dictionary is the 
-# csv_file name. The second dictionary has a few keys, "points" is the dataframe 
-# created from the CSV file. "parent" is the name of the parent CSV file, if there is
-# one. "parent_column" is the name of the column in the parent CSV file that refers to
-# the child CSV file. "parent_point" is the name of the point in the parent CSV file
-# that this child data should be centered on.
-dataset_dict = {}
-
 def main():
     # If an output directory was specified, make sure it exists.
     if args.output_dir != ".":
@@ -602,6 +613,11 @@ def main():
     # Get the dataset name from the input dataset JSON file. This is used to
     # make the GUI folder in openspace for this dataset.
     dataset_name = input_dataset["dataset_name"]
+
+    # Set the transforms filename. This is the file that contains the transforms
+    # (positions) of the assets.
+    global transforms_filename
+    transforms_filename = dataset_name + "_transforms.asset"
 
     print("Creating dataset: " + dataset_name)
 
@@ -737,6 +753,12 @@ def main():
             sys.exit(1)
  
         print("Done.")
+
+    # Write the transforms file. This file contains the positions of all the assets
+    # in the dataset.
+    print(f"Writing transforms file: {transforms_filename}... ", end="", flush=True)
+    write_transform_file()
+    files_created += [transforms_filename]
 
     print(f"Copying files to output directory ({args.asset_dir})... ", end="", flush=True)
     Path(args.asset_dir).mkdir(parents=True, exist_ok=True)
