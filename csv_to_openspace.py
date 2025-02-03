@@ -67,10 +67,15 @@ transforms_filename = ""
 transform_list = []
 
 class Transform:
-    def __init__(self, output_asset_position_name, parent, csv_filename):
+    def __init__(self, 
+                 output_asset_position_name,
+                 parent,
+                 csv_filename,
+                 units):
         self.output_asset_position_name = output_asset_position_name
         self.parent = parent
         self.csv_filename = csv_filename
+        self.units = units
 
 def write_transform_file():
 
@@ -86,15 +91,43 @@ def write_transform_file():
             if not transform.parent:
                 print( "    Parent = earthTransforms.EarthCenter.Identifier,", file=transforms_file)
             else:
-                print(f"    Parent = earthTransforms.{transform.parent}.Identifier,", file=transforms_file)
+                # Get the coordinates of the parent point. First get the dataframe for the parent
+                # points. This is in the dataset_dict dictionary.
+                parent_csv_file = transform.parent['csv_file']
+                parent_type = transform.parent['parent_type']
+
+                parent_df = dataset_dict[(parent_csv_file, parent_type)]['points']
+
+                # Now get the X, Y, and Z of the parent point from the parent_df.
+                parent_column = transform.parent['parent_column']
+                parent_point = transform.parent['parent_point']
+
+                # We want to get the row of the dataframe where the value in parent_point
+                # is found in the parent_column. This is the parent point.
+                parent_row = parent_df[parent_df[parent_column] == parent_point]
+
+                parent_x = parent_row['x'].values[0]
+                parent_y = parent_row['y'].values[0]
+                parent_z = parent_row['z'].values[0]
+
+                # Now get the transform position name from the CSV file of the parent.
+                parent_position_name = ""
+                for transform in transform_list:
+                    if transform.csv_filename == parent_csv_file:
+                        parent_position_name = transform.output_asset_position_name
+
+                print(f"    Parent = {parent_position_name}.Identifier,", file=transforms_file)
 
                 print( "    Transform = {", file=transforms_file)
                 print( "      Translation = {", file=transforms_file)
                 print( "        Type = \"StaticTranslation\",", file=transforms_file)
                 print( "        Position = {", file=transforms_file)
+                print(f"          {parent_x} * meters_in_{transform.units},", file=transforms_file)
+                print(f"          {parent_y} * meters_in_{transform.units},", file=transforms_file)
+                print(f"          {parent_z} * meters_in_{transform.units},", file=transforms_file)
                 print( "        }", file=transforms_file)
                 print( "      }", file=transforms_file)
-                print( "    }", file=transforms_file)
+                print( "    },", file=transforms_file)
                 
             print( "}", file=transforms_file)
 
@@ -225,43 +258,12 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("    IsLocal = true", file=output_file)
             print("}", file=output_file)
 
-        transform_list.append(Transform(output_asset_position_name, parent, dataset_csv_filename))
+        transform_list.append(Transform(output_asset_position_name, parent, dataset_csv_filename, units))
 
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
         print("local meters_in_Km = 1000", file = output_file)
         #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
         #print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
-
-        if parent:
-            # Get the coordinates of the parent point. First get the dataframe for the parent
-            # points. This is in the dataset_dict dictionary.
-            parent_csv_file = parent['csv_file']
-            parent_type = parent['parent_type']
-
-            parent_df = dataset_dict[(parent_csv_file, parent_type)]['points']
-
-            # Now get the X, Y, and Z of the parent point from the parent_df.
-            parent_column = parent['parent_column']
-            parent_point = parent['parent_point']
-
-            # We want to get the row of the dataframe where the value in parent_point
-            # is found in the parent_column. This is the parent point.
-            parent_row = parent_df[parent_df[parent_column] == parent_point]
-
-            parent_x = parent_row['x'].values[0]
-            parent_y = parent_row['y'].values[0]
-            parent_z = parent_row['z'].values[0]
-
-            print( "  Transform = {", file=output_file)
-            print( "    Translation = {", file=output_file)
-            print( "      Type = \"StaticTranslation\",", file=output_file)
-            print( "      Position = {", file=output_file)
-            print(f"        {parent_x} * meters_in_{units},", file=output_file)
-            print(f"        {parent_y} * meters_in_{units},", file=output_file)
-            print(f"        {parent_z} * meters_in_{units},", file=output_file)
-            print( "      }", file=output_file)
-            print( "    }", file=output_file)
-            print( "  },", file=output_file)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)

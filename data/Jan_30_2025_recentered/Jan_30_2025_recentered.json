@@ -51,6 +51,22 @@
                 "eukaryotes_classes"
             ],
             "interaction_sphere": 1
-        }
+        },
+        {
+            "csv_file": "mammal_families.csv",
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Mammalia"
+            },
+            "type": "labels",
+            "data_scale_factor": 1000,
+            "label_column": "family_eng",
+            "label_size": 2.50,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "enabled": true
+        } 
     ]
 }
