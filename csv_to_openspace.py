@@ -112,9 +112,9 @@ def write_transform_file():
 
                 # Now get the transform position name from the CSV file of the parent.
                 parent_position_name = ""
-                for transform in transform_list:
-                    if transform.csv_filename == parent_csv_file:
-                        parent_position_name = transform.output_asset_position_name
+                for t in transform_list:
+                    if t.csv_filename == parent_csv_file:
+                        parent_position_name = t.output_asset_position_name
 
                 print(f"    Parent = {parent_position_name}.Identifier,", file=transforms_file)
 
@@ -267,8 +267,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
         print("local meters_in_Km = 1000", file = output_file)
-        #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
-        #print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -478,27 +476,27 @@ def make_group_labels_from_dataframe(input_points_df,
                                               dataset_csv_filename=dataset_csv_filename)
     return(output_files)
 
-def make_branches_from_dataframe(input_points_df,
+def make_branches_from_dataframe(branch_points_df,
                                  filename_base,
-                                 units):
+                                 units,
+                                 parent,
+                                 data_points_csv_filename,
+                                 dataset_name,
+                                 line_opacity,
+                                 line_width):
     output_files = []
-
-    # Make the linter happy. This entire function needs to be rewritten.
-    points_df=input_points_df
-    #(points_df, center_x0, center_y0, center_z0, center_xup, center_yup, center_zup) = \
-    #    center_branch_points(input_points_df)
 
     # First the speck and dat files. These are the points used to draw the
     # RenderableConstellationLines asset.
     branches_speck_filename = args.output_dir + "/" + filename_base + "_branches.speck"
     branches_dat_filename = args.output_dir + "/" + filename_base + "_branches.dat"
     with open(branches_speck_filename, "w") as speck, open(branches_dat_filename, "w") as dat:
-        for _, row in points_df.iterrows():
+        for _, row in branch_points_df.iterrows():
             print('mesh -c 1 {', file=speck)
             print(f"  id {row['ID']}", file=speck)
             print('  2', file=speck)
             print(f"  {row['x0']:.8f} {row['y0']:.8f} {row['z0']:.8f}", file=speck)
-            print(f"  {row['xup']:.8f} {row['yup']:.8f} {row['zup']:.8f}", file=speck)
+            print(f"  {row['x1']:.8f} {row['y1']:.8f} {row['z1']:.8f}", file=speck)
             print('}', file=speck)
 
             print(f"{row['ID']} {row['ID']}", file=dat)
@@ -508,71 +506,45 @@ def make_branches_from_dataframe(input_points_df,
     # Now the asset file for the branches.
     output_asset_filename = args.output_dir + "/" + filename_base + "_branches.asset"
     output_asset_variable_name = filename_base + "_branches"
-    output_asset_position_name = output_asset_variable_name + "_position"
+
+    # Branches are like labels, they're always associated with a CSV points file. Get
+    # the position from the Transforms list.
+    output_asset_position_name = ""
+    for t in transform_list:
+        if t.csv_filename == data_points_csv_filename:
+            output_asset_position_name = t.output_asset_position_name
 
     with open(output_asset_filename, "w") as output_file:
-        # The earth is the parent for all of the points, as there are many visualizations
-        # where we move points from above the earth down to specific locations. Use
-        # OpenSpace's provided transformations for this.
-        print("local earthAsset = asset.require(\"scene/solarsystem/planets/earth/earth\")",file=output_file)
-        print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=output_file)
+        transforms_filename_base = transforms_filename.split(".")[0]
+        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
 
         print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
         print("local meters_in_Km = 1000", file = output_file)
-        print(f"local {output_asset_position_name} = {{", file=output_file)
-        print(f"    Identifier = \"{output_asset_position_name}\",", file=output_file)
-        #print("  Parent = earthAsset.Earth.Identifier,", file=output_file)
-        print("  Parent = earthTransforms.EarthCenter.Identifier,", file=output_file)
-
-        '''
-        print("  Transform = {", file=output_file)
-        print("    Translation = {", file=output_file)
-        print("      Type = \"StaticTranslation\",", file=output_file)
-        print("      Position = {", file=output_file)
-        #print(f"        {center_x0} * meters_in_Km,", file=output_file)
-        #print(f"        {center_y0} * meters_in_Km,", file=output_file)
-        #print(f"        {center_z0} * meters_in_Km,", file=output_file)
-        print(f"        {center_xup} * meters_in_Km,", file=output_file)
-        print(f"        {center_yup} * meters_in_Km,", file=output_file)
-        print(f"        {center_zup} * meters_in_Km,", file=output_file)
-        print("      }", file=output_file)
-        print("     }", file=output_file)
-        print("    },", file=output_file)
-        '''
-        print("  GUI = {", file=output_file)
-        print(f"    Name = \"{output_asset_position_name}\",", file=output_file)
-        print(f"    Path = \"/Branches\",", file=output_file)
-        print(f"    Hidden = true", file=output_file)
-        print("  }", file=output_file)
-        print(" }", file=output_file)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"    Parent = {output_asset_position_name}.Identifier,", file=output_file)
-        print("    Renderable = {", file=output_file)
-        print("        Type = \"RenderableConstellationLines\",", file=output_file)
+        print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
+        print( "    Renderable = {", file=output_file)
+        print( "        Type = \"RenderableConstellationLines\",", file=output_file)
         print(f"        Colors = {{ {{ 0.6, 0.4, 0.4 }}, {{ 0.8, 0.0, 0.0 }}, {{ 0.0, 0.3, 0.8 }} }},",
                 file=output_file)
-        print(f"        Opacity = 0.7,", file=output_file)
+        print(f"        Opacity = {line_opacity},", file=output_file)
         print(f"        File = asset.resource(\"{os.path.basename(branches_speck_filename)}\"),", file=output_file)
         print(f"        NamesFile = asset.resource(\"{os.path.basename(branches_dat_filename)}\"),", file=output_file)
-        print("        LineWidth = 1.0,", file=output_file)
+        print(f"        LineWidth = {line_width},", file=output_file)
         print(f"        Unit = \"{units}\",", file=output_file)
-        print("    },", file=output_file)
-        print("    GUI = {", file=output_file)
+        print( "    },", file=output_file)
+        print( "    GUI = {", file=output_file)
         print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"        Path = \"/Branches\"", file=output_file)
-        print("    }", file=output_file)
-        print("}", file=output_file)
+        print(f"        Path = \"/{dataset_name}/Branches\"", file=output_file)
+        print( "    }", file=output_file)
+        print( "}", file=output_file)
         print("asset.onInitialize(function()", file=output_file)
-        print(f"    openspace.addSceneGraphNode({output_asset_position_name});", file=output_file)
-        print(f"    openspace.addSceneGraphNode({output_asset_variable_name});", file=output_file)
+        print(f"    openspace.addSceneGraphNode({output_asset_variable_name})", file=output_file)
         print("end)", file=output_file)
         print("asset.onDeinitialize(function()", file=output_file)
-        print(f"    openspace.removeSceneGraphNode({output_asset_variable_name});", file=output_file)
-        print(f"    openspace.removeSceneGraphNode({output_asset_position_name});", file=output_file)
+        print(f"    openspace.removeSceneGraphNode({output_asset_variable_name})", file=output_file)
         print("end)", file=output_file)
-        print(f"asset.export({output_asset_position_name})", file=output_file)
         print(f"asset.export({output_asset_variable_name})", file=output_file)
 
     output_files.append(output_asset_filename)
@@ -656,7 +628,7 @@ def main():
         # There are multiple column names that need to be scaled. Let's make
         # a list of them and then scale them all at once. Not every file will
         # have all these columns, so we need to check for them.
-        columns_to_scale = ["x", "y", "z", "x0", "y0", "z0", "xup", "yup", "zup"]
+        columns_to_scale = ["x", "y", "z", "x0", "y0", "z0", "x1", "y1", "z1"]
         for column in columns_to_scale:
             if column in input_points_df.columns:
                 input_points_df[column] = input_points_df[column] * row["data_scale_factor"]
@@ -732,12 +704,15 @@ def main():
 
         elif row["type"] == "branches":
             print("Creating branches... ", end="", flush=True)
-            input_points_df.rename(columns={input_points_df.columns[0]: "ID"},
-                        inplace=True)
             files_created += \
-                make_branches_from_dataframe(input_points_df=input_points_df,
+                make_branches_from_dataframe(branch_points_df=input_points_df,
                                              filename_base=filename_base,
-                                             units=units)
+                                             units=units,
+                                             parent=parent,
+                                             data_points_csv_filename=row["points_file"],
+                                             dataset_name=dataset_name,
+                                             line_opacity=row["line_opacity"],
+                                             line_width=row["line_width"])
 
         elif row["type"] == "stars":
             print("*** Stars are no longer supported. ***")

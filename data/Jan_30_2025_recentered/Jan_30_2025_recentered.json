@@ -172,6 +172,22 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "enabled": true
+        },
+        {
+            "csv_file": "bird_branches.csv",
+            "points_file": "bird_species.csv",
+            "type": "branches",
+            "data_scale_factor": 1000,
+            "line_opacity": 0.75,
+            "line_width": 2.4
+        },
+        {
+            "csv_file": "bird_terminal_branches.csv",
+            "points_file": "bird_species.csv",
+            "type": "branches",
+            "data_scale_factor": 1000,
+            "line_opacity": 0.75,
+            "line_width": 2.4
         }
     ]
 }
