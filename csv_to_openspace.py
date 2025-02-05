@@ -79,7 +79,9 @@ class Transform:
 
 def write_transform_file():
 
-    with open(transforms_filename, "w") as transforms_file:
+    transforms_file_path = args.output_dir + "/" + transforms_filename
+
+    with open(transforms_file_path, "w") as transforms_file:
         # Some boilerpate that goes in every transform file.
         print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=transforms_file)
         print("local meters_in_pc = 3.0856775814913673e+16", file=transforms_file)
@@ -148,6 +150,8 @@ def write_transform_file():
 
         for transform in transform_list:
             print(f"asset.export({transform.output_asset_position_name})", file=transforms_file)
+
+    return([transforms_file_path])
 
     
 
@@ -723,8 +727,8 @@ def main():
     # Write the transforms file. This file contains the positions of all the assets
     # in the dataset.
     print(f"Writing transforms file: {transforms_filename}... ", end="", flush=True)
-    write_transform_file()
-    files_created += [transforms_filename]
+    files_created += write_transform_file()
+    print("Done.")
 
     print(f"Copying files to output directory ({args.asset_dir})... ", end="", flush=True)
     Path(args.asset_dir).mkdir(parents=True, exist_ok=True)
