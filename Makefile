@@ -25,6 +25,19 @@ jan_30_2025_recentered: jan_30_2025_recentered_clean_cache
 	-o ./outfiles -t ${REPO_PATH}/textures
 
 
+takanori_protein_universe_clean_cache:
+	@echo "*** Cleaning ${OPENSPACE_CACHE} of files in ${OPENSPACE_ASSET_DIR}/takanori_protein_universe"
+	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
+	-a ${OPENSPACE_ASSET_DIR}/takanori_protein_universe -v
+takanori_protein_universe: takanori_protein_universe_clean_cache
+	@echo "*** Building Takanori Protein Universe"
+	@cd data/Takanori_Protein_Universe; \
+	python ${REPO_PATH}/csv_to_openspace.py -i Takanori_Protein_Universe.json \
+	-a ${OPENSPACE_ASSET_DIR}/takanori_protein_universe \
+	-o ./outfiles -t ${REPO_PATH}/textures
+
+
+
 ##################### 
 # EVERYTHING BELOW THIS POINT IS NOT GUARANTEED TO WORK. It all uses the
 # previous model of centering data and if run, will likely produce
@@ -57,16 +70,16 @@ birds_Jan_2025:
 	-a ${OPENSPACE_ASSET_DIR}/Jan_2025_birds_dataset \
 	-o ./outfiles -t ${REPO_PATH}/textures
 
-takanori_protein_universe:
-	@echo "*** Cleaning ${OPENSPACE_CACHE} of files in ${OPENSPACE_ASSET_DIR}/takanori_protein_universe"
-	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
-	-a ${OPENSPACE_ASSET_DIR}/takanori_protein_universe -v
-	@echo "*** Building Takanori Protein Universe"
-	@cd catalogs_raw/Takanori_Protein_Universe; \
-	python ${REPO_PATH}/csv_to_openspace.py -i Takanori_Protein_Universe_dataset.csv \
-	-c ${OPENSPACE_CACHE} \
-	-a ${OPENSPACE_ASSET_DIR}/takanori_protein_universe \
-	-o ./outfiles -t ${REPO_PATH}/textures
+#takanori_protein_universe:
+#	@echo "*** Cleaning ${OPENSPACE_CACHE} of files in ${OPENSPACE_ASSET_DIR}/takanori_protein_universe"
+#	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
+#	-a ${OPENSPACE_ASSET_DIR}/takanori_protein_universe -v
+#	@echo "*** Building Takanori Protein Universe"
+#	@cd catalogs_raw/Takanori_Protein_Universe; \
+#	python ${REPO_PATH}/csv_to_openspace.py -i Takanori_Protein_Universe_dataset.csv \
+#	-c ${OPENSPACE_CACHE} \
+#	-a ${OPENSPACE_ASSET_DIR}/takanori_protein_universe \
+#	-o ./outfiles -t ${REPO_PATH}/textures
 
 # There are two ways to make trees, one is to use a JSON parameter file and the
 # other is to provide args on the command line. This uses command line args.
