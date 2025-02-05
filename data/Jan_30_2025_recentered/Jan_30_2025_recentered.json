@@ -98,7 +98,7 @@
             "type": "labels",
             "data_scale_factor": 1000,
             "label_column": "species",
-            "label_size": 2.05,
+            "label_size": 1.82,
             "label_minsize": 8,
             "label_maxsize": 125,
             "enabled": true
@@ -168,7 +168,7 @@
             "type": "labels",
             "data_scale_factor": 1000,
             "label_column": "species",
-            "label_size": 2.05,
+            "label_size": 1.82,
             "label_minsize": 8,
             "label_maxsize": 125,
             "enabled": true
