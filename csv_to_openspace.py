@@ -164,6 +164,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              default_texture,
                                              size_scale_factor,
                                              size_scale_exponent,
+                                             max_size,
                                              units,
                                              dataset_name,
                                              parent,
@@ -275,12 +276,17 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
         print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
-        print("    Renderable = {", file=output_file)
-        print("        Type = \"RenderablePointCloud\",", file=output_file)
-        print(f"        SizeSettings = {{ ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor} }},", file=output_file)
+        print( "    Renderable = {", file=output_file)
+        print( "        Type = \"RenderablePointCloud\",", file=output_file)
+        print( "        SizeSettings = {", file=output_file)
+        if max_size:
+            print(f"            MaxSize = {max_size},", file=output_file)
+            print( "            EnableMaxSizeControl = true,", file=output_file) 
+        print(f"            ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor}", file=output_file)
+        print( "        },", file=output_file)
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
-        print(f"         Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
-        print(f"         Unit = \"{units}\",", file=output_file)
+        print(f"        Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
+        print(f"        Unit = \"{units}\",", file=output_file)
         if (str(color_by_column) != "nan"):
             print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
             print(f"                                      Parameter = \"color\" }} }},", file=output_file)
@@ -289,7 +295,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
         #print(f"        Coloring = {{ FixedColor = {{ 1.0, 0.0, 0.0 }} }},", file=output_file)
         print("    },", file=output_file)
-        #print("    InteractionSphere = 1 * meters_in_pc,", file=output_file)
         print(f"    InteractionSphere = {interaction_sphere} * meters_in_{units},", file=output_file)
         print("    ApproachFactor = 1000.0,", file=output_file)
         print("    ReachFactor = 5.0,", file=output_file)
@@ -666,6 +671,9 @@ def main():
                                            dataset_csv_filename=dataset_csv_filename)
             
         elif row["type"] == "points":
+            max_size = None
+            if "max_size" in row:
+                max_size = row["max_size"]
             print("Creating points... ", end="", flush=True)
             files_created += \
                 make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
@@ -676,6 +684,7 @@ def main():
                                                          default_texture=row["default_texture"],
                                                          size_scale_factor=row["point_scale_factor"],
                                                          size_scale_exponent=row["point_scale_exponent"],
+                                                         max_size=max_size,
                                                          units=units,
                                                          dataset_name=dataset_name,
                                                          parent=parent,
