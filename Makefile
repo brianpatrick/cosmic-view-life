@@ -6,9 +6,13 @@
 # the directory holding the data.
 REPO_PATH := $(shell pwd)
 
-# Important paths. Tweak as needed for your system.
-OPENSPACE_CACHE := /mnt/e/git/OpenSpace-sonification/cache
-OPENSPACE_ASSET_DIR := /mnt/e/OpenSpace/user/data/assets
+# The config file contains important paths that must be set. This file should contain 
+# two paths that point to the OpenSpace cache and asset directory.
+# Example:
+# OPENSPACE_CACHE := /mnt/e/git/OpenSpace-sonification/cache
+# OPENSPACE_ASSET_DIR := /mnt/e/OpenSpace/user/data/assets
+
+include Makefile.config
 
 .DUMMY: jan_30_2025_recentered_clean_cache
 
