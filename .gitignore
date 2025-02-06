@@ -47,3 +47,7 @@ Thumbs.db
 # lookups, but are too large to check in.
 nodes.dmp
 rankedlineage.dmp
+
+# The Makefile includes a config file with local paths that need to be set up, but
+# this is not meant to be shared.
+Makefile.config
