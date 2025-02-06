@@ -42,8 +42,8 @@ for asset_file in asset_files:
     if cache_file.exists():
         if args.verbose:
             print(f"Removing {cache_file}")
-            # Remove the directory with the name of the cache file
-            shutil.rmtree(cache_file)
+        # Remove the directory with the name of the cache file
+        shutil.rmtree(cache_file)
     else:
         if args.verbose:
             print(f"Cache file {cache_file} does not exist.")
