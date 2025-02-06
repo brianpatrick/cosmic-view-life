@@ -11,7 +11,7 @@
             "point_scale_factor": 29.9,
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
-            "color_by_column": "phylum",
+            "color_by_columns": ["phylum", "class"],
             "interaction_sphere": 1
         },
         {
@@ -47,7 +47,7 @@
             "default_texture": "point3a.png",
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
-            "color_by_column": "family",
+            "color_by_columns": ["family", "order"],
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],
@@ -82,7 +82,7 @@
             "default_texture": "point3a.png",
             "point_scale_factor": 7.99,
             "point_scale_exponent": 3.03,
-            "color_by_column": "family",
+            "color_by_columns": ["family", "order", "genus"],
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],
@@ -117,7 +117,7 @@
             "default_texture": "point3a.png",
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
-            "color_by_column": "family",
+            "color_by_columns": ["family", "order"],
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],
@@ -152,7 +152,7 @@
             "default_texture": "point3a.png",
             "point_scale_factor": 7.99,
             "point_scale_exponent": 3.03,
-            "color_by_column": "family",
+            "color_by_columns": ["family", "order", "genus"],
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],

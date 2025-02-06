@@ -160,7 +160,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              filename_base,
                                              fade_targets,
                                              interaction_sphere,
-                                             color_by_column,
+                                             color_by_columns,
                                              default_texture,
                                              size_scale_factor,
                                              size_scale_exponent,
@@ -172,27 +172,22 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     output_files = []
 
     # First the CSV file. This is just the points in CSV format, however we may need to
-    # add a color column. If specified, we need to look at the color_by_column and
-    # figure out how many unique values there are in that column. We'll assign a color
-    # index between 1 and whatever the number of unique values is. We'll then use a
-    # colormap to assign a color to each index.
-    if str(color_by_column) != "nan":
-        unique_values = input_points_df[color_by_column].unique()
-        num_unique_values = len(unique_values)
-        color_index = 1
-        color_map = {}
-        for value in unique_values:
-            color_map[value] = color_index
-            color_index += 1
+    # add color mapping columns. If specified, for each column, we make an index for each
+    # unique value that is used to index into a colormap. You can then pick which color
+    # index column to use in OpenSpace to color the points.
+    if str(color_by_columns) != "nan":
+        for color_by_column in color_by_columns:
+            unique_values = input_points_df[color_by_column].unique()
+            num_unique_values = len(unique_values)
+            color_index = 1
+            color_map = {}
+            for value in unique_values:
+                color_map[value] = color_index
+                color_index += 1
 
-        # Add the color column to the dataframe.
-        input_points_df["color"] = input_points_df[color_by_column].map(color_map)
-
-        # Add another column that is the value of the color_by_column. This is useful for
-        # labels.
-        input_points_df["color_by_column"] = input_points_df[color_by_column]
-    else:
-        color_by_column = False
+            # Add a column for this color index to the dataframe.
+            color_index_column = color_by_column + "_color_index"
+            input_points_df[color_index_column] = input_points_df[color_by_column].map(color_map)
 
     #
     # COLOR MAPS. THIS STUFF IS TOTALLY IN FLUX AND DOESN'T WORK QUITE RIGHT YET.
@@ -217,10 +212,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     output_files.append(color_filename)
 
     # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
-    # it includes the color, color_by_column, and any other columns that were in the
-    # original CSV file. This is so we can use the color column to color the points in
-    # OpenSpace. OpenSpace color maps are kinda broken, this will likely just use a
-    # default viridis color map for now.
+    # it includes the color index columns as well.
     points_csv_filename = args.output_dir + "/" + filename_base + "_points.csv"
     # Local filename is just the filename with no path.
     local_points_csv_filename = os.path.basename(points_csv_filename)
@@ -287,9 +279,13 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
         print(f"        Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
         print(f"        Unit = \"{units}\",", file=output_file)
-        if (str(color_by_column) != "nan"):
+        if color_by_columns:
+            # Grab the first column in the color_by_columns list.
+            # TODO: This assumes knowing the suffix on the column name. Very hacky. This
+            #       string is in the first part of make_points_asset_and_csv_from_dataframe.
+            color_param = color_by_columns[0] + "_color_index"
             print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
-            print(f"                                      Parameter = \"color\" }} }},", file=output_file)
+            print(f"                                      Parameter = \"{color_param}\" }} }},", file=output_file)
         else:
             print(f"        Coloring = {{ ColorMapping = {{ File = colormaps.Uniform.Viridis }} }},", file=output_file)
 
@@ -680,7 +676,7 @@ def main():
                                                          filename_base=filename_base,
                                                          fade_targets=fade_targets,
                                                          interaction_sphere=row["interaction_sphere"],
-                                                         color_by_column=row["color_by_column"],
+                                                         color_by_columns=row["color_by_columns"],
                                                          default_texture=row["default_texture"],
                                                          size_scale_factor=row["point_scale_factor"],
                                                          size_scale_exponent=row["point_scale_exponent"],
