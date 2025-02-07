@@ -168,6 +168,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              units,
                                              dataset_name,
                                              parent,
+                                             colormap,
                                              dataset_csv_filename):
     output_files = []
 
@@ -189,27 +190,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             color_index_column = color_by_column + "_color_index"
             input_points_df[color_index_column] = input_points_df[color_by_column].map(color_map)
 
-    #
-    # COLOR MAPS. THIS STUFF IS TOTALLY IN FLUX AND DOESN'T WORK QUITE RIGHT YET.
-    #
-
-    # Now a color file, since we know how many colors we need.
-    color_filename = args.output_dir + "/" + filename_base + ".cmap"
-    color_local_filename = os.path.basename(color_filename)
-    with open(color_filename, "w") as color_file:
-        print("# OpenSpace colormap file", file=color_file)
-        print("", file=color_file)
-        #print(f"{num_unique_values}", file=color_file)
-        #for value in unique_values:
-        #    print(f"1.0 0.0 0.0 1.0", file=color_file)
-        print("5", file=color_file)
-        print("1.0 0.0 0.0 1.0", file=color_file)
-        print("0.0 1.0 0.0 1.0", file=color_file)
-        print("0.0 0.0 1.0 1.0", file=color_file)
-        print("1.0 0.0 1.0 1.0", file=color_file)
-        print("0.0 1.0 1.0 1.0", file=color_file)
-        color_file.close()
-    output_files.append(color_filename)
+    # If the colormap passed in is None, give it a default.
+    if colormap is None:
+        colormap = "colormaps.Uniform.Viridis"
 
     # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
     # it includes the color index columns as well.
@@ -284,10 +267,14 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             # TODO: This assumes knowing the suffix on the column name. Very hacky. This
             #       string is in the first part of make_points_asset_and_csv_from_dataframe.
             color_param = color_by_columns[0] + "_color_index"
-            print(f"        Coloring = {{ ColorMapping = {{ File = asset.resource(\"{color_local_filename}\"),", file=output_file)
-            print(f"                                      Parameter = \"{color_param}\" }} }},", file=output_file)
+            print( "        Coloring = {", file=output_file)
+            print( "            ColorMapping = {", file=output_file)
+            print(f"                File = {colormap},", file=output_file)
+            print(f"                Parameter = \"{color_param}\"", file=output_file)
+            print( "            }", file=output_file)
+            print( "        },", file=output_file)
         else:
-            print(f"        Coloring = {{ ColorMapping = {{ File = colormaps.Uniform.Viridis }} }},", file=output_file)
+            print( "        Coloring = { ColorMapping = { File = colormaps.Uniform.Viridis } },", file=output_file)
 
         #print(f"        Coloring = {{ FixedColor = {{ 1.0, 0.0, 0.0 }} }},", file=output_file)
         print("    },", file=output_file)
@@ -767,6 +754,9 @@ def main():
             max_size = None
             if "max_size" in row:
                 max_size = row["max_size"]
+            colormap = None
+            if "colormap" in row:
+                colormap = row["colormap"]
             print("Creating points... ", end="", flush=True)
             files_created += \
                 make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
@@ -781,6 +771,7 @@ def main():
                                                          units=units,
                                                          dataset_name=dataset_name,
                                                          parent=parent,
+                                                         colormap=colormap,
                                                          dataset_csv_filename=dataset_csv_filename)
             
         # Datasets contain many points that fall into common groupings, such as phyla,

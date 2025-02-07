@@ -12,6 +12,7 @@
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
             "color_by_columns": ["phylum", "class"],
+            "colormap": "colormaps.Misc.Flag",
             "interaction_sphere": 1
         },
         {
