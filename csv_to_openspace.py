@@ -556,6 +556,103 @@ def make_branches_from_dataframe(branch_points_df,
 
     return(output_files)
 
+def make_models_from_dataframe(model_points_df,
+                               filename_base,
+                               model_list,
+                               data_points_csv_filename,
+                               units):
+    output_files = []
+
+    # Now the asset file for the branches.
+    output_asset_filename = args.output_dir + "/" + filename_base + "_models.asset"
+
+    # Models are like branches or labels, they're always associated with a CSV points
+    # file. Get the position from the Transforms list.
+    output_asset_position_name = ""
+    for t in transform_list:
+        if t.csv_filename == data_points_csv_filename:
+            output_asset_position_name = t.output_asset_position_name
+
+    with open(output_asset_filename, "w") as output_file:
+        transforms_filename_base = transforms_filename.split(".")[0]
+        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
+
+        print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
+        print("local meters_in_Km = 1000", file = output_file)
+
+        # We need to keep track of all the model assets we create so they can be
+        # initialized/deinitialized/exported for OpenSpace.
+        output_asset_variable_list = []
+
+        # Now, for each model, make a new asset.
+        for model in model_list:
+
+            # First let's make sure we can get the position of the model.
+            model_name = model["taxon"]
+            search_column = model["column"]
+            model_row = model_points_df[model_points_df[search_column] == model_name]
+
+            if len(model_row) == 0:
+                print(f"Error: Could not find model {model_name} in the dataset.")
+                sys.exit(1)
+
+            # The asset name should have the model name in it. Replace spaces with
+            # underscores.
+            output_asset_variable_name = filename_base + "_" + model_name.replace(" ", "_") + "_model"
+
+            print(f"local {output_asset_variable_name} = {{", file=output_file)
+            print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
+            print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
+            print( "    Transform = {", file=output_file)
+            print( "        Translation = {", file=output_file)
+            print( "          Type = \"StaticTranslation\",", file=output_file)
+            print( "          Position = {", file=output_file)
+            print(f"            {model_row['x'].values[0]} * meters_in_{units},", file=output_file)
+            print(f"            {model_row['y'].values[0]} * meters_in_{units},", file=output_file)
+            print(f"            {model_row['z'].values[0]} * meters_in_{units},", file=output_file)
+            print( "          }", file=output_file)
+            print( "        }", file=output_file)
+            print( "    },", file=output_file)
+            print( "    Renderable = {", file=output_file)
+            print( "        Type = \"RenderableModel\",", file=output_file)
+            print(f"        AmbientIntensity = 0.0,", file=output_file)
+            print(f"        Opacity = 1.0,", file=output_file)
+            print(f"        GeometryFile = asset.resource(\"./{model['model_path']}\"),", file=output_file)
+            print(f"        ModelScale = {model['model_scale']},", file=output_file)
+            print(f"        Enabled = true,", file=output_file)
+            print( "        LightSources = {", file=output_file)
+            print( "            { Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.5 }", file=output_file)
+            print( "        }", file=output_file)
+            print( "    },", file=output_file)
+
+
+            print( "    GUI = {", file=output_file)
+            print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
+            print(f"        Path = \"/Models/{data_points_csv_filename.split(".")[0]}\"", file=output_file)
+            print( "    }", file=output_file)
+      
+
+            print( "}", file=output_file)
+
+            output_asset_variable_list.append(output_asset_variable_name)
+
+        # Now we need to dump all the initialize  and deinitialize functions for the
+        # models.
+        print("asset.onInitialize(function()", file=output_file)
+        for output_asset_variable_name in output_asset_variable_list:
+            print(f"    openspace.addSceneGraphNode({output_asset_variable_name})", file=output_file)
+        print("end)", file=output_file)
+        print("asset.onDeinitialize(function()", file=output_file)
+        for output_asset_variable_name in output_asset_variable_list:
+            print(f"    openspace.removeSceneGraphNode({output_asset_variable_name})", file=output_file)
+        print("end)", file=output_file)
+        for output_asset_variable_name in output_asset_variable_list:
+            print(f"asset.export({output_asset_variable_name})", file=output_file)
+
+    output_files.append(output_asset_filename)
+
+    return(output_files)
+
 def main():
     # If an output directory was specified, make sure it exists.
     if args.output_dir != ".":
@@ -722,6 +819,15 @@ def main():
                                              dataset_name=dataset_name,
                                              line_opacity=row["line_opacity"],
                                              line_width=row["line_width"])
+            
+        elif row["type"] == "models":
+            print("Creating models... ", end="", flush=True)
+            files_created += \
+                make_models_from_dataframe(model_points_df=input_points_df,
+                                           filename_base=filename_base,
+                                           model_list=row["model_list"],
+                                           data_points_csv_filename=row["csv_file"],
+                                           units=units)
 
         elif row["type"] == "stars":
             print("*** Stars are no longer supported. ***")

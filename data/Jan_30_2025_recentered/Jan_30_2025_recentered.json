@@ -189,6 +189,21 @@
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
             "line_width": 2.4
+        },
+        {
+            "csv_file": "mammal_species.csv",
+            "data_scale_factor": 1000,
+            "hack warning": "This data scale factor must be the same as the one used for the mammal_species.csv dataset",
+            "type": "models",
+            "model_list" : [
+                {
+                    "column": "species",
+                    "taxon": "Canis lupus",
+                    "download_type": "local",
+                    "model_path": "Canis lupus skull.glb",
+                    "model_scale": 1000
+                }
+            ]
         }
     ]
 }

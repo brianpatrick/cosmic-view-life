@@ -142,6 +142,13 @@ The program:
                             Directory holding texture files for points.
     -v, --verbose         Verbose output.
 
+TODO: NEED TO REWRITE THIS BASED ON NEW JSON INPUT FILE FORMAT
+
+Notes:
+   - Processing order of input data is important. Points define transforms that are used
+     by other assets and need to be done first.
+
+
 The input CSV file tells the program what to do. In each dir (mammals_families_species
 and mammals_families_orders_species), take a look at the [...]_dataset.csv file.
 Each line tells the program which data csv file to load and what to do with it, 
@@ -149,7 +156,10 @@ either turn it into stars or labels. If stars, there are a bunch of parameters
 to tweak star appearance, and also an option to set an asset name for fading. (This
 is a little complicated, just ask me.)
 
-The cache dir is cleaned out automatically, you need to provide its location
+
+NOT ANYMORE - NEED TO REWRITE THIS because I made a separate script to clean out the cache
+
+XXX The cache dir is cleaned out automatically, you need to provide its location
 on your setup.
 
 The asset dir is where you want the assets placed when run.
