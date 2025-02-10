@@ -1,6 +1,6 @@
 {
     "Description": "Recentered data for Jan 30 2025",
-    "dataset_name": "Jan_30_2025_recentered",
+    "gui_top_level": "CVoL Jan 30 2025",
     
     "datasets": [
         {
@@ -13,7 +13,12 @@
             "max_size": 0.1,
             "color_by_columns": ["phylum", "class"],
             "colormap": "colormaps.Misc.Flag",
-            "interaction_sphere": 1
+            "interaction_sphere": 1,
+            "gui_info": {
+                "path": "Eukaryotes/Points",
+                "name": "Classes",
+                "hidden": false
+            }
         },
         {
             "csv_file": "eukaryotes_classes.csv",
@@ -23,7 +28,12 @@
             "label_size": 4.3,
             "label_minsize": 8,
             "label_maxsize": 125,
-            "enabled": true
+            "enabled": true,
+            "gui_info": {
+                "path": "Eukaryotes/Labels",
+                "name": "Classes_(eng)",
+                "hidden": false
+            }
         },
         {
             "csv_file": "eukaryotes_classes.csv",
@@ -33,7 +43,12 @@
             "label_size": 4.3,
             "label_minsize": 8,
             "label_maxsize": 125,
-            "enabled": true
+            "enabled": true,
+            "gui_info": {
+                "path": "Eukaryotes/Labels",
+                "name": "Phyla_(grouped)",
+                "hidden": false
+            }
         },
         {
             "csv_file": "mammal_families.csv",
@@ -52,8 +67,13 @@
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],
-            "interaction_sphere": 2
-        },
+            "interaction_sphere": 2,
+            "gui_info": {
+                "path": "Mammals/Points",
+                "name": "Families",
+                "hidden": false
+            }
+       },
         {
             "csv_file": "mammal_families.csv",
             "parent": {
@@ -68,7 +88,12 @@
             "label_size": 2.50,
             "label_minsize": 8,
             "label_maxsize": 125,
-            "enabled": true
+            "enabled": true,
+            "gui_info": {
+                "path": "Mammals/Labels",
+                "name": "Family(eng)",
+                "hidden": false
+            }
         },
         {
             "csv_file": "mammal_species.csv",
@@ -87,7 +112,12 @@
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],
-            "interaction_sphere": 2
+            "interaction_sphere": 2,
+            "gui_info": {
+                "path": "Mammals/Points",
+                "name": "Species",
+                "hidden": false
+            }
         },
         {
             "csv_file": "mammal_species.csv",
@@ -103,7 +133,12 @@
             "label_size": 1.82,
             "label_minsize": 8,
             "label_maxsize": 125,
-            "enabled": true
+            "enabled": true,
+            "gui_info": {
+                "path": "Mammals/Labels",
+                "name": "Class",
+                "hidden": false
+            }
         },
         {
             "csv_file": "bird_families.csv",
@@ -122,7 +157,13 @@
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],
-            "interaction_sphere": 2
+            "interaction_sphere": 2,
+            "gui_info": {
+                "path": "Birds/Points",
+                "name": "Class",
+                "hidden": false
+            }
+
         },
         {
             "csv_file": "bird_families.csv",
@@ -138,7 +179,12 @@
             "label_size": 2.50,
             "label_minsize": 8,
             "label_maxsize": 125,
-            "enabled": true
+            "enabled": true,
+            "gui_info": {
+                "path": "Birds/Labels",
+                "name": "Family(eng)",
+                "hidden": false
+            }
         },
         {
             "csv_file": "bird_species.csv",
@@ -157,7 +203,12 @@
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],
-            "interaction_sphere": 2
+            "interaction_sphere": 2,
+            "gui_info": {
+                "path": "Birds/Points",
+                "name": "Species",
+                "hidden": false
+            }
         },
         {
             "csv_file": "bird_species.csv",
@@ -173,7 +224,12 @@
             "label_size": 1.82,
             "label_minsize": 8,
             "label_maxsize": 125,
-            "enabled": true
+            "enabled": true,
+            "gui_info": {
+                "path": "Birds/Labels",
+                "name": "Class",
+                "hidden": false
+            }
         },
         {
             "csv_file": "bird_branches.csv",
@@ -181,7 +237,12 @@
             "type": "branches",
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
-            "line_width": 2.4
+            "line_width": 2.4,
+            "gui_info": {
+                "path": "Birds/Branches",
+                "name": "Species",
+                "hidden": false
+            }
         },
         {
             "csv_file": "bird_terminal_branches.csv",
@@ -189,7 +250,12 @@
             "type": "branches",
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
-            "line_width": 2.4
+            "line_width": 2.4,
+            "gui_info": {
+                "path": "Birds/Branches",
+                "name": "Terminal Species",
+                "hidden": false
+            }
         },
         {
             "csv_file": "mammal_species.csv",
@@ -202,12 +268,17 @@
                     "taxon": "Canis lupus",
                     "download_type": "local",
                     "model_path": "Canis lupus skull.glb",
-                    "model_scale": 1000
+                    "model_scale": 1000,
+                    "gui_info": {
+                        "path": "Mammals/Models",
+                        "name": "Canis lupus",
+                        "hidden": false
+                    }
                 }
             ]
         },
         {
-            "skip": false,
+            "skip": true,
             "csv_file": "mammal_species.csv",
             "data_scale_factor": 1000,
             "type": "pdb",
@@ -217,7 +288,12 @@
                     "taxon": "Canis lupus",
                     "pdb_code": "8AEH",
                     "model_scale": 1000,
-                    "show_as": "cartoon"
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Mammals/PDB",
+                        "name": "Canis lupus",
+                        "hidden": false
+                    }
                 }
             ]
         }

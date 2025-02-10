@@ -166,10 +166,11 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              size_scale_exponent,
                                              max_size,
                                              units,
-                                             dataset_name,
+                                             gui_top_level,
                                              parent,
                                              colormap,
-                                             dataset_csv_filename):
+                                             dataset_csv_filename,
+                                             gui_info):
     output_files = []
 
     # First the CSV file. This is just the points in CSV format, however we may need to
@@ -287,8 +288,12 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print(f"    OnRecede = {{ \"{fade_varname}\" }},", file=output_file)
             print(f"    OnExit = {{ \"{fade_varname}\" }},", file=output_file)
         print("    GUI = {", file=output_file)
-        print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"        Path = \"/{dataset_name}/Points\"", file=output_file)
+        if gui_info:
+            print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
+            print(f"        Name = \"{gui_info['name']}\"", file=output_file)
+        else:
+            print(f"        Path = \"/{gui_top_level}/Points\",", file=output_file)
+            print(f"        Name = \"{output_asset_variable_name}\"", file=output_file)
         print("    }", file=output_file)
         print("}", file=output_file)
         print("asset.onInitialize(function()", file=output_file)
@@ -315,8 +320,9 @@ def make_labels_from_dataframe(input_points_df,
                                label_maxsize,
                                enabled,
                                units,
-                               dataset_name,
-                               dataset_csv_filename):
+                               gui_top_level,
+                               dataset_csv_filename,
+                               gui_info):
 
     output_files = []
 
@@ -350,22 +356,25 @@ def make_labels_from_dataframe(input_points_df,
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
         print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
-        print("    Renderable = {", file=output_file)
-        print("        Type = \"RenderablePointCloud\",", file=output_file)
+        print( "    Renderable = {", file=output_file)
+        print( "        Type = \"RenderablePointCloud\",", file=output_file)
         print(f"        Enabled = {enabled},", file=output_file)
-        print("        Labels = {", file=output_file)
+        print( "        Labels = {", file=output_file)
         print(f"            File = asset.resource(\"{local_label_filename}\"),", file=output_file)
         print(f"         Unit = \"{units}\",", file=output_file)
-        print("            FaceCamera = true,", file=output_file)
-        print("            Enabled= true,", file=output_file)
+        print( "            FaceCamera = true,", file=output_file)
+        print( "            Enabled= true,", file=output_file)
         print(f"            Size = {label_size},", file=output_file)
         print(f"            MinMaxSize = {{ {label_minsize},{label_maxsize} }}", file=output_file)
-        print("        }", file=output_file)
-        print("    },", file=output_file)
-        print("    GUI = {", file=output_file)
-        #print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"        Name = \"{label_column}\",", file=output_file)
-        print(f"        Path = \"/{dataset_name}/Labels/{filename_base}\"", file=output_file)
+        print( "        }", file=output_file)
+        print( "    },", file=output_file)
+        print( "    GUI = {", file=output_file)
+        if gui_info:
+            print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
+            print(f"        Name = \"{gui_info['name']}\"", file=output_file)
+        else:
+            print(f"        Path = \"/{gui_top_level}/Points\",", file=output_file)
+            print(f"        Name = \"{output_asset_variable_name}\"", file=output_file)
         print("    }", file=output_file)
         print("}", file=output_file)
         print("asset.onInitialize(function()", file=output_file)
@@ -389,8 +398,9 @@ def make_group_labels_from_dataframe(input_points_df,
                                      label_maxsize, 
                                      enabled,
                                      units,
-                                     dataset_name,
-                                     dataset_csv_filename):
+                                     gui_top_level,
+                                     dataset_csv_filename,
+                                     gui_info):
     # First we want to figure out the unique values in the label column. These
     # are the groups we want to create labels for. Ignore NaN values in the label
     # column.
@@ -464,8 +474,9 @@ def make_group_labels_from_dataframe(input_points_df,
                                               label_maxsize=label_maxsize,
                                               enabled=enabled,
                                               units=units,
-                                              dataset_name=dataset_name,
-                                              dataset_csv_filename=dataset_csv_filename)
+                                              gui_top_level=gui_top_level,
+                                              dataset_csv_filename=dataset_csv_filename,
+                                              gui_info=gui_info)
     return(output_files)
 
 def make_branches_from_dataframe(branch_points_df,
@@ -473,9 +484,10 @@ def make_branches_from_dataframe(branch_points_df,
                                  units,
                                  parent,
                                  data_points_csv_filename,
-                                 dataset_name,
+                                 gui_top_level,
                                  line_opacity,
-                                 line_width):
+                                 line_width,
+                                 gui_info):
     output_files = []
 
     # First the speck and dat files. These are the points used to draw the
@@ -527,8 +539,12 @@ def make_branches_from_dataframe(branch_points_df,
         print(f"        Unit = \"{units}\",", file=output_file)
         print( "    },", file=output_file)
         print( "    GUI = {", file=output_file)
-        print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
-        print(f"        Path = \"/{dataset_name}/Branches\"", file=output_file)
+        if gui_info:
+            print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
+            print(f"        Name = \"{gui_info['name']}\"", file=output_file)
+        else:
+            print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
+            print(f"        Path = \"/{gui_top_level}/Branches\"", file=output_file)
         print( "    }", file=output_file)
         print( "}", file=output_file)
         print("asset.onInitialize(function()", file=output_file)
@@ -547,7 +563,8 @@ def make_models_from_dataframe(model_points_df,
                                filename_base,
                                model_list,
                                data_points_csv_filename,
-                               units):
+                               units,
+                               gui_top_level):
     output_files = []
 
     # Now the asset file for the branches.
@@ -578,6 +595,10 @@ def make_models_from_dataframe(model_points_df,
             model_name = model["taxon"]
             search_column = model["column"]
             model_row = model_points_df[model_points_df[search_column] == model_name]
+
+            gui_info = None
+            if "gui_info" in model:
+                gui_info = model["gui_info"]
 
             if len(model_row) == 0:
                 print(f"Error: Could not find model {model_name} in the dataset.")
@@ -614,8 +635,12 @@ def make_models_from_dataframe(model_points_df,
 
 
             print( "    GUI = {", file=output_file)
-            print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
-            print(f"        Path = \"/Models/{data_points_csv_filename.split(".")[0]}\"", file=output_file)
+            if gui_info:
+                print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
+                print(f"        Name = \"{gui_info['name']}\"", file=output_file)
+            else:
+                print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
+                print(f"        Path = \"/Models/{data_points_csv_filename.split(".")[0]}\"", file=output_file)
             print( "    }", file=output_file)
       
 
@@ -644,7 +669,8 @@ def make_pdb_from_dataframe(protein_points_df,
                             filename_base,
                             protein_list,
                             data_points_csv_filename,
-                            units):
+                            units,
+                            gui_top_level):
 
     # Let's only import pymol if we need it.
     from pymol import cmd
@@ -697,6 +723,10 @@ def make_pdb_from_dataframe(protein_points_df,
 
             output_files.append(glb_fullpath)
 
+            gui_info = None
+            if "gui_info" in protein:
+                gui_info = protein["gui_info"]
+
             # The asset name should have the protein name in it. Replace spaces with
             # underscores.
             output_asset_variable_name = filename_base + "_" + taxon_name.replace(" ", "_") + "_protein"
@@ -728,8 +758,12 @@ def make_pdb_from_dataframe(protein_points_df,
 
 
             print( "    GUI = {", file=output_file)
-            print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
-            print(f"        Path = \"/Models/{data_points_csv_filename.split(".")[0]}\"", file=output_file)
+            if gui_info:
+                print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
+                print(f"        Name = \"{gui_info['name']}\"", file=output_file)
+            else:
+                print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
+                print(f"        Path = \"/Models/{data_points_csv_filename.split(".")[0]}\"", file=output_file)
             print( "    }", file=output_file)
       
 
@@ -775,14 +809,14 @@ def main():
 
     # Get the dataset name from the input dataset JSON file. This is used to
     # make the GUI folder in openspace for this dataset.
-    dataset_name = input_dataset["dataset_name"]
+    gui_top_level = input_dataset["gui_top_level"]
 
     # Set the transforms filename. This is the file that contains the transforms
     # (positions) of the assets.
     global transforms_filename
-    transforms_filename = dataset_name + "_transforms.asset"
+    transforms_filename = gui_top_level + "_transforms.asset"
 
-    print("Creating dataset: " + dataset_name)
+    print("Creating dataset: " + gui_top_level)
 
     # For each entry in the datasets list, read the CSV file and create the
     # appropriate OpenSpace files.    
@@ -826,6 +860,10 @@ def main():
         if "parent" in row:
             parent = row["parent"]
 
+        gui_info = None
+        if "gui_info" in row:
+            gui_info = row["gui_info"]
+
         # Different datasets may have different scaling factors. We need to scale
         # each dataset according to a provided, empirically determined scaling factor.
         # This is so that the points are a reasonable size in OpenSpace.
@@ -862,8 +900,9 @@ def main():
                                            label_maxsize=row["label_maxsize"],
                                            enabled=row["enabled"],
                                            units=units,
-                                           dataset_name=dataset_name,
-                                           dataset_csv_filename=dataset_csv_filename)
+                                           gui_top_level=gui_top_level,
+                                           dataset_csv_filename=dataset_csv_filename,
+                                           gui_info=gui_info)
             
         elif row["type"] == "points":
             max_size = None
@@ -884,10 +923,11 @@ def main():
                                                          size_scale_exponent=row["point_scale_exponent"],
                                                          max_size=max_size,
                                                          units=units,
-                                                         dataset_name=dataset_name,
+                                                         gui_top_level=gui_top_level,
                                                          parent=parent,
                                                          colormap=colormap,
-                                                         dataset_csv_filename=dataset_csv_filename)
+                                                         dataset_csv_filename=dataset_csv_filename,
+                                                         gui_info=gui_info)
             
         # Datasets contain many points that fall into common groupings, such as phyla,
         # classes, kingdoms, etc. Rather than have many points with the same label, we
@@ -910,8 +950,9 @@ def main():
                                                  label_maxsize=row["label_maxsize"],
                                                  enabled=row["enabled"],
                                                  units=units,
-                                                 dataset_name=dataset_name,
-                                                 dataset_csv_filename=dataset_csv_filename)
+                                                 gui_top_level=gui_top_level,
+                                                 dataset_csv_filename=dataset_csv_filename,
+                                                 gui_info=gui_info)
 
 
         elif row["type"] == "branches":
@@ -922,9 +963,10 @@ def main():
                                              units=units,
                                              parent=parent,
                                              data_points_csv_filename=row["points_file"],
-                                             dataset_name=dataset_name,
+                                             gui_top_level=gui_top_level,
                                              line_opacity=row["line_opacity"],
-                                             line_width=row["line_width"])
+                                             line_width=row["line_width"],
+                                             gui_info=gui_info)
             
         elif row["type"] == "models":
             print("Creating models... ", end="", flush=True)
@@ -933,7 +975,8 @@ def main():
                                            filename_base=filename_base,
                                            model_list=row["model_list"],
                                            data_points_csv_filename=row["csv_file"],
-                                           units=units)
+                                           units=units,
+                                           gui_top_level=gui_top_level)
 
         elif row["type"] == "pdb":
             print("Creating proteins... ", end="", flush=True)
@@ -942,7 +985,8 @@ def main():
                                         filename_base=filename_base,
                                         protein_list=row["protein_list"],
                                         data_points_csv_filename=row["csv_file"],
-                                        units=units)
+                                        units=units,
+                                        gui_top_level=gui_top_level)
 
         elif row["type"] == "stars":
             print("*** Stars are no longer supported. ***")
