@@ -678,17 +678,24 @@ def make_pdb_from_dataframe(protein_points_df,
 
             search_column = protein["column"]
             taxon_row = protein_points_df[protein_points_df[search_column] == taxon_name]
+            if len(taxon_row) == 0:
+                print(f"Error: Could not find {taxon_name} in the dataset.")
+                sys.exit(1)
 
             pdb_code = protein["pdb_code"]
 
             # Now we need to get the protein model from pymol.
             cmd.fetch(pdb_code)
-            glb_filename = args.output_dir + "/" + pdb_code + ".glb"
-            cmd.get_gltf(glb_filename, 1)
+            glb_filename = pdb_code + ".gltf"
+            glb_fullpath = args.output_dir + "/" + glb_filename
 
-            if len(taxon_row) == 0:
-                print(f"Error: Could not find {taxon_name} in the dataset.")
-                sys.exit(1)
+            # How to display it?
+            cmd.hide("all")
+            cmd.show_as(protein["show_as"])
+
+            cmd.get_gltf(glb_fullpath, 1)
+
+            output_files.append(glb_fullpath)
 
             # The asset name should have the protein name in it. Replace spaces with
             # underscores.
@@ -711,7 +718,7 @@ def make_pdb_from_dataframe(protein_points_df,
             print( "        Type = \"RenderableModel\",", file=output_file)
             print(f"        AmbientIntensity = 0.0,", file=output_file)
             print(f"        Opacity = 1.0,", file=output_file)
-            print(f"        GeometryFile = asset.resource(\"./{model['model_path']}\"),", file=output_file)
+            print(f"        GeometryFile = asset.resource(\"./{glb_filename}\"),", file=output_file)
             print(f"        ModelScale = {protein['model_scale']},", file=output_file)
             print(f"        Enabled = true,", file=output_file)
             print( "        LightSources = {", file=output_file)
@@ -782,7 +789,8 @@ def main():
     for row in input_dataset["datasets"]:
 
         # If there's a "skip" entry for this row, skip it.
-        if "skip" in row:
+        if "skip" in row and row["skip"]:
+            print(f"Skipping dataset: {row['csv_file']} data type {row['type']}")
             continue
 
         dataset_csv_filename = row["csv_file"]

@@ -207,6 +207,7 @@
             ]
         },
         {
+            "skip": false,
             "csv_file": "mammal_species.csv",
             "data_scale_factor": 1000,
             "type": "pdb",
@@ -214,8 +215,9 @@
                 {
                     "column": "species",
                     "taxon": "Canis lupus",
-                    "pdb_code": "2BK9",
-                    "model_scale": 1000
+                    "pdb_code": "8AEH",
+                    "model_scale": 1000,
+                    "show_as": "cartoon"
                 }
             ]
         }
