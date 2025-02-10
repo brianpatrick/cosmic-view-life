@@ -205,6 +205,19 @@
                     "model_scale": 1000
                 }
             ]
+        },
+        {
+            "csv_file": "mammal_species.csv",
+            "data_scale_factor": 1000,
+            "type": "pdb",
+            "protein_list" : [
+                {
+                    "column": "species",
+                    "taxon": "Canis lupus",
+                    "pdb_code": "2BK9",
+                    "model_scale": 1000
+                }
+            ]
         }
     ]
 }
