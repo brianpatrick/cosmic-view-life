@@ -28,10 +28,26 @@
             "label_size": 4.3,
             "label_minsize": 8,
             "label_maxsize": 125,
+            "text_color": [ 1.0, 0.0, 0.0 ],
             "enabled": true,
             "gui_info": {
                 "path": "Eukaryotes/Labels",
-                "name": "Classes_(eng)",
+                "name": "Classes (eng)",
+                "hidden": false
+            }
+        },
+        {
+            "csv_file": "eukaryotes_classes.csv",
+            "type": "labels",
+            "data_scale_factor": 100000,
+            "label_column": "phylum",
+            "label_size": 4.3,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "enabled": true,
+            "gui_info": {
+                "path": "Eukaryotes/Labels",
+                "name": "Phylum",
                 "hidden": false
             }
         },
@@ -46,7 +62,7 @@
             "enabled": true,
             "gui_info": {
                 "path": "Eukaryotes/Labels",
-                "name": "Phyla_(grouped)",
+                "name": "Phylum (grouped)",
                 "hidden": false
             }
         },
@@ -91,7 +107,7 @@
             "enabled": true,
             "gui_info": {
                 "path": "Mammals/Labels",
-                "name": "Family(eng)",
+                "name": "Family (eng)",
                 "hidden": false
             }
         },
@@ -182,7 +198,7 @@
             "enabled": true,
             "gui_info": {
                 "path": "Birds/Labels",
-                "name": "Family(eng)",
+                "name": "Family (eng)",
                 "hidden": false
             }
         },

@@ -318,6 +318,7 @@ def make_labels_from_dataframe(input_points_df,
                                label_size, 
                                label_minsize, 
                                label_maxsize,
+                               text_color,
                                enabled,
                                units,
                                gui_top_level,
@@ -361,10 +362,12 @@ def make_labels_from_dataframe(input_points_df,
         print(f"        Enabled = {enabled},", file=output_file)
         print( "        Labels = {", file=output_file)
         print(f"            File = asset.resource(\"{local_label_filename}\"),", file=output_file)
-        print(f"         Unit = \"{units}\",", file=output_file)
+        print(f"            Unit = \"{units}\",", file=output_file)
         print( "            FaceCamera = true,", file=output_file)
         print( "            Enabled= true,", file=output_file)
         print(f"            Size = {label_size},", file=output_file)
+        if (text_color):
+            print(f"            Color = {{ {text_color[0]}, {text_color[1]}, {text_color[2]} }},", file=output_file)
         print(f"            MinMaxSize = {{ {label_minsize},{label_maxsize} }}", file=output_file)
         print( "        }", file=output_file)
         print( "    },", file=output_file)
@@ -396,6 +399,7 @@ def make_group_labels_from_dataframe(input_points_df,
                                      label_size, 
                                      label_minsize, 
                                      label_maxsize, 
+                                     text_color,
                                      enabled,
                                      units,
                                      gui_top_level,
@@ -473,6 +477,7 @@ def make_group_labels_from_dataframe(input_points_df,
                                               label_minsize=label_minsize,
                                               label_maxsize=label_maxsize,
                                               enabled=enabled,
+                                              text_color=text_color,
                                               units=units,
                                               gui_top_level=gui_top_level,
                                               dataset_csv_filename=dataset_csv_filename,
@@ -863,6 +868,10 @@ def main():
         gui_info = None
         if "gui_info" in row:
             gui_info = row["gui_info"]
+    
+        text_color = None
+        if "text_color" in row:
+            text_color = row["text_color"]
 
         # Different datasets may have different scaling factors. We need to scale
         # each dataset according to a provided, empirically determined scaling factor.
@@ -891,6 +900,7 @@ def main():
                 row["enabled"] = "true"
             else:
                 row["enabled"] = "false"
+
             files_created += \
                 make_labels_from_dataframe(input_points_df=input_points_df,
                                            filename_base=filename_base,
@@ -899,6 +909,7 @@ def main():
                                            label_minsize=row["label_minsize"],
                                            label_maxsize=row["label_maxsize"],
                                            enabled=row["enabled"],
+                                           text_color=text_color,
                                            units=units,
                                            gui_top_level=gui_top_level,
                                            dataset_csv_filename=dataset_csv_filename,
@@ -941,6 +952,7 @@ def main():
                 row["enabled"] = "true"
             else:
                 row["enabled"] = "false"
+
             files_created += \
                 make_group_labels_from_dataframe(input_points_df=input_points_df,
                                                  filename_base=filename_base,
@@ -950,6 +962,7 @@ def main():
                                                  label_maxsize=row["label_maxsize"],
                                                  enabled=row["enabled"],
                                                  units=units,
+                                                 text_color=text_color,
                                                  gui_top_level=gui_top_level,
                                                  dataset_csv_filename=dataset_csv_filename,
                                                  gui_info=gui_info)
