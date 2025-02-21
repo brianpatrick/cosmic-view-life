@@ -11,8 +11,8 @@
             "point_scale_factor": 29.9,
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
-            "color_by_columns": ["phylum", "class"],
-            "colormap": "colormaps.Misc.Flag",
+            "color_by_columns": ["phylum", "class", "kingdom"],
+            "colormap": "colormaps.Cyclic.Hsv",
             "interaction_sphere": 1,
             "gui_info": {
                 "path": "Eukaryotes/Points",
@@ -27,8 +27,8 @@
             "label_column": "class_eng",
             "label_size": 4.3,
             "label_minsize": 8,
-            "label_maxsize": 125,
-            "text_color": [ 1.0, 0.0, 0.0 ],
+            "label_maxsize": 62,
+            "COMMENT_OUT text_color": [ 1.0, 0.0, 0.0 ],
             "enabled": true,
             "gui_info": {
                 "path": "Eukaryotes/Labels",
@@ -44,7 +44,7 @@
             "label_size": 4.3,
             "label_minsize": 8,
             "label_maxsize": 125,
-            "enabled": true,
+            "enabled": false,
             "gui_info": {
                 "path": "Eukaryotes/Labels",
                 "name": "Phylum",
@@ -67,6 +67,20 @@
             }
         },
         {
+            "csv_file": "eukaryotes_classes.csv",
+            "type": "group_labels",
+            "data_scale_factor": 100000,
+            "label_column": "kingdom",
+            "label_size": 4.76,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "enabled": true,
+            "gui_info": {
+                "path": "Eukaryotes/Labels",
+                "name": "Kingdom (grouped)",
+                "hidden": false
+            }
+        },        {
             "csv_file": "mammal_families.csv",
             "parent": {
                 "csv_file": "eukaryotes_classes.csv",
@@ -147,12 +161,12 @@
             "data_scale_factor": 1000,
             "label_column": "species",
             "label_size": 1.82,
-            "label_minsize": 8,
+            "label_minsize": 20,
             "label_maxsize": 125,
             "enabled": true,
             "gui_info": {
                 "path": "Mammals/Labels",
-                "name": "Class",
+                "name": "Species",
                 "hidden": false
             }
         },
@@ -294,7 +308,7 @@
             ]
         },
         {
-            "skip": true,
+            "skip": false,
             "csv_file": "mammal_species.csv",
             "data_scale_factor": 1000,
             "type": "pdb",

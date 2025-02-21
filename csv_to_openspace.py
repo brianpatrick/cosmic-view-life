@@ -177,7 +177,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     # add color mapping columns. If specified, for each column, we make an index for each
     # unique value that is used to index into a colormap. You can then pick which color
     # index column to use in OpenSpace to color the points.
-    if str(color_by_columns) != "nan":
+    if color_by_columns and str(color_by_columns) != "nan":
         for color_by_column in color_by_columns:
             unique_values = input_points_df[color_by_column].unique()
             num_unique_values = len(unique_values)
@@ -678,7 +678,11 @@ def make_pdb_from_dataframe(protein_points_df,
                             gui_top_level):
 
     # Let's only import pymol if we need it.
-    from pymol import cmd
+    try:
+        from pymol import cmd
+    except ImportError:
+        print("Error: Could not import pymol. Please install it with 'pip install pymol'.") 
+        sys.exit(1)
 
     output_files = []
 
@@ -922,13 +926,16 @@ def main():
             colormap = None
             if "colormap" in row:
                 colormap = row["colormap"]
+            color_by_columns = None
+            if "color_by_columns" in row:
+                color_by_columns = row["color_by_columns"]
             print("Creating points... ", end="", flush=True)
             files_created += \
                 make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
                                                          filename_base=filename_base,
                                                          fade_targets=fade_targets,
                                                          interaction_sphere=row["interaction_sphere"],
-                                                         color_by_columns=row["color_by_columns"],
+                                                         color_by_columns=color_by_columns,
                                                          default_texture=row["default_texture"],
                                                          size_scale_factor=row["point_scale_factor"],
                                                          size_scale_exponent=row["point_scale_exponent"],
