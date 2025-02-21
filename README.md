@@ -1,10 +1,6 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
 
-
-
-
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -26,36 +22,6 @@
 </div>
 
 
-
-<!-- TABLE OF CONTENTS
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
- -->
-
-
-
 <!-- ABOUT THE PROJECT -->
 # About The Project
 
@@ -64,55 +30,72 @@
 The goal of this project is to provide tools and pipelines for the display of biological
 data using astronomical visualization software. [OpenSpace]() is a powerful visualization
 tool with the ability to view point cloud, 3D model, and volume data on scales ranging
-from centimeters to megaparsecs. The Cosmic View of Life (CVoL) project provides a
-pipeline to create compelling and interactive visualizations in [OpenSpace]() from various
-forms of biological data, including CT scans, bioinformatic data, surface scans, molecular
-models, morphological data, species occurrences and distribution models, and more.
+from centimeters to megaparsecs. (Along with stars, planets, nebulae, galaxies, and all
+that fancy astronomy stuff.)
 
-Much of the documentation below assumes familiarity with OpenSpace - for example, asset,
-label, and speck files are discussed in gory detail.
+The Cosmic View of Life (CVoL) project provides a pipeline to create compelling and
+interactive visualizations in [OpenSpace]() from various forms of biological data,
+including CT scans, bioinformatic data, surface scans, molecular models, morphological
+data, species occurrences and distribution models, and more.
+
+Much of the documentation below assumes fairly strong familiarity with OpenSpace - for
+example, asset, label, and speck files are discussed in gory detail. If you do not know
+how to set up OpenSpace to read asset files from a specified path using the right
+environment variables, for example, you will likely be quite lost looking at this
+codebase.
+
+You should also know Python, Conda, and how to manage environments, including creating
+environments from YAML files.
+
+In short, *this* is how the sausage is made.
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+# `Makefile` and your development environment
 
+This project uses make. Many of the scripts have more than a few parameters and using a
+Makefile makes it a bit easier to build datasets. This also implies running this in a
+Linux/UNIX environment. You *may* be able to get this running on Windows using cygwin or
+something similar, but this has not been tested. Some scripts also use packages that are
+known (as of this writing, Feb 2025) not to run on Windows (the ETE toolkit, in
+particular). This codebase was developed using Windows Subsystem for Linux (WSL). Running
+on a dedicated Linux install would likely work just fine.
 
-<!-- GETTING STARTED
-## Getting Started
+This project uses Python and requires many packages. Conda is highly recommended for
+setting up your environment, and the `cosmic-view-life.yml` file can be used to install
+required packages. If you are generating 3D models of proteins from PDB identifiers, you
+should use `cosmic-proteins.yml`.
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+The `Makefile` requires a `Makefile.config` include file that contains the following
+important variables:
 
-### Prerequisites
+    OPENSPACE_CACHE := /mnt/e/git/OpenSpace-sonification/cache
+    OPENSPACE_ASSET_DIR := /mnt/e/OpenSpace/user/data/assets
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+`OPENSPACE_CACHE` is the cache directory for your OpenSpace runtime setup. The `Makefile`
+is set up to clean out the cache of development files to make sure the next run of
+OpenSpace is using updated files.
 
-### Installation
+`OPENSPACE_ASSET_DIR` is where you keep your asset files and is typically set with
+an environment variable for your given setup.
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+This will likely go out of date very quickly, but as of the time of this writing (21 Feb
+2025), rules have been set up for the following targets:
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+ - `jan_30_2025_recentered` contains the eukaryotes sphere along with bird and mammal
+   data. A wolf protein is also done, along with a wolf skull.
+ - `takanori_protein_universe` plots many (well, most?) of the points in the Protein
+   Universe paper. This dataset contains the default plot from the paper along with 4 from
+   Takanori- two 2D projections along with two 3D projections.
 
- -->
+## Pymol
 
+A quick note on the Pymol package. If your dataset does not include displaying protein
+models in 3D from PDB, you will not need Pymol. If you *do* need Pymol, it's assumed you
+know how to install it. (Using the `cosmic-proteins` YAML file to set up an environment
+should be sufficient.)
 
-<!-- ORGANIZATION -->
 # Programs
 
 Well, scripts. But scripts can be programs, too. 
@@ -122,60 +105,71 @@ Well, scripts. But scripts can be programs, too.
 Transforms CSV files with points and taxonomy data to point (or star) assets
 and labels in OpenSpace.
 
-The program:
+Options/usage is as follows:
 
-    usage: csv_to_openspace.py [-h] -i INPUT_DATASET_CSV_FILE -c CACHE_DIR -a ASSET_DIR [-v]
+
+    usage: csv_to_openspace.py [-h] -i INPUT_DATASET_JSON_FILE -a ASSET_DIR [-o OUTPUT_DIR] [-t TEXTURE_DIR] [-v]
 
     Process input CSV files for OpenSpace.
 
     options:
-    -h, --help            show this help message and exit
-    -i INPUT_DATASET_CSV_FILE, --input_dataset_csv_file INPUT_DATASET_CSV_FILE
-                            Input dataset CSV file.
-    -c CACHE_DIR, --cache_dir CACHE_DIR
-                            OpenSpace cache directory.
-    -a ASSET_DIR, --asset_dir ASSET_DIR
-                            Output directory for assets.
-    -o OUTPUT_DIR, --output_dir OUTPUT_DUR
+      -h, --help            show this help message and exit
+      -i INPUT_DATASET_JSON_FILE, --input_dataset_json_file INPUT_DATASET_JSON_FILE
+                            Input dataset JSON file.
+      -a ASSET_DIR, --asset_dir ASSET_DIR
+                            OpenSpace directory for assets.
+      -o OUTPUT_DIR, --output_dir OUTPUT_DIR
                             Directory for local copy of output files.
-    -t TEXTURE_DIR, --texture_dir TEXTURE_DIR
+      -t TEXTURE_DIR, --texture_dir TEXTURE_DIR
                             Directory holding texture files for points.
-    -v, --verbose         Verbose output.
+      -v, --verbose         Verbose output.
 
-TODO: NEED TO REWRITE THIS BASED ON NEW JSON INPUT FILE FORMAT
+### Input JSON file
 
-Notes:
-   - Processing order of input data is important. Points define transforms that are used
-     by other assets and need to be done first.
+`csv_to_openspace.py` is directed what to do using a JSON file that details each input
+file and what to do with it. The simplest JSON file looks something like this:
+
+    {
+        "Description": "Recentered data for Jan 30 2025",
+        "gui_top_level": "CVoL Jan 30 2025",
+        
+        "datasets": [
+            {
+                "csv_file": "eukaryotes_classes.csv",
+                "type": "points",
+                "data_scale_factor": 100000,
+                "default_texture": "point3a.png",
+                "point_scale_factor": 29.9,
+                "point_scale_exponent": 4.6,
+                "max_size": 0.1,
+                "color_by_columns": ["phylum", "class"],
+                "colormap": "colormaps.Misc.Flag",
+                "interaction_sphere": 1,
+                "gui_info": {
+                    "path": "Eukaryotes/Points",
+                    "name": "Classes",
+                    "hidden": false
+                }
+            },
+        ]
+    }
+
+`type` can be one of the following:
+  - `points` for individual data points
+  - `labels` for point labels. Labels do not need to be associated with a point.
+  - `group_labels` for labeling a group of points semi-automatically.
+  - `models` for placing 3D models at point locations.
+  - `pdb` for placing 3D protein models from the Protein Data Bank at point locations.
+
+Many of the parameters specified have direct analogs to OpenSpace parameters for different
+renderables, such as `RenderablePointCloud`, `RenderableConstellationLines`, and
+`RenderableModel`.
 
 
-The input CSV file tells the program what to do. In each dir (mammals_families_species
-and mammals_families_orders_species), take a look at the [...]_dataset.csv file.
-Each line tells the program which data csv file to load and what to do with it, 
-either turn it into stars or labels. If stars, there are a bunch of parameters
-to tweak star appearance, and also an option to set an asset name for fading. (This
-is a little complicated, just ask me.)
+
+## `clean_openspace_cache.py`
 
 
-NOT ANYMORE - NEED TO REWRITE THIS because I made a separate script to clean out the cache
-
-XXX The cache dir is cleaned out automatically, you need to provide its location
-on your setup.
-
-The asset dir is where you want the assets placed when run.
-
-** NEED TO CHANGE THIS TO USE MAKEFILES **
-
-Example run:
-
-Note that the paths below need to be modified for your particular setup.
-
-First `cd` into the data dir, for the example below this would be
-`catalogs_raw/Nov_26_relaxed_dataset_english_names`. Then run:
-
-`../../csv_to_openspace.py -i Nov_26_mammals_dataset.csv -c /mnt/e/git/OpenSpace/cache -a /mnt/e/OpenSpace/user/data/assets/Nov_26_mammals_dataset -o ./outfiles -t ../../textures`
-
-Then make sure your profile is set up to load the new assets.
 
 ## `make_tree_with_models.py` 
 
@@ -196,6 +190,13 @@ The repository contains the following directories:
 
 Input data from various sources can be found in `./data`.
 
+### `./data/Jan_30_2025_recentered`
+
+### `./data/Odonata`
+
+### `./data/Takanori_Protein_Universe`
+
+
 ### `./data/points_around_earth`
 
 OpenSpace is geared towards astronomical visualizations, but is able to display a
@@ -213,11 +214,11 @@ used, whereby larger points representing higher level groups such as "green plan
 
 
 
-### `./data/archive`
+## `./catalogs_raw`
 
-Archived datasets used in early trial visualizations. Not guaranteed to work properly as
-data formats and processing algorithms have changed quite a bit over the course of the
-project, so these will not be described in detail.
+Datasets used in early visualizations. Not guaranteed to work properly as data formats and
+processing algorithms have changed quite a bit over the course of the project, so these
+will not be described in detail.
 
 
 ## `./integrate_tree_to_XYZ`
@@ -232,6 +233,12 @@ modified to allow inclusion as a python `import`.
 The following directories and programs are outdated. They're all from early incarnations
 of the project and various proofs-of-concept.
 
+## `catalogs_raw/`
+
+As mentioned above, most of the data in this directory is not used. You may be able to run
+`main.py`, an earlier script, to make something of these, but this display model is not
+currently used.
+
 ## `main.py`:
 
 The (original) main function that all other programs are called from. This script has been
@@ -243,20 +250,15 @@ above tend to use parameter files as inputs to direct the scripts as to what dat
 process and where to find it. Much of that code is based on the original code in `main.py`
 and the `/src` subdirectory.
 
-## `/actions`:
+## `actions/`:
 
 This folder contains some pre-coded actions for insect plots. It's largely outdated,
 since now actions are typically created programatically at runtime.
 
 
 
-### /catalogs_raw:
 
-All (well, most, but not all) of the raw data after processing by Wandrille. Note that
-some datasets added after June 2024 are in various subdirectories noted above.
-  
-
-### /src:
+## src/:
 
   - **colors.py:** Generates a color map file based on a color table or a list of colors.
   - **common.py:** Some common variables and functions used across these files.
@@ -302,42 +304,8 @@ Control of what runs is via comments in the main.py file. With all the function 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
-<!-- ROADMAP
-## Roadmap
-
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
- -->
-
-
-
-<!-- CONTRIBUTING
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
- -->
-
-
 <!-- LICENSE -->
-## License
+# License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
@@ -346,7 +314,7 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 
 <!-- CONTACT -->
-## Contact
+# Contact
 
 Brian Abbott - abbott@amnh.org
 
@@ -355,40 +323,40 @@ Project Link: [https://github.com/brianpatrick/cosmic-view-life](https://github.
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-
 <!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
+# Acknowledgments
 
-This project is a joint venture between the [American Museum of Natural History](https://www.amnh.org) in New York, [University of Basel](https://www.unibas.ch/en.html) in Switzerland, and [Linköping University](https://scivis.github.io) in Sweden. It combines two astronomers, two biologists, and data analysis and visiualization experts.
+This project is a joint venture between the [American Museum of Natural History](https://www.amnh.org) in New York, [University of Basel](https://www.unibas.ch/en.html) in Switzerland, and [Linköping University](https://scivis.github.io) in Sweden. It combines researchers from astronomy, biology, and data visualization in a cross-disciplinary team.
 
 This project is funded by the Richard Lounsbery Foundation.
 
-### Primary players
+## Primary players
 
 
 - [Brian Abbott](https://brianabbott.net) (American Museum of Natural History) Data visualization, astronomer by trade, and author of these codes.
-- [Hollister Herhold](https://sites.google.com/view/hollister-herhold) (American Museum of Natural History) Entomologist, former software engineer.
+- [Hollister Herhold](https://sites.google.com/view/hollister-herhold) (American Museum of Natural History) Entomologist, evolutionary biologist, former software engineer.
 - [Wandrille Duchemin](https://github.com/WandrilleD) (University of Basel & SIB Swiss Institute of Bioinformatics) Biologist & bioinformatics guru
 - [Jackie Faherty](https://www.jackiefaherty.com) (American Museum of Natural History) Astrophyscist with a deep interest in data visualization.
 - [Takanori Fujiwara](https://takanori-fujiwara.github.io) (Linköping University) Dimensional reduction expert.
+- [Will Harcourt-smith](https://www.gc.cuny.edu/people/william-harcourt-smith) (AMNH, CUNY) Anthropologist with interests (among other things) in 3D morphometrics.
 - [David Thaler](https://phe.rockefeller.edu/bio/dthaler) (University of Basel & Rockefeller University, New York) Biologist and big thinker.
 
 
-### Students
+## Students
 
 Our graduate students are studying at Sweden's University of Linköping. Each student project is an innovative step forward and results in their master's thesis.
 
-#### Advisors
+### Advisors
 
 - [Alexander Bock](https://github.com/alexanderbock) (Linköping University)
 - [Emma Broman](https://github.com/WeirdRubberDuck) (Linköping University)
 
-#### 2022
+### 2022
 
 - Emma Segolsson
 - Linn Storesund
 
-#### 2023
+### 2023
 - Märta Nilsson
 - Robin Ridell
 
