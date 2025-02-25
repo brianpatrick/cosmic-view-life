@@ -60,6 +60,21 @@ args = parser.parse_args()
 # that this child data should be centered on.
 dataset_dict = {}
 
+# Output files. We make a lot of output files, and they should all eventually go into
+# the right OpenSpace asset directory. While these files are being created, there's a
+# possibility that two files with the same name could be created. We'll keep track of
+# all the files we create in a list, and then move them to the asset directory at the
+# end of the script.
+
+output_files = []
+
+def add_output_file(filename):
+    # Make sure this file isn't already in the list. Throw an exception if it is.
+    if filename in output_files:
+        raise Exception(f"File {filename} already in output_files list.")
+    else:
+        output_files.append(filename)
+
 # Transforms. These are global for all assets. The filename is the dataset name with
 # "_transforms.asset" appended. The transform_list is a list of Transform objects that
 # will be written to the transforms file. The actual filename is set in main().
@@ -151,10 +166,8 @@ def write_transform_file():
         for transform in transform_list:
             print(f"asset.export({transform.output_asset_position_name})", file=transforms_file)
 
-    return([transforms_file_path])
-
+    add_output_file(str(transforms_file_path))
     
-
 
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
                                              filename_base,
@@ -171,8 +184,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              colormap,
                                              dataset_csv_filename,
                                              gui_info):
-    output_files = []
-
+    
     # First the CSV file. This is just the points in CSV format, however we may need to
     # add color mapping columns. If specified, for each column, we make an index for each
     # unique value that is used to index into a colormap. You can then pick which color
@@ -204,7 +216,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     # Now just dump the points to the CSV file.
     input_points_df.to_csv(points_csv_filename, index=False)
 
-    output_files.append(points_csv_filename)
+    add_output_file(points_csv_filename)
 
     output_asset_filename = args.output_dir + "/" + filename_base + "_points.asset"
     output_asset_variable_name = filename_base + "_points"
@@ -308,9 +320,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print("end)", file=output_file)
         print(f"asset.export({output_asset_variable_name})", file=output_file)
 
-    output_files.append(output_asset_filename)
-
-    return(output_files)
+    add_output_file(output_asset_filename)
 
 def make_labels_from_dataframe(input_points_df, 
                                filename_base,
@@ -325,15 +335,13 @@ def make_labels_from_dataframe(input_points_df,
                                dataset_csv_filename,
                                gui_info):
 
-    output_files = []
-
     label_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".label"
     local_label_filename = os.path.basename(label_filename)
     with open(label_filename, "w") as output_file:
         for index, row in input_points_df.iterrows():
             print(f"{row['x']} {row['y']} {row['z']} id {index} text {row[label_column]}", file=output_file)
 
-    output_files.append(label_filename)
+    add_output_file(label_filename)
 
     # Get the position name from the Transforms list. Search by the dataset_csv_filename.
     # This is the name of the position asset that the labels will be attached to.
@@ -389,9 +397,7 @@ def make_labels_from_dataframe(input_points_df,
         print(f"asset.export({output_asset_variable_name})", file=output_file)
 
 
-    output_files.append(output_asset_filename)
-
-    return(output_files)
+    add_output_file(output_asset_filename)
 
 def make_group_labels_from_dataframe(input_points_df,
                                      filename_base,
@@ -470,19 +476,19 @@ def make_group_labels_from_dataframe(input_points_df,
 
     # Now we have a dataframe with the centroids of the groups. We can use this
     # to create the labels using the make_labels_from_dataframe function.
-    output_files = make_labels_from_dataframe(input_points_df=centroids_df,
-                                              filename_base=filename_base + "_group",
-                                              label_column=label_column,
-                                              label_size=label_size,
-                                              label_minsize=label_minsize,
-                                              label_maxsize=label_maxsize,
-                                              enabled=enabled,
-                                              text_color=text_color,
-                                              units=units,
-                                              gui_top_level=gui_top_level,
-                                              dataset_csv_filename=dataset_csv_filename,
-                                              gui_info=gui_info)
-    return(output_files)
+    make_labels_from_dataframe(input_points_df=centroids_df,
+                               filename_base=filename_base + "_group",
+                               label_column=label_column,
+                               label_size=label_size,
+                               label_minsize=label_minsize,
+                               label_maxsize=label_maxsize,
+                               enabled=enabled,
+                               text_color=text_color,
+                               units=units,
+                               gui_top_level=gui_top_level,
+                               dataset_csv_filename=dataset_csv_filename,
+                               gui_info=gui_info)
+    
 
 def make_branches_from_dataframe(branch_points_df,
                                  filename_base,
@@ -493,7 +499,6 @@ def make_branches_from_dataframe(branch_points_df,
                                  line_opacity,
                                  line_width,
                                  gui_info):
-    output_files = []
 
     # First the speck and dat files. These are the points used to draw the
     # RenderableConstellationLines asset.
@@ -509,8 +514,8 @@ def make_branches_from_dataframe(branch_points_df,
             print('}', file=speck)
 
             print(f"{row['ID']} {row['ID']}", file=dat)
-    output_files.append(branches_speck_filename)
-    output_files.append(branches_dat_filename)
+    add_output_file(branches_speck_filename)
+    add_output_file(branches_dat_filename)
 
     # Now the asset file for the branches.
     output_asset_filename = args.output_dir + "/" + filename_base + "_branches.asset"
@@ -560,9 +565,7 @@ def make_branches_from_dataframe(branch_points_df,
         print("end)", file=output_file)
         print(f"asset.export({output_asset_variable_name})", file=output_file)
 
-    output_files.append(output_asset_filename)
-
-    return(output_files)
+    add_output_file(output_asset_filename)
 
 def make_models_from_dataframe(model_points_df,
                                filename_base,
@@ -570,7 +573,6 @@ def make_models_from_dataframe(model_points_df,
                                data_points_csv_filename,
                                units,
                                gui_top_level):
-    output_files = []
 
     # Now the asset file for the branches.
     output_asset_filename = args.output_dir + "/" + filename_base + "_models.asset"
@@ -666,9 +668,7 @@ def make_models_from_dataframe(model_points_df,
         for output_asset_variable_name in output_asset_variable_list:
             print(f"asset.export({output_asset_variable_name})", file=output_file)
 
-    output_files.append(output_asset_filename)
-
-    return(output_files)
+    add_output_file(output_asset_filename)
 
 def make_pdb_from_dataframe(protein_points_df,
                             filename_base,
@@ -683,8 +683,6 @@ def make_pdb_from_dataframe(protein_points_df,
     except ImportError:
         print("Error: Could not import pymol. Please install it with 'pip install pymol'.") 
         sys.exit(1)
-
-    output_files = []
 
     # Now the asset file for the branches.
     output_asset_filename = args.output_dir + "/" + filename_base + "_pdb.asset"
@@ -730,7 +728,7 @@ def make_pdb_from_dataframe(protein_points_df,
 
             cmd.get_gltf(glb_fullpath, 1)
 
-            output_files.append(glb_fullpath)
+            add_output_file(glb_fullpath)
 
             gui_info = None
             if "gui_info" in protein:
@@ -793,9 +791,7 @@ def make_pdb_from_dataframe(protein_points_df,
         for output_asset_variable_name in output_asset_variable_list:
             print(f"asset.export({output_asset_variable_name})", file=output_file)
 
-    output_files.append(output_asset_filename)
-
-    return(output_files)
+    add_output_file(output_asset_filename)
 
 def main():
     # If an output directory was specified, make sure it exists.
@@ -900,24 +896,23 @@ def main():
             # doesn't. So we can do this first.
             # "enabled" is wonky. It is 1 or 0 in the CSV file, we need to change
             # it to true or false.
-            if row["enabled"] == 1:
+            if "enabled" in row and row["enabled"] == 1:
                 row["enabled"] = "true"
             else:
                 row["enabled"] = "false"
 
-            files_created += \
-                make_labels_from_dataframe(input_points_df=input_points_df,
-                                           filename_base=filename_base,
-                                           label_column=row["label_column"],
-                                           label_size=row["label_size"],
-                                           label_minsize=row["label_minsize"],
-                                           label_maxsize=row["label_maxsize"],
-                                           enabled=row["enabled"],
-                                           text_color=text_color,
-                                           units=units,
-                                           gui_top_level=gui_top_level,
-                                           dataset_csv_filename=dataset_csv_filename,
-                                           gui_info=gui_info)
+            make_labels_from_dataframe(input_points_df=input_points_df,
+                                        filename_base=filename_base,
+                                        label_column=row["label_column"],
+                                        label_size=row["label_size"],
+                                        label_minsize=row["label_minsize"],
+                                        label_maxsize=row["label_maxsize"],
+                                        enabled=row["enabled"],
+                                        text_color=text_color,
+                                        units=units,
+                                        gui_top_level=gui_top_level,
+                                        dataset_csv_filename=dataset_csv_filename,
+                                        gui_info=gui_info)
             
         elif row["type"] == "points":
             max_size = None
@@ -930,22 +925,21 @@ def main():
             if "color_by_columns" in row:
                 color_by_columns = row["color_by_columns"]
             print("Creating points... ", end="", flush=True)
-            files_created += \
-                make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
-                                                         filename_base=filename_base,
-                                                         fade_targets=fade_targets,
-                                                         interaction_sphere=row["interaction_sphere"],
-                                                         color_by_columns=color_by_columns,
-                                                         default_texture=row["default_texture"],
-                                                         size_scale_factor=row["point_scale_factor"],
-                                                         size_scale_exponent=row["point_scale_exponent"],
-                                                         max_size=max_size,
-                                                         units=units,
-                                                         gui_top_level=gui_top_level,
-                                                         parent=parent,
-                                                         colormap=colormap,
-                                                         dataset_csv_filename=dataset_csv_filename,
-                                                         gui_info=gui_info)
+            make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
+                                                        filename_base=filename_base,
+                                                        fade_targets=fade_targets,
+                                                        interaction_sphere=row["interaction_sphere"],
+                                                        color_by_columns=color_by_columns,
+                                                        default_texture=row["default_texture"],
+                                                        size_scale_factor=row["point_scale_factor"],
+                                                        size_scale_exponent=row["point_scale_exponent"],
+                                                        max_size=max_size,
+                                                        units=units,
+                                                        gui_top_level=gui_top_level,
+                                                        parent=parent,
+                                                        colormap=colormap,
+                                                        dataset_csv_filename=dataset_csv_filename,
+                                                        gui_info=gui_info)
             
         # Datasets contain many points that fall into common groupings, such as phyla,
         # classes, kingdoms, etc. Rather than have many points with the same label, we
@@ -960,53 +954,49 @@ def main():
             else:
                 row["enabled"] = "false"
 
-            files_created += \
-                make_group_labels_from_dataframe(input_points_df=input_points_df,
-                                                 filename_base=filename_base,
-                                                 label_column=row["label_column"],
-                                                 label_size=row["label_size"],
-                                                 label_minsize=row["label_minsize"],
-                                                 label_maxsize=row["label_maxsize"],
-                                                 enabled=row["enabled"],
-                                                 units=units,
-                                                 text_color=text_color,
-                                                 gui_top_level=gui_top_level,
-                                                 dataset_csv_filename=dataset_csv_filename,
-                                                 gui_info=gui_info)
+            make_group_labels_from_dataframe(input_points_df=input_points_df,
+                                                filename_base=filename_base,
+                                                label_column=row["label_column"],
+                                                label_size=row["label_size"],
+                                                label_minsize=row["label_minsize"],
+                                                label_maxsize=row["label_maxsize"],
+                                                enabled=row["enabled"],
+                                                units=units,
+                                                text_color=text_color,
+                                                gui_top_level=gui_top_level,
+                                                dataset_csv_filename=dataset_csv_filename,
+                                                gui_info=gui_info)
 
 
         elif row["type"] == "branches":
             print("Creating branches... ", end="", flush=True)
-            files_created += \
-                make_branches_from_dataframe(branch_points_df=input_points_df,
-                                             filename_base=filename_base,
-                                             units=units,
-                                             parent=parent,
-                                             data_points_csv_filename=row["points_file"],
-                                             gui_top_level=gui_top_level,
-                                             line_opacity=row["line_opacity"],
-                                             line_width=row["line_width"],
-                                             gui_info=gui_info)
+            make_branches_from_dataframe(branch_points_df=input_points_df,
+                                            filename_base=filename_base,
+                                            units=units,
+                                            parent=parent,
+                                            data_points_csv_filename=row["points_file"],
+                                            gui_top_level=gui_top_level,
+                                            line_opacity=row["line_opacity"],
+                                            line_width=row["line_width"],
+                                            gui_info=gui_info)
             
         elif row["type"] == "models":
             print("Creating models... ", end="", flush=True)
-            files_created += \
-                make_models_from_dataframe(model_points_df=input_points_df,
-                                           filename_base=filename_base,
-                                           model_list=row["model_list"],
-                                           data_points_csv_filename=row["csv_file"],
-                                           units=units,
-                                           gui_top_level=gui_top_level)
-
-        elif row["type"] == "pdb":
-            print("Creating proteins... ", end="", flush=True)
-            files_created += \
-                make_pdb_from_dataframe(protein_points_df=input_points_df,
+            make_models_from_dataframe(model_points_df=input_points_df,
                                         filename_base=filename_base,
-                                        protein_list=row["protein_list"],
+                                        model_list=row["model_list"],
                                         data_points_csv_filename=row["csv_file"],
                                         units=units,
                                         gui_top_level=gui_top_level)
+
+        elif row["type"] == "pdb":
+            print("Creating proteins... ", end="", flush=True)
+            make_pdb_from_dataframe(protein_points_df=input_points_df,
+                                    filename_base=filename_base,
+                                    protein_list=row["protein_list"],
+                                    data_points_csv_filename=row["csv_file"],
+                                    units=units,
+                                    gui_top_level=gui_top_level)
 
         elif row["type"] == "stars":
             print("*** Stars are no longer supported. ***")
@@ -1017,12 +1007,12 @@ def main():
     # Write the transforms file. This file contains the positions of all the assets
     # in the dataset.
     print(f"Writing transforms file: {transforms_filename}... ", end="", flush=True)
-    files_created += write_transform_file()
+    write_transform_file()
     print("Done.")
 
     print(f"Copying files to output directory ({args.asset_dir})... ", end="", flush=True)
     Path(args.asset_dir).mkdir(parents=True, exist_ok=True)
-    for file in files_created:
+    for file in output_files:
         if args.verbose:
             print(f"{file} ", end="", flush=True)
         shutil.copy2(file, args.asset_dir)
