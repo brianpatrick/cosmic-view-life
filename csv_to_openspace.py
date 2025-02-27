@@ -856,9 +856,12 @@ def main():
 
         # Let's get the base of the filename (no extension) to use for generating
         # output files. Also, replace all the periods with underscores, as periods
-        # are not allowed in asset names.
+        # are not allowed in asset names. The file may also be in a subdir, so replace
+        # all slashes with underscores. All files get placed in the output (and asset)
+        # directory.
         filename_base = dataset_csv_filename.replace(".csv", "")
         filename_base = filename_base.replace(".", "_")
+        filename_base = filename_base.replace("/", "_")
 
         # Does this dataset have a parent?
         parent = None
