@@ -1,0 +1,10 @@
+,x,y,z,genus,has_sequences,family,superfamily,suborder,order,nb_species
+Synlestes,0.586386512929328,0.758658554280373,-0.283880354149064,Synlestes,True,Synlestidae,Lestoidea,Zygoptera,Odonata,3
+Megalestes,-0.219546444545131,0.152447343288339,0.963617749012501,Megalestes,True,Synlestidae,Lestoidea,Zygoptera,Odonata,12
+Chlorolestes,-0.884518518442296,-0.0060223223459332,-0.466466206885565,Chlorolestes,True,Synlestidae,Lestoidea,Zygoptera,Odonata,7
+Nubiolestes,0.476017791723182,-0.876110823511622,-0.0763995215218829,Nubiolestes,True,Synlestidae,Lestoidea,Zygoptera,Odonata,1
+Episynlestes,0.45202059680659473,-0.10051423201691136,-0.886326276957115,Episynlestes,False,Synlestidae,Lestoidea,Zygoptera,Odonata,3
+Chorismagrion,0.8353237490744008,-0.031147810149188045,0.5488752573720169,Chorismagrion,False,Synlestidae,Lestoidea,Zygoptera,Odonata,1
+Ecchlorolestes,-0.5099739963704987,-0.8293601912304207,0.22822838611387125,Ecchlorolestes,False,Synlestidae,Lestoidea,Zygoptera,Odonata,2
+Sinolestes,-0.45364098663824465,0.826091918080123,0.3343381493706382,Sinolestes,False,Synlestidae,Lestoidea,Zygoptera,Odonata,1
+Phylolestes,-0.021466203333777172,0.5698866254322704,-0.8214428989697652,Phylolestes,False,Synlestidae,Lestoidea,Zygoptera,Odonata,1

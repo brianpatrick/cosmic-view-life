@@ -1,0 +1,6 @@
+,x,y,z,genus,has_sequences,family,superfamily,suborder,order,nb_species
+Uropetala,0.597839417127077,-0.265974032886186,-0.756204896281037,Uropetala,True,Petaluridae,Petaluroidea,Anisoptera,Odonata,2
+Tanypteryx,0.673357123644764,0.477020519701902,0.564837682719715,Tanypteryx,True,Petaluridae,Petaluroidea,Anisoptera,Odonata,2
+Phenes,-0.330788425401891,-0.866586169956039,0.3736407735527,Phenes,True,Petaluridae,Petaluroidea,Anisoptera,Odonata,1
+Petalura,-0.772799361977656,0.584225267084837,-0.247915274693956,Petalura,True,Petaluridae,Petaluroidea,Anisoptera,Odonata,4
+Tachopteryx,0.21321833540681687,0.919717139090257,-0.3296336231484573,Tachopteryx,False,Petaluridae,Petaluroidea,Anisoptera,Odonata,1

@@ -80,7 +80,8 @@
                 "name": "Kingdom (grouped)",
                 "hidden": false
             }
-        },        {
+        },
+        {
             "csv_file": "mammal_families.csv",
             "parent": {
                 "csv_file": "eukaryotes_classes.csv",
@@ -326,6 +327,4257 @@
                     }
                 }
             ]
+        },
+        {
+            "csv_file": "insecta_order.csv",
+            "parent": {
+              "csv_file": "eukaryotes_classes.csv",
+              "parent_type": "points",
+              "parent_column": "class",
+              "parent_point": "Insecta"
+            },
+            "type": "points",
+            "data_scale_factor": 1000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 17.12,
+            "point_scale_exponent": 3.03,
+            "color_by_columns": ["order"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Points",
+              "name": "order",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "insecta_order.csv",
+            "parent": {
+              "csv_file": "eukaryotes_classes.csv",
+              "parent_type": "points",
+              "parent_column": "class",
+              "parent_point": "Insecta"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 1000,
+            "label_column": "order",
+            "label_size": 2.5,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Labels",
+              "name": "order",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_family.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "insecta_order.csv",
+                "parent_type": "points",
+                "parent_column": "order",
+                "parent_point": "Odonata"
+            },
+            "data_scale_factor": 100,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 3.03,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_family.csv",
+            "parent": {
+                "csv_file": "insecta_order.csv",
+                "parent_type": "points",
+                "parent_column": "order",
+                "parent_point": "Odonata"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 100,
+            "label_column": "family",
+            "label_size": 1.91,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Labels",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_family.branches.csv",
+            "points_file": "odonata_family.csv",
+            "type": "branches",
+            "data_scale_factor": 100,
+            "line_opacity": 0.75,
+            "line_width": 2.4,
+            "gui_info": {
+              "path": "Insecta/Odonata/branches",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Coenagrionidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Coenagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Coenagrionidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Coenagrionidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Coenagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Coenagrionidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Platycnemididae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Platycnemididae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Platycnemididae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Platycnemididae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Platycnemididae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Platycnemididae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Isostictidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Isostictidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Isostictidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Isostictidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Isostictidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Isostictidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Calopterygidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Calopterygidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Calopterygidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Calopterygidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Calopterygidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Calopterygidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Chlorocyphidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Chlorocyphidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Chlorocyphidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Chlorocyphidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Chlorocyphidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Chlorocyphidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Argiolestidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Argiolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Argiolestidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Argiolestidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Argiolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Argiolestidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Megapodagrionidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Megapodagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Megapodagrionidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Megapodagrionidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Megapodagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Megapodagrionidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Philogangidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philogangidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philogangidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Philogangidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philogangidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philogangidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Philosinidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philosinidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philosinidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Philosinidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philosinidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philosinidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Rhipidolestidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Rhipidolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Rhipidolestidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Rhipidolestidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Rhipidolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Rhipidolestidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Thaumatoneuridae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Thaumatoneuridae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Thaumatoneuridae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Thaumatoneuridae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Thaumatoneuridae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Thaumatoneuridae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Amphipterygidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Amphipterygidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Amphipterygidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Amphipterygidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Amphipterygidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Amphipterygidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Devadattidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Devadattidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Devadattidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Devadattidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Devadattidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Devadattidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Euphaeidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Euphaeidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Euphaeidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Euphaeidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Euphaeidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Euphaeidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Lestoideidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Lestoideidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Lestoideidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Lestoideidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Lestoideidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Lestoideidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Pseudolestidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Pseudolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Pseudolestidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Pseudolestidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Pseudolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Pseudolestidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Mesopodagrionidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Mesopodagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Mesopodagrionidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Mesopodagrionidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Mesopodagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Mesopodagrionidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Amanipodagrionidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Amanipodagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Amanipodagrionidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Amanipodagrionidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Amanipodagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Amanipodagrionidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Polythoridae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Polythoridae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Polythoridae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Polythoridae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Polythoridae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Polythoridae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Heteragrionidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Heteragrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Heteragrionidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Heteragrionidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Heteragrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Heteragrionidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Hypolestidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Hypolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Hypolestidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Hypolestidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Hypolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Hypolestidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Dicteriadidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Dicteriadidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Dicteriadidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Dicteriadidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Dicteriadidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Dicteriadidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "skip": true,
+            "csv_file": "odonata_individual_families_genus/Mesagrionidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Mesagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Mesagrionidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "skip": true,
+            "csv_file": "odonata_individual_families_genus/Mesagrionidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Mesagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Mesagrionidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Protolestidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Protolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Protolestidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Protolestidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Protolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Protolestidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Pentaphlebiidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Pentaphlebiidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Pentaphlebiidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Pentaphlebiidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Pentaphlebiidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Pentaphlebiidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Tatocnemididae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Tatocnemididae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Tatocnemididae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Tatocnemididae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Tatocnemididae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Tatocnemididae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Philogeniidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philogeniidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philogeniidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Philogeniidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philogeniidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philogeniidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Priscagrionidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Priscagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Priscagrionidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Priscagrionidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Priscagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Priscagrionidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Platystictidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Platystictidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Platystictidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Platystictidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Platystictidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Platystictidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Lestidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Lestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Lestidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Lestidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Lestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Lestidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Synlestidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Synlestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Synlestidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Synlestidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Synlestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Synlestidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Perilestidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Perilestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Perilestidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Perilestidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Perilestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Perilestidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "skip": true,
+            "csv_file": "odonata_individual_families_genus/Hemiphlebiidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Hemiphlebiidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Hemiphlebiidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "skip": true,
+            "csv_file": "odonata_individual_families_genus/Hemiphlebiidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Hemiphlebiidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Hemiphlebiidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Libellulidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Libellulidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Libellulidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Libellulidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Libellulidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Libellulidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Corduliidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Corduliidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Corduliidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Corduliidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Corduliidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Corduliidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Macromiidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Macromiidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Macromiidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Macromiidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Macromiidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Macromiidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Synthemistidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Synthemistidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Synthemistidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Synthemistidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Synthemistidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Synthemistidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Cordulegastridae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Cordulegastridae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Cordulegastridae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Cordulegastridae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Cordulegastridae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Cordulegastridae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Neopetaliidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Neopetaliidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Neopetaliidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Neopetaliidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Neopetaliidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Neopetaliidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Chlorogomphidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Chlorogomphidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Chlorogomphidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Chlorogomphidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Chlorogomphidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Chlorogomphidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Gomphidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Gomphidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Gomphidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Gomphidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Gomphidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Gomphidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Petaluridae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Petaluridae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Petaluridae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Petaluridae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Petaluridae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Petaluridae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Aeshnidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Aeshnidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Aeshnidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Aeshnidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Aeshnidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Aeshnidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "skip": true,
+            "csv_file": "odonata_individual_families_genus/Austropetaliidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Austropetaliidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Austropetaliidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "skip": true,
+            "csv_file": "odonata_individual_families_genus/Austropetaliidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Austropetaliidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Austropetaliidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Epiophlebiidae_genus.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Epiophlebiidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Epiophlebiidae_genus/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus/Epiophlebiidae_genus.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Epiophlebiidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Epiophlebiidae_genus/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Coenagrionidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Coenagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Coenagrionidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Coenagrionidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Coenagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Coenagrionidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Platycnemididae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Platycnemididae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Platycnemididae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Platycnemididae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Platycnemididae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Platycnemididae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Isostictidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Isostictidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Isostictidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Isostictidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Isostictidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Isostictidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Calopterygidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Calopterygidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Calopterygidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Calopterygidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Calopterygidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Calopterygidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Chlorocyphidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Chlorocyphidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Chlorocyphidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Chlorocyphidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Chlorocyphidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Chlorocyphidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Argiolestidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Argiolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Argiolestidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Argiolestidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Argiolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Argiolestidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Megapodagrionidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Megapodagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Megapodagrionidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Megapodagrionidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Megapodagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Megapodagrionidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Philogangidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philogangidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philogangidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Philogangidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philogangidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philogangidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Philosinidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philosinidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philosinidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Philosinidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philosinidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philosinidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Rhipidolestidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Rhipidolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Rhipidolestidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Rhipidolestidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Rhipidolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Rhipidolestidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Thaumatoneuridae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Thaumatoneuridae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Thaumatoneuridae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Thaumatoneuridae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Thaumatoneuridae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Thaumatoneuridae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Amphipterygidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Amphipterygidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Amphipterygidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Amphipterygidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Amphipterygidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Amphipterygidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Devadattidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Devadattidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Devadattidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Devadattidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Devadattidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Devadattidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Euphaeidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Euphaeidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Euphaeidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Euphaeidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Euphaeidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Euphaeidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Lestoideidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Lestoideidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Lestoideidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Lestoideidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Lestoideidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Lestoideidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Pseudolestidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Pseudolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Pseudolestidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Pseudolestidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Pseudolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Pseudolestidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Mesopodagrionidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Mesopodagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Mesopodagrionidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Mesopodagrionidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Mesopodagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Mesopodagrionidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Amanipodagrionidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Amanipodagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Amanipodagrionidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Amanipodagrionidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Amanipodagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Amanipodagrionidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Polythoridae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Polythoridae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Polythoridae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Polythoridae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Polythoridae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Polythoridae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Heteragrionidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Heteragrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Heteragrionidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Heteragrionidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Heteragrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Heteragrionidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Hypolestidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Hypolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Hypolestidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Hypolestidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Hypolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Hypolestidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Dicteriadidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Dicteriadidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Dicteriadidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Dicteriadidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Dicteriadidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Dicteriadidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Mesagrionidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Mesagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Mesagrionidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Mesagrionidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Mesagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Mesagrionidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Protolestidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Protolestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Protolestidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Protolestidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Protolestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Protolestidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Pentaphlebiidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Pentaphlebiidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Pentaphlebiidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Pentaphlebiidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Pentaphlebiidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Pentaphlebiidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Tatocnemididae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Tatocnemididae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Tatocnemididae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Tatocnemididae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Tatocnemididae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Tatocnemididae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Philogeniidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philogeniidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philogeniidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Philogeniidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Philogeniidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Philogeniidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Priscagrionidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Priscagrionidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Priscagrionidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Priscagrionidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Priscagrionidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Priscagrionidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Platystictidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Platystictidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Platystictidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Platystictidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Platystictidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Platystictidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Lestidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Lestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Lestidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Lestidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Lestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Lestidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Synlestidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Synlestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Synlestidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Synlestidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Synlestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Synlestidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Perilestidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Perilestidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Perilestidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Perilestidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Perilestidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Perilestidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Hemiphlebiidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Hemiphlebiidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Hemiphlebiidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Hemiphlebiidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Hemiphlebiidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Hemiphlebiidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Libellulidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Libellulidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Libellulidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Libellulidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Libellulidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Libellulidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Corduliidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Corduliidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Corduliidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Corduliidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Corduliidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Corduliidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Macromiidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Macromiidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Macromiidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Macromiidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Macromiidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Macromiidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Synthemistidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Synthemistidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Synthemistidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Synthemistidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Synthemistidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Synthemistidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Cordulegastridae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Cordulegastridae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Cordulegastridae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Cordulegastridae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Cordulegastridae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Cordulegastridae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Neopetaliidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Neopetaliidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Neopetaliidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Neopetaliidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Neopetaliidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Neopetaliidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Chlorogomphidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Chlorogomphidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Chlorogomphidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Chlorogomphidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Chlorogomphidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Chlorogomphidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Gomphidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Gomphidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Gomphidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Gomphidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Gomphidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Gomphidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Petaluridae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Petaluridae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Petaluridae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Petaluridae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Petaluridae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Petaluridae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Aeshnidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Aeshnidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Aeshnidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Aeshnidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Aeshnidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Aeshnidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Austropetaliidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Austropetaliidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Austropetaliidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Austropetaliidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Austropetaliidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Austropetaliidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Epiophlebiidae_genus_with_sequenceless.csv",
+            "type": "points",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Epiophlebiidae"
+            },
+            "data_scale_factor": 10,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 3.4,
+            "point_scale_exponent": 1.98,
+            "color_by_columns": ["family"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "DISABLED fade_targets": [
+                "eukaryotes_classes"
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta/Odonata/Epiophlebiidae_genus_with_sequenceless/Points",
+              "name": "family",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "odonata_individual_families_genus_with_sequenceless/Epiophlebiidae_genus_with_sequenceless.csv",
+            "parent": {
+                "csv_file": "odonata_family.csv",
+                "parent_type": "points",
+                "parent_column": "family",
+                "parent_point": "Epiophlebiidae"
+            },
+            "type": "labels",
+            "enabled": true,
+            "data_scale_factor": 10,
+            "label_column": "genus",
+            "label_size": 0.899,
+            "label_minsize": 8,
+            "label_maxsize": 125,
+            "gui_info": {
+              "path": "Insecta/Odonata/Epiophlebiidae_genus_with_sequenceless/Labels",
+              "name": "genus",
+              "hidden": "false"
+            }
         }
     ]
 }

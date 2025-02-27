@@ -1,0 +1,6 @@
+,x,y,z,genus,has_sequences,family,superfamily,suborder,order,nb_species
+Cordulegaster,1.0,0.0,0.0,Cordulegaster,True,Cordulegastridae,Cordulegastroidea,Anisoptera,Odonata,10
+Anotogaster,-1.0,0.0,0.0,Anotogaster,True,Cordulegastridae,Cordulegastroidea,Anisoptera,Odonata,11
+Neallogaster,0.44048526469299254,0.7975719004166123,-0.41213079872071895,Neallogaster,False,Cordulegastridae,Cordulegastroidea,Anisoptera,Odonata,8
+Zoraena,-0.3709393463163014,0.1346092791049824,-0.9188494671779878,Zoraena,False,Cordulegastridae,Cordulegastroidea,Anisoptera,Odonata,9
+Thecagaster,-0.045875789179915555,-0.8922601682454366,-0.44918504441905144,Thecagaster,False,Cordulegastridae,Cordulegastroidea,Anisoptera,Odonata,11

@@ -1,0 +1,14 @@
+,x,y,z,genus,has_sequences,family,superfamily,suborder,order,nb_species
+Choristhemis,1.0,0.0,0.0,Choristhemis,True,Synthemistidae,Libelluloidea,Anisoptera,Odonata,2
+Synthemis,-1.0,0.0,0.0,Synthemis,True,Synthemistidae,Libelluloidea,Anisoptera,Odonata,2
+Tonyosynthemis,0.02507296609901656,0.034992571888674634,-0.9990730034805333,Tonyosynthemis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,2
+Gomphomacromia,-0.23684237677522477,-0.46239283005357146,0.8544580500402063,Gomphomacromia,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,5
+Archaeosynthemis,-0.13914166052608626,-0.8820699554881785,-0.4501024238227633,Archaeosynthemis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,5
+Synthemiopsis,0.025573929944133395,0.7727137004946946,0.6342393169577302,Synthemiopsis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,1
+Austrosynthemis,-0.29456659706535765,0.8981102768025451,-0.32654012095758017,Austrosynthemis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,1
+Eusynthemis,0.5648210080488038,-0.041249565264909,0.824181838086832,Eusynthemis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,15
+Parasynthemis,0.5920058336119082,0.7333116787974243,-0.3343397593897156,Parasynthemis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,1
+Calesynthemis,0.4416092664735563,-0.8434997450683236,0.3057604222824802,Calesynthemis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,7
+Neocaledosynthemis,0.6924205334096902,-0.15395502090305588,-0.7048770505920728,Neocaledosynthemis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,2
+Archaeophya,-0.7210124587472709,0.35545237441980926,-0.5948063919045715,Archaeophya,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,2
+Palaeosynthemis,-0.6596148945634671,-0.7245595576350673,0.19980399973399338,Palaeosynthemis,False,Synthemistidae,Libelluloidea,Anisoptera,Odonata,13

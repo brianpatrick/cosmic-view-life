@@ -1,0 +1,13 @@
+,x,y,z,genus,has_sequences,family,superfamily,suborder,order,nb_species
+Selysioneura,0.242626012399058,0.0295742512141577,0.969669006296713,Selysioneura,True,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,16
+Eurysticta,-0.247164988067066,0.926650575692572,-0.283245792982761,Eurysticta,True,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,4
+Tanymecosticta,-0.943805592024769,-0.329293801973495,0.0282240401894502,Tanymecosticta,True,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,6
+Isosticta,0.343232622901152,-0.865178156441281,-0.365592839362674,Isosticta,True,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,5
+Neosticta,0.970523145666682,0.179032689687045,-0.161344723336932,Neosticta,True,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,3
+Labidiosticta,0.17315162831163772,0.16787457916715004,-0.9704826836592608,Labidiosticta,False,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,1
+Lithosticta,0.5106378221970295,0.8000618217937201,0.31488108207700977,Lithosticta,False,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,1
+Cnemisticta,-0.5147910213040618,0.6352945514826032,0.575665733947435,Cnemisticta,False,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,2
+Titanosticta,0.02954312421275755,-0.8651234943112533,0.5006880699621636,Titanosticta,False,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,1
+Oristicta,-0.8000331497576315,0.29904164074865325,-0.5201163873473288,Oristicta,False,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,2
+Austrosticta,0.7704088546048696,-0.5207773210598331,0.36777870875861796,Austrosticta,False,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,3
+Rhadinosticta,-0.4152190127250463,-0.599769201057627,-0.6840102900792748,Rhadinosticta,False,Isostictidae,Coenagrionoidea,Zygoptera,Odonata,2

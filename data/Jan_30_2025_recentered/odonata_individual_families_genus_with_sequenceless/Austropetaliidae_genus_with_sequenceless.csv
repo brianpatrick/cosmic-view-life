@@ -1,0 +1,5 @@
+,x,y,z,genus,has_sequences,family,superfamily,suborder,order,nb_species
+Austropetalia,-0.26009062394916266,0.5587992306869618,0.787461927408173,Austropetalia,False,Austropetaliidae,Aeshnoidea,Anisoptera,Odonata,3
+Hypopetalia,0.7881720165288524,0.5834888215790662,-0.19576942420387114,Hypopetalia,False,Austropetaliidae,Aeshnoidea,Anisoptera,Odonata,1
+Archipetalia,0.08845888796085541,-0.9427498439411623,0.321555215926663,Archipetalia,False,Austropetaliidae,Aeshnoidea,Anisoptera,Odonata,1
+Phyllopetalia,-0.8857804701722908,-0.3723254807018085,0.27706803330864904,Phyllopetalia,False,Austropetaliidae,Aeshnoidea,Anisoptera,Odonata,6

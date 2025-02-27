@@ -1,0 +1,8 @@
+,x,y,z,genus,has_sequences,family,superfamily,suborder,order,nb_species
+Polythore,-0.712847363687339,0.0440996851221,0.699931320813794,Polythore,True,Polythoridae,Calopterygoidea,Zygoptera,Odonata,23
+Miocora,-0.839539412205478,-0.100095338538175,-0.533998594152277,Miocora,True,Polythoridae,Calopterygoidea,Zygoptera,Odonata,10
+Chalcopteryx,0.627764083498395,-0.775586466902604,0.0661656090953262,Chalcopteryx,True,Polythoridae,Calopterygoidea,Zygoptera,Odonata,5
+Cora,0.498219669258629,0.86635741350644,-0.0346697739573411,Cora,True,Polythoridae,Calopterygoidea,Zygoptera,Odonata,9
+Stenocora,0.6657691916785679,0.06753281186584449,0.7430953523829623,Stenocora,False,Polythoridae,Calopterygoidea,Zygoptera,Odonata,1
+Euthore,0.08351433886537775,-0.056072962520178286,-0.9949277250524731,Euthore,False,Polythoridae,Calopterygoidea,Zygoptera,Odonata,14
+Chalcothore,-0.4188486519391841,-0.7765907477588513,0.47060877304197846,Chalcothore,False,Polythoridae,Calopterygoidea,Zygoptera,Odonata,1
