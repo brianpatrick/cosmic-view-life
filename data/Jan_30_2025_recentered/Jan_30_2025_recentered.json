@@ -191,7 +191,7 @@
             "interaction_sphere": 2,
             "gui_info": {
                 "path": "Birds/Points",
-                "name": "Class",
+                "name": "Family",
                 "hidden": false
             }
 
@@ -258,7 +258,7 @@
             "enabled": true,
             "gui_info": {
                 "path": "Birds/Labels",
-                "name": "Class",
+                "name": "Species",
                 "hidden": false
             }
         },
