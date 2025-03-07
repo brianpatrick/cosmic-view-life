@@ -305,6 +305,66 @@
                         "name": "Canis lupus",
                         "hidden": false
                     }
+                },
+                {
+                    "column": "species",
+                    "taxon": "Gorilla gorilla",
+                    "download_type": "local",
+                    "model_path": "Gorilla_gorilla_99-9686m.glb",
+                    "model_scale": 7000,
+                    "gui_info": {
+                        "path": "Mammals/Models",
+                        "name": "Gorilla gorilla",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "species",
+                    "taxon": "Ateles belzebuth",
+                    "download_type": "local",
+                    "model_path": "Ateles_belzebuth_91782_Male.glb",
+                    "model_scale": 6000,
+                    "gui_info": {
+                        "path": "Mammals/Models",
+                        "name": "Ateles belzebuth",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "species",
+                    "taxon": "Lophocebus albigena",
+                    "download_type": "local",
+                    "model_path": "Lophocebus_albigena_52628m.glb",
+                    "model_scale": 6000,
+                    "gui_info": {
+                        "path": "Mammals/Models",
+                        "name": "Lophocebus albigena",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "species",
+                    "taxon": "Mandrillus sphinx",
+                    "download_type": "local",
+                    "model_path": "Mandrillus_sphinx_89358f.glb",
+                    "model_scale": 6000,
+                    "gui_info": {
+                        "path": "Mammals/Models",
+                        "name": "Mandrillus sphinx",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "species",
+                    "taxon": "Pan troglodytes troglodytes",
+                    "download_type": "local",
+                    "model_path": "Pan_troglodytes_167342_Male_CLEANED.glb",
+                    "model_scale": 6000,
+                    "gui_info": {
+                        "path": "Mammals/Models",
+                        "name": "Pan troglodytes troglodytes",
+                        "hidden": false
+                    }
                 }
             ]
         },
@@ -316,13 +376,25 @@
             "protein_list" : [
                 {
                     "column": "species",
-                    "taxon": "Canis lupus",
+                    "taxon": "Canis familiaris",
                     "pdb_code": "8AEH",
                     "model_scale": 1000,
                     "show_as": "cartoon",
                     "gui_info": {
                         "path": "Mammals/PDB",
-                        "name": "Canis lupus",
+                        "name": "Canis familiaris Odorant Binding Protein 1",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "species",
+                    "taxon": "Papio anubis",
+                    "pdb_code": "5INZ",
+                    "model_scale": 1000,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Mammals/PDB",
+                        "name": "5INZ Racemic structure of baboon theta defensin-2",
                         "hidden": false
                     }
                 }
@@ -352,6 +424,82 @@
               "name": "order",
               "hidden": "false"
             }
+        },
+        {
+            "csv_file": "insecta_order.csv",
+            "data_scale_factor": 1000,
+            "type": "models",
+            "model_list" : [
+                {
+                    "column": "order",
+                    "taxon": "Mecoptera",
+                    "download_type": "local",
+                    "model_path": "Mecoptera - Bittacidae.glb",
+                    "model_scale": 5000,
+                    "gui_info": {
+                        "path": "Insecta/Models",
+                        "name": "Mecoptera",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Mecoptera",
+                    "sub_model": "tracheae",
+                    "download_type": "local",
+                    "model_path": "Mecoptera - Bittacidae tracheae.glb",
+                    "model_scale": 5000,
+                    "gui_info": {
+                        "path": "Insecta/Models",
+                        "name": "Mecoptera tracheae",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Coleoptera",
+                    "download_type": "local",
+                    "model_path": "Coleoptera - Carabidae v2.glb",
+                    "model_scale": 5000,
+                    "gui_info": {
+                        "path": "Insecta/Models",
+                        "name": "Coleoptera",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Coleoptera",
+                    "sub_model": "tracheae",
+                    "download_type": "local",
+                    "model_path": "Coleoptera - Carabidae tracheae.glb",
+                    "model_scale": 5000,
+                    "gui_info": {
+                        "path": "Insecta/Models",
+                        "name": "Coleoptera tracheae",
+                        "hidden": false
+                    }
+                }
+            ]
+        },
+        {
+            "csv_file": "insecta_order.csv",
+            "data_scale_factor": 1000,
+            "type": "pdb",
+            "protein_list" : [
+                {
+                    "column": "order",
+                    "taxon": "Zygentoma",
+                    "pdb_code": "5MSZ",
+                    "model_scale": 1000,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "5MSZ Lytic Polysaccharide Monooxygenase",
+                        "hidden": false
+                    }
+                }
+            ]
         },
         {
             "csv_file": "insecta_order.csv",
