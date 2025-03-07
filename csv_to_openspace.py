@@ -612,8 +612,13 @@ def make_models_from_dataframe(model_points_df,
                 sys.exit(1)
 
             # The asset name should have the model name in it. Replace spaces with
-            # underscores.
-            output_asset_variable_name = filename_base + "_" + model_name.replace(" ", "_") + "_model"
+            # underscores. Some models have sub-models, such as tracheae of insects.
+            # If there's a sub-model associated with this model, name it appropriately
+            # so it doesn't conflict with the parent model.
+            if "sub_model" in model:
+                output_asset_variable_name = filename_base + "_" + model_name.replace(" ", "_") + "_" + model["sub_model"] + "_model"
+            else:
+                output_asset_variable_name = filename_base + "_" + model_name.replace(" ", "_") + "_model"
 
             print(f"local {output_asset_variable_name} = {{", file=output_file)
             print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -718,6 +723,7 @@ def make_pdb_from_dataframe(protein_points_df,
             pdb_code = protein["pdb_code"]
 
             # Now we need to get the protein model from pymol.
+            cmd.reinitialize()
             cmd.fetch(pdb_code)
             glb_filename = pdb_code + ".gltf"
             glb_fullpath = args.output_dir + "/" + glb_filename
