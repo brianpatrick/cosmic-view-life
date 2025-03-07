@@ -479,6 +479,19 @@
                         "name": "Coleoptera tracheae",
                         "hidden": false
                     }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Archaeognatha",
+                    "download_type": "url",
+                    "model_url": "http://files.openspace.amnh.org/static/life/openspace_sync/Archaeognatha%20-%20Trigoniophthalmus%20v2.glb",
+                    "model_filename": "Archaeognatha_-_Trigoniophthalmus_v2.glb",
+                    "model_scale": 5000,
+                    "gui_info": {
+                        "path": "Insecta/Models",
+                        "name": "Archaeognatha",
+                        "hidden": false
+                    }  
                 }
             ]
         },

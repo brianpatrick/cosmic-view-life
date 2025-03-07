@@ -620,6 +620,15 @@ def make_models_from_dataframe(model_points_df,
             else:
                 output_asset_variable_name = filename_base + "_" + model_name.replace(" ", "_") + "_model"
 
+            if model["download_type"] == "url":
+                print(f"local syncData_{output_asset_variable_name} = asset.resource({{", file=output_file)
+                print(f"    Name = \"{output_asset_variable_name}\",", file=output_file)
+                print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
+                print(f"    Type = \"UrlSynchronization\",", file=output_file)
+                print(f"    Url = \"{model['model_url']}\",", file=output_file)
+                print(f"    Filename = \"{model['model_filename']}\"", file=output_file)
+                print("})", file=output_file)
+
             print(f"local {output_asset_variable_name} = {{", file=output_file)
             print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
             print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
@@ -637,7 +646,10 @@ def make_models_from_dataframe(model_points_df,
             print( "        Type = \"RenderableModel\",", file=output_file)
             print(f"        AmbientIntensity = 0.0,", file=output_file)
             print(f"        Opacity = 1.0,", file=output_file)
-            print(f"        GeometryFile = asset.resource(\"./{model['model_path']}\"),", file=output_file)
+            if model["download_type"] == "url":
+                print(f"        GeometryFile = syncData_{output_asset_variable_name} .. \"{model['model_filename']}\",", file=output_file)
+            else:
+                print(f"        GeometryFile = asset.resource(\"./{model['model_path']}\"),", file=output_file)
             print(f"        ModelScale = {model['model_scale']},", file=output_file)
             print(f"        Enabled = true,", file=output_file)
             print( "        LightSources = {", file=output_file)
