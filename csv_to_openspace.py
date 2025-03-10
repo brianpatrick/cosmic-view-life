@@ -754,7 +754,7 @@ def make_pdb_from_dataframe(protein_points_df,
 
             # The asset name should have the protein name in it. Replace spaces with
             # underscores.
-            output_asset_variable_name = filename_base + "_" + taxon_name.replace(" ", "_") + "_protein"
+            output_asset_variable_name = filename_base + "_" + pdb_code + "_" + taxon_name.replace(" ", "_") + "_protein"
 
             print(f"local {output_asset_variable_name} = {{", file=output_file)
             print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
