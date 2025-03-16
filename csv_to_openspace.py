@@ -245,12 +245,13 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("      openspace.printInfo(\"Transition: \" .. args.Transition)", file=output_file)
             print("", file=output_file)
             print("      if args.Transition == \"Approaching\" then", file=output_file)
-            # TODO: This is pretty hacky - adding in the _points suffix...
+            # Fade targets are made up of two parts - the overall name and the type of
+            # target to fade - points, labels, etc.
             for fade_target in fade_targets:
-                print(f"        openspace.setPropertyValueSingle(\"Scene.{fade_target + "_points"}.Renderable.Fade\", 0.0, 1.0)", file=output_file)
+                print(f"        openspace.setPropertyValueSingle(\"Scene.{fade_target[0] + "_" + fade_target[1]}.Renderable.Fade\", 0.0, 1.0)", file=output_file)
             print("      elseif args.Transition == \"Exiting\" then", file=output_file)
             for fade_target in fade_targets:
-                print(f"        openspace.setPropertyValueSingle(\"Scene.{fade_target + "_points"}.Renderable.Fade\", 1.0, 1.0)", file=output_file)
+                print(f"        openspace.setPropertyValueSingle(\"Scene.{fade_target[0] + "_" + fade_target[1]}.Renderable.Fade\", 1.0, 1.0)", file=output_file)
             print("      end", file=output_file)
             print("    ]],", file=output_file)
             print("    IsLocal = true", file=output_file)

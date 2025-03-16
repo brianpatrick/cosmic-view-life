@@ -113,8 +113,12 @@
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
             "color_by_columns": ["family", "order"],
-            "DISABLED fade_targets": [
-                "eukaryotes_classes"
+            "fade_targets": [
+                ["eukaryotes_classes", "points"],
+                ["eukaryotes_classes_class_eng", "labels"],
+                ["eukaryotes_classes_phylum", "labels"],
+                ["eukaryotes_classes_group_kingdom", "labels"],
+                ["eukaryotes_classes_group_phylum", "labels"]
             ],
             "interaction_sphere": 2,
             "gui_info": {
@@ -203,8 +207,12 @@
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
             "color_by_columns": ["family", "order"],
-            "DISABLED fade_targets": [
-                "eukaryotes_classes"
+            "fade_targets": [
+                ["eukaryotes_classes", "points"],
+                ["eukaryotes_classes_class_eng", "labels"],
+                ["eukaryotes_classes_phylum", "labels"],
+                ["eukaryotes_classes_group_kingdom", "labels"],
+                ["eukaryotes_classes_group_phylum", "labels"]
             ],
             "interaction_sphere": 2,
             "gui_info": {
@@ -695,7 +703,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Coenagrionidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Coenagrionidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -716,7 +724,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Coenagrionidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Coenagrionidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -741,7 +749,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Platycnemididae_genus/Points",
+              "path": "Insecta/Odonata/Families/Platycnemididae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -762,7 +770,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Platycnemididae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Platycnemididae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -787,7 +795,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Isostictidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Isostictidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -808,7 +816,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Isostictidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Isostictidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -833,7 +841,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Calopterygidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Calopterygidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -854,7 +862,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Calopterygidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Calopterygidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -879,7 +887,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Chlorocyphidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Chlorocyphidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -900,7 +908,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Chlorocyphidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Chlorocyphidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -925,7 +933,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Argiolestidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Argiolestidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -946,7 +954,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Argiolestidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Argiolestidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -971,7 +979,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Megapodagrionidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Megapodagrionidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -992,7 +1000,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Megapodagrionidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Megapodagrionidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1017,7 +1025,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Philogangidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Philogangidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1038,7 +1046,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Philogangidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Philogangidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1063,7 +1071,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Philosinidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Philosinidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1084,7 +1092,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Philosinidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Philosinidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1109,7 +1117,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Rhipidolestidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Rhipidolestidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1130,7 +1138,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Rhipidolestidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Rhipidolestidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1155,7 +1163,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Thaumatoneuridae_genus/Points",
+              "path": "Insecta/Odonata/Families/Thaumatoneuridae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1176,7 +1184,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Thaumatoneuridae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Thaumatoneuridae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1201,7 +1209,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Amphipterygidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Amphipterygidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1222,7 +1230,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Amphipterygidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Amphipterygidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1247,7 +1255,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Devadattidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Devadattidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1268,7 +1276,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Devadattidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Devadattidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1293,7 +1301,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Euphaeidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Euphaeidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1314,7 +1322,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Euphaeidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Euphaeidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1339,7 +1347,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Lestoideidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Lestoideidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1360,7 +1368,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Lestoideidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Lestoideidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1385,7 +1393,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Pseudolestidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Pseudolestidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1406,7 +1414,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Pseudolestidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Pseudolestidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1431,7 +1439,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Mesopodagrionidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Mesopodagrionidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1452,7 +1460,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Mesopodagrionidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Mesopodagrionidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1477,7 +1485,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Amanipodagrionidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Amanipodagrionidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1498,7 +1506,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Amanipodagrionidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Amanipodagrionidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1523,7 +1531,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Polythoridae_genus/Points",
+              "path": "Insecta/Odonata/Families/Polythoridae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1544,7 +1552,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Polythoridae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Polythoridae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1569,7 +1577,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Heteragrionidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Heteragrionidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1590,7 +1598,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Heteragrionidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Heteragrionidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1615,7 +1623,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Hypolestidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Hypolestidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1636,7 +1644,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Hypolestidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Hypolestidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1661,7 +1669,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Dicteriadidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Dicteriadidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1682,7 +1690,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Dicteriadidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Dicteriadidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1708,7 +1716,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Mesagrionidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Mesagrionidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1730,7 +1738,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Mesagrionidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Mesagrionidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1755,7 +1763,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Protolestidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Protolestidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1776,7 +1784,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Protolestidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Protolestidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1801,7 +1809,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Pentaphlebiidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Pentaphlebiidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1822,7 +1830,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Pentaphlebiidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Pentaphlebiidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1847,7 +1855,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Tatocnemididae_genus/Points",
+              "path": "Insecta/Odonata/Families/Tatocnemididae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1868,7 +1876,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Tatocnemididae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Tatocnemididae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1893,7 +1901,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Philogeniidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Philogeniidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1914,7 +1922,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Philogeniidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Philogeniidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1939,7 +1947,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Priscagrionidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Priscagrionidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -1960,7 +1968,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Priscagrionidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Priscagrionidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -1985,7 +1993,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Platystictidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Platystictidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2006,7 +2014,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Platystictidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Platystictidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2031,7 +2039,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Lestidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Lestidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2052,7 +2060,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Lestidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Lestidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2077,7 +2085,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Synlestidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Synlestidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2098,7 +2106,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Synlestidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Synlestidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2123,7 +2131,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Perilestidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Perilestidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2144,7 +2152,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Perilestidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Perilestidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2170,7 +2178,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Hemiphlebiidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Hemiphlebiidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2192,7 +2200,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Hemiphlebiidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Hemiphlebiidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2217,7 +2225,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Libellulidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Libellulidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2238,7 +2246,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Libellulidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Libellulidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2263,7 +2271,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Corduliidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Corduliidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2284,7 +2292,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Corduliidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Corduliidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2309,7 +2317,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Macromiidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Macromiidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2330,7 +2338,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Macromiidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Macromiidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2355,7 +2363,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Synthemistidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Synthemistidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2376,7 +2384,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Synthemistidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Synthemistidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2401,7 +2409,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Cordulegastridae_genus/Points",
+              "path": "Insecta/Odonata/Families/Cordulegastridae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2422,7 +2430,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Cordulegastridae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Cordulegastridae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2447,7 +2455,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Neopetaliidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Neopetaliidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2468,7 +2476,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Neopetaliidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Neopetaliidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2493,7 +2501,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Chlorogomphidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Chlorogomphidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2514,7 +2522,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Chlorogomphidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Chlorogomphidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2539,7 +2547,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Gomphidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Gomphidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2560,7 +2568,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Gomphidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Gomphidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2585,7 +2593,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Petaluridae_genus/Points",
+              "path": "Insecta/Odonata/Families/Petaluridae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2606,7 +2614,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Petaluridae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Petaluridae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2631,7 +2639,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Aeshnidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Aeshnidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2652,7 +2660,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Aeshnidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Aeshnidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2678,7 +2686,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Austropetaliidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Austropetaliidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2700,7 +2708,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Austropetaliidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Austropetaliidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2725,7 +2733,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Epiophlebiidae_genus/Points",
+              "path": "Insecta/Odonata/Families/Epiophlebiidae_genus/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2746,7 +2754,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Epiophlebiidae_genus/Labels",
+              "path": "Insecta/Odonata/Families/Epiophlebiidae_genus/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2771,7 +2779,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Coenagrionidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Coenagrionidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2792,7 +2800,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Coenagrionidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Coenagrionidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2817,7 +2825,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Platycnemididae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Platycnemididae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2838,7 +2846,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Platycnemididae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Platycnemididae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2863,7 +2871,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Isostictidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Isostictidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2884,7 +2892,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Isostictidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Isostictidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2909,7 +2917,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Calopterygidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Calopterygidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2930,7 +2938,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Calopterygidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Calopterygidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -2955,7 +2963,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Chlorocyphidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Chlorocyphidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -2976,7 +2984,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Chlorocyphidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Chlorocyphidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3001,7 +3009,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Argiolestidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Argiolestidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3022,7 +3030,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Argiolestidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Argiolestidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3047,7 +3055,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Megapodagrionidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Megapodagrionidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3068,7 +3076,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Megapodagrionidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Megapodagrionidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3093,7 +3101,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Philogangidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Philogangidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3114,7 +3122,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Philogangidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Philogangidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3139,7 +3147,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Philosinidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Philosinidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3160,7 +3168,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Philosinidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Philosinidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3185,7 +3193,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Rhipidolestidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Rhipidolestidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3206,7 +3214,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Rhipidolestidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Rhipidolestidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3231,7 +3239,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Thaumatoneuridae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Thaumatoneuridae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3252,7 +3260,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Thaumatoneuridae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Thaumatoneuridae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3277,7 +3285,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Amphipterygidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Amphipterygidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3298,7 +3306,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Amphipterygidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Amphipterygidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3323,7 +3331,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Devadattidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Devadattidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3344,7 +3352,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Devadattidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Devadattidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3369,7 +3377,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Euphaeidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Euphaeidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3390,7 +3398,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Euphaeidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Euphaeidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3415,7 +3423,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Lestoideidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Lestoideidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3436,7 +3444,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Lestoideidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Lestoideidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3461,7 +3469,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Pseudolestidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Pseudolestidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3482,7 +3490,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Pseudolestidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Pseudolestidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3507,7 +3515,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Mesopodagrionidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Mesopodagrionidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3528,7 +3536,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Mesopodagrionidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Mesopodagrionidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3553,7 +3561,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Amanipodagrionidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Amanipodagrionidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3574,7 +3582,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Amanipodagrionidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Amanipodagrionidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3599,7 +3607,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Polythoridae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Polythoridae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3620,7 +3628,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Polythoridae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Polythoridae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3645,7 +3653,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Heteragrionidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Heteragrionidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3666,7 +3674,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Heteragrionidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Heteragrionidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3691,7 +3699,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Hypolestidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Hypolestidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3712,7 +3720,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Hypolestidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Hypolestidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3737,7 +3745,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Dicteriadidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Dicteriadidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3758,7 +3766,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Dicteriadidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Dicteriadidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3783,7 +3791,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Mesagrionidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Mesagrionidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3804,7 +3812,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Mesagrionidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Mesagrionidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3829,7 +3837,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Protolestidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Protolestidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3850,7 +3858,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Protolestidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Protolestidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3875,7 +3883,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Pentaphlebiidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Pentaphlebiidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3896,7 +3904,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Pentaphlebiidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Pentaphlebiidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3921,7 +3929,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Tatocnemididae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Tatocnemididae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3942,7 +3950,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Tatocnemididae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Tatocnemididae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -3967,7 +3975,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Philogeniidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Philogeniidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -3988,7 +3996,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Philogeniidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Philogeniidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4013,7 +4021,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Priscagrionidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Priscagrionidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4034,7 +4042,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Priscagrionidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Priscagrionidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4059,7 +4067,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Platystictidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Platystictidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4080,7 +4088,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Platystictidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Platystictidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4105,7 +4113,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Lestidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Lestidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4126,7 +4134,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Lestidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Lestidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4151,7 +4159,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Synlestidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Synlestidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4172,7 +4180,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Synlestidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Synlestidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4197,7 +4205,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Perilestidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Perilestidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4218,7 +4226,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Perilestidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Perilestidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4243,7 +4251,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Hemiphlebiidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Hemiphlebiidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4264,7 +4272,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Hemiphlebiidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Hemiphlebiidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4289,7 +4297,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Libellulidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Libellulidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4310,7 +4318,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Libellulidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Libellulidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4335,7 +4343,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Corduliidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Corduliidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4356,7 +4364,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Corduliidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Corduliidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4381,7 +4389,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Macromiidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Macromiidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4402,7 +4410,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Macromiidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Macromiidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4427,7 +4435,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Synthemistidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Synthemistidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4448,7 +4456,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Synthemistidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Synthemistidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4473,7 +4481,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Cordulegastridae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Cordulegastridae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4494,7 +4502,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Cordulegastridae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Cordulegastridae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4519,7 +4527,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Neopetaliidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Neopetaliidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4540,7 +4548,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Neopetaliidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Neopetaliidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4565,7 +4573,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Chlorogomphidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Chlorogomphidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4586,7 +4594,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Chlorogomphidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Chlorogomphidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4611,7 +4619,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Gomphidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Gomphidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4632,7 +4640,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Gomphidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Gomphidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4657,7 +4665,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Petaluridae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Petaluridae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4678,7 +4686,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Petaluridae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Petaluridae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4703,7 +4711,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Aeshnidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Aeshnidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4724,7 +4732,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Aeshnidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Aeshnidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4749,7 +4757,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Austropetaliidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Austropetaliidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4770,7 +4778,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Austropetaliidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Austropetaliidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
@@ -4795,7 +4803,7 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Odonata/Epiophlebiidae_genus_with_sequenceless/Points",
+              "path": "Insecta/Odonata/Families/Epiophlebiidae_genus_with_sequenceless/Points",
               "name": "family",
               "hidden": "false"
             }
@@ -4816,7 +4824,7 @@
             "label_minsize": 8,
             "label_maxsize": 125,
             "gui_info": {
-              "path": "Insecta/Odonata/Epiophlebiidae_genus_with_sequenceless/Labels",
+              "path": "Insecta/Odonata/Families/Epiophlebiidae_genus_with_sequenceless/Labels",
               "name": "genus",
               "hidden": "false"
             }
