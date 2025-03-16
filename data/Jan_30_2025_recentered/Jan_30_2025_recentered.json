@@ -82,6 +82,24 @@
             }
         },
         {
+            "csv_file": "anax_junius_on_unit_sphere_xyz.csv",
+            "type": "points",
+            "units": "Km",
+            "data_scale_factor": 6500,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 2.5,
+            "point_scale_exponent": 4.6,
+            "max_size": 0.1,
+            "color_by_columns": ["order"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "interaction_sphere": 1,
+            "gui_info": {
+                "path": "Interp",
+                "name": "Anax junius",
+                "hidden": false
+            }
+        },     
+        {
             "csv_file": "mammal_families.csv",
             "parent": {
                 "csv_file": "eukaryotes_classes.csv",
@@ -104,7 +122,7 @@
                 "name": "Families",
                 "hidden": false
             }
-       },
+        },
         {
             "csv_file": "mammal_families.csv",
             "parent": {
@@ -255,7 +273,7 @@
             "label_size": 1.82,
             "label_minsize": 8,
             "label_maxsize": 125,
-            "enabled": true,
+            "enabled": false,
             "gui_info": {
                 "path": "Birds/Labels",
                 "name": "Species",
@@ -269,6 +287,7 @@
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
             "line_width": 2.4,
+            "enabled": false,
             "gui_info": {
                 "path": "Birds/Branches",
                 "name": "Species",
@@ -282,6 +301,7 @@
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
             "line_width": 2.4,
+            "enabled": false,
             "gui_info": {
                 "path": "Birds/Branches",
                 "name": "Terminal Species",
@@ -395,6 +415,18 @@
                     "gui_info": {
                         "path": "Mammals/PDB",
                         "name": "5INZ Racemic structure of baboon theta defensin-2",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "species",
+                    "taxon": "Physeter macrocephalus",
+                    "pdb_code": "2EVP",
+                    "model_scale": 1000,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Mammals/PDB",
+                        "name": "2EVP Sperm whale myoglobin",
                         "hidden": false
                     }
                 }
@@ -511,6 +543,54 @@
                         "name": "5MSZ Lytic Polysaccharide Monooxygenase",
                         "hidden": false
                     }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Diptera",
+                    "pdb_code": "2BK9",
+                    "model_scale": 1000,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "2BK9 Drosophila Melanogaster globin",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Lepidoptera",
+                    "pdb_code": "1M8N",
+                    "model_scale": 1000,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "1M8N Choristoneura Fumiferana (Spruce Budworm) Antifreeze Protein Isoform 501",
+                        "hidden": false
+                    }
+                },                
+                {
+                    "column": "order",
+                    "taxon": "Coleoptera",
+                    "pdb_code": "1LCI",
+                    "model_scale": 1000,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "1LCI Firefly luciferase",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Hymenoptera",
+                    "pdb_code": "1FCQ",
+                    "model_scale": 1000,
+                    "show_as": "surface",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "1FCQ Bee Venom Hyaluronidase",
+                        "hidden": false
+                    }
                 }
             ]
         },
@@ -588,6 +668,7 @@
             "data_scale_factor": 100,
             "line_opacity": 0.75,
             "line_width": 2.4,
+            "enabled": false,
             "gui_info": {
               "path": "Insecta/Odonata/branches",
               "name": "family",

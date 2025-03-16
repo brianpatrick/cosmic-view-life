@@ -266,6 +266,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
         print( "    Renderable = {", file=output_file)
         print( "        Type = \"RenderablePointCloud\",", file=output_file)
+        print( "        UseAdditiveBlending = false,", file=output_file)
         print( "        SizeSettings = {", file=output_file)
         if max_size:
             print(f"            MaxSize = {max_size},", file=output_file)
@@ -494,6 +495,7 @@ def make_branches_from_dataframe(branch_points_df,
                                  filename_base,
                                  units,
                                  parent,
+                                 enabled,
                                  data_points_csv_filename,
                                  gui_top_level,
                                  line_opacity,
@@ -543,6 +545,7 @@ def make_branches_from_dataframe(branch_points_df,
         print(f"        Colors = {{ {{ 0.6, 0.4, 0.4 }}, {{ 0.8, 0.0, 0.0 }}, {{ 0.0, 0.3, 0.8 }} }},",
                 file=output_file)
         print(f"        Opacity = {line_opacity},", file=output_file)
+        print(f"        Enabled = {enabled},", file=output_file)
         print(f"        File = asset.resource(\"{os.path.basename(branches_speck_filename)}\"),", file=output_file)
         print(f"        NamesFile = asset.resource(\"{os.path.basename(branches_dat_filename)}\"),", file=output_file)
         print(f"        LineWidth = {line_width},", file=output_file)
@@ -754,7 +757,9 @@ def make_pdb_from_dataframe(protein_points_df,
 
             # The asset name should have the protein name in it. Replace spaces with
             # underscores.
-            output_asset_variable_name = filename_base + "_" + pdb_code + "_" + taxon_name.replace(" ", "_") + "_protein"
+            output_asset_variable_name = filename_base + "_" + pdb_code + "_" + \
+                taxon_name.replace(" ", "_") + protein["show_as"] + \
+                "_protein"
 
             print(f"local {output_asset_variable_name} = {{", file=output_file)
             print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -890,6 +895,13 @@ def main():
         if "gui_info" in row:
             gui_info = row["gui_info"]
     
+        # "enabled" is wonky. It is 1 or 0 in the CSV file, we need to change
+        # it to true or false.
+        if "enabled" in row and row["enabled"] == 1:
+            row["enabled"] = "true"
+        else:
+            row["enabled"] = "false"
+
         text_color = None
         if "text_color" in row:
             text_color = row["text_color"]
@@ -915,13 +927,6 @@ def main():
             # Let's do the labels first. The following functions modify the original
             # dataframe, adding lots of columns for the speck file, but making labels
             # doesn't. So we can do this first.
-            # "enabled" is wonky. It is 1 or 0 in the CSV file, we need to change
-            # it to true or false.
-            if "enabled" in row and row["enabled"] == 1:
-                row["enabled"] = "true"
-            else:
-                row["enabled"] = "false"
-
             make_labels_from_dataframe(input_points_df=input_points_df,
                                         filename_base=filename_base,
                                         label_column=row["label_column"],
@@ -969,11 +974,6 @@ def main():
         # overlap.
         elif row["type"] == "group_labels":
             print(f"Creating {row["label_column"]} group labels... ", end="", flush=True)
-            # Same thing as above, for enabled.
-            if row["enabled"] == 1:
-                row["enabled"] = "true"
-            else:
-                row["enabled"] = "false"
 
             make_group_labels_from_dataframe(input_points_df=input_points_df,
                                                 filename_base=filename_base,
@@ -995,6 +995,7 @@ def main():
                                             filename_base=filename_base,
                                             units=units,
                                             parent=parent,
+                                            enabled = row["enabled"],
                                             data_points_csv_filename=row["points_file"],
                                             gui_top_level=gui_top_level,
                                             line_opacity=row["line_opacity"],
