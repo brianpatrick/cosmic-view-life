@@ -397,7 +397,7 @@
             ]
         },
         {
-            "skip": false,
+            "skip": true,
             "csv_file": "mammal_species.csv",
             "data_scale_factor": 1000,
             "type": "pdb",
@@ -532,10 +532,23 @@
                         "name": "Archaeognatha",
                         "hidden": false
                     }  
+                },
+                {
+                    "column": "order",
+                    "taxon": "Odonata",
+                    "download_type": "local",
+                    "model_path": "Odonata - Aeshnidae simple tracheae plus air sac tracheae.glb",
+                    "model_scale": 5000,
+                    "gui_info": {
+                        "path": "Insecta/Models",
+                        "name": "Odonata tracheae",
+                        "hidden": false
+                    }  
                 }
             ]
         },
         {
+            "skip": true,
             "csv_file": "insecta_order.csv",
             "data_scale_factor": 1000,
             "type": "pdb",
