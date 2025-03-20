@@ -397,50 +397,6 @@
             ]
         },
         {
-            "skip": true,
-            "csv_file": "mammal_species.csv",
-            "data_scale_factor": 1000,
-            "type": "pdb",
-            "protein_list" : [
-                {
-                    "column": "species",
-                    "taxon": "Canis familiaris",
-                    "pdb_code": "8AEH",
-                    "model_scale": 1000,
-                    "show_as": "cartoon",
-                    "gui_info": {
-                        "path": "Mammals/PDB",
-                        "name": "Canis familiaris Odorant Binding Protein 1",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "species",
-                    "taxon": "Papio anubis",
-                    "pdb_code": "5INZ",
-                    "model_scale": 1000,
-                    "show_as": "cartoon",
-                    "gui_info": {
-                        "path": "Mammals/PDB",
-                        "name": "5INZ Racemic structure of baboon theta defensin-2",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "species",
-                    "taxon": "Physeter macrocephalus",
-                    "pdb_code": "2EVP",
-                    "model_scale": 1000,
-                    "show_as": "cartoon",
-                    "gui_info": {
-                        "path": "Mammals/PDB",
-                        "name": "2EVP Sperm whale myoglobin",
-                        "hidden": false
-                    }
-                }
-            ]
-        },
-        {
             "csv_file": "insecta_order.csv",
             "parent": {
               "csv_file": "eukaryotes_classes.csv",
@@ -544,74 +500,6 @@
                         "name": "Odonata tracheae",
                         "hidden": false
                     }  
-                }
-            ]
-        },
-        {
-            "skip": true,
-            "csv_file": "insecta_order.csv",
-            "data_scale_factor": 1000,
-            "type": "pdb",
-            "protein_list" : [
-                {
-                    "column": "order",
-                    "taxon": "Zygentoma",
-                    "pdb_code": "5MSZ",
-                    "model_scale": 1000,
-                    "show_as": "cartoon",
-                    "gui_info": {
-                        "path": "Insecta/PDB",
-                        "name": "5MSZ Lytic Polysaccharide Monooxygenase",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "order",
-                    "taxon": "Diptera",
-                    "pdb_code": "2BK9",
-                    "model_scale": 1000,
-                    "show_as": "cartoon",
-                    "gui_info": {
-                        "path": "Insecta/PDB",
-                        "name": "2BK9 Drosophila Melanogaster globin",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "order",
-                    "taxon": "Lepidoptera",
-                    "pdb_code": "1M8N",
-                    "model_scale": 1000,
-                    "show_as": "cartoon",
-                    "gui_info": {
-                        "path": "Insecta/PDB",
-                        "name": "1M8N Choristoneura Fumiferana (Spruce Budworm) Antifreeze Protein Isoform 501",
-                        "hidden": false
-                    }
-                },                
-                {
-                    "column": "order",
-                    "taxon": "Coleoptera",
-                    "pdb_code": "1LCI",
-                    "model_scale": 1000,
-                    "show_as": "cartoon",
-                    "gui_info": {
-                        "path": "Insecta/PDB",
-                        "name": "1LCI Firefly luciferase",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "order",
-                    "taxon": "Hymenoptera",
-                    "pdb_code": "1FCQ",
-                    "model_scale": 1000,
-                    "show_as": "surface",
-                    "gui_info": {
-                        "path": "Insecta/PDB",
-                        "name": "1FCQ Bee Venom Hyaluronidase",
-                        "hidden": false
-                    }
                 }
             ]
         },
