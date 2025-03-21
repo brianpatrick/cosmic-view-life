@@ -267,7 +267,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
         print( "    Renderable = {", file=output_file)
         print( "        Type = \"RenderablePointCloud\",", file=output_file)
-        print( "        UseAdditiveBlending = false,", file=output_file)
+        print( "        UseAdditiveBlending = true,", file=output_file)
         print( "        SizeSettings = {", file=output_file)
         if max_size:
             print(f"            MaxSize = {max_size},", file=output_file)
