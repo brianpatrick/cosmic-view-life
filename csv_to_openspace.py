@@ -169,6 +169,15 @@ def write_transform_file():
     add_output_file(str(transforms_file_path))
     
 
+def report_duplicate_xyz(input_points_df):
+    # Check for duplicate x, y, z values. This is a common problem with data
+    # files. If we find any, print a warning.
+    duplicate_xyz = input_points_df[input_points_df.duplicated(subset=["x", "y", "z"], keep=False)]
+    if len(duplicate_xyz) > 0:
+        print("Warning: Found duplicate x, y, z values in the dataset.")
+        print(duplicate_xyz)
+        
+
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
                                              filename_base,
                                              fade_targets,
@@ -185,6 +194,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              dataset_csv_filename,
                                              gui_info):
     
+    report_duplicate_xyz(input_points_df)
+
     # First the CSV file. This is just the points in CSV format, however we may need to
     # add color mapping columns. If specified, for each column, we make an index for each
     # unique value that is used to index into a colormap. You can then pick which color
@@ -268,6 +279,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print( "    Renderable = {", file=output_file)
         print( "        Type = \"RenderablePointCloud\",", file=output_file)
         print( "        UseAdditiveBlending = true,", file=output_file)
+        print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
         print( "        SizeSettings = {", file=output_file)
         if max_size:
             print(f"            MaxSize = {max_size},", file=output_file)
