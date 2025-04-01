@@ -36,6 +36,7 @@ import math
 from pathlib import Path
 import sys
 import json
+from src import StringRenderer
 
 parser = argparse.ArgumentParser(description="Process input CSV files for OpenSpace.")
 parser.add_argument("-i", "--input_dataset_json_file", help="Input dataset JSON file.", 
@@ -49,6 +50,9 @@ parser.add_argument("-t", "--texture_dir", help="Directory holding texture files
 parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_true")
 args = parser.parse_args()
 
+# Make a StringRenderer. This class is a singleton and keeps track of all the
+# fonts loaded. This is used to render the labels to PNG files.
+string_renderer = StringRenderer.StringRenderer()
 
 # Some csv files refer to points in other CSV files in a parent-child relationship.
 # Let's keep all these around because we may need to refer to them later. We'll keep
@@ -65,7 +69,6 @@ dataset_dict = {}
 # possibility that two files with the same name could be created. We'll keep track of
 # all the files we create in a list, and then move them to the asset directory at the
 # end of the script.
-
 output_files = []
 
 def add_output_file(filename):
@@ -168,7 +171,7 @@ def write_transform_file():
             print(f"asset.export({transform.output_asset_position_name})", file=transforms_file)
 
     add_output_file(str(transforms_file_path))
-    
+
 
 def report_duplicate_xyz(input_points_df):
     # Check for duplicate x, y, z values. This is a common problem with data
@@ -189,6 +192,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              size_scale_exponent,
                                              max_size,
                                              units,
+                                             rendered_labels,
                                              gui_top_level,
                                              parent,
                                              colormap,
@@ -218,6 +222,25 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     # If the colormap passed in is None, give it a default.
     if colormap is None:
         colormap = "colormaps.Uniform.Viridis"
+
+    # Next up is labels. These are rendered as textures, and each label has an index
+    # into a texture file that specifies what texture to use for each index. This means
+    # that for each label column, we need a label index that has a unique number for
+    # each label. This keeps us from having lots of duplicate texture files.
+    if (rendered_labels):
+        for label in rendered_labels:
+            # Let's get the unique values in the specified label column. 
+            unique_labels = input_points_df[label["column"]].unique()
+            # Make a table of the unique labels and their indices.
+            label_map = {}
+            label_index = 1
+            for label_value in unique_labels:
+                label_map[label_value] = label_index
+                label_index += 1
+            
+            # Add a column for this label index to the dataframe.
+            label_index_column = label["column"] + "_label_index"
+            input_points_df[label_index_column] = input_points_df[label["column"]].map(label_map)
 
     # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
     # it includes the color index columns as well.
@@ -414,6 +437,91 @@ def make_labels_from_dataframe(input_points_df,
 
     add_output_file(output_asset_filename)
 
+def make_rendered_labels_from_dataframe(input_points_df, 
+                                        filename_base,
+                                        label_column, 
+                                        label_size, 
+                                        label_minsize, 
+                                        label_maxsize,
+                                        text_color,
+                                        enabled,
+                                        units,
+                                        gui_top_level,
+                                        dataset_csv_filename,
+                                        gui_info):
+
+    # Labels are referenced by an index in the CSV file. We need to make that index column
+    # in the CSV file. This is done by adding a new column to the dataframe with the index
+    # values. The index is the row number in the dataframe.
+    input_points_df["label_index"] = input_points_df.index
+
+
+
+
+    label_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".label"
+    local_label_filename = os.path.basename(label_filename)
+    with open(label_filename, "w") as output_file:
+        for index, row in input_points_df.iterrows():
+            print(f"{row['x']} {row['y']} {row['z']} id {index} text {row[label_column]}", file=output_file)
+
+    add_output_file(label_filename)
+
+    # Get the position name from the Transforms list. Search by the dataset_csv_filename.
+    # This is the name of the position asset that the labels will be attached to.
+    output_asset_position_name = ""
+    for transform in transform_list:
+        if transform.csv_filename == dataset_csv_filename:
+            output_asset_position_name = transform.output_asset_position_name
+
+    # Asset filename for labels. Same name as points filename, but with the label column
+    # included.
+    output_asset_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".asset"
+    output_asset_variable_name = filename_base + "_" + label_column + "_labels"
+
+    with open(output_asset_filename, "w") as output_file:
+        transforms_filename_base = transforms_filename.split(".")[0]
+        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
+
+        print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
+        print("local meters_in_Km = 1000", file = output_file)
+
+        print(f"local {output_asset_variable_name} = {{", file=output_file)
+        print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
+        print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
+        print( "    Renderable = {", file=output_file)
+        print( "        Type = \"RenderablePointCloud\",", file=output_file)
+        print(f"        Enabled = {enabled},", file=output_file)
+        print( "        Labels = {", file=output_file)
+        print(f"            File = asset.resource(\"{local_label_filename}\"),", file=output_file)
+        print(f"            Unit = \"{units}\",", file=output_file)
+        print( "            FaceCamera = true,", file=output_file)
+        print( "            Enabled= true,", file=output_file)
+        print(f"            Size = {label_size},", file=output_file)
+        if (text_color):
+            print(f"            Color = {{ {text_color[0]}, {text_color[1]}, {text_color[2]} }},", file=output_file)
+        print(f"            MinMaxSize = {{ {label_minsize},{label_maxsize} }}", file=output_file)
+        print( "        }", file=output_file)
+        print( "    },", file=output_file)
+        print( "    GUI = {", file=output_file)
+        if gui_info:
+            print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
+            print(f"        Name = \"{gui_info['name']}\"", file=output_file)
+        else:
+            print(f"        Path = \"/{gui_top_level}/Points\",", file=output_file)
+            print(f"        Name = \"{output_asset_variable_name}\"", file=output_file)
+        print("    }", file=output_file)
+        print("}", file=output_file)
+        print("asset.onInitialize(function()", file=output_file)
+        print(f"    openspace.addSceneGraphNode({output_asset_variable_name});", file=output_file)
+        print("end)", file=output_file)
+        print("asset.onDeinitialize(function()", file=output_file)
+        print(f"    openspace.removeSceneGraphNode({output_asset_variable_name});", file=output_file)
+        print("end)", file=output_file)
+        print(f"asset.export({output_asset_variable_name})", file=output_file)
+
+
+    add_output_file(output_asset_filename)
+
 def make_group_labels_from_dataframe(input_points_df,
                                      filename_base,
                                      label_column, 
@@ -504,7 +612,6 @@ def make_group_labels_from_dataframe(input_points_df,
                                dataset_csv_filename=dataset_csv_filename,
                                gui_info=gui_info)
     
-
 def make_branches_from_dataframe(branch_points_df,
                                  filename_base,
                                  units,
@@ -954,6 +1061,21 @@ def main():
                                         dataset_csv_filename=dataset_csv_filename,
                                         gui_info=gui_info)
             
+        elif row["type"] == "rendered_labels":
+            print(f"Creating rendered labels... ", end="", flush=True)
+            make_rendered_labels_from_dataframe(input_points_df=input_points_df,
+                                                 filename_base=filename_base,
+                                                 label_column=row["label_column"],
+                                                 label_size=row["label_size"],
+                                                 label_minsize=row["label_minsize"],
+                                                 label_maxsize=row["label_maxsize"],
+                                                 enabled=row["enabled"],
+                                                 text_color=text_color,
+                                                 units=units,
+                                                 gui_top_level=gui_top_level,
+                                                 dataset_csv_filename=dataset_csv_filename,
+                                                 gui_info=gui_info)
+            
         elif row["type"] == "points":
             max_size = None
             if "max_size" in row:
@@ -964,6 +1086,9 @@ def main():
             color_by_columns = None
             if "color_by_columns" in row:
                 color_by_columns = row["color_by_columns"]
+            rendered_labels = None
+            if "rendered_labels" in row:
+                rendered_labels = row["rendered_labels"]
             print("Creating points... ", end="", flush=True)
             make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
                                                         filename_base=filename_base,
@@ -975,6 +1100,7 @@ def main():
                                                         size_scale_exponent=row["point_scale_exponent"],
                                                         max_size=max_size,
                                                         units=units,
+                                                        rendered_labels=rendered_labels,
                                                         gui_top_level=gui_top_level,
                                                         parent=parent,
                                                         colormap=colormap,

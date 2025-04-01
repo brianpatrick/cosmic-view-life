@@ -13,6 +13,22 @@
             "max_size": 0.1,
             "color_by_columns": ["phylum", "class", "kingdom"],
             "colormap": "colormaps.Cyclic.Hsv",
+            "rendered_labels": [
+                { 
+                    "column" : "class_eng",
+                    "font_file": "ARIAN.TTF",
+                    "point_scale_factor": 29.9,
+                    "point_scale_exponent": 4.6,
+                    "max_size": 0.1
+                },
+                { 
+                    "column" : "phylum",
+                    "font_file": "ARIAN.TTF",
+                    "point_scale_factor": 29.9,
+                    "point_scale_exponent": 4.6,
+                    "max_size": 0.1
+                }
+            ],
             "interaction_sphere": 1,
             "gui_info": {
                 "path": "Eukaryotes/Points",
