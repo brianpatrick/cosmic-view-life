@@ -106,7 +106,8 @@ def write_transform_file():
             print(f"local {transform.output_asset_position_name} = {{", file=transforms_file)
             print(f"    Identifier = \"{transform.output_asset_position_name}\",", file=transforms_file)
             if not transform.parent:
-                print( "    Parent = earthTransforms.EarthCenter.Identifier,", file=transforms_file)
+                #print( "    Parent = earthTransforms.EarthCenter.Identifier,", file=transforms_file)
+                print( "    Parent = \"Earth\",", file=transforms_file)
             else:
                 # Get the coordinates of the parent point. First get the dataframe for the parent
                 # points. This is in the dataset_dict dictionary.
