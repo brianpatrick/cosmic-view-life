@@ -15,18 +15,17 @@
             "colormap": "colormaps.Cyclic.Hsv",
             "rendered_labels": [
                 { 
-                    "column" : "class_eng",
-                    "font_file": "ARIAN.TTF",
+                    "column" : "kingdom",
+                    "font_file": "ARIALN.TTF",
+                    "font_size": 24,
                     "point_scale_factor": 29.9,
                     "point_scale_exponent": 4.6,
-                    "max_size": 0.1
-                },
-                { 
-                    "column" : "phylum",
-                    "font_file": "ARIAN.TTF",
-                    "point_scale_factor": 29.9,
-                    "point_scale_exponent": 4.6,
-                    "max_size": 0.1
+                    "max_size": 0.1,
+                    "gui_info": {
+                        "path": "Eukaryotes/Labels",
+                        "name": "Kingdom_rendered",
+                        "hidden": false
+                    }
                 }
             ],
             "interaction_sphere": 1,
