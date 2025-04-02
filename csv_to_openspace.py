@@ -270,9 +270,11 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
                 # Render the label to a PNG file. This is done by calling the StringRenderer
                 # class to render the string to a PNG file.
+                color_triple = (label["font_color"][0], label["font_color"][1], label["font_color"][2])
                 string_renderer.render_string_to_png(text=curr_label,
                                                      font_name=label["font_file"], 
                                                      font_size=label["font_size"],
+                                                     color_triple=color_triple,
                                                      filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
                 
                 print(f"{label_index} {rendered_label_filename}", file=tmap_file)
@@ -417,14 +419,18 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                 transforms_filename_base = transforms_filename.split(".")[0]
                 print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
 
-                transform_list.append(Transform(output_asset_position_name, parent, dataset_csv_filename, units))
+                # The CSV file for the points already has a transform in it, so we can
+                # use that transform as the parent for the labels.
+                for t in transform_list:
+                    if t.csv_filename == dataset_csv_filename:
+                        parent_position_name = t.output_asset_position_name
 
                 print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
                 print("local meters_in_Km = 1000", file=output_file)
 
                 print(f"local {output_asset_variable_name} = {{", file=output_file)
                 print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
-                print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
+                print(f"    Parent = transforms.{parent_position_name}.Identifier,", file=output_file)
                 print( "    Renderable = {", file=output_file)
                 print( "        Type = \"RenderablePointCloud\",", file=output_file)
                 print( "        UseAdditiveBlending = true,", file=output_file)
