@@ -33,6 +33,7 @@ if not asset_dir.exists():
     print(f"Asset dir {asset_dir} does not exist.")
     sys.exit(0)
 asset_files = [f for f in asset_dir.iterdir() if f.is_file()]
+asset_dirs = [f for f in asset_dir.iterdir() if f.is_dir()]
 
 # For each file in the asset dir, remove the directory with the same name from the cache
 # dir.
@@ -48,4 +49,16 @@ for asset_file in asset_files:
         if args.verbose:
             print(f"Cache file {cache_file} does not exist.")
 
-sys.exit(0)
+# For each directory in the asset dir, remove the directory with the same name from the
+# cache dir.
+for asset_dir in asset_dirs:
+    cache_dir = cache_dir / asset_dir.name
+    if cache_dir.exists():
+        if args.verbose:
+            print(f"Removing {cache_dir}")
+        # Remove the directory with the name of the cache file
+        shutil.rmtree(cache_dir)
+    else:
+        if args.verbose:
+            print(f"Cache dir {cache_dir} does not exist.")
+
