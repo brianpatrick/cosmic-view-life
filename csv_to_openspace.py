@@ -416,6 +416,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     if (rendered_labels):
         # Iterate over the rendered labels and create the assets for each one.
         for label in rendered_labels:
+            max_size = None
+            if label.get("max_size"):
+                max_size = label["max_size"]
 
             output_asset_variable_name = filename_base + "_" + label["column"] + "_rendered_labels"
             output_rendered_labels_asset_filename = args.output_dir + "/" + output_asset_variable_name + ".asset"
