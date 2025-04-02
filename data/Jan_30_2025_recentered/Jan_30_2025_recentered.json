@@ -18,12 +18,26 @@
                     "column" : "kingdom",
                     "font_file": "ARIALN.TTF",
                     "font_size": 24,
+                    "font_color": [ 0, 255, 255 ],
                     "point_scale_factor": 29.9,
                     "point_scale_exponent": 5.36,
                     "max_size": 0.22,
                     "gui_info": {
                         "path": "Eukaryotes/Labels",
                         "name": "Kingdom_rendered"
+                    }
+                },
+                { 
+                    "column" : "class_eng",
+                    "font_file": "ARIALN.TTF",
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor": 29.9,
+                    "point_scale_exponent": 5.36,
+                    "max_size": 0.22,
+                    "gui_info": {
+                        "path": "Eukaryotes/Labels",
+                        "name": "class (eng) rendered"
                     }
                 }
             ],

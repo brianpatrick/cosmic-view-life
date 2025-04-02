@@ -37,10 +37,10 @@ class StringRenderer:
         return self.fonts[(font_name, font_size)]
 
 
-    def render_string_to_png(self, text, font_name, font_size, filename):
+    def render_string_to_png(self, text, font_name, font_size, color_triple, filename):
         font = self.get_font(font_name, font_size)
         text_bbox = font.getbbox(text)
         image = Image.new("RGBA", (text_bbox[2], text_bbox[3]), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
-        draw.text((0, 0), text, fill=(255, 255, 0), font=font)
+        draw.text((0, 0), text, fill=color_triple, font=font)
         image.save(filename, "PNG")

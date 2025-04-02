@@ -68,8 +68,9 @@ dataset_dict = {}
 # the right OpenSpace asset directory. While these files are being created, there's a
 # possibility that two files with the same name could be created. We'll keep track of
 # all the files we create in a list, and then move them to the asset directory at the
-# end of the script.
+# end of the script. We'll also add directories to be copied recursively.
 output_files = []
+output_directories = []
 
 def add_output_file(filename):
     # Make sure this file isn't already in the list. Throw an exception if it is.
@@ -77,6 +78,13 @@ def add_output_file(filename):
         raise Exception(f"File {filename} already in output_files list.")
     else:
         output_files.append(filename)
+
+def add_output_directory(directory):
+    # Make sure this directory isn't already in the list. Throw an exception if it is.
+    if directory in output_directories:
+        raise Exception(f"Directory {directory} already in output_directories list.")
+    else:
+        output_directories.append(directory)
 
 # Transforms. These are global for all assets. The filename is the dataset name with
 # "_transforms.asset" appended. The transform_list is a list of Transform objects that
@@ -283,6 +291,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
             add_output_file(tmap_filename)
 
+        # All the rendered labels go in a single dir    
+        add_output_directory(rendered_labels_dir)
+
     # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
     # it includes the color index columns as well.
     points_csv_filename = args.output_dir + "/" + filename_base + "_points.csv"
@@ -406,7 +417,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # Iterate over the rendered labels and create the assets for each one.
         for label in rendered_labels:
 
-            output_asset_variable_name = filename_base + "_rendered_labels"
+            output_asset_variable_name = filename_base + "_" + label["column"] + "_rendered_labels"
             output_rendered_labels_asset_filename = args.output_dir + "/" + output_asset_variable_name + ".asset"
             output_asset_position_name = output_asset_variable_name + "_position"
 
@@ -1191,7 +1202,7 @@ def main():
     write_transform_file()
     print("Done.")
 
-    print(f"Copying files to output directory ({args.asset_dir})... ", end="", flush=True)
+    print(f"Copying files to asset directory ({args.asset_dir})... ", end="", flush=True)
     Path(args.asset_dir).mkdir(parents=True, exist_ok=True)
     for file in output_files:
         if args.verbose:
@@ -1199,6 +1210,14 @@ def main():
         shutil.copy2(file, args.asset_dir)
     print("Done.")
 
+    print("Copying directories to asset dir... ", end="", flush=True)
+    # Copy the directory using shutil. This is kinda hacky, but it works.
+    for dir in output_directories:
+        if args.verbose:
+            print(f"{dir} ", end="", flush=True)
+        shutil.copytree(args.output_dir + "/" + dir, args.asset_dir + "/" + dir, dirs_exist_ok=True)
+    print("Done.")
+    
     # Copy any texture files to the output directory. Get a list of all the 
     # "default_texture" entries in the dataset JSON file. These are the texture
     # files that need to be copied.
