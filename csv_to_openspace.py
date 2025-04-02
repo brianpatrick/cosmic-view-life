@@ -227,12 +227,18 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     # index into a texture file that specifies what texture to use for each index. This
     # means that for each label column, we need a label index that has a unique number for
     # each label. This keeps us from having lots of duplicate texture files.
-    if (rendered_labels):
 
+    # We'll need the directory later for setting up the asset file. We also need just
+    # the directory name for the asset file, as it uses relative paths when setting
+    # up the texture directory in the asset dir using asset.resource().
+    rendered_labels_dir = ""
+    rendered_labels_relative_path = ""
+    if (rendered_labels):
         # First make sure a directory exists for all the rendered labels.
-        rendered_labels_dir = args.output_dir + "/" + filename_base + "_rendered_labels"
-        if not os.path.exists(rendered_labels_dir):
-            os.makedirs(rendered_labels_dir)
+        rendered_labels_dir = filename_base + "_rendered_labels"
+        rendered_labels_relative_path = args.output_dir + "/" + rendered_labels_dir
+        if not os.path.exists(rendered_labels_relative_path):
+            os.makedirs(rendered_labels_relative_path)
 
         for label in rendered_labels:
             # Let's get the unique values in the specified label column. 
@@ -250,20 +256,30 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             label_index_column = label["column"] + "_label_index"
             input_points_df[label_index_column] = input_points_df[label["column"]].map(label_map)
 
+            # Let's make the tmap file at the same time.
+            tmap_filename = args.output_dir + "/" + filename_base + "_" + label["column"] + ".tmap"
+            tmap_file = open(tmap_filename, "w")
+
             for curr_label in label_map.keys():
                 # Get the label index for this label.
                 label_index = label_map[curr_label]
 
                 # Now render the label to a PNG file. The filename is the label column name
                 # with the index appended. The text is the label value.
-                rendered_label_filename = rendered_labels_dir + "/" + filename_base + "_" + label["column"] + "_" + str(label_index) + ".png"
+                rendered_label_filename = filename_base + "_" + label["column"] + "_" + str(label_index) + ".png"
 
                 # Render the label to a PNG file. This is done by calling the StringRenderer
                 # class to render the string to a PNG file.
                 string_renderer.render_string_to_png(text=curr_label,
                                                      font_name=label["font_file"], 
                                                      font_size=label["font_size"],
-                                                     filename=rendered_label_filename)
+                                                     filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
+                
+                print(f"{label_index} {rendered_label_filename}", file=tmap_file)
+
+            tmap_file.close()
+
+            add_output_file(tmap_filename)
 
     # Write the CSV file of the points. This used to just cump out the XYZ coords, but now
     # it includes the color index columns as well.
@@ -385,16 +401,75 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
     # Let's handle any rendered labels here as well.
     if (rendered_labels):
-        # Iterate over the rendered labels and create the assets for them.
+        # Iterate over the rendered labels and create the assets for each one.
         for label in rendered_labels:
-            print(label)
 
-        # The asset for each label uses the same CSV file as the points file, and
-        # mostly the same asset file, but the point uses the texture instead of the
-        # point3a.png file used for everything else.
-    
+            output_asset_variable_name = filename_base + "_rendered_labels"
+            output_rendered_labels_asset_filename = args.output_dir + "/" + output_asset_variable_name + ".asset"
+            output_asset_position_name = output_asset_variable_name + "_position"
 
-    exit(0)
+            with open(output_rendered_labels_asset_filename, "w") as output_file:
+
+                # The earth is the parent for all of the points, as there are many visualizations
+                # where we move points from above the earth down to specific locations. Use
+                # OpenSpace's provided transformations for this.
+                print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
+                transforms_filename_base = transforms_filename.split(".")[0]
+                print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
+
+                transform_list.append(Transform(output_asset_position_name, parent, dataset_csv_filename, units))
+
+                print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
+                print("local meters_in_Km = 1000", file=output_file)
+
+                print(f"local {output_asset_variable_name} = {{", file=output_file)
+                print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
+                print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
+                print( "    Renderable = {", file=output_file)
+                print( "        Type = \"RenderablePointCloud\",", file=output_file)
+                print( "        UseAdditiveBlending = true,", file=output_file)
+                print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
+                print( "        SizeSettings = {", file=output_file)
+                if max_size:
+                    print(f"            MaxSize = {label["max_size"]},", file=output_file)
+                    print( "            EnableMaxSizeControl = true,", file=output_file) 
+                print(f"            ScaleExponent = {label["point_scale_exponent"]}, ScaleFactor = {label["point_scale_factor"]}", file=output_file)
+                print( "        },", file=output_file)
+                # The file is the CSV file from the points, above.
+                print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
+                print(f"            Unit = \"{units}\",", file=output_file)
+
+                # Here is the different stuff, where we reference the texture column, etc.
+                print( "        DataMapping = {", file=output_file)
+                print(f"            TextureColumn=\"{label["column"]}_label_index\",", file=output_file)
+                # This is kinda hacky. This filename has to be constructed just like above.
+                print(f"            TextureMapFile=asset.resource(\"{filename_base + "_" + label["column"]}.tmap\")", file=output_file)
+                print( "        },", file=output_file)
+                print( "        Texture = { ", file=output_file)
+                print(f"            Folder = asset.resource(\"./{rendered_labels_dir}\")", file=output_file)
+                print( "        }", file=output_file)  
+                print( "    },", file=output_file)
+
+                print("    GUI = {", file=output_file)
+                gui_info = label.get("gui_info", None)
+                if gui_info:
+                    print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
+                    print(f"        Name = \"{gui_info['name']}\"", file=output_file)
+                else:
+                    print(f"        Path = \"/{gui_top_level}/Labels\",", file=output_file)
+                    print(f"        Name = \"{output_asset_variable_name}\"", file=output_file)
+                print("    }", file=output_file)
+                print("}", file=output_file)
+                print("asset.onInitialize(function()", file=output_file)
+                print(f"    openspace.addSceneGraphNode({output_asset_variable_name});", file=output_file)
+                print("end)", file=output_file)
+                print("asset.onDeinitialize(function()", file=output_file)
+                print(f"    openspace.removeSceneGraphNode({output_asset_variable_name});", file=output_file)
+                print("end)", file=output_file)
+                print(f"asset.export({output_asset_variable_name})", file=output_file)
+
+            add_output_file(output_rendered_labels_asset_filename)
+
 
 
 def make_labels_from_dataframe(input_points_df, 

@@ -19,12 +19,11 @@
                     "font_file": "ARIALN.TTF",
                     "font_size": 24,
                     "point_scale_factor": 29.9,
-                    "point_scale_exponent": 4.6,
-                    "max_size": 0.1,
+                    "point_scale_exponent": 5.36,
+                    "max_size": 0.22,
                     "gui_info": {
                         "path": "Eukaryotes/Labels",
-                        "name": "Kingdom_rendered",
-                        "hidden": false
+                        "name": "Kingdom_rendered"
                     }
                 }
             ],
@@ -32,6 +31,22 @@
             "gui_info": {
                 "path": "Eukaryotes/Points",
                 "name": "Classes",
+                "hidden": false
+            }
+        },
+        {
+            "csv_file": "eukaryotes_classes.csv",
+            "type": "labels",
+            "data_scale_factor": 100000,
+            "label_column": "kingdom",
+            "label_size": 4.3,
+            "label_minsize": 8,
+            "label_maxsize": 62,
+            "COMMENT_OUT text_color": [ 1.0, 0.0, 0.0 ],
+            "enabled": true,
+            "gui_info": {
+                "path": "Eukaryotes/Labels",
+                "name": "Kingdom",
                 "hidden": false
             }
         },

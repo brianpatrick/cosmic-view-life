@@ -42,5 +42,5 @@ class StringRenderer:
         text_bbox = font.getbbox(text)
         image = Image.new("RGBA", (text_bbox[2], text_bbox[3]), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
-        draw.text((0, 0), text, fill=(0, 0, 0), font=font)
+        draw.text((0, 0), text, fill=(255, 255, 0), font=font)
         image.save(filename, "PNG")
