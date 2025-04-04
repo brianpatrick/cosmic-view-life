@@ -44,3 +44,17 @@ class StringRenderer:
         draw = ImageDraw.Draw(image)
         draw.text((0, 0), text, fill=color_triple, font=font)
         image.save(filename, "PNG")
+
+
+    def render_string_to_png_with_box(self, text, font_name, font_size, color_triple, filename):
+        font = self.get_font(font_name, font_size)
+        text_bbox = font.getbbox(text)
+
+        image = Image.new("RGBA", (text_bbox[2] + 7, text_bbox[3] + 7), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+        draw.text((3, 3), text, fill=color_triple, font=font)
+
+        # Draw a box around the text.
+        draw.rectangle((0, 0, text_bbox[2] + 7, text_bbox[3] + 7), outline=color_triple, width=3)
+        image.save(filename, "PNG")
+        

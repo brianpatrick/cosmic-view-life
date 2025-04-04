@@ -8,7 +8,7 @@ Datasets provided from various sources (various in this instance means Wandrille
 Takanori, as well as "The Internet") are typically provided in CSV files with at least X,
 Y, and hopefully Z coordinates. A number of other parameters, loosely termed "metadata",
 may also be provided. This script takes the CSV file as input creates OpenSpace files
-(asset, label, etc) as necessary.
+(asset, label, etc) as necessarfy.
 
 Additionally, every CSV file has slightly different parameters as far as how it's drawn by
 openspace. This info is all contained in the dataset csv file and these parameters are
@@ -279,11 +279,19 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                 # Render the label to a PNG file. This is done by calling the StringRenderer
                 # class to render the string to a PNG file.
                 color_triple = (label["font_color"][0], label["font_color"][1], label["font_color"][2])
-                string_renderer.render_string_to_png(text=curr_label,
+                if label.get("box") and label["box"]:
+                    # Draw a box around the text.
+                    string_renderer.render_string_to_png_with_box(text=curr_label,
                                                      font_name=label["font_file"], 
                                                      font_size=label["font_size"],
                                                      color_triple=color_triple,
                                                      filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
+                else:
+                    string_renderer.render_string_to_png(text=curr_label,
+                                                        font_name=label["font_file"], 
+                                                        font_size=label["font_size"],
+                                                        color_triple=color_triple,
+                                                        filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
                 
                 print(f"{label_index} {rendered_label_filename}", file=tmap_file)
 

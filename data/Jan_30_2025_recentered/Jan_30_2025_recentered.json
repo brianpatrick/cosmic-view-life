@@ -15,26 +15,13 @@
             "colormap": "colormaps.Cyclic.Hsv",
             "rendered_labels": [
                 { 
-                    "column" : "kingdom",
-                    "font_file": "ARIALN.TTF",
-                    "font_size": 24,
-                    "font_color": [ 0, 255, 255 ],
-                    "point_scale_factor": 29.9,
-                    "point_scale_exponent": 5.36,
-                    "max_size": 0.22,
-                    "gui_info": {
-                        "path": "Eukaryotes/Labels",
-                        "name": "Kingdom_rendered"
-                    }
-                },
-                { 
                     "column" : "class_eng",
                     "font_file": "ARIALN.TTF",
                     "font_size": 72,
                     "font_color": [ 255, 255, 255 ],
-                    "point_scale_factor": 29.9,
-                    "point_scale_exponent": 5.36,
-                    "max_size": 0.22,
+                    "point_scale_factor": 6.34,
+                    "point_scale_exponent": 6.4,
+                    "max_size": 0.77,
                     "gui_info": {
                         "path": "Eukaryotes/Labels",
                         "name": "class (eng) rendered"
@@ -49,78 +36,33 @@
             }
         },
         {
-            "csv_file": "eukaryotes_classes.csv",
-            "type": "labels",
+            "csv_file": "eukaryotes_classes_by_kingdom.csv",
+            "type": "points",
             "data_scale_factor": 100000,
-            "label_column": "kingdom",
-            "label_size": 4.3,
-            "label_minsize": 8,
-            "label_maxsize": 62,
-            "COMMENT_OUT text_color": [ 1.0, 0.0, 0.0 ],
-            "enabled": true,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 29.9,
+            "point_scale_exponent": 4.6,
+            "max_size": 0.1,
+            "color_by_columns": ["kingdom"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "rendered_labels": [
+                { 
+                    "column" : "kingdom",
+                    "font_file": "ARIALN.TTF",
+                    "font_size": 72,
+                    "font_color": [ 0, 255, 255 ],
+                    "point_scale_factor": 8.05,
+                    "point_scale_exponent": 7.01,
+                    "max_size": 4.28,
+                    "gui_info": {
+                        "path": "Eukaryotes/Labels",
+                        "name": "Kingdom_rendered"
+                    }
+                }
+            ],
+            "interaction_sphere": 1,
             "gui_info": {
-                "path": "Eukaryotes/Labels",
-                "name": "Kingdom",
-                "hidden": false
-            }
-        },
-        {
-            "csv_file": "eukaryotes_classes.csv",
-            "type": "labels",
-            "data_scale_factor": 100000,
-            "label_column": "class_eng",
-            "label_size": 4.3,
-            "label_minsize": 8,
-            "label_maxsize": 62,
-            "COMMENT_OUT text_color": [ 1.0, 0.0, 0.0 ],
-            "enabled": true,
-            "gui_info": {
-                "path": "Eukaryotes/Labels",
-                "name": "Classes (eng)",
-                "hidden": false
-            }
-        },
-        {
-            "csv_file": "eukaryotes_classes.csv",
-            "type": "labels",
-            "data_scale_factor": 100000,
-            "label_column": "phylum",
-            "label_size": 4.3,
-            "label_minsize": 8,
-            "label_maxsize": 125,
-            "enabled": false,
-            "gui_info": {
-                "path": "Eukaryotes/Labels",
-                "name": "Phylum",
-                "hidden": false
-            }
-        },
-        {
-            "csv_file": "eukaryotes_classes.csv",
-            "type": "group_labels",
-            "data_scale_factor": 100000,
-            "label_column": "phylum",
-            "label_size": 4.3,
-            "label_minsize": 8,
-            "label_maxsize": 125,
-            "enabled": true,
-            "gui_info": {
-                "path": "Eukaryotes/Labels",
-                "name": "Phylum (grouped)",
-                "hidden": false
-            }
-        },
-        {
-            "csv_file": "eukaryotes_classes.csv",
-            "type": "group_labels",
-            "data_scale_factor": 100000,
-            "label_column": "kingdom",
-            "label_size": 4.76,
-            "label_minsize": 8,
-            "label_maxsize": 125,
-            "enabled": true,
-            "gui_info": {
-                "path": "Eukaryotes/Labels",
+                "path": "Eukaryotes/Points",
                 "name": "Kingdom (grouped)",
                 "hidden": false
             }
@@ -157,38 +99,29 @@
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
             "color_by_columns": ["family", "order"],
+            "rendered_labels": [
+                { 
+                    "column" : "family_eng",
+                    "font_file": "ARIALN.TTF",
+                    "box": true,
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor": 7.32,
+                    "point_scale_exponent": 4.21,
+                    "max_size": 2.0899,
+                    "gui_info": {
+                        "path": "Mammals/Labels",
+                        "name": "Family (eng) rendered"
+                    }
+                }
+            ],
             "fade_targets": [
-                ["eukaryotes_classes", "points"],
-                ["eukaryotes_classes_class_eng", "labels"],
-                ["eukaryotes_classes_phylum", "labels"],
-                ["eukaryotes_classes_group_kingdom", "labels"],
-                ["eukaryotes_classes_group_phylum", "labels"]
+                ["eukaryotes_classes", "points"]
             ],
             "interaction_sphere": 2,
             "gui_info": {
                 "path": "Mammals/Points",
                 "name": "Families",
-                "hidden": false
-            }
-        },
-        {
-            "csv_file": "mammal_families.csv",
-            "parent": {
-                "csv_file": "eukaryotes_classes.csv",
-                "parent_type": "points",
-                "parent_column": "class",
-                "parent_point": "Mammalia"
-            },
-            "type": "labels",
-            "data_scale_factor": 1000,
-            "label_column": "family_eng",
-            "label_size": 2.50,
-            "label_minsize": 8,
-            "label_maxsize": 125,
-            "enabled": true,
-            "gui_info": {
-                "path": "Mammals/Labels",
-                "name": "Family (eng)",
                 "hidden": false
             }
         },
@@ -210,7 +143,7 @@
                 { 
                     "column" : "species",
                     "font_file": "ARIALNI.TTF",
-                    "font_size": 24,
+                    "font_size": 72,
                     "font_color": [ 0, 255, 128 ],
                     "point_scale_factor": 22.2,
                     "point_scale_exponent": 3.109,
@@ -232,27 +165,6 @@
             }
         },
         {
-            "csv_file": "mammal_species.csv",
-            "parent": {
-                "csv_file": "eukaryotes_classes.csv",
-                "parent_type": "points",
-                "parent_column": "class",
-                "parent_point": "Mammalia"
-            },
-            "type": "labels",
-            "data_scale_factor": 1000,
-            "label_column": "species",
-            "label_size": 1.82,
-            "label_minsize": 20,
-            "label_maxsize": 125,
-            "enabled": true,
-            "gui_info": {
-                "path": "Mammals/Labels",
-                "name": "Species",
-                "hidden": false
-            }
-        },
-        {
             "csv_file": "bird_families.csv",
             "parent": {
                 "csv_file": "eukaryotes_classes.csv",
@@ -266,39 +178,28 @@
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
             "color_by_columns": ["family", "order"],
+            "rendered_labels": [
+                { 
+                    "column" : "family_eng",
+                    "font_file": "ARIALN.TTF",
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor": 7.32,
+                    "point_scale_exponent": 4.21,
+                    "max_size": 2.0899,
+                    "gui_info": {
+                        "path": "Birds/Labels",
+                        "name": "Family (eng) rendered"
+                    }
+                }
+            ],
             "fade_targets": [
-                ["eukaryotes_classes", "points"],
-                ["eukaryotes_classes_class_eng", "labels"],
-                ["eukaryotes_classes_phylum", "labels"],
-                ["eukaryotes_classes_group_kingdom", "labels"],
-                ["eukaryotes_classes_group_phylum", "labels"]
+                ["eukaryotes_classes", "points"]
             ],
             "interaction_sphere": 2,
             "gui_info": {
                 "path": "Birds/Points",
                 "name": "Family",
-                "hidden": false
-            }
-
-        },
-        {
-            "csv_file": "bird_families.csv",
-            "parent": {
-                "csv_file": "eukaryotes_classes.csv",
-                "parent_type": "points",
-                "parent_column": "class",
-                "parent_point": "Aves"
-            },
-            "type": "labels",
-            "data_scale_factor": 1000,
-            "label_column": "family_eng",
-            "label_size": 2.50,
-            "label_minsize": 8,
-            "label_maxsize": 125,
-            "enabled": true,
-            "gui_info": {
-                "path": "Birds/Labels",
-                "name": "Family (eng)",
                 "hidden": false
             }
         },
@@ -316,33 +217,27 @@
             "point_scale_factor": 7.99,
             "point_scale_exponent": 3.03,
             "color_by_columns": ["family", "order", "genus"],
+            "rendered_labels": [
+                { 
+                    "column" : "species",
+                    "font_file": "ARIALNI.TTF",
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor": 4.63,
+                    "point_scale_exponent": 3.6,
+                    "max_size": 2.96,
+                    "gui_info": {
+                        "path": "Birds/Labels",
+                        "name": "species (eng) rendered"
+                    }
+                }
+            ],
             "DISABLED fade_targets": [
                 "eukaryotes_classes"
             ],
             "interaction_sphere": 2,
             "gui_info": {
                 "path": "Birds/Points",
-                "name": "Species",
-                "hidden": false
-            }
-        },
-        {
-            "csv_file": "bird_species.csv",
-            "parent": {
-                "csv_file": "eukaryotes_classes.csv",
-                "parent_type": "points",
-                "parent_column": "class",
-                "parent_point": "Mammalia"
-            },
-            "type": "labels",
-            "data_scale_factor": 1000,
-            "label_column": "species",
-            "label_size": 1.82,
-            "label_minsize": 8,
-            "label_maxsize": 125,
-            "enabled": false,
-            "gui_info": {
-                "path": "Birds/Labels",
                 "name": "Species",
                 "hidden": false
             }

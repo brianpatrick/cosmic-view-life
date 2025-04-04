@@ -103,15 +103,9 @@ for group in groups:
 # appended to the end. For example, if the input CSV file is points.csv and
 # the column name is group, the new CSV file will be points_group.csv.
 output_csv_file = os.path.splitext(input_csv_file)[0] + "_by_" + label_column + ".csv"
-# Check if the output CSV file already exists. If it does, ask the user if
-# they want to overwrite it.
+# Check if the output CSV file already exists. If it does, delete it.
 if os.path.exists(output_csv_file):
-    print("Output CSV file already exists. Overwrite? (y/n)")
-    answer = input()
-    if answer != "y":
-        print("Exiting.")
-        sys.exit(0)
-# Write the centroids to the new CSV file.
+    os.remove(output_csv_file)
 centroids_df.to_csv(output_csv_file, index=False)
 
 

@@ -14,14 +14,20 @@ REPO_PATH := $(shell pwd)
 
 include Makefile.config
 
-.DUMMY: jan_30_2025_recentered_clean_cache
+.DUMMY: jan_30_2025_recentered_clean_cache jan_30_2025_recentered_groups
 
 jan_30_2025_recentered_clean_cache:
 	@echo "*** Cleaning jan_30_2025_recentered"
 	python clean_openspace_cache.py -c ${OPENSPACE_CACHE} \
 	-a ${OPENSPACE_ASSET_DIR}/jan_30_2025_recentered
 
-jan_30_2025_recentered: jan_30_2025_recentered_clean_cache
+# Make various grouped datasets. These are referenced in the JSON file below.
+jan_30_2025_recentered_groups:
+	@echo "*** Building jan_30_2025_recentered groups"
+	@cd data/Jan_30_2025_recentered; \
+	python ${REPO_PATH}/group_dataset.py -i eukaryotes_classes.csv -c kingdom
+
+jan_30_2025_recentered: jan_30_2025_recentered_clean_cache jan_30_2025_recentered_groups
 	@echo "*** Building jan_30_2025_recentered"
 	@cd data/Jan_30_2025_recentered; \
 	python ${REPO_PATH}/csv_to_openspace.py -i Jan_30_2025_recentered.json \
