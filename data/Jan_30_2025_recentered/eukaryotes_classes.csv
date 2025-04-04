@@ -1,236 +1,236 @@
-class,x,y,z,phylum,kingdom,superkingdom,class,phylum_eng,kingdom_eng,superkingdom_eng,class_eng
-Aconoidasida,0.2964187972448038,0.6637562221397172,0.6867048668902488,Apicomplexa,,Eukaryota,Aconoidasida,apicomplexans,,eukaryotes,Aconoidasida
-Actinopteri,-0.2812398266236251,-0.586954764865355,-0.7592023866681197,Chordata,Metazoa,Eukaryota,Actinopteri,chordates,multicellular animals,eukaryotes,Actinopteri
-Agaricomycetes,0.4053494098039233,0.1180238586806027,-0.9065110174475278,Basidiomycota,Fungi,Eukaryota,Agaricomycetes,basidiomycetes,Fungi,eukaryotes,Agaricomycetes
-Agaricostilbomycetes,0.504100178073803,-0.2929325112934157,-0.812449108740537,Basidiomycota,Fungi,Eukaryota,Agaricostilbomycetes,basidiomycetes,Fungi,eukaryotes,Agaricostilbomycetes
-Amphibia,-0.0041265524996339,-0.6727204598622577,-0.7398852305913264,Chordata,Metazoa,Eukaryota,Amphibia,chordates,multicellular animals,eukaryotes,amphibians
-Andreaeobryopsida,-0.8491043964604114,0.4537070402163766,-0.2705025795989674,Streptophyta,Viridiplantae,Eukaryota,Andreaeobryopsida,Streptophyta,green plants,eukaryotes,Andreaeobryopsida
-Andreaeopsida,-0.7541665413377754,0.6538428876687349,-0.0610107053854281,Streptophyta,Viridiplantae,Eukaryota,Andreaeopsida,Streptophyta,green plants,eukaryotes,Andreaeopsida
-Anthocerotopsida,-0.6345190644053682,0.7699579761770518,-0.0674557027053664,Streptophyta,Viridiplantae,Eukaryota,Anthocerotopsida,Streptophyta,green plants,eukaryotes,Anthocerotopsida
-Anthozoa,0.5929374986533762,-0.6811201214484003,0.4295352172392783,Cnidaria,Metazoa,Eukaryota,Anthozoa,coelenterates,multicellular animals,eukaryotes,anthozoans
-Anthozoa,0.5857218778149963,-0.6177788406406282,0.5246705498744864,Cnidaria,Metazoa,Eukaryota,Anthozoa,coelenterates,multicellular animals,eukaryotes,anthozoans
-Appendicularia,0.0475332884809505,-0.7311715923590221,-0.6805355898212516,Chordata,Metazoa,Eukaryota,Appendicularia,chordates,multicellular animals,eukaryotes,appendicularians
-Arachnida,0.2440636990880208,-0.8737424142122476,-0.4207221225393609,Arthropoda,Metazoa,Eukaryota,Arachnida,arthropods,multicellular animals,eukaryotes,arachnids
-Armophorea,0.2481089241521476,0.8123177725388947,0.5278084862651532,Ciliophora,,Eukaryota,Armophorea,ciliates,,eukaryotes,Armophorea
-Arthoniomycetes,0.8459111284586818,0.168596393734665,-0.5059739309188027,Ascomycota,Fungi,Eukaryota,Arthoniomycetes,ascomycetes,Fungi,eukaryotes,Arthoniomycetes
-Ascidiacea,-0.0626208747258802,-0.8391279924078369,-0.5403173497178846,Chordata,Metazoa,Eukaryota,Ascidiacea,chordates,multicellular animals,eukaryotes,sea squirts
-Ascidiacea,-0.1057407335583274,-0.7924028198918532,-0.6007634045895157,Chordata,Metazoa,Eukaryota,Ascidiacea,chordates,multicellular animals,eukaryotes,sea squirts
-Asteroidea,-0.260712404444621,-0.8744270724045937,-0.409153195288312,Echinodermata,Metazoa,Eukaryota,Asteroidea,echinoderms,multicellular animals,eukaryotes,starfishes
-Atractiellomycetes,0.4123428612228915,-0.2541924578204442,-0.8748483063855819,Basidiomycota,Fungi,Eukaryota,Atractiellomycetes,basidiomycetes,Fungi,eukaryotes,Atractiellomycetes
-Aurearenophyceae,-0.4585645003470084,0.6353348704298327,0.6213438673048975,,,Eukaryota,Aurearenophyceae,,,eukaryotes,Aurearenophyceae
-Aves,-0.0940594928605152,-0.6913877598657633,-0.7163349616699051,Chordata,Metazoa,Eukaryota,Aves,chordates,multicellular animals,eukaryotes,birds
-Bacillariophyceae,-0.088474112605544,0.6245652344781628,0.7759449718117252,Bacillariophyta,,Eukaryota,Bacillariophyceae,diatoms,,eukaryotes,"Raphid, pennate diatoms"
-Bangiophyceae,-0.1323743848971973,0.9895052149511592,-0.057934892832809,Rhodophyta,,Eukaryota,Bangiophyceae,red algae,,eukaryotes,Bangiophyceae
-Bangiophyceae,0.1363695634357253,0.988745317535576,0.0615307989532284,Rhodophyta,,Eukaryota,Bangiophyceae,red algae,,eukaryotes,Bangiophyceae
-Bangiophyceae,0.0893793242361505,0.9953159140725432,0.0368451841225823,Rhodophyta,,Eukaryota,Bangiophyceae,red algae,,eukaryotes,Bangiophyceae
-Bangiophyceae,-0.0319918072745083,0.9991731982758582,-0.0250887248480971,Rhodophyta,,Eukaryota,Bangiophyceae,red algae,,eukaryotes,Bangiophyceae
-Bartheletiomycetes,0.5773110002819959,0.3172376505842689,-0.7523777521997674,Basidiomycota,Fungi,Eukaryota,Bartheletiomycetes,basidiomycetes,Fungi,eukaryotes,Bartheletiomycetes
-Basidiobolomycetes,0.9618735736221792,-0.1771164390043438,-0.208396246131543,Zoopagomycota,Fungi,Eukaryota,Basidiobolomycetes,Zoopagomycota,Fungi,eukaryotes,Basidiobolomycetes
-Bigyra,-0.4482204431239609,0.790010981755189,0.4183074026023952,,,Eukaryota,Bigyra,,,eukaryotes,Bigyra
-Bigyra,-0.6906196753035064,0.4004251485969319,0.6022492544244487,,,Eukaryota,Bigyra,,,eukaryotes,Bigyra
-Bivalvia,-0.0568428448985543,-0.991705306798398,0.1152799872125876,Mollusca,Metazoa,Eukaryota,Bivalvia,molluscs,multicellular animals,eukaryotes,bivalves
-Blastocladiomycetes,-0.1263659241356792,0.048235446618309,-0.990810271902178,Blastocladiomycota,Fungi,Eukaryota,Blastocladiomycetes,Blastocladiomycota,Fungi,eukaryotes,Blastocladiomycetes
-Bolidophyceae,-0.4022625901337641,0.2384899972169408,0.8839159065241098,,,Eukaryota,Bolidophyceae,,,eukaryotes,Bolidophyceae
-Branchiopoda,0.5431476216809742,-0.7808951642464237,-0.3085342825665443,Arthropoda,Metazoa,Eukaryota,Branchiopoda,arthropods,multicellular animals,eukaryotes,Branchiopoda
-Bryopsida,-0.8828438679765238,0.4460513010464996,-0.1470542131697532,Streptophyta,Viridiplantae,Eukaryota,Bryopsida,Streptophyta,green plants,eukaryotes,Bryopsida
-Calcarea,0.7966693905662636,-0.5422604853985659,0.2669671292689229,Porifera,Metazoa,Eukaryota,Calcarea,sponges,multicellular animals,eukaryotes,Calcarea
-Candelariomycetes,0.9281574452424314,0.2759351857079208,-0.2497669516356763,Ascomycota,Fungi,Eukaryota,Candelariomycetes,ascomycetes,Fungi,eukaryotes,Candelariomycetes
-Caudofoveata,0.1070041311376701,-0.9866046244814822,0.1231317622355243,Mollusca,Metazoa,Eukaryota,Caudofoveata,molluscs,multicellular animals,eukaryotes,Caudofoveata
-Caudofoveata,0.0225403067596119,-0.8662774881701047,0.4990543538141678,Mollusca,Metazoa,Eukaryota,Caudofoveata,molluscs,multicellular animals,eukaryotes,Caudofoveata
-Cephalocarida,0.4496583918779029,-0.8766913012855186,-0.1709376870794804,Arthropoda,Metazoa,Eukaryota,Cephalocarida,arthropods,multicellular animals,eukaryotes,horseshoe shrimps
-Cephalopoda,0.0833387565961791,-0.9951711069912208,-0.0518567204793233,Mollusca,Metazoa,Eukaryota,Cephalopoda,molluscs,multicellular animals,eukaryotes,cephalopods
-Cestoda,0.2449025586197623,-0.7896572185711682,0.5625515211426774,Platyhelminthes,Metazoa,Eukaryota,Cestoda,flatworms,multicellular animals,eukaryotes,tapeworms
-Charophyceae,-0.56402064568225,0.8164201722059925,0.123849964308898,Streptophyta,Viridiplantae,Eukaryota,Charophyceae,Streptophyta,green plants,eukaryotes,Charophyceae
-Chilopoda,0.7692613900601564,-0.6386052413969338,-0.0205002298299315,Arthropoda,Metazoa,Eukaryota,Chilopoda,arthropods,multicellular animals,eukaryotes,centipede
-Chlorarachniophyceae,0.0314917030416121,0.9280916789018392,0.371017665607319,Cercozoa,,Eukaryota,Chlorarachniophyceae,Cercozoa,,eukaryotes,chlorarachniophytes
-Chlorokybophyceae,-0.90226614423563,0.2972286130110101,0.3123635007066617,Streptophyta,Viridiplantae,Eukaryota,Chlorokybophyceae,Streptophyta,green plants,eukaryotes,Chlorokybophyceae
-Chlorophyceae,-0.4254871930468346,0.90495657864428,-0.0037735025592174,Chlorophyta,Viridiplantae,Eukaryota,Chlorophyceae,green algae,green plants,eukaryotes,Chlorophyceae
-Choanoflagellata,-0.3035160198736479,-0.386660026314088,-0.8708455946554751,,,Eukaryota,Choanoflagellata,,,eukaryotes,Choanoflagellata
-Chondrichthyes,0.113997983026175,-0.6352075899496961,-0.763882044255697,Chordata,Metazoa,Eukaryota,Chondrichthyes,chordates,multicellular animals,eukaryotes,fishes
-Chromadorea,0.2538592537436975,-0.7099771186373619,-0.6568774393295012,Nematoda,Metazoa,Eukaryota,Chromadorea,roundworms,multicellular animals,eukaryotes,Chromadorea
-Chrysomerophyceae,-0.55953466279083,0.4101264077047143,0.7202203071552333,,,Eukaryota,Chrysomerophyceae,,,eukaryotes,Chrysomerophyceae
-Chrysophyceae,-0.5681013628007263,0.0931293208024071,0.8176721660854305,,,Eukaryota,Chrysophyceae,,,eukaryotes,golden algae
-Chytridiomycetes,-0.1145306470715671,-0.0838704247049244,-0.9898729629306904,Chytridiomycota,Fungi,Eukaryota,Chytridiomycetes,Chytridiomycota,Fungi,eukaryotes,Chytridiomycetes
-Chytridiomycetes,0.9989622181632524,-0.0227984404123881,0.0394299099303774,Chytridiomycota,Fungi,Eukaryota,Chytridiomycetes,Chytridiomycota,Fungi,eukaryotes,Chytridiomycetes
-Chytridiomycetes,-0.0220482798677598,-0.1479238057132456,-0.988752962603998,Chytridiomycota,Fungi,Eukaryota,Chytridiomycetes,Chytridiomycota,Fungi,eukaryotes,Chytridiomycetes
-Chytridiomycetes,0.9854823095785104,0.05306327106517,0.1612727713275534,Chytridiomycota,Fungi,Eukaryota,Chytridiomycetes,Chytridiomycota,Fungi,eukaryotes,Chytridiomycetes
-Cladistia,0.046311238418349,-0.6579844451224938,-0.75160610639683,Chordata,Metazoa,Eukaryota,Cladistia,chordates,multicellular animals,eukaryotes,Cladistia
-Clitellata,-0.35063548157674,-0.8770348941730296,0.3284273945065339,Annelida,Metazoa,Eukaryota,Clitellata,annelid worms,multicellular animals,eukaryotes,Clitellata
-Coleochaetophyceae,-0.9784605250391032,0.1312117596056806,-0.1593689903380953,Streptophyta,Viridiplantae,Eukaryota,Coleochaetophyceae,Streptophyta,green plants,eukaryotes,Coleochaetophyceae
-Collembola,0.5469068906006702,-0.8362141679452624,-0.0404810862146627,Arthropoda,Metazoa,Eukaryota,Collembola,arthropods,multicellular animals,eukaryotes,springtails
-Collemopsidiomycetes,0.8849926674542785,-0.0378505640241167,-0.4640639108519612,Ascomycota,Fungi,Eukaryota,Collemopsidiomycetes,ascomycetes,Fungi,eukaryotes,Collemopsidiomycetes
-Compsopogonophyceae,-0.0099012679180353,0.9947983052444026,-0.1013819351584865,Rhodophyta,,Eukaryota,Compsopogonophyceae,red algae,,eukaryotes,Compsopogonophyceae
-Coniocybomycetes,0.8908297050154074,0.3498579804468552,-0.2898651931153689,Ascomycota,Fungi,Eukaryota,Coniocybomycetes,ascomycetes,Fungi,eukaryotes,Coniocybomycetes
-Conoidasida,0.3717908876611466,0.6269361981937248,0.6846331420889111,Apicomplexa,,Eukaryota,Conoidasida,apicomplexans,,eukaryotes,Conoidasida
-Conoidasida,0.3509821612024699,0.5506291010266501,0.7573764688846799,Apicomplexa,,Eukaryota,Conoidasida,apicomplexans,,eukaryotes,Conoidasida
-Corycida,-0.8120731462499773,-0.1663652953365002,0.5593387110215616,Tubulinea,,Eukaryota,Corycida,Tubulinea,,eukaryotes,Corycida
-Coscinodiscophyceae,-0.0847908792761567,0.8089022038479695,0.5817969846961003,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Coscinodiscophyceae,-0.2252655713632901,0.2733807290058438,0.9351568848950448,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Coscinodiscophyceae,0.0856010606545279,0.6850876393517559,0.7234137024015085,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Coscinodiscophyceae,-0.2968259306699745,0.4478805082059538,0.8433845014292591,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Coscinodiscophyceae,0.0507111208612703,0.5337964583517949,0.8440910633765022,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Coscinodiscophyceae,0.0793499256418198,0.6210548103644524,0.7797400283580493,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Coscinodiscophyceae,-0.051598829024946,0.690662802601397,0.7213338020265223,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Coscinodiscophyceae,0.0307336294068639,0.722640485149425,0.6905404935602873,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Coscinodiscophyceae,-0.23116973862392,0.7422772311179492,0.628955534285548,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
-Craniata,-0.2418687985362887,-0.9052923863838296,0.349206499724852,Brachiopoda,Metazoa,Eukaryota,Craniata,brachiopods,multicellular animals,eukaryotes,Craniata
-Crinoidea,-0.5498749184308788,-0.6848118921171853,-0.4781947788250255,Echinodermata,Metazoa,Eukaryota,Crinoidea,echinoderms,multicellular animals,eukaryotes,crinoids
-Cryptophyceae,-0.1777157479573694,0.916250322221316,-0.3590298872758186,,,Eukaryota,Cryptophyceae,,,eukaryotes,cryptomonads
-Cubozoa,0.4653607280212281,-0.6635381408557942,0.5857956370998241,Cnidaria,Metazoa,Eukaryota,Cubozoa,coelenterates,multicellular animals,eukaryotes,box jellyfishes
-Cycadopsida,-0.7564902455020246,0.5197331464515061,-0.3969886206680287,Streptophyta,Viridiplantae,Eukaryota,Cycadopsida,Streptophyta,green plants,eukaryotes,cycads
-Dacrymycetes,0.5490803244824637,-0.030295627776729,-0.835220313572321,Basidiomycota,Fungi,Eukaryota,Dacrymycetes,basidiomycetes,Fungi,eukaryotes,Dacrymycetes
-Demospongiae,0.7753560193477641,-0.5334572216458157,0.3380036034351067,Porifera,Metazoa,Eukaryota,Demospongiae,sponges,multicellular animals,eukaryotes,Demospongiae
-Dictyochophyceae,0.0263194714147693,0.1278409012442607,0.9914454041416008,,,Eukaryota,Dictyochophyceae,,,eukaryotes,silicoflagellates
-Dinophyceae,0.2895314838343608,0.3977502217738961,0.8706125894722002,,,Eukaryota,Dinophyceae,,,eukaryotes,dinophytes
-Diplopoda,0.3528683400830594,-0.6992360274293519,-0.6217337955361967,Arthropoda,Metazoa,Eukaryota,Diplopoda,arthropods,multicellular animals,eukaryotes,millipede
-Dothideomycetes,0.829079349371631,0.0453756575579386,-0.557286714489676,Ascomycota,Fungi,Eukaryota,Dothideomycetes,ascomycetes,Fungi,eukaryotes,Dothideomycetes
-Echinamoebida,-0.956995287395804,-0.1658782679871265,0.2380008825862074,Tubulinea,,Eukaryota,Echinamoebida,Tubulinea,,eukaryotes,Echinamoebida
-Echinoidea,-0.5173779709568517,-0.7458123525077691,-0.4196236051694402,Echinodermata,Metazoa,Eukaryota,Echinoidea,echinoderms,multicellular animals,eukaryotes,sea urchin
-Elardia,-0.6942920476876653,-0.2516268502526245,0.6742718151825805,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
-Elardia,-0.8924711017586298,-0.1990774617619733,0.4048005641598681,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
-Elardia,-0.8798533975293178,-0.1975643495079306,0.4322341109394588,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
-Elardia,-0.8586843498892422,-0.2227923316320956,0.4615460586130314,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
-Elardia,-0.8280267203823762,-0.2402861357453694,0.5065908835553242,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
-Elardia,-0.8514099298977171,-0.1595629801575452,0.4996406575077806,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
-Elardia,-0.7944366473067179,-0.2449509246461158,0.5557602522050981,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
-Elardia,-0.7692576770417465,-0.2419488472308497,0.5913572369016877,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
-Endogonomycetes,0.170732224022019,0.3267859421101718,-0.929549060415674,Mucoromycota,Fungi,Eukaryota,Endogonomycetes,Mucoromycota,Fungi,eukaryotes,Endogonomycetes
-Enopla,-0.2022077774443946,-0.9780735687087048,0.0498408360124167,Nemertea,Metazoa,Eukaryota,Enopla,ribbon worms,multicellular animals,eukaryotes,Enopla
-Enoplea,0.7485535746050801,-0.6373560825644983,0.1828791129790203,Nematoda,Metazoa,Eukaryota,Enoplea,roundworms,multicellular animals,eukaryotes,Enoplea
-Enteropneusta,-0.4066719570808443,-0.7849144531311805,-0.4674689514714489,Hemichordata,Metazoa,Eukaryota,Enteropneusta,hemichordates,multicellular animals,eukaryotes,acorn worms
-Entomophthoromycetes,0.2125795899629466,-0.2725975331784618,-0.938349882952091,Zoopagomycota,Fungi,Eukaryota,Entomophthoromycetes,Zoopagomycota,Fungi,eukaryotes,Entomophthoromycetes
-Entoprocta,-0.1139035662331655,-0.9838721496824868,-0.1379187104004726,Entoprocta,Metazoa,Eukaryota,Entoprocta,nodding heads,multicellular animals,eukaryotes,nodding heads
-Euglenida,-0.1051143703946532,-0.0677059436018034,0.9921526466917906,Euglenozoa,,Eukaryota,Euglenida,Euglenozoa,,eukaryotes,euglenophytes
-Eumycetozoa,0.6418230379410632,0.1892778848466565,0.7431265506467121,Evosea,,Eukaryota,Eumycetozoa,Evosea,,eukaryotes,Eumycetozoa
-Eurotatoria,-0.286096531240011,-0.9379232522633236,-0.1960835221945562,Rotifera,Metazoa,Eukaryota,Eurotatoria,rotifers,multicellular animals,eukaryotes,Eurotatoria
-Eurotiomycetes,0.886485595832476,0.1538879037575885,-0.4364192954701192,Ascomycota,Fungi,Eukaryota,Eurotiomycetes,ascomycetes,Fungi,eukaryotes,Eurotiomycetes
-Eustigmatophyceae,-0.2272374363152768,0.8159533036623722,0.53158569749319,,,Eukaryota,Eustigmatophyceae,,,eukaryotes,eustigmatophytes
-Eutardigrada,0.6190871035819913,-0.7345299862341161,0.2778432246814196,Tardigrada,Metazoa,Eukaryota,Eutardigrada,tardigrades,multicellular animals,eukaryotes,Eutardigrada
-Exobasidiomycetes,0.5192389157174551,0.5267332614861744,-0.6730104157059525,Basidiomycota,Fungi,Eukaryota,Exobasidiomycetes,basidiomycetes,Fungi,eukaryotes,Exobasidiomycetes
-Filasterea,0.7500853319704242,-0.4364891817913719,0.4968391982743684,,,Eukaryota,Filasterea,,,eukaryotes,Filasterea
-Florideophyceae,-0.0822515729477658,0.9862184621169716,-0.1435542536020918,Rhodophyta,,Eukaryota,Florideophyceae,red algae,,eukaryotes,Florideophyceae
-Fragilariophyceae,-0.0289213756824496,0.6511043829671983,0.7584369693715745,Bacillariophyta,,Eukaryota,Fragilariophyceae,diatoms,,eukaryotes,"Araphid, pennate diatoms"
-Fragilariophyceae,-0.2105694724934048,0.570997873486352,0.7934871931719587,Bacillariophyta,,Eukaryota,Fragilariophyceae,diatoms,,eukaryotes,"Araphid, pennate diatoms"
-Fragilariophyceae,-0.1468391640622882,0.6597411291447225,0.737007396443438,Bacillariophyta,,Eukaryota,Fragilariophyceae,diatoms,,eukaryotes,"Araphid, pennate diatoms"
-Gastropoda,0.0349728462482955,-0.9957637546299736,0.0850379032579639,Mollusca,Metazoa,Eukaryota,Gastropoda,molluscs,multicellular animals,eukaryotes,gastropods
-Geoglossomycetes,0.8522642864973247,0.3469251756865613,-0.3915207637355325,Ascomycota,Fungi,Eukaryota,Geoglossomycetes,ascomycetes,Fungi,eukaryotes,Geoglossomycetes
-Ginkgoopsida,-0.7887265799806131,0.3939848366255784,-0.4718965252480691,Streptophyta,Viridiplantae,Eukaryota,Ginkgoopsida,Streptophyta,green plants,eukaryotes,Ginkgoopsida
-Glaucocystophyceae,-0.0888964248953995,0.9655100621569058,-0.2447197284948327,,,Eukaryota,Glaucocystophyceae,,,eukaryotes,glaucocystophytes
-Glomeromycetes,0.5497743947526994,-0.3316050733747058,-0.7666721530005242,Mucoromycota,Fungi,Eukaryota,Glomeromycetes,Mucoromycota,Fungi,eukaryotes,Glomeromycetes
-Gnetopsida,-0.7080266262793232,0.5533254965327468,-0.4387814847578563,Streptophyta,Viridiplantae,Eukaryota,Gnetopsida,Streptophyta,green plants,eukaryotes,Gnetopsida
-Gymnolaemata,-0.0284220750798732,-0.9531523383209498,-0.3011524623865121,Bryozoa,Metazoa,Eukaryota,Gymnolaemata,bryozoans,multicellular animals,eukaryotes,Gymnolaemata
-Haplomitriopsida,-0.5362894243373176,0.7954480679707372,-0.2822339889268652,Streptophyta,Viridiplantae,Eukaryota,Haplomitriopsida,Streptophyta,green plants,eukaryotes,Haplomitriopsida
-Heterotardigrada,0.2215721408127385,-0.6455388979292442,-0.7308798243733075,Tardigrada,Metazoa,Eukaryota,Heterotardigrada,tardigrades,multicellular animals,eukaryotes,Heterotardigrada
-Heterotrichea,0.3139924318512911,0.7687941860943103,0.5571034483538039,Ciliophora,,Eukaryota,Heterotrichea,ciliates,,eukaryotes,Heterotrichea
-Hexactinellida,0.7080003654334944,-0.5337376034643685,0.4624496223310717,Porifera,Metazoa,Eukaryota,Hexactinellida,sponges,multicellular animals,eukaryotes,Hexactinellida
-Hexanauplia,0.6983355875341565,-0.69856003944957,-0.1560169172479047,Arthropoda,Metazoa,Eukaryota,Hexanauplia,arthropods,multicellular animals,eukaryotes,Hexanauplia
-Holothuroidea,-0.5928540530711055,-0.7517852305299745,-0.2886919446644744,Echinodermata,Metazoa,Eukaryota,Holothuroidea,echinoderms,multicellular animals,eukaryotes,sea cucumbers
-Homoscleromorpha,0.1069312163724705,-0.5029737054832967,-0.8576614521811655,Porifera,Metazoa,Eukaryota,Homoscleromorpha,sponges,multicellular animals,eukaryotes,Homoscleromorpha
-Hydrozoa,0.6619638133498038,-0.6221244745084058,0.4180490976345076,Cnidaria,Metazoa,Eukaryota,Hydrozoa,coelenterates,multicellular animals,eukaryotes,hydrozoans
-Hyperoartia,-0.3923687017338285,-0.6145612795524656,-0.6843692245963038,Chordata,Metazoa,Eukaryota,Hyperoartia,chordates,multicellular animals,eukaryotes,fishes
-Ichthyosporea,0.8397198420254092,-0.4040814687436556,0.3627516416596785,,,Eukaryota,Ichthyosporea,,,eukaryotes,Ichthyosporea
-Ichthyostraca,0.3269957145128773,-0.8643640191178273,-0.3820322566808845,Arthropoda,Metazoa,Eukaryota,Ichthyostraca,arthropods,multicellular animals,eukaryotes,Ichthyostraca
-Imbricatea,-0.2458600073516831,0.9273553746957311,0.282072447800153,Cercozoa,,Eukaryota,Imbricatea,Cercozoa,,eukaryotes,Imbricatea
-Insecta,0.51570355536354,-0.8533603799277921,0.0763276159387848,Arthropoda,Metazoa,Eukaryota,Insecta,arthropods,multicellular animals,eukaryotes,true insects
-Jungermanniopsida,-0.5564591814462341,0.7620360044595,-0.3311409175737544,Streptophyta,Viridiplantae,Eukaryota,Jungermanniopsida,Streptophyta,green plants,eukaryotes,Jungermanniopsida
-Kickxellomycetes,0.0132704891567797,0.0082608408917161,-0.999877818848534,Zoopagomycota,Fungi,Eukaryota,Kickxellomycetes,Zoopagomycota,Fungi,eukaryotes,Kickxellomycetes
-Kinetoplastea,0.3353361588027596,0.0560357203378351,0.9404305708799722,Euglenozoa,,Eukaryota,Kinetoplastea,Euglenozoa,,eukaryotes,kinetoplasts
-Klebsormidiophyceae,-0.7111078173838962,0.6703586163809641,0.2120023525796612,Streptophyta,Viridiplantae,Eukaryota,Klebsormidiophyceae,Streptophyta,green plants,eukaryotes,Klebsormidiophyceae
-Lecanoromycetes,0.9580553587744212,0.0671248021858894,-0.2786111814969387,Ascomycota,Fungi,Eukaryota,Lecanoromycetes,ascomycetes,Fungi,eukaryotes,Lecanoromycetes
-Leiosporocerotopsida,-0.6329156777499273,0.7576345895049935,-0.1593975333684632,Streptophyta,Viridiplantae,Eukaryota,Leiosporocerotopsida,Streptophyta,green plants,eukaryotes,Leiosporocerotopsida
-Leotiomycetes,0.9605383066411474,0.16028743188454,-0.2273193802886505,Ascomycota,Fungi,Eukaryota,Leotiomycetes,ascomycetes,Fungi,eukaryotes,Leotiomycetes
-Lepidosauria,0.0084965800362042,-0.6464020184871551,-0.7629496959979865,Chordata,Metazoa,Eukaryota,Lepidosauria,chordates,multicellular animals,eukaryotes,lepidosaurs
-Leptocardii,0.1557254511121431,-0.5655093703435312,-0.8099066217346185,Chordata,Metazoa,Eukaryota,Leptocardii,chordates,multicellular animals,eukaryotes,Leptocardii
-Lichinomycetes,0.9134950591439974,0.3378141666094654,-0.2267341301115846,Ascomycota,Fungi,Eukaryota,Lichinomycetes,ascomycetes,Fungi,eukaryotes,Lichinomycetes
-Lingulata,-0.4529591006267194,-0.8912654954472174,0.0217685503573279,Brachiopoda,Metazoa,Eukaryota,Lingulata,brachiopods,multicellular animals,eukaryotes,Lingulata
-Litostomatea,0.2917372209697033,0.8389939045307573,0.4593240926199159,Ciliophora,,Eukaryota,Litostomatea,ciliates,,eukaryotes,Litostomatea
-Lycopodiopsida,-0.6437593178199278,0.6985193142232733,-0.312481532857654,Streptophyta,Viridiplantae,Eukaryota,Lycopodiopsida,Streptophyta,green plants,eukaryotes,club mosses
-Magnoliopsida,-0.7989772818411586,0.3337308006822689,-0.5002589887025375,Streptophyta,Viridiplantae,Eukaryota,Magnoliopsida,Streptophyta,green plants,eukaryotes,angiosperms
-Malacostraca,0.7009161890792716,-0.710562480674033,0.0617855723041811,Arthropoda,Metazoa,Eukaryota,Malacostraca,arthropods,multicellular animals,eukaryotes,Malacostraca
-Malasseziomycetes,0.3515976725880899,0.4756379388490412,-0.806317324480923,Basidiomycota,Fungi,Eukaryota,Malasseziomycetes,basidiomycetes,Fungi,eukaryotes,Malasseziomycetes
-Mamiellophyceae,-0.9926031846845432,0.0052499412198241,0.1212903783129179,Chlorophyta,Viridiplantae,Eukaryota,Mamiellophyceae,green algae,green plants,eukaryotes,Mamiellophyceae
-Mammalia,-0.1548305553396685,-0.6553944955985204,-0.739246612621506,Chordata,Metazoa,Eukaryota,Mammalia,chordates,multicellular animals,eukaryotes,mammals
-Marchantiopsida,-0.5445932784881004,0.8183217271181278,-0.1837599302132721,Streptophyta,Viridiplantae,Eukaryota,Marchantiopsida,Streptophyta,green plants,eukaryotes,Marchantiopsida
-Mediophyceae,-0.0020236918327852,0.7864583183098377,0.6176400393697189,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
-Mediophyceae,-0.3620924980737904,0.4829102173014353,0.7972996581364892,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
-Mediophyceae,-0.2198805083101759,0.3724168800078825,0.9016419630598684,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
-Mediophyceae,-0.0364097150534425,0.5630785799579692,0.825600899613272,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
-Mediophyceae,-0.1430425545584177,0.6394411082761343,0.7554163730235075,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
-Mediophyceae,-0.3046285745126925,0.6352759938485357,0.7096660082250806,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
-Merostomata,0.579795399927976,-0.7978138668128897,0.1653188680805161,Arthropoda,Metazoa,Eukaryota,Merostomata,arthropods,multicellular animals,eukaryotes,horseshoe crabs
-Mesostigmatophyceae,-0.9662405961221052,0.1478647167434766,0.2109861036845088,Streptophyta,Viridiplantae,Eukaryota,Mesostigmatophyceae,Streptophyta,green plants,eukaryotes,Mesostigmatophyceae
-Mesostigmatophyceae,-0.8373780283955822,0.4687297137836586,0.2812303201587925,Streptophyta,Viridiplantae,Eukaryota,Mesostigmatophyceae,Streptophyta,green plants,eukaryotes,Mesostigmatophyceae
-Microbotryomycetes,0.3967382636887124,-0.1899574930272281,-0.8980617467457771,Basidiomycota,Fungi,Eukaryota,Microbotryomycetes,basidiomycetes,Fungi,eukaryotes,Microbotryomycetes
-Monoblepharidomycetes,0.9817052642563016,-0.1904043906848822,-0.0009706386473606,Chytridiomycota,Fungi,Eukaryota,Monoblepharidomycetes,Chytridiomycota,Fungi,eukaryotes,Monoblepharidomycetes
-Monogenea,0.1257934246295069,-0.7945368001799998,0.5940431697105082,Platyhelminthes,Metazoa,Eukaryota,Monogenea,flatworms,multicellular animals,eukaryotes,Monogenea
-Monoplacophora,0.1450708432500549,-0.9479494926195974,0.2834540701435877,Mollusca,Metazoa,Eukaryota,Monoplacophora,molluscs,multicellular animals,eukaryotes,Monoplacophora
-Mucoromycetes,0.10947703980366,0.0527051840192851,-0.9925910242054988,Mucoromycota,Fungi,Eukaryota,Mucoromycetes,Mucoromycota,Fungi,eukaryotes,Mucoromycetes
-Mystacocarida,0.5396666957746895,-0.7380986018249144,-0.40493247764996,Arthropoda,Metazoa,Eukaryota,Mystacocarida,arthropods,multicellular animals,eukaryotes,mustache shrimps
-Myxini,-0.4037427417423688,-0.6314000014113191,-0.662061807317218,Chordata,Metazoa,Eukaryota,Myxini,chordates,multicellular animals,eukaryotes,fishes
-Myxozoa,0.7365799956289834,-0.6006236084524399,0.3109681511164399,Cnidaria,Metazoa,Eukaryota,Myxozoa,coelenterates,multicellular animals,eukaryotes,Myxozoa
-Neocallimastigomycetes,0.9946253260233098,0.0696610244001515,0.0766015829637101,Chytridiomycota,Fungi,Eukaryota,Neocallimastigomycetes,Chytridiomycota,Fungi,eukaryotes,Neocallimastigomycetes
-Neolectomycetes,0.7455869275054111,0.3395020864270444,-0.5734443886243239,Ascomycota,Fungi,Eukaryota,Neolectomycetes,ascomycetes,Fungi,eukaryotes,Neolectomycetes
-Oedipodiopsida,-0.7949533404993206,0.5565935708590085,-0.241356133767901,Streptophyta,Viridiplantae,Eukaryota,Oedipodiopsida,Streptophyta,green plants,eukaryotes,Oedipodiopsida
-Oligohymenophorea,0.2204979083767016,0.8902769463067481,0.3984816573899371,Ciliophora,,Eukaryota,Oligohymenophorea,ciliates,,eukaryotes,Oligohymenophorea
-Ophiuroidea,-0.384760665364231,-0.8514151739178976,-0.3564427471710295,Echinodermata,Metazoa,Eukaryota,Ophiuroidea,echinoderms,multicellular animals,eukaryotes,brittle stars
-Orbiliomycetes,0.7264510480212899,0.0607433368617145,-0.6845283937541773,Ascomycota,Fungi,Eukaryota,Orbiliomycetes,ascomycetes,Fungi,eukaryotes,Orbiliomycetes
-Ostracoda,0.439386754480583,-0.7675889176395316,-0.4666331894582641,Arthropoda,Metazoa,Eukaryota,Ostracoda,arthropods,multicellular animals,eukaryotes,mussel shrimps
-Palmophyllophyceae,-0.3267781982477263,0.9366842936472952,-0.1258512740675967,Chlorophyta,Viridiplantae,Eukaryota,Palmophyllophyceae,green algae,green plants,eukaryotes,Palmophyllophyceae
-Pauropoda,0.4138702773493522,-0.709007269248232,-0.5709816859409199,Arthropoda,Metazoa,Eukaryota,Pauropoda,arthropods,multicellular animals,eukaryotes,pauropods
-Pelagophyceae,-0.399399171711248,0.1333531879960141,0.9070265866487424,,,Eukaryota,Pelagophyceae,,,eukaryotes,pelagophytes
-Pezizomycetes,0.775494512291716,-0.1395047106649471,-0.6157488912760809,Ascomycota,Fungi,Eukaryota,Pezizomycetes,ascomycetes,Fungi,eukaryotes,Pezizomycetes
-Phaeophyceae,-0.5113697350647887,0.5295545046114981,0.6768109194638032,,,Eukaryota,Phaeophyceae,,,eukaryotes,brown algae
-Phaeothamniophyceae,-0.3924623454704817,0.6925324656452543,0.6052867844378506,,,Eukaryota,Phaeothamniophyceae,,,eukaryotes,Phaeothamniophyceae
-Phyllopharyngea,0.168825750708566,0.9399772378591766,0.2965479020399945,Ciliophora,,Eukaryota,Phyllopharyngea,ciliates,,eukaryotes,Phyllopharyngea
-Physodermatomycetes,0.943088385223338,0.3015734520370176,0.1401347590118652,Blastocladiomycota,Fungi,Eukaryota,Physodermatomycetes,Blastocladiomycota,Fungi,eukaryotes,Physodermatomycetes
-Phytomyxea,-0.1673728008715983,0.9371410162872902,0.3061912165958083,Endomyxa,,Eukaryota,Phytomyxea,Endomyxa,,eukaryotes,Phytomyxea
-Pilidiophora,-0.385827257331863,-0.9033766049010952,0.187211210180221,Nemertea,Metazoa,Eukaryota,Pilidiophora,ribbon worms,multicellular animals,eukaryotes,Pilidiophora
-Pinguiophyceae,-0.5090165865038152,0.0083064779526277,0.8607166299590281,,,Eukaryota,Pinguiophyceae,,,eukaryotes,Pinguiophyceae
-Pinopsida,-0.7580329125210363,0.4401858703091567,-0.4812717559913997,Streptophyta,Viridiplantae,Eukaryota,Pinopsida,Streptophyta,green plants,eukaryotes,Pinopsida
-Pneumocystidomycetes,0.7275968853167966,0.6322129507695159,-0.266288485212181,Ascomycota,Fungi,Eukaryota,Pneumocystidomycetes,ascomycetes,Fungi,eukaryotes,Pneumocystidomycetes
-Polychaeta,-0.239145157289447,-0.8637576580306303,0.4435451520853839,Annelida,Metazoa,Eukaryota,Polychaeta,annelid worms,multicellular animals,eukaryotes,polychaetes
-Polycystinea,-0.052745098849087,0.936740675173474,0.3460272561850354,,,Eukaryota,Polycystinea,,,eukaryotes,Polycystinea
-Polyplacophora,0.1184982439050788,-0.9441545137777908,0.3074579976264009,Mollusca,Metazoa,Eukaryota,Polyplacophora,molluscs,multicellular animals,eukaryotes,chitons
-Polypodiopsida,-0.6456995150955231,0.6628009943289472,-0.3791661616256982,Streptophyta,Viridiplantae,Eukaryota,Polypodiopsida,Streptophyta,green plants,eukaryotes,Polypodiopsida
-Polytrichopsida,-0.8339339990996946,0.5410744524624875,-0.1085933793470388,Streptophyta,Viridiplantae,Eukaryota,Polytrichopsida,Streptophyta,green plants,eukaryotes,hair mosses
-Priapulimorpha,0.2205677489089446,-0.6310149624245799,-0.7437539817288691,Priapulida,Metazoa,Eukaryota,Priapulimorpha,penis worms,multicellular animals,eukaryotes,Priapulimorpha
-Protura,0.6200953214762287,-0.7702502406101723,-0.1489844257741873,Arthropoda,Metazoa,Eukaryota,Protura,arthropods,multicellular animals,eukaryotes,coneheads
-Pucciniomycetes,0.45439261952426,-0.2964607902602833,-0.8400228253804354,Basidiomycota,Fungi,Eukaryota,Pucciniomycetes,basidiomycetes,Fungi,eukaryotes,Pucciniomycetes
-Pycnogonida,0.203137428029513,-0.9147968762319808,-0.3491158268680528,Arthropoda,Metazoa,Eukaryota,Pycnogonida,arthropods,multicellular animals,eukaryotes,sea spiders
-Raphidophyceae,-0.6072795355785514,0.1751478613380158,0.7749417993218704,,,Eukaryota,Raphidophyceae,,,eukaryotes,raphidophytes
-Remipedia,0.3411864706913012,-0.9297060449515347,-0.1387027836699343,Arthropoda,Metazoa,Eukaryota,Remipedia,arthropods,multicellular animals,eukaryotes,Remipedia
-Rhabditophora,0.413347730838491,-0.834307169492011,0.3647947372768682,Platyhelminthes,Metazoa,Eukaryota,Rhabditophora,flatworms,multicellular animals,eukaryotes,Rhabditophora
-Rhodellophyceae,0.0294983862865545,0.9992869096015636,0.0235694188610015,Rhodophyta,,Eukaryota,Rhodellophyceae,red algae,,eukaryotes,Rhodellophyceae
-Rhynchonellata,-0.5285719745538,-0.8373365054857387,0.139568063314028,Brachiopoda,Metazoa,Eukaryota,Rhynchonellata,brachiopods,multicellular animals,eukaryotes,Rhynchonellata
-Saccharomycetes,0.6742760834403337,0.5146414289418414,-0.5296186957775033,Ascomycota,Fungi,Eukaryota,Saccharomycetes,ascomycetes,Fungi,eukaryotes,Saccharomycetes
-Sagittoidea,-0.0355189962540438,-0.9366609456075152,-0.3484317348904093,Chaetognatha,Metazoa,Eukaryota,Sagittoidea,arrow worms,multicellular animals,eukaryotes,Sagittoidea
-Scaphopoda,0.3135755267166824,-0.934208783486966,0.1700715669950687,Mollusca,Metazoa,Eukaryota,Scaphopoda,molluscs,multicellular animals,eukaryotes,tusk shells
-Schizosaccharomycetes,0.6432184794694527,0.6252610721972222,-0.4419486160899086,Ascomycota,Fungi,Eukaryota,Schizosaccharomycetes,ascomycetes,Fungi,eukaryotes,Schizosaccharomycetes
-Scyphozoa,-0.6990317348666284,-0.7135310774018169,0.0472020680813267,Cnidaria,Metazoa,Eukaryota,Scyphozoa,coelenterates,multicellular animals,eukaryotes,jellyfishes
-Solenogastres,0.0152349422203379,-0.919228554931275,0.3934294858478491,Mollusca,Metazoa,Eukaryota,Solenogastres,molluscs,multicellular animals,eukaryotes,solenogasters
-Sordariomycetes,0.8307979361530881,0.2597193506557144,-0.4922607522225833,Ascomycota,Fungi,Eukaryota,Sordariomycetes,ascomycetes,Fungi,eukaryotes,Sordariomycetes
-Sphagnopsida,-0.90476280713544,0.2906680717056342,-0.311313884873976,Streptophyta,Viridiplantae,Eukaryota,Sphagnopsida,Streptophyta,green plants,eukaryotes,Sphagnopsida
-Spirotrichea,0.2186862729839818,0.8521197473189077,0.4754663502683825,Ciliophora,,Eukaryota,Spirotrichea,ciliates,,eukaryotes,Spirotrichea
-Stylonematophyceae,0.0520008622453603,0.9966106058167328,-0.0637433188604401,Rhodophyta,,Eukaryota,Stylonematophyceae,red algae,,eukaryotes,Stylonematophyceae
-Symphyla,0.3819875177474456,-0.7123982118358558,-0.5887056344712696,Arthropoda,Metazoa,Eukaryota,Symphyla,arthropods,multicellular animals,eukaryotes,symphylans
-Synchromophyceae,-0.2850988217882461,0.7605405237429561,0.5833496152049333,,,Eukaryota,Synchromophyceae,,,eukaryotes,Synchromophyceae
-Synurophyceae,-0.6035447961548003,-0.0164449182118945,0.7971594844819101,,,Eukaryota,Synurophyceae,,,eukaryotes,Synurophyceae
-Synurophyceae,-0.5322478587086312,-0.0745023332387593,0.8433039898174666,,,Eukaryota,Synurophyceae,,,eukaryotes,Synurophyceae
-Takakiopsida,-0.8599618517308809,0.3493519498006855,-0.3720468098748511,Streptophyta,Viridiplantae,Eukaryota,Takakiopsida,Streptophyta,green plants,eukaryotes,Takakiopsida
-Taphrinomycetes,0.6742835418144765,0.6390591911645015,-0.3700608807024842,Ascomycota,Fungi,Eukaryota,Taphrinomycetes,ascomycetes,Fungi,eukaryotes,Taphrinomycetes
-Tentaculata,-0.0008896185165365,-0.5849952233375865,-0.8110362490364424,Ctenophora,Metazoa,Eukaryota,Tentaculata,comb jellies,multicellular animals,eukaryotes,Tentaculata
-Tetraphidopsida,-0.7369233856921924,0.656710556788111,-0.1602347285172775,Streptophyta,Viridiplantae,Eukaryota,Tetraphidopsida,Streptophyta,green plants,eukaryotes,Tetraphidopsida
-Thaliacea,-0.1657085911047242,-0.7987455500093131,-0.5783996967274508,Chordata,Metazoa,Eukaryota,Thaliacea,chordates,multicellular animals,eukaryotes,Thaliacea
-Thecofilosea,-0.3066717533675676,0.9101648277072204,0.2784823550804391,Cercozoa,,Eukaryota,Thecofilosea,Cercozoa,,eukaryotes,Thecofilosea
-Thecostraca,0.6941372163162108,-0.719832674408614,0.0038007602560865,Arthropoda,Metazoa,Eukaryota,Thecostraca,arthropods,multicellular animals,eukaryotes,Thecostraca
-Trebouxiophyceae,-0.4628446111850016,0.8834870468093707,0.0722876477488476,Chlorophyta,Viridiplantae,Eukaryota,Trebouxiophyceae,green algae,green plants,eukaryotes,Trebouxiophyceae
-Trematoda,0.3564153456105509,-0.7823298503625363,0.5108112240789576,Platyhelminthes,Metazoa,Eukaryota,Trematoda,flatworms,multicellular animals,eukaryotes,Trematoda
-Tremellomycetes,0.5441504624720668,0.0854238246986131,-0.8346274883834682,Basidiomycota,Fungi,Eukaryota,Tremellomycetes,basidiomycetes,Fungi,eukaryotes,Tremellomycetes
-Udeonychophora,0.1537613353211406,-0.8605846275968568,-0.4855425321269384,Onychophora,Metazoa,Eukaryota,Udeonychophora,velvet worms,multicellular animals,eukaryotes,Udeonychophora
-Ulvophyceae,-0.3112778405966777,0.9263996864723654,-0.2118719586386372,Chlorophyta,Viridiplantae,Eukaryota,Ulvophyceae,green algae,green plants,eukaryotes,Ulvophyceae
-Umbelopsidomycetes,0.1462651203771777,0.0731374091210873,-0.9865381056746386,Mucoromycota,Fungi,Eukaryota,Umbelopsidomycetes,Mucoromycota,Fungi,eukaryotes,Umbelopsidomycetes
-Ustilaginomycetes,0.4333754651184454,0.5218482844884675,-0.7347517092255142,Basidiomycota,Fungi,Eukaryota,Ustilaginomycetes,basidiomycetes,Fungi,eukaryotes,Ustilaginomycetes
-Wallemiomycetes,0.4504472285274284,0.0950800317826547,-0.8877257920485176,Basidiomycota,Fungi,Eukaryota,Wallemiomycetes,basidiomycetes,Fungi,eukaryotes,Wallemiomycetes
-Xanthophyceae,-0.5449754911990342,0.3273567275952451,0.7719062682026256,,,Eukaryota,Xanthophyceae,,,eukaryotes,yellow-green algae
-Xylonomycetes,0.8767347517946483,0.2266747560516415,-0.4242107141085728,Ascomycota,Fungi,Eukaryota,Xylonomycetes,ascomycetes,Fungi,eukaryotes,Xylonomycetes
-Zygnemophyceae,-0.615096277335517,0.7883034515642529,0.0153048312592624,Streptophyta,Viridiplantae,Eukaryota,Zygnemophyceae,Streptophyta,green plants,eukaryotes,gamophytes
+x,y,z,phylum,kingdom,superkingdom,class,phylum_eng,kingdom_eng,superkingdom_eng,class_eng
+0.296418797,0.663756222,0.686704867,Apicomplexa,,Eukaryota,Aconoidasida,apicomplexans,,eukaryotes,Aconoidasida
+-0.281239827,-0.586954765,-0.759202387,Chordata,Metazoa,Eukaryota,Actinopteri,chordates,multicellular animals,eukaryotes,Actinopteri
+0.40534941,0.118023859,-0.906511017,Basidiomycota,Fungi,Eukaryota,Agaricomycetes,basidiomycetes,Fungi,eukaryotes,Agaricomycetes
+0.504100178,-0.292932511,-0.812449109,Basidiomycota,Fungi,Eukaryota,Agaricostilbomycetes,basidiomycetes,Fungi,eukaryotes,Agaricostilbomycetes
+-0.004126552,-0.67272046,-0.739885231,Chordata,Metazoa,Eukaryota,Amphibia,chordates,multicellular animals,eukaryotes,amphibians
+-0.849104396,0.45370704,-0.27050258,Streptophyta,Viridiplantae,Eukaryota,Andreaeobryopsida,Streptophyta,green plants,eukaryotes,Andreaeobryopsida
+-0.754166541,0.653842888,-0.061010705,Streptophyta,Viridiplantae,Eukaryota,Andreaeopsida,Streptophyta,green plants,eukaryotes,Andreaeopsida
+-0.634519064,0.769957976,-0.067455703,Streptophyta,Viridiplantae,Eukaryota,Anthocerotopsida,Streptophyta,green plants,eukaryotes,Anthocerotopsida
+0.592937499,-0.681120121,0.429535217,Cnidaria,Metazoa,Eukaryota,Anthozoa,coelenterates,multicellular animals,eukaryotes,anthozoans
+0.585721878,-0.617778841,0.52467055,Cnidaria,Metazoa,Eukaryota,Anthozoa,coelenterates,multicellular animals,eukaryotes,anthozoans
+0.047533288,-0.731171592,-0.68053559,Chordata,Metazoa,Eukaryota,Appendicularia,chordates,multicellular animals,eukaryotes,appendicularians
+0.244063699,-0.873742414,-0.420722123,Arthropoda,Metazoa,Eukaryota,Arachnida,arthropods,multicellular animals,eukaryotes,arachnids
+0.248108924,0.812317773,0.527808486,Ciliophora,,Eukaryota,Armophorea,ciliates,,eukaryotes,Armophorea
+0.845911128,0.168596394,-0.505973931,Ascomycota,Fungi,Eukaryota,Arthoniomycetes,ascomycetes,Fungi,eukaryotes,Arthoniomycetes
+-0.062620875,-0.839127992,-0.54031735,Chordata,Metazoa,Eukaryota,Ascidiacea,chordates,multicellular animals,eukaryotes,sea squirts
+-0.105740734,-0.79240282,-0.600763405,Chordata,Metazoa,Eukaryota,Ascidiacea,chordates,multicellular animals,eukaryotes,sea squirts
+-0.260712404,-0.874427072,-0.409153195,Echinodermata,Metazoa,Eukaryota,Asteroidea,echinoderms,multicellular animals,eukaryotes,starfishes
+0.412342861,-0.254192458,-0.874848306,Basidiomycota,Fungi,Eukaryota,Atractiellomycetes,basidiomycetes,Fungi,eukaryotes,Atractiellomycetes
+-0.4585645,0.63533487,0.621343867,,,Eukaryota,Aurearenophyceae,,,eukaryotes,Aurearenophyceae
+-0.094059493,-0.69138776,-0.716334962,Chordata,Metazoa,Eukaryota,Aves,chordates,multicellular animals,eukaryotes,birds
+-0.088474113,0.624565234,0.775944972,Bacillariophyta,,Eukaryota,Bacillariophyceae,diatoms,,eukaryotes,"Raphid, pennate diatoms"
+-0.132374385,0.989505215,-0.057934893,Rhodophyta,,Eukaryota,Bangiophyceae,red algae,,eukaryotes,Bangiophyceae
+0.136369563,0.988745318,0.061530799,Rhodophyta,,Eukaryota,Bangiophyceae,red algae,,eukaryotes,Bangiophyceae
+0.089379324,0.995315914,0.036845184,Rhodophyta,,Eukaryota,Bangiophyceae,red algae,,eukaryotes,Bangiophyceae
+-0.031991807,0.999173198,-0.025088725,Rhodophyta,,Eukaryota,Bangiophyceae,red algae,,eukaryotes,Bangiophyceae
+0.577311,0.317237651,-0.752377752,Basidiomycota,Fungi,Eukaryota,Bartheletiomycetes,basidiomycetes,Fungi,eukaryotes,Bartheletiomycetes
+0.961873574,-0.177116439,-0.208396246,Zoopagomycota,Fungi,Eukaryota,Basidiobolomycetes,Zoopagomycota,Fungi,eukaryotes,Basidiobolomycetes
+-0.448220443,0.790010982,0.418307403,,,Eukaryota,Bigyra,,,eukaryotes,Bigyra
+-0.690619675,0.400425149,0.602249254,,,Eukaryota,Bigyra,,,eukaryotes,Bigyra
+-0.056842845,-0.991705307,0.115279987,Mollusca,Metazoa,Eukaryota,Bivalvia,molluscs,multicellular animals,eukaryotes,bivalves
+-0.126365924,0.048235447,-0.990810272,Blastocladiomycota,Fungi,Eukaryota,Blastocladiomycetes,Blastocladiomycota,Fungi,eukaryotes,Blastocladiomycetes
+-0.40226259,0.238489997,0.883915907,,,Eukaryota,Bolidophyceae,,,eukaryotes,Bolidophyceae
+0.543147622,-0.780895164,-0.308534283,Arthropoda,Metazoa,Eukaryota,Branchiopoda,arthropods,multicellular animals,eukaryotes,Branchiopoda
+-0.882843868,0.446051301,-0.147054213,Streptophyta,Viridiplantae,Eukaryota,Bryopsida,Streptophyta,green plants,eukaryotes,Bryopsida
+0.796669391,-0.542260485,0.266967129,Porifera,Metazoa,Eukaryota,Calcarea,sponges,multicellular animals,eukaryotes,Calcarea
+0.928157445,0.275935186,-0.249766952,Ascomycota,Fungi,Eukaryota,Candelariomycetes,ascomycetes,Fungi,eukaryotes,Candelariomycetes
+0.107004131,-0.986604624,0.123131762,Mollusca,Metazoa,Eukaryota,Caudofoveata,molluscs,multicellular animals,eukaryotes,Caudofoveata
+0.022540307,-0.866277488,0.499054354,Mollusca,Metazoa,Eukaryota,Caudofoveata,molluscs,multicellular animals,eukaryotes,Caudofoveata
+0.449658392,-0.876691301,-0.170937687,Arthropoda,Metazoa,Eukaryota,Cephalocarida,arthropods,multicellular animals,eukaryotes,horseshoe shrimps
+0.083338757,-0.995171107,-0.05185672,Mollusca,Metazoa,Eukaryota,Cephalopoda,molluscs,multicellular animals,eukaryotes,cephalopods
+0.244902559,-0.789657219,0.562551521,Platyhelminthes,Metazoa,Eukaryota,Cestoda,flatworms,multicellular animals,eukaryotes,tapeworms
+-0.564020646,0.816420172,0.123849964,Streptophyta,Viridiplantae,Eukaryota,Charophyceae,Streptophyta,green plants,eukaryotes,Charophyceae
+0.76926139,-0.638605241,-0.02050023,Arthropoda,Metazoa,Eukaryota,Chilopoda,arthropods,multicellular animals,eukaryotes,centipede
+0.031491703,0.928091679,0.371017666,Cercozoa,,Eukaryota,Chlorarachniophyceae,Cercozoa,,eukaryotes,chlorarachniophytes
+-0.902266144,0.297228613,0.312363501,Streptophyta,Viridiplantae,Eukaryota,Chlorokybophyceae,Streptophyta,green plants,eukaryotes,Chlorokybophyceae
+-0.425487193,0.904956579,-0.003773503,Chlorophyta,Viridiplantae,Eukaryota,Chlorophyceae,green algae,green plants,eukaryotes,Chlorophyceae
+-0.30351602,-0.386660026,-0.870845595,,,Eukaryota,Choanoflagellata,,,eukaryotes,Choanoflagellata
+0.113997983,-0.63520759,-0.763882044,Chordata,Metazoa,Eukaryota,Chondrichthyes,chordates,multicellular animals,eukaryotes,fishes
+0.253859254,-0.709977119,-0.656877439,Nematoda,Metazoa,Eukaryota,Chromadorea,roundworms,multicellular animals,eukaryotes,Chromadorea
+-0.559534663,0.410126408,0.720220307,,,Eukaryota,Chrysomerophyceae,,,eukaryotes,Chrysomerophyceae
+-0.568101363,0.093129321,0.817672166,,,Eukaryota,Chrysophyceae,,,eukaryotes,golden algae
+-0.114530647,-0.083870425,-0.989872963,Chytridiomycota,Fungi,Eukaryota,Chytridiomycetes,Chytridiomycota,Fungi,eukaryotes,Chytridiomycetes
+0.998962218,-0.02279844,0.03942991,Chytridiomycota,Fungi,Eukaryota,Chytridiomycetes,Chytridiomycota,Fungi,eukaryotes,Chytridiomycetes
+-0.02204828,-0.147923806,-0.988752963,Chytridiomycota,Fungi,Eukaryota,Chytridiomycetes,Chytridiomycota,Fungi,eukaryotes,Chytridiomycetes
+0.98548231,0.053063271,0.161272771,Chytridiomycota,Fungi,Eukaryota,Chytridiomycetes,Chytridiomycota,Fungi,eukaryotes,Chytridiomycetes
+0.046311238,-0.657984445,-0.751606106,Chordata,Metazoa,Eukaryota,Cladistia,chordates,multicellular animals,eukaryotes,Cladistia
+-0.350635482,-0.877034894,0.328427395,Annelida,Metazoa,Eukaryota,Clitellata,annelid worms,multicellular animals,eukaryotes,Clitellata
+-0.978460525,0.13121176,-0.15936899,Streptophyta,Viridiplantae,Eukaryota,Coleochaetophyceae,Streptophyta,green plants,eukaryotes,Coleochaetophyceae
+0.546906891,-0.836214168,-0.040481086,Arthropoda,Metazoa,Eukaryota,Collembola,arthropods,multicellular animals,eukaryotes,springtails
+0.884992667,-0.037850564,-0.464063911,Ascomycota,Fungi,Eukaryota,Collemopsidiomycetes,ascomycetes,Fungi,eukaryotes,Collemopsidiomycetes
+-0.009901268,0.994798305,-0.101381935,Rhodophyta,,Eukaryota,Compsopogonophyceae,red algae,,eukaryotes,Compsopogonophyceae
+0.890829705,0.34985798,-0.289865193,Ascomycota,Fungi,Eukaryota,Coniocybomycetes,ascomycetes,Fungi,eukaryotes,Coniocybomycetes
+0.371790888,0.626936198,0.684633142,Apicomplexa,,Eukaryota,Conoidasida,apicomplexans,,eukaryotes,Conoidasida
+0.350982161,0.550629101,0.757376469,Apicomplexa,,Eukaryota,Conoidasida,apicomplexans,,eukaryotes,Conoidasida
+-0.812073146,-0.166365295,0.559338711,Tubulinea,,Eukaryota,Corycida,Tubulinea,,eukaryotes,Corycida
+-0.084790879,0.808902204,0.581796985,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+-0.225265571,0.273380729,0.935156885,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+0.085601061,0.685087639,0.723413702,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+-0.296825931,0.447880508,0.843384501,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+0.050711121,0.533796458,0.844091063,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+0.079349926,0.62105481,0.779740028,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+-0.051598829,0.690662803,0.721333802,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+0.030733629,0.722640485,0.690540494,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+-0.231169739,0.742277231,0.628955534,Bacillariophyta,,Eukaryota,Coscinodiscophyceae,diatoms,,eukaryotes,centric diatoms
+-0.241868799,-0.905292386,0.3492065,Brachiopoda,Metazoa,Eukaryota,Craniata,brachiopods,multicellular animals,eukaryotes,Craniata
+-0.549874918,-0.684811892,-0.478194779,Echinodermata,Metazoa,Eukaryota,Crinoidea,echinoderms,multicellular animals,eukaryotes,crinoids
+-0.177715748,0.916250322,-0.359029887,,,Eukaryota,Cryptophyceae,,,eukaryotes,cryptomonads
+0.465360728,-0.663538141,0.585795637,Cnidaria,Metazoa,Eukaryota,Cubozoa,coelenterates,multicellular animals,eukaryotes,box jellyfishes
+-0.756490246,0.519733146,-0.396988621,Streptophyta,Viridiplantae,Eukaryota,Cycadopsida,Streptophyta,green plants,eukaryotes,cycads
+0.549080324,-0.030295628,-0.835220314,Basidiomycota,Fungi,Eukaryota,Dacrymycetes,basidiomycetes,Fungi,eukaryotes,Dacrymycetes
+0.775356019,-0.533457222,0.338003603,Porifera,Metazoa,Eukaryota,Demospongiae,sponges,multicellular animals,eukaryotes,Demospongiae
+0.026319471,0.127840901,0.991445404,,,Eukaryota,Dictyochophyceae,,,eukaryotes,silicoflagellates
+0.289531484,0.397750222,0.870612589,,,Eukaryota,Dinophyceae,,,eukaryotes,dinophytes
+0.35286834,-0.699236027,-0.621733796,Arthropoda,Metazoa,Eukaryota,Diplopoda,arthropods,multicellular animals,eukaryotes,millipede
+0.829079349,0.045375658,-0.557286714,Ascomycota,Fungi,Eukaryota,Dothideomycetes,ascomycetes,Fungi,eukaryotes,Dothideomycetes
+-0.956995287,-0.165878268,0.238000883,Tubulinea,,Eukaryota,Echinamoebida,Tubulinea,,eukaryotes,Echinamoebida
+-0.517377971,-0.745812353,-0.419623605,Echinodermata,Metazoa,Eukaryota,Echinoidea,echinoderms,multicellular animals,eukaryotes,sea urchin
+-0.694292048,-0.25162685,0.674271815,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
+-0.892471102,-0.199077462,0.404800564,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
+-0.879853398,-0.19756435,0.432234111,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
+-0.85868435,-0.222792332,0.461546059,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
+-0.82802672,-0.240286136,0.506590884,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
+-0.85140993,-0.15956298,0.499640658,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
+-0.794436647,-0.244950925,0.555760252,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
+-0.769257677,-0.241948847,0.591357237,Tubulinea,,Eukaryota,Elardia,Tubulinea,,eukaryotes,Elardia
+0.170732224,0.326785942,-0.92954906,Mucoromycota,Fungi,Eukaryota,Endogonomycetes,Mucoromycota,Fungi,eukaryotes,Endogonomycetes
+-0.202207777,-0.978073569,0.049840836,Nemertea,Metazoa,Eukaryota,Enopla,ribbon worms,multicellular animals,eukaryotes,Enopla
+0.748553575,-0.637356083,0.182879113,Nematoda,Metazoa,Eukaryota,Enoplea,roundworms,multicellular animals,eukaryotes,Enoplea
+-0.406671957,-0.784914453,-0.467468951,Hemichordata,Metazoa,Eukaryota,Enteropneusta,hemichordates,multicellular animals,eukaryotes,acorn worms
+0.21257959,-0.272597533,-0.938349883,Zoopagomycota,Fungi,Eukaryota,Entomophthoromycetes,Zoopagomycota,Fungi,eukaryotes,Entomophthoromycetes
+-0.113903566,-0.98387215,-0.13791871,Entoprocta,Metazoa,Eukaryota,Entoprocta,nodding heads,multicellular animals,eukaryotes,nodding heads
+-0.10511437,-0.067705944,0.992152647,Euglenozoa,,Eukaryota,Euglenida,Euglenozoa,,eukaryotes,euglenophytes
+0.641823038,0.189277885,0.743126551,Evosea,,Eukaryota,Eumycetozoa,Evosea,,eukaryotes,Eumycetozoa
+-0.286096531,-0.937923252,-0.196083522,Rotifera,Metazoa,Eukaryota,Eurotatoria,rotifers,multicellular animals,eukaryotes,Eurotatoria
+0.886485596,0.153887904,-0.436419295,Ascomycota,Fungi,Eukaryota,Eurotiomycetes,ascomycetes,Fungi,eukaryotes,Eurotiomycetes
+-0.227237436,0.815953304,0.531585697,,,Eukaryota,Eustigmatophyceae,,,eukaryotes,eustigmatophytes
+0.619087104,-0.734529986,0.277843225,Tardigrada,Metazoa,Eukaryota,Eutardigrada,tardigrades,multicellular animals,eukaryotes,Eutardigrada
+0.519238916,0.526733261,-0.673010416,Basidiomycota,Fungi,Eukaryota,Exobasidiomycetes,basidiomycetes,Fungi,eukaryotes,Exobasidiomycetes
+0.750085332,-0.436489182,0.496839198,,,Eukaryota,Filasterea,,,eukaryotes,Filasterea
+-0.082251573,0.986218462,-0.143554254,Rhodophyta,,Eukaryota,Florideophyceae,red algae,,eukaryotes,Florideophyceae
+-0.028921376,0.651104383,0.758436969,Bacillariophyta,,Eukaryota,Fragilariophyceae,diatoms,,eukaryotes,"Araphid, pennate diatoms"
+-0.210569472,0.570997873,0.793487193,Bacillariophyta,,Eukaryota,Fragilariophyceae,diatoms,,eukaryotes,"Araphid, pennate diatoms"
+-0.146839164,0.659741129,0.737007396,Bacillariophyta,,Eukaryota,Fragilariophyceae,diatoms,,eukaryotes,"Araphid, pennate diatoms"
+0.034972846,-0.995763755,0.085037903,Mollusca,Metazoa,Eukaryota,Gastropoda,molluscs,multicellular animals,eukaryotes,gastropods
+0.852264286,0.346925176,-0.391520764,Ascomycota,Fungi,Eukaryota,Geoglossomycetes,ascomycetes,Fungi,eukaryotes,Geoglossomycetes
+-0.78872658,0.393984837,-0.471896525,Streptophyta,Viridiplantae,Eukaryota,Ginkgoopsida,Streptophyta,green plants,eukaryotes,Ginkgoopsida
+-0.088896425,0.965510062,-0.244719728,,,Eukaryota,Glaucocystophyceae,,,eukaryotes,glaucocystophytes
+0.549774395,-0.331605073,-0.766672153,Mucoromycota,Fungi,Eukaryota,Glomeromycetes,Mucoromycota,Fungi,eukaryotes,Glomeromycetes
+-0.708026626,0.553325497,-0.438781485,Streptophyta,Viridiplantae,Eukaryota,Gnetopsida,Streptophyta,green plants,eukaryotes,Gnetopsida
+-0.028422075,-0.953152338,-0.301152462,Bryozoa,Metazoa,Eukaryota,Gymnolaemata,bryozoans,multicellular animals,eukaryotes,Gymnolaemata
+-0.536289424,0.795448068,-0.282233989,Streptophyta,Viridiplantae,Eukaryota,Haplomitriopsida,Streptophyta,green plants,eukaryotes,Haplomitriopsida
+0.221572141,-0.645538898,-0.730879824,Tardigrada,Metazoa,Eukaryota,Heterotardigrada,tardigrades,multicellular animals,eukaryotes,Heterotardigrada
+0.313992432,0.768794186,0.557103448,Ciliophora,,Eukaryota,Heterotrichea,ciliates,,eukaryotes,Heterotrichea
+0.708000365,-0.533737603,0.462449622,Porifera,Metazoa,Eukaryota,Hexactinellida,sponges,multicellular animals,eukaryotes,Hexactinellida
+0.698335588,-0.698560039,-0.156016917,Arthropoda,Metazoa,Eukaryota,Hexanauplia,arthropods,multicellular animals,eukaryotes,Hexanauplia
+-0.592854053,-0.751785231,-0.288691945,Echinodermata,Metazoa,Eukaryota,Holothuroidea,echinoderms,multicellular animals,eukaryotes,sea cucumbers
+0.106931216,-0.502973705,-0.857661452,Porifera,Metazoa,Eukaryota,Homoscleromorpha,sponges,multicellular animals,eukaryotes,Homoscleromorpha
+0.661963813,-0.622124475,0.418049098,Cnidaria,Metazoa,Eukaryota,Hydrozoa,coelenterates,multicellular animals,eukaryotes,hydrozoans
+-0.392368702,-0.61456128,-0.684369225,Chordata,Metazoa,Eukaryota,Hyperoartia,chordates,multicellular animals,eukaryotes,fishes
+0.839719842,-0.404081469,0.362751642,,,Eukaryota,Ichthyosporea,,,eukaryotes,Ichthyosporea
+0.326995715,-0.864364019,-0.382032257,Arthropoda,Metazoa,Eukaryota,Ichthyostraca,arthropods,multicellular animals,eukaryotes,Ichthyostraca
+-0.245860007,0.927355375,0.282072448,Cercozoa,,Eukaryota,Imbricatea,Cercozoa,,eukaryotes,Imbricatea
+0.515703555,-0.85336038,0.076327616,Arthropoda,Metazoa,Eukaryota,Insecta,arthropods,multicellular animals,eukaryotes,true insects
+-0.556459181,0.762036004,-0.331140918,Streptophyta,Viridiplantae,Eukaryota,Jungermanniopsida,Streptophyta,green plants,eukaryotes,Jungermanniopsida
+0.013270489,0.008260841,-0.999877819,Zoopagomycota,Fungi,Eukaryota,Kickxellomycetes,Zoopagomycota,Fungi,eukaryotes,Kickxellomycetes
+0.335336159,0.05603572,0.940430571,Euglenozoa,,Eukaryota,Kinetoplastea,Euglenozoa,,eukaryotes,kinetoplasts
+-0.711107817,0.670358616,0.212002353,Streptophyta,Viridiplantae,Eukaryota,Klebsormidiophyceae,Streptophyta,green plants,eukaryotes,Klebsormidiophyceae
+0.958055359,0.067124802,-0.278611181,Ascomycota,Fungi,Eukaryota,Lecanoromycetes,ascomycetes,Fungi,eukaryotes,Lecanoromycetes
+-0.632915678,0.75763459,-0.159397533,Streptophyta,Viridiplantae,Eukaryota,Leiosporocerotopsida,Streptophyta,green plants,eukaryotes,Leiosporocerotopsida
+0.960538307,0.160287432,-0.22731938,Ascomycota,Fungi,Eukaryota,Leotiomycetes,ascomycetes,Fungi,eukaryotes,Leotiomycetes
+0.00849658,-0.646402018,-0.762949696,Chordata,Metazoa,Eukaryota,Lepidosauria,chordates,multicellular animals,eukaryotes,lepidosaurs
+0.155725451,-0.56550937,-0.809906622,Chordata,Metazoa,Eukaryota,Leptocardii,chordates,multicellular animals,eukaryotes,Leptocardii
+0.913495059,0.337814167,-0.22673413,Ascomycota,Fungi,Eukaryota,Lichinomycetes,ascomycetes,Fungi,eukaryotes,Lichinomycetes
+-0.452959101,-0.891265495,0.02176855,Brachiopoda,Metazoa,Eukaryota,Lingulata,brachiopods,multicellular animals,eukaryotes,Lingulata
+0.291737221,0.838993905,0.459324093,Ciliophora,,Eukaryota,Litostomatea,ciliates,,eukaryotes,Litostomatea
+-0.643759318,0.698519314,-0.312481533,Streptophyta,Viridiplantae,Eukaryota,Lycopodiopsida,Streptophyta,green plants,eukaryotes,club mosses
+-0.798977282,0.333730801,-0.500258989,Streptophyta,Viridiplantae,Eukaryota,Magnoliopsida,Streptophyta,green plants,eukaryotes,angiosperms
+0.700916189,-0.710562481,0.061785572,Arthropoda,Metazoa,Eukaryota,Malacostraca,arthropods,multicellular animals,eukaryotes,Malacostraca
+0.351597673,0.475637939,-0.806317324,Basidiomycota,Fungi,Eukaryota,Malasseziomycetes,basidiomycetes,Fungi,eukaryotes,Malasseziomycetes
+-0.992603185,0.005249941,0.121290378,Chlorophyta,Viridiplantae,Eukaryota,Mamiellophyceae,green algae,green plants,eukaryotes,Mamiellophyceae
+-0.154830555,-0.655394496,-0.739246613,Chordata,Metazoa,Eukaryota,Mammalia,chordates,multicellular animals,eukaryotes,mammals
+-0.544593278,0.818321727,-0.18375993,Streptophyta,Viridiplantae,Eukaryota,Marchantiopsida,Streptophyta,green plants,eukaryotes,Marchantiopsida
+-0.002023692,0.786458318,0.617640039,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
+-0.362092498,0.482910217,0.797299658,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
+-0.219880508,0.37241688,0.901641963,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
+-0.036409715,0.56307858,0.8256009,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
+-0.143042555,0.639441108,0.755416373,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
+-0.304628575,0.635275994,0.709666008,Bacillariophyta,,Eukaryota,Mediophyceae,diatoms,,eukaryotes,Mediophyceae
+0.5797954,-0.797813867,0.165318868,Arthropoda,Metazoa,Eukaryota,Merostomata,arthropods,multicellular animals,eukaryotes,horseshoe crabs
+-0.966240596,0.147864717,0.210986104,Streptophyta,Viridiplantae,Eukaryota,Mesostigmatophyceae,Streptophyta,green plants,eukaryotes,Mesostigmatophyceae
+-0.837378028,0.468729714,0.28123032,Streptophyta,Viridiplantae,Eukaryota,Mesostigmatophyceae,Streptophyta,green plants,eukaryotes,Mesostigmatophyceae
+0.396738264,-0.189957493,-0.898061747,Basidiomycota,Fungi,Eukaryota,Microbotryomycetes,basidiomycetes,Fungi,eukaryotes,Microbotryomycetes
+0.981705264,-0.190404391,-0.000970639,Chytridiomycota,Fungi,Eukaryota,Monoblepharidomycetes,Chytridiomycota,Fungi,eukaryotes,Monoblepharidomycetes
+0.125793425,-0.7945368,0.59404317,Platyhelminthes,Metazoa,Eukaryota,Monogenea,flatworms,multicellular animals,eukaryotes,Monogenea
+0.145070843,-0.947949493,0.28345407,Mollusca,Metazoa,Eukaryota,Monoplacophora,molluscs,multicellular animals,eukaryotes,Monoplacophora
+0.10947704,0.052705184,-0.992591024,Mucoromycota,Fungi,Eukaryota,Mucoromycetes,Mucoromycota,Fungi,eukaryotes,Mucoromycetes
+0.539666696,-0.738098602,-0.404932478,Arthropoda,Metazoa,Eukaryota,Mystacocarida,arthropods,multicellular animals,eukaryotes,mustache shrimps
+-0.403742742,-0.631400001,-0.662061807,Chordata,Metazoa,Eukaryota,Myxini,chordates,multicellular animals,eukaryotes,fishes
+0.736579996,-0.600623608,0.310968151,Cnidaria,Metazoa,Eukaryota,Myxozoa,coelenterates,multicellular animals,eukaryotes,Myxozoa
+0.994625326,0.069661024,0.076601583,Chytridiomycota,Fungi,Eukaryota,Neocallimastigomycetes,Chytridiomycota,Fungi,eukaryotes,Neocallimastigomycetes
+0.745586928,0.339502086,-0.573444389,Ascomycota,Fungi,Eukaryota,Neolectomycetes,ascomycetes,Fungi,eukaryotes,Neolectomycetes
+-0.79495334,0.556593571,-0.241356134,Streptophyta,Viridiplantae,Eukaryota,Oedipodiopsida,Streptophyta,green plants,eukaryotes,Oedipodiopsida
+0.220497908,0.890276946,0.398481657,Ciliophora,,Eukaryota,Oligohymenophorea,ciliates,,eukaryotes,Oligohymenophorea
+-0.384760665,-0.851415174,-0.356442747,Echinodermata,Metazoa,Eukaryota,Ophiuroidea,echinoderms,multicellular animals,eukaryotes,brittle stars
+0.726451048,0.060743337,-0.684528394,Ascomycota,Fungi,Eukaryota,Orbiliomycetes,ascomycetes,Fungi,eukaryotes,Orbiliomycetes
+0.439386754,-0.767588918,-0.466633189,Arthropoda,Metazoa,Eukaryota,Ostracoda,arthropods,multicellular animals,eukaryotes,mussel shrimps
+-0.326778198,0.936684294,-0.125851274,Chlorophyta,Viridiplantae,Eukaryota,Palmophyllophyceae,green algae,green plants,eukaryotes,Palmophyllophyceae
+0.413870277,-0.709007269,-0.570981686,Arthropoda,Metazoa,Eukaryota,Pauropoda,arthropods,multicellular animals,eukaryotes,pauropods
+-0.399399172,0.133353188,0.907026587,,,Eukaryota,Pelagophyceae,,,eukaryotes,pelagophytes
+0.775494512,-0.139504711,-0.615748891,Ascomycota,Fungi,Eukaryota,Pezizomycetes,ascomycetes,Fungi,eukaryotes,Pezizomycetes
+-0.511369735,0.529554505,0.676810919,,,Eukaryota,Phaeophyceae,,,eukaryotes,brown algae
+-0.392462345,0.692532466,0.605286784,,,Eukaryota,Phaeothamniophyceae,,,eukaryotes,Phaeothamniophyceae
+0.168825751,0.939977238,0.296547902,Ciliophora,,Eukaryota,Phyllopharyngea,ciliates,,eukaryotes,Phyllopharyngea
+0.943088385,0.301573452,0.140134759,Blastocladiomycota,Fungi,Eukaryota,Physodermatomycetes,Blastocladiomycota,Fungi,eukaryotes,Physodermatomycetes
+-0.167372801,0.937141016,0.306191217,Endomyxa,,Eukaryota,Phytomyxea,Endomyxa,,eukaryotes,Phytomyxea
+-0.385827257,-0.903376605,0.18721121,Nemertea,Metazoa,Eukaryota,Pilidiophora,ribbon worms,multicellular animals,eukaryotes,Pilidiophora
+-0.509016587,0.008306478,0.86071663,,,Eukaryota,Pinguiophyceae,,,eukaryotes,Pinguiophyceae
+-0.758032913,0.44018587,-0.481271756,Streptophyta,Viridiplantae,Eukaryota,Pinopsida,Streptophyta,green plants,eukaryotes,Pinopsida
+0.727596885,0.632212951,-0.266288485,Ascomycota,Fungi,Eukaryota,Pneumocystidomycetes,ascomycetes,Fungi,eukaryotes,Pneumocystidomycetes
+-0.239145157,-0.863757658,0.443545152,Annelida,Metazoa,Eukaryota,Polychaeta,annelid worms,multicellular animals,eukaryotes,polychaetes
+-0.052745099,0.936740675,0.346027256,,,Eukaryota,Polycystinea,,,eukaryotes,Polycystinea
+0.118498244,-0.944154514,0.307457998,Mollusca,Metazoa,Eukaryota,Polyplacophora,molluscs,multicellular animals,eukaryotes,chitons
+-0.645699515,0.662800994,-0.379166162,Streptophyta,Viridiplantae,Eukaryota,Polypodiopsida,Streptophyta,green plants,eukaryotes,Polypodiopsida
+-0.833933999,0.541074452,-0.108593379,Streptophyta,Viridiplantae,Eukaryota,Polytrichopsida,Streptophyta,green plants,eukaryotes,hair mosses
+0.220567749,-0.631014962,-0.743753982,Priapulida,Metazoa,Eukaryota,Priapulimorpha,penis worms,multicellular animals,eukaryotes,Priapulimorpha
+0.620095321,-0.770250241,-0.148984426,Arthropoda,Metazoa,Eukaryota,Protura,arthropods,multicellular animals,eukaryotes,coneheads
+0.45439262,-0.29646079,-0.840022825,Basidiomycota,Fungi,Eukaryota,Pucciniomycetes,basidiomycetes,Fungi,eukaryotes,Pucciniomycetes
+0.203137428,-0.914796876,-0.349115827,Arthropoda,Metazoa,Eukaryota,Pycnogonida,arthropods,multicellular animals,eukaryotes,sea spiders
+-0.607279536,0.175147861,0.774941799,,,Eukaryota,Raphidophyceae,,,eukaryotes,raphidophytes
+0.341186471,-0.929706045,-0.138702784,Arthropoda,Metazoa,Eukaryota,Remipedia,arthropods,multicellular animals,eukaryotes,Remipedia
+0.413347731,-0.834307169,0.364794737,Platyhelminthes,Metazoa,Eukaryota,Rhabditophora,flatworms,multicellular animals,eukaryotes,Rhabditophora
+0.029498386,0.99928691,0.023569419,Rhodophyta,,Eukaryota,Rhodellophyceae,red algae,,eukaryotes,Rhodellophyceae
+-0.528571975,-0.837336505,0.139568063,Brachiopoda,Metazoa,Eukaryota,Rhynchonellata,brachiopods,multicellular animals,eukaryotes,Rhynchonellata
+0.674276083,0.514641429,-0.529618696,Ascomycota,Fungi,Eukaryota,Saccharomycetes,ascomycetes,Fungi,eukaryotes,Saccharomycetes
+-0.035518996,-0.936660946,-0.348431735,Chaetognatha,Metazoa,Eukaryota,Sagittoidea,arrow worms,multicellular animals,eukaryotes,Sagittoidea
+0.313575527,-0.934208783,0.170071567,Mollusca,Metazoa,Eukaryota,Scaphopoda,molluscs,multicellular animals,eukaryotes,tusk shells
+0.643218479,0.625261072,-0.441948616,Ascomycota,Fungi,Eukaryota,Schizosaccharomycetes,ascomycetes,Fungi,eukaryotes,Schizosaccharomycetes
+-0.699031735,-0.713531077,0.047202068,Cnidaria,Metazoa,Eukaryota,Scyphozoa,coelenterates,multicellular animals,eukaryotes,jellyfishes
+0.015234942,-0.919228555,0.393429486,Mollusca,Metazoa,Eukaryota,Solenogastres,molluscs,multicellular animals,eukaryotes,solenogasters
+0.830797936,0.259719351,-0.492260752,Ascomycota,Fungi,Eukaryota,Sordariomycetes,ascomycetes,Fungi,eukaryotes,Sordariomycetes
+-0.904762807,0.290668072,-0.311313885,Streptophyta,Viridiplantae,Eukaryota,Sphagnopsida,Streptophyta,green plants,eukaryotes,Sphagnopsida
+0.218686273,0.852119747,0.47546635,Ciliophora,,Eukaryota,Spirotrichea,ciliates,,eukaryotes,Spirotrichea
+0.052000862,0.996610606,-0.063743319,Rhodophyta,,Eukaryota,Stylonematophyceae,red algae,,eukaryotes,Stylonematophyceae
+0.381987518,-0.712398212,-0.588705634,Arthropoda,Metazoa,Eukaryota,Symphyla,arthropods,multicellular animals,eukaryotes,symphylans
+-0.285098822,0.760540524,0.583349615,,,Eukaryota,Synchromophyceae,,,eukaryotes,Synchromophyceae
+-0.603544796,-0.016444918,0.797159484,,,Eukaryota,Synurophyceae,,,eukaryotes,Synurophyceae
+-0.532247859,-0.074502333,0.84330399,,,Eukaryota,Synurophyceae,,,eukaryotes,Synurophyceae
+-0.859961852,0.34935195,-0.37204681,Streptophyta,Viridiplantae,Eukaryota,Takakiopsida,Streptophyta,green plants,eukaryotes,Takakiopsida
+0.674283542,0.639059191,-0.370060881,Ascomycota,Fungi,Eukaryota,Taphrinomycetes,ascomycetes,Fungi,eukaryotes,Taphrinomycetes
+-0.000889619,-0.584995223,-0.811036249,Ctenophora,Metazoa,Eukaryota,Tentaculata,comb jellies,multicellular animals,eukaryotes,Tentaculata
+-0.736923386,0.656710557,-0.160234729,Streptophyta,Viridiplantae,Eukaryota,Tetraphidopsida,Streptophyta,green plants,eukaryotes,Tetraphidopsida
+-0.165708591,-0.79874555,-0.578399697,Chordata,Metazoa,Eukaryota,Thaliacea,chordates,multicellular animals,eukaryotes,Thaliacea
+-0.306671753,0.910164828,0.278482355,Cercozoa,,Eukaryota,Thecofilosea,Cercozoa,,eukaryotes,Thecofilosea
+0.694137216,-0.719832674,0.00380076,Arthropoda,Metazoa,Eukaryota,Thecostraca,arthropods,multicellular animals,eukaryotes,Thecostraca
+-0.462844611,0.883487047,0.072287648,Chlorophyta,Viridiplantae,Eukaryota,Trebouxiophyceae,green algae,green plants,eukaryotes,Trebouxiophyceae
+0.356415346,-0.78232985,0.510811224,Platyhelminthes,Metazoa,Eukaryota,Trematoda,flatworms,multicellular animals,eukaryotes,Trematoda
+0.544150462,0.085423825,-0.834627488,Basidiomycota,Fungi,Eukaryota,Tremellomycetes,basidiomycetes,Fungi,eukaryotes,Tremellomycetes
+0.153761335,-0.860584628,-0.485542532,Onychophora,Metazoa,Eukaryota,Udeonychophora,velvet worms,multicellular animals,eukaryotes,Udeonychophora
+-0.311277841,0.926399686,-0.211871959,Chlorophyta,Viridiplantae,Eukaryota,Ulvophyceae,green algae,green plants,eukaryotes,Ulvophyceae
+0.14626512,0.073137409,-0.986538106,Mucoromycota,Fungi,Eukaryota,Umbelopsidomycetes,Mucoromycota,Fungi,eukaryotes,Umbelopsidomycetes
+0.433375465,0.521848284,-0.734751709,Basidiomycota,Fungi,Eukaryota,Ustilaginomycetes,basidiomycetes,Fungi,eukaryotes,Ustilaginomycetes
+0.450447229,0.095080032,-0.887725792,Basidiomycota,Fungi,Eukaryota,Wallemiomycetes,basidiomycetes,Fungi,eukaryotes,Wallemiomycetes
+-0.544975491,0.327356728,0.771906268,,,Eukaryota,Xanthophyceae,,,eukaryotes,yellow-green algae
+0.876734752,0.226674756,-0.424210714,Ascomycota,Fungi,Eukaryota,Xylonomycetes,ascomycetes,Fungi,eukaryotes,Xylonomycetes
+-0.615096277,0.788303452,0.015304831,Streptophyta,Viridiplantae,Eukaryota,Zygnemophyceae,Streptophyta,green plants,eukaryotes,gamophytes
