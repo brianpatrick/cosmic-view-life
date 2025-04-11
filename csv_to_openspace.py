@@ -23,7 +23,7 @@ label files for each. Each line of the dataset CSV file determines which column 
 file to use for generating labels. The 'type' column in the dataset CSV file determines
 whether to make a stars or labels asset file.
 
-This scripyt used to create star assets as well, but these were removed because they were
+This script used to create star assets as well, but these were removed because they were
 not used.
 
 """
@@ -278,19 +278,21 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
                 # Render the label to a PNG file. This is done by calling the StringRenderer
                 # class to render the string to a PNG file.
-                color_triple = (label["font_color"][0], label["font_color"][1], label["font_color"][2])
-                if label.get("box") and label["box"]:
+                font_color_triple = (label["font_color"][0], label["font_color"][1], label["font_color"][2])
+
+                # Default is to not draw a box.
+                if label.get("box", False):
                     # Draw a box around the text.
                     string_renderer.render_string_to_png_with_box(text=curr_label,
                                                      font_name=label["font_file"], 
                                                      font_size=label["font_size"],
-                                                     color_triple=color_triple,
+                                                     font_color_triple=font_color_triple,
                                                      filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
                 else:
                     string_renderer.render_string_to_png(text=curr_label,
                                                         font_name=label["font_file"], 
                                                         font_size=label["font_size"],
-                                                        color_triple=color_triple,
+                                                        font_color_triple=font_color_triple,
                                                         filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
                 
                 print(f"{label_index} {rendered_label_filename}", file=tmap_file)
@@ -424,9 +426,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     if (rendered_labels):
         # Iterate over the rendered labels and create the assets for each one.
         for label in rendered_labels:
-            max_size = None
-            if label.get("max_size"):
-                max_size = label["max_size"]
+            max_size = label.get("max_size", None)
 
             output_asset_variable_name = filename_base + "_" + label["column"] + "_rendered_labels"
             output_rendered_labels_asset_filename = args.output_dir + "/" + output_asset_variable_name + ".asset"
@@ -782,9 +782,7 @@ def make_models_from_dataframe(model_points_df,
             search_column = model["column"]
             model_row = model_points_df[model_points_df[search_column] == model_name]
 
-            gui_info = None
-            if "gui_info" in model:
-                gui_info = model["gui_info"]
+            gui_info = model.get("gui_info", None)
 
             if len(model_row) == 0:
                 print(f"Error: Could not find model {model_name} in the dataset.")
@@ -927,9 +925,7 @@ def make_pdb_from_dataframe(protein_points_df,
 
             add_output_file(glb_fullpath)
 
-            gui_info = None
-            if "gui_info" in protein:
-                gui_info = protein["gui_info"]
+            gui_info = protein.get("gui_info", None)
 
             # The asset name should have the protein name in it. Replace spaces with
             # underscores.
@@ -1049,9 +1045,7 @@ def main():
         dataset_dict[(dataset_csv_filename, row["type"])] = {"points": input_points_df}
         
         # The fade_targets argument is optional. If it's not there, set it to None.
-        fade_targets = None
-        if "fade_targets" in row:
-            fade_targets = row["fade_targets"]
+        fade_targets = row.get("fade_targets", None)
 
         # Let's get the base of the filename (no extension) to use for generating
         # output files. Also, replace all the periods with underscores, as periods
@@ -1062,14 +1056,8 @@ def main():
         filename_base = filename_base.replace(".", "_")
         filename_base = filename_base.replace("/", "_")
 
-        # Does this dataset have a parent?
-        parent = None
-        if "parent" in row:
-            parent = row["parent"]
-
-        gui_info = None
-        if "gui_info" in row:
-            gui_info = row["gui_info"]
+        parent = row.get("parent", None)
+        gui_info = row.get("gui_info", None)
     
         # "enabled" is wonky. It is 1 or 0 in the CSV file, we need to change
         # it to true or false.
@@ -1078,9 +1066,7 @@ def main():
         else:
             row["enabled"] = "false"
 
-        text_color = None
-        if "text_color" in row:
-            text_color = row["text_color"]
+        text_color = row.get("text_color", None)
 
         # Different datasets may have different scaling factors. We need to scale
         # each dataset according to a provided, empirically determined scaling factor.
@@ -1118,18 +1104,12 @@ def main():
             
             
         elif row["type"] == "points":
-            max_size = None
-            if "max_size" in row:
-                max_size = row["max_size"]
-            colormap = None
-            if "colormap" in row:
-                colormap = row["colormap"]
-            color_by_columns = None
-            if "color_by_columns" in row:
-                color_by_columns = row["color_by_columns"]
-            rendered_labels = None
-            if "rendered_labels" in row:
-                rendered_labels = row["rendered_labels"]
+            # These are all optional arguments for making points.
+            max_size = row.get("max_size", None)
+            colormap = row.get("colormap", None)
+            color_by_columns = row.get("color_by_columns", None)
+            rendered_labels = row.get("rendered_labels", None)
+
             print("Creating points... ", end="", flush=True)
             make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
                                                         filename_base=filename_base,
@@ -1221,7 +1201,7 @@ def main():
         shutil.copy2(file, args.asset_dir)
     print("Done.")
 
-    print("Copying directories to asset dir... ", end="", flush=True)
+    print("Copying directories to asset dir (this may take a few minutes)... ", end="", flush=True)
     # Copy the directory using shutil. This is kinda hacky, but it works.
     for dir in output_directories:
         if args.verbose:

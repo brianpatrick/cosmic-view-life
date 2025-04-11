@@ -14,10 +14,18 @@ re-loading it each time.
 
 from PIL import Image, ImageDraw, ImageFont
 import os
+import platform
 
 class StringRenderer:
     def __init__(self):
         self.fonts = {}
+        self.font_dir = ""
+        if platform.system() == "Windows":
+            # The font path is the Windows font directory.
+            self.font_dir = os.path.join(os.environ["WINDIR"], "Fonts")
+        elif platform.system() == "Linux":
+            self.font_dir = "/mnt/c/Windows/Fonts"
+
 
     def get_font(self, font_name, font_size=24):
         # The key is a tuple of font name and size.
@@ -27,7 +35,7 @@ class StringRenderer:
             # Load the font from the windows font directory. This is a
             # little hacky under WSL, but Windows has a lot more fonts
             # installed by default than WSL.
-            font_path = os.path.join("/mnt/c/Windows/Fonts", font_name)
+            font_path = os.path.join(self.font_dir, font_name)
             try:
                 font = ImageFont.truetype(font_path, font_size)
                 self.fonts[(font_name, font_size)] = font
@@ -37,24 +45,24 @@ class StringRenderer:
         return self.fonts[(font_name, font_size)]
 
 
-    def render_string_to_png(self, text, font_name, font_size, color_triple, filename):
+    def render_string_to_png(self, text, font_name, font_size, font_color_triple, filename):
         font = self.get_font(font_name, font_size)
         text_bbox = font.getbbox(text)
         image = Image.new("RGBA", (text_bbox[2], text_bbox[3]), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
-        draw.text((0, 0), text, fill=color_triple, font=font)
+        draw.text((0, 0), text, fill=font_color_triple, font=font)
         image.save(filename, "PNG")
 
 
-    def render_string_to_png_with_box(self, text, font_name, font_size, color_triple, filename):
+    def render_string_to_png_with_box(self, text, font_name, font_size, font_color_triple, filename):
         font = self.get_font(font_name, font_size)
         text_bbox = font.getbbox(text)
 
         image = Image.new("RGBA", (text_bbox[2] + 7, text_bbox[3] + 7), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
-        draw.text((3, 3), text, fill=color_triple, font=font)
+        draw.text((3, 3), text, fill=font_color_triple, font=font)
 
         # Draw a box around the text.
-        draw.rectangle((0, 0, text_bbox[2] + 7, text_bbox[3] + 7), outline=color_triple, width=3)
+        draw.rectangle((0, 0, text_bbox[2] + 7, text_bbox[3] + 7), outline=font_color_triple, width=3)
         image.save(filename, "PNG")
-        
+
