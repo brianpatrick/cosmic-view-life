@@ -7,7 +7,7 @@ Thumbs.db
 .vscode/
 
 # Output files.
-**outfiles/
+**outfiles*/
 
 # Virtual Environment folder
 .venv
