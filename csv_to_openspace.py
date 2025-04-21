@@ -47,6 +47,10 @@ parser.add_argument("-o", "--output_dir", help="Directory for local copy of outp
                     default=".")
 parser.add_argument("-t", "--texture_dir", help="Directory holding texture files for points.",
                     default="textures")
+
+# Copying assets when running this script under WSL can be very slow. We can skip this
+# and use another script/utility to copy the files later. 
+parser.add_argument("-s", "--skip_asset_copy", help="Verbose output.", action="store_true")
 parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_true")
 args = parser.parse_args()
 
@@ -1192,6 +1196,11 @@ def main():
     print(f"Writing transforms file: {transforms_filename}... ", end="", flush=True)
     write_transform_file()
     print("Done.")
+
+    # Do we skip copying files?
+    if args.skip_asset_copy:
+        print("***\n*** Skipping copying files to asset directory.\n***")
+        return
 
     print(f"Copying files to asset directory ({args.asset_dir})... ", end="", flush=True)
     Path(args.asset_dir).mkdir(parents=True, exist_ok=True)

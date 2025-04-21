@@ -14,7 +14,8 @@ REPO_PATH := $(shell pwd)
 
 include Makefile.config
 
-.DUMMY: jan_30_2025_recentered_clean_cache jan_30_2025_recentered_groups
+.DUMMY: jan_30_2025_recentered_clean_cache jan_30_2025_recentered_groups faherty_apr_23
+
 
 jan_30_2025_recentered_clean_cache:
 	@echo "*** Cleaning jan_30_2025_recentered"
@@ -33,6 +34,14 @@ jan_30_2025_recentered: jan_30_2025_recentered_clean_cache jan_30_2025_recentere
 	python ${REPO_PATH}/csv_to_openspace.py -i Jan_30_2025_recentered.json \
 	-a ${OPENSPACE_ASSET_DIR}/Jan_30_2025_recentered \
 	-o ./outfiles -t ${REPO_PATH}/textures
+
+
+faherty_apr_23: jan_30_2025_recentered_groups
+	@echo "*** Building faherty_apr_23"
+	@cd data/Jan_30_2025_recentered; \
+	python ${REPO_PATH}/csv_to_openspace.py -i faherty_apr_23.json \
+	-a ${OPENSPACE_ASSET_DIR}/faherty_apr_23 \
+	-o ./outfiles_faherty_apr_23 -t ${REPO_PATH}/textures --skip_asset_copy
 
 
 takanori_protein_universe_clean_cache:
