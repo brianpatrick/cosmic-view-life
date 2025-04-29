@@ -103,7 +103,7 @@
                 { 
                     "column" : "family_eng",
                     "font_file": "ARIALN.TTF",
-                    "box": true,
+                    "box": false,
                     "font_size": 72,
                     "font_color": [ 255, 255, 255 ],
                     "point_scale_factor": 7.32,
@@ -484,6 +484,73 @@
                         "name": "Odonata tracheae",
                         "hidden": false
                     }  
+                }
+            ]
+        },
+        {
+            "csv_file": "insecta_order.csv",
+            "data_scale_factor": 1000,
+            "type": "pdb",
+            "protein_list" : [
+                {
+                    "column": "order",
+                    "taxon": "Zygentoma",
+                    "pdb_code": "5MSZ",
+                    "model_scale": 4500,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "5MSZ Lytic Polysaccharide Monooxygenase",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Diptera",
+                    "pdb_code": "2BK9",
+                    "model_scale": 4500,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "2BK9 Drosophila Melanogaster globin",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Lepidoptera",
+                    "pdb_code": "1M8N",
+                    "model_scale": 4500,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "1M8N Choristoneura Fumiferana (Spruce Budworm) Antifreeze Protein Isoform 501",
+                        "hidden": false
+                    }
+                },                
+                {
+                    "column": "order",
+                    "taxon": "Coleoptera",
+                    "pdb_code": "1LCI",
+                    "model_scale": 4500,
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "1LCI Firefly luciferase",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Hymenoptera",
+                    "pdb_code": "1FCQ",
+                    "model_scale": 4500,
+                    "show_as": "surface",
+                    "gui_info": {
+                        "path": "Insecta/PDB",
+                        "name": "1FCQ Bee Venom Hyaluronidase",
+                        "hidden": false
+                    }
                 }
             ]
         },
