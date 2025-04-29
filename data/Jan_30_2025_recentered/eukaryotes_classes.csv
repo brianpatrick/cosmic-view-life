@@ -131,7 +131,7 @@ x,y,z,phylum,kingdom,superkingdom,class,phylum_eng,kingdom_eng,superkingdom_eng,
 0.839719842,-0.404081469,0.362751642,,,Eukaryota,Ichthyosporea,,,eukaryotes,Ichthyosporea
 0.326995715,-0.864364019,-0.382032257,Arthropoda,Metazoa,Eukaryota,Ichthyostraca,arthropods,multicellular animals,eukaryotes,Ichthyostraca
 -0.245860007,0.927355375,0.282072448,Cercozoa,,Eukaryota,Imbricatea,Cercozoa,,eukaryotes,Imbricatea
-0.515703555,-0.85336038,0.076327616,Arthropoda,Metazoa,Eukaryota,Insecta,arthropods,multicellular animals,eukaryotes,true insects
+0.515703555,-0.85336038,0.076327616,Arthropoda,Metazoa,Eukaryota,Insecta,arthropods,multicellular animals,eukaryotes,Insects
 -0.556459181,0.762036004,-0.331140918,Streptophyta,Viridiplantae,Eukaryota,Jungermanniopsida,Streptophyta,green plants,eukaryotes,Jungermanniopsida
 0.013270489,0.008260841,-0.999877819,Zoopagomycota,Fungi,Eukaryota,Kickxellomycetes,Zoopagomycota,Fungi,eukaryotes,Kickxellomycetes
 0.335336159,0.05603572,0.940430571,Euglenozoa,,Eukaryota,Kinetoplastea,Euglenozoa,,eukaryotes,kinetoplasts
