@@ -103,7 +103,7 @@
                 { 
                     "column" : "family_eng",
                     "font_file": "ARIALN.TTF",
-                    "box": true,
+                    "box": false,
                     "font_size": 72,
                     "font_color": [ 255, 255, 255 ],
                     "point_scale_factor": 7.32,
