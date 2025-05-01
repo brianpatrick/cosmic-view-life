@@ -37,21 +37,21 @@ IF "%1"=="faherty_apr_23" (
     cd data/Jan_30_2025_recentered
     python %REPO_PATH%/csv_to_openspace.py -i jan_30_2025_recentered.json -a E:\OpenSpace\user\data\assets\jan_30_2025_recentered -o ./outfiles_jan_30_2025_recentered -t E:\git\cosmic-view-life\textures
 
-) ELSE IF "%1"=="bezos_may_12" (
+) ELSE IF "%1"=="may_12" (
     echo Cleaning up OpenSpace cache and assets...
-    python .\clean_openspace_cache.py -c E:\git\OpenSpace\cache\ -a E:\OpenSpace\user\data\assets\bezos_may_12
+    python .\clean_openspace_cache.py -c E:\git\OpenSpace\cache\ -a E:\OpenSpace\user\data\assets\may_12
 
     echo Making grouped datasets...
     cd data/Jan_30_2025_recentered
     python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c kingdom
     cd %REPO_PATH%
 
-    echo Making Bezos May 12 assets...
+    echo Making May 12 assets...
     cd data/Jan_30_2025_recentered
-    python %REPO_PATH%/csv_to_openspace.py -i bezos_may_12.json -a E:\OpenSpace\user\data\assets\bezos_may_12 -o ./outfiles_bezos_may_12 -t E:\git\cosmic-view-life\textures
+    python %REPO_PATH%/csv_to_openspace.py -i may_12.json -a E:\OpenSpace\user\data\assets\may_12 -o ./outfiles_may_12 -t E:\git\cosmic-view-life\textures
 
 ) ELSE (
-    echo No valid argument passed. Please pass "faherty_apr_23" or "jan_30_2025_recentered" or "bezos_may_12" as an argument to build the corresponding assets.
+    echo No valid argument passed. Please pass "faherty_apr_23" or "jan_30_2025_recentered" or "may_12" as an argument to build the corresponding assets.
 )
 
 
