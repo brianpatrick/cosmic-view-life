@@ -9,11 +9,11 @@ set REPO_PATH=%~dp0
 
 echo %REPO_PATH%
 
-: Use a command line argument to determine what to build. If "faherty_apr_23" is passed,
-: it will build assets for Faherty Apr 23 talk.
+: Turn off echoing commands
+@echo off
 
-: If "faherty_apr_23" is not passed, it will build assets for the Jan 30, 2025 talk.
-: If no argument is passed, it will build assets for the Jan 30, 2025 talk.
+: Use a command line argument to determine what to build so that this works
+: more like a makefile.
 
 IF "%1"=="faherty_apr_23" (
     echo Cleaning up OpenSpace cache and assets...
@@ -37,8 +37,21 @@ IF "%1"=="faherty_apr_23" (
     cd data/Jan_30_2025_recentered
     python %REPO_PATH%/csv_to_openspace.py -i jan_30_2025_recentered.json -a E:\OpenSpace\user\data\assets\jan_30_2025_recentered -o ./outfiles_jan_30_2025_recentered -t E:\git\cosmic-view-life\textures
 
+) ELSE IF "%1"=="bezos_may_12" (
+    echo Cleaning up OpenSpace cache and assets...
+    python .\clean_openspace_cache.py -c E:\git\OpenSpace\cache\ -a E:\OpenSpace\user\data\assets\bezos_may_12
+
+    echo Making grouped datasets...
+    cd data/Jan_30_2025_recentered
+    python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c kingdom
+    cd %REPO_PATH%
+
+    echo Making Bezos May 12 assets...
+    cd data/Jan_30_2025_recentered
+    python %REPO_PATH%/csv_to_openspace.py -i bezos_may_12.json -a E:\OpenSpace\user\data\assets\bezos_may_12 -o ./outfiles_bezos_may_12 -t E:\git\cosmic-view-life\textures
+
 ) ELSE (
-    echo No valid argument passed. Please pass "faherty_apr_23" or "jan_30_2025_recentered".
+    echo No valid argument passed. Please pass "faherty_apr_23" or "jan_30_2025_recentered" or "bezos_may_12" as an argument to build the corresponding assets.
 )
 
 

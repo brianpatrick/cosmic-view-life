@@ -1210,7 +1210,7 @@ def main():
         shutil.copy2(file, args.asset_dir)
     print("Done.")
 
-    print("Copying directories to asset dir (this may take a few minutes)... ", end="", flush=True)
+    print("Copying directories to asset dir (on WSL this may take a few minutes)... ", end="", flush=True)
     # Copy the directory using shutil. This is kinda hacky, but it works.
     for dir in output_directories:
         if args.verbose:

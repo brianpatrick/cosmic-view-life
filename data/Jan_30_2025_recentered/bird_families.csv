@@ -1,168 +1,168 @@
-,x,y,z,order,family,order_eng,family_eng
-0,0.021102023784942175,-0.8115706737517644,0.5838730688567599,Passeriformes,Acanthisittidae,song birds,New Zealand wrens
-1,0.0865481818933752,-0.8882999985775849,-0.4510349644716241,Passeriformes,Acanthizidae,song birds,Acanthizidae
-2,0.9982166673290239,-0.006135518312614127,0.0593789097196877,Accipitriformes,Accipitridae,hawks and eagles,Accipitridae
-3,-0.7773809441308284,-0.2502582754315841,0.5771045639381096,Passeriformes,Aegithalidae,song birds,Aegithalidae
-4,-0.19276138705888426,0.9403773817888691,-0.2802381878277087,Caprimulgiformes,Aegothelidae,nightjars and others,Aegothelidae
-5,-0.7967162099690126,-0.4388274215574213,0.415540358208184,Passeriformes,Alaudidae,song birds,larks
-6,0.7531265893847136,-0.26450539185999694,0.6023597367658815,Coraciiformes,Alcedinidae,kingfishers and others,kingfishers
-7,0.26779551451894,0.6425441084592912,0.7179294154202839,Charadriiformes,Alcidae,shorebirds and others,Alcidae
-8,-0.3665047863302192,0.7617935587764056,0.5341767777072867,Anseriformes,Anatidae,"ducks, geese and swans",waterfowl
-9,-0.6285331962366894,0.661863605384587,0.40851267242734135,Anseriformes,Anhimidae,"ducks, geese and swans",screamers
-10,0.7493290412318396,0.6617893693397999,0.023255817193476202,Pelecaniformes,Anhingidae,"Ibis, herons and pelicans",anhingas
-11,-0.5877867504258063,0.7088773280105277,0.3898713689082983,Anseriformes,Anseranatidae,"ducks, geese and swans",Anseranatidae
-12,0.41342907025258896,0.874999177352987,-0.2518985072198924,Apodiformes,Apodidae,swifts and hummingbirds,swifts
-13,0.14286909904998346,0.22206866638656375,0.9645070981511026,Apterygiformes,Apterygidae,kiwis,Apterygidae
-14,0.3103992510988103,0.22018818021708697,0.9247537427055411,Gruiformes,Aramidae,terrestrial and marshbirds,limpkins
-15,0.8915108092985934,0.42799794579270484,0.14841243121427633,Pelecaniformes,Ardeidae,"Ibis, herons and pelicans",herons
-16,-0.4995695666196712,-0.22865951299724824,-0.8355507702475117,Passeriformes,Artamidae,song birds,Artamidae
-17,0.8634685518204864,0.4194967712077825,0.28007951264096553,Ciconiiformes,Balaenicipitidae,storks and others,Balaenicipitidae
-18,-0.8836145564882537,-0.1106653693259076,0.45494890485848843,Passeriformes,Bombycillidae,song birds,Bombycillidae
-19,0.8395386518125411,-0.325411434745897,0.435065816500586,Coraciiformes,Brachypteraciidae,kingfishers and others,Brachypteraciidae
-20,0.8815927626468599,-0.07595215544622035,0.465859941795468,Galbuliformes,Bucconidae,jacamars,Bucconidae
-21,0.4712280382826853,-0.17997420045083162,0.8634543633257334,Bucerotiformes,Bucerotidae,hornbills,Bucerotidae
-22,0.5841525048745846,-0.20521710800458517,0.7852718026702078,Bucerotiformes,Bucorvidae,hornbills,Bucorvidae
-23,0.17214470113744074,0.8707187869239347,0.4606680045389887,Charadriiformes,Burhinidae,shorebirds and others,Burhinidae
-24,0.9059470025555959,0.08763054193455369,-0.4142232865481189,Psittaciformes,Cacatuidae,parrots and others,cockatoos
-25,0.038786823163354925,-0.1333495769083663,-0.9903097935116869,Passeriformes,Callaeidae,song birds,Callaeidae
-26,0.11374011071027121,-0.6666484761045797,-0.7366430689017414,Passeriformes,Campephagidae,song birds,cuckooshrikes
-27,0.37842208825120477,0.9246725055855084,-0.04216034838255082,Caprimulgiformes,Caprimulgidae,nightjars and others,Caprimulgidae
-28,0.9923698681895475,-0.10523733514028552,-0.06424299525991636,Cariamiformes,Cariamidae,seriamas,seriemas
-29,0.14162438239452319,0.10711768747083993,0.9841078953957165,Casuariiformes,Casuariidae,Emu and cassowaries,cassowaries
-30,0.9615107137458724,-0.2476245788112472,0.11907657098851895,Accipitriformes,Cathartidae,hawks and eagles,Cathartidae
-31,-0.4865088655791809,-0.6940741745105772,-0.5306318671435397,Passeriformes,Certhiidae,song birds,Certhiidae
-32,-0.7302825701031835,-0.2597026022577076,0.6318559492653147,Passeriformes,Cettiidae,song birds,Cettiidae
-33,0.40408239319306005,0.870726566810551,0.28027250988920793,Charadriiformes,Charadriidae,shorebirds and others,Charadriidae
-34,0.2374092507673362,0.9187423720353265,0.31551436720838216,Charadriiformes,Chionididae,shorebirds and others,Chionididae
-35,0.5736016659733292,0.8037829132995156,-0.15784223616730847,Ciconiiformes,Ciconiidae,storks and others,storks
-36,-0.8063085921133267,-0.0999678971198348,0.5829861818839093,Passeriformes,Cinclidae,song birds,Cinclidae
-37,0.11906173646710753,-0.7963388646950192,0.593016635452673,Passeriformes,Cisticolidae,song birds,Cisticolidae
-38,-0.023461459092806194,-0.9743404177368514,0.2238533554350445,Passeriformes,Climacteridae,song birds,Climacteridae
-39,0.9164332286607803,-0.3045525451260167,0.2596110535042534,Coliiformes,Coliidae,mousebirds,Coliidae
-40,-0.3446768299071207,0.9368880632333928,-0.05864004036373239,Columbiformes,Columbidae,pigeons and others,pigeons
-41,0.05268054765285699,-0.874393443311469,0.4823493346432946,Passeriformes,Conopophagidae,song birds,Conopophagidae
-42,0.8326717163468,-0.26382790190203825,0.4868805453209042,Coraciiformes,Coraciidae,kingfishers and others,Coraciidae
-43,-0.4594393634003202,0.08116473893437964,-0.8844929456756196,Passeriformes,Corcoracidae,song birds,Australian choughs
-44,-0.06984689668751051,-0.33132236128117776,-0.9409287530818154,Passeriformes,Corvidae,song birds,Corvidae
-45,0.6069730914394857,-0.4550253950794399,-0.6515639420188376,Passeriformes,Cotingidae,song birds,Cotingidae
-46,-0.16824625951277256,0.5491426461020043,0.8186180823986101,Galliformes,Cracidae,landfowls,Cracidae
-47,-0.43338627338086033,0.8565559835457538,0.2801574548979917,Cuculiformes,Cuculidae,cuckoos and others,cuckoos
-48,0.12794919242847616,-0.836213936417703,-0.5332684794131717,Passeriformes,Dasyornithidae,song birds,Dasyornithidae
-49,-0.8998714192305438,0.08432600041396349,0.4279258918832795,Passeriformes,Dicaeidae,song birds,Dicaeidae
-50,-0.3228305890423061,-0.07140507233806068,-0.9437593659725462,Passeriformes,Dicruridae,song birds,Dicruridae
-51,-0.14216765612513385,0.2234516647356321,0.9642913073945399,Dinornithiformes,Dinornithidae,moas,Dinornithidae
-52,0.6457175784777508,0.7465487594055493,-0.16035514682352203,Procellariiformes,Diomedeidae,petrels and albatrosses,Diomedeidae
-53,0.4390429021436829,0.5165542190958549,0.735127936654186,Charadriiformes,Dromadidae,shorebirds and others,Dromadidae
-54,-0.9839044680291669,0.040507494039436535,-0.1740435438526954,Passeriformes,Emberizidae,song birds,Emberizidae
-55,-0.15663850686617037,0.2245839910131799,0.961782939953309,Dinornithiformes,Emeidae,moas,Emeidae
-56,-0.9936755423481506,-0.11187668426148148,0.009619693116708914,Passeriformes,Estrildidae,song birds,Estrildidae
-57,0.3247499840662699,-0.8554669665999733,0.4033779014065013,Passeriformes,Eurylaimidae,song birds,Eurylaimidae
-58,0.4747020838578632,0.7354845386461792,-0.4834464183664444,Gruiformes,Eurypygidae,terrestrial and marshbirds,sunbitterns
-59,0.9761514425541195,-0.1589617696585465,-0.14784969199989897,Falconiformes,Falconidae,falcons and others,Falconidae
-60,-0.43634074173160076,-0.24439724886150826,0.8659542460730553,Passeriformes,Formicariidae,song birds,Formicariidae
-61,0.860476216744114,0.5084641941176694,-0.03232426574471315,Pelecaniformes,Fregatidae,"Ibis, herons and pelicans",frigatebirds
-62,-0.8165948425669562,-0.021494073036256583,-0.5768109589417373,Passeriformes,Fringillidae,song birds,Fringillidae
-63,0.6517169823009394,-0.7459688917336348,0.13709632374421063,Passeriformes,Furnariidae,song birds,Furnariidae
-64,0.8814863712552904,0.0718060749443295,0.46671798693665956,Galbuliformes,Galbulidae,jacamars,Galbulidae
-65,0.8422830578846329,0.3882439515596101,0.3739330139421111,Gaviiformes,Gaviidae,loons,loons
-66,0.4444287401437561,0.7586116549682782,0.47643621432300526,Charadriiformes,Glareolidae,shorebirds and others,Glareolidae
-67,0.40319978592897127,0.2710718919185325,0.8740423196141348,Gruiformes,Gruidae,terrestrial and marshbirds,cranes
-68,0.5539018222183345,0.8138924390572342,0.17541916493528228,Charadriiformes,Haematopodidae,shorebirds and others,oystercatchers
-69,0.5148460284119707,0.2762255615901553,0.8115620867133659,Gruiformes,Heliornithidae,terrestrial and marshbirds,sungrebes
-70,-0.29694820340634626,-0.9475929085205955,0.11785354747793099,Passeriformes,Hirundinidae,song birds,swallows
-71,0.6346812958139065,0.7012098116753457,-0.32478372371799685,Procellariiformes,Hydrobatidae,petrels and albatrosses,storm petrels
-72,-0.8230557480610409,0.5044977386709809,-0.26088557203773366,Passeriformes,Icteridae,song birds,"New World blackbirds, orioles and allies"
-73,0.8354456112643044,-0.09966943039044728,0.5404596651950825,Piciformes,Indicatoridae,woodpeckers and others,Indicatoridae
-74,-0.7210772831166457,-0.2624109218072479,-0.6412394828200323,Passeriformes,Irenidae,song birds,Irenidae
-75,0.679297949925882,0.509242296833148,0.5284189557354348,Charadriiformes,Jacanidae,shorebirds and others,jacanas
-76,-0.1839062333680883,0.20315277000360965,-0.9617210946039156,Passeriformes,Laniidae,song birds,shrikes
-77,0.49863853901722355,0.6421742401191423,0.5822129053637484,Charadriiformes,Laridae,shorebirds and others,gulls
-78,-0.692818995380757,-0.38021605933224956,0.6127296323039764,Passeriformes,Leiothrichidae,song birds,Leiothrichidae
-79,-0.8641977192850193,-0.4443462832553123,0.2360480819190796,Passeriformes,Locustellidae,song birds,Locustellidae
-80,0.8183079541831906,0.09419768150518662,0.5670087330522343,Piciformes,Lybiidae,woodpeckers and others,Lybiidae
-81,-0.35908260637267053,-0.6092435526901155,-0.7070233304100076,Passeriformes,Malaconotidae,song birds,Malaconotidae
-82,0.08172585850799596,-0.9839913572747456,-0.158372684821797,Passeriformes,Maluridae,song birds,Maluridae
-83,0.7884903417039921,0.06987717199092634,0.6110647889643185,Piciformes,Megalaimidae,woodpeckers and others,Megalaimidae
-84,-0.05859206183969379,0.6494403155980452,0.758151872122724,Galliformes,Megapodiidae,landfowls,Megapodiidae
-85,0.1773641224028111,-0.47962455157400785,-0.8593615490872492,Passeriformes,Melanocharitidae,song birds,Melanocharitidae
-86,-0.05696628322723966,-0.967455961946312,-0.24654374603251028,Passeriformes,Meliphagidae,song birds,honeyeaters
-87,-0.056117473261216466,-0.916315449043071,0.39650578996741204,Passeriformes,Menuridae,song birds,Menuridae
-88,0.8712552925023584,-0.23709493998673514,0.42976763391076056,Coraciiformes,Meropidae,kingfishers and others,Meropidae
-89,-0.878051245302397,-0.1575700665905481,-0.45188239529271185,Passeriformes,Mimidae,song birds,Mimidae
-90,0.7226593468407209,-0.33862760293372424,0.602573505385891,Coraciiformes,Momotidae,kingfishers and others,Momotidae
-91,-0.15551433277852758,-0.7143909293750889,-0.6822469543830696,Passeriformes,Monarchidae,song birds,Monarchidae
-92,0.27119414652810114,-0.8109637749833954,0.5184510632561999,Passeriformes,Motacillidae,song birds,Motacillidae
-93,-0.7456477217478396,-0.6388736256009104,-0.18934090947735305,Passeriformes,Muscicapidae,song birds,Old World flycatchers
-94,-0.13924069517252452,0.9235205823520474,0.35738183672079665,Musophagiformes,Musophagidae,turacos,Musophagidae
-95,-0.9170285485259753,0.2548244259614791,0.3067949927225755,Passeriformes,Nectariniidae,song birds,Nectariniidae
-96,-0.5887399146619655,0.5319449078702518,0.6086213455940012,Galliformes,Numididae,landfowls,guineafowls
-97,0.2338479464506512,0.9592269669750813,-0.15874123032951265,Caprimulgiformes,Nyctibiidae,nightjars and others,Nyctibiidae
-98,-0.4253408895895667,0.4428350497573515,0.7892922530897307,Galliformes,Odontophoridae,landfowls,New World quails
-99,-0.17048284685580542,0.8837505907714411,0.4357986997192316,Gruiformes,Otididae,terrestrial and marshbirds,bustards
-100,0.12636243024369573,-0.6507660654155488,0.7486895743660407,Passeriformes,Pachycephalidae,song birds,whistlers
-101,0.1421736034228158,-0.5896957523203088,-0.795012956261135,Passeriformes,Paradisaeidae,song birds,birds of paradise
-102,0.14671852409707556,-0.8221061631863071,-0.5501046678367602,Passeriformes,Pardalotidae,song birds,Pardalotidae
-103,-0.8419267542405351,-0.477990052247342,-0.2503694567723519,Passeriformes,Paridae,song birds,titmice
-104,-0.9020569698740357,0.4314239913438888,-0.012906480252118711,Passeriformes,Parulidae,song birds,wood-warblers
-105,-0.9960328561261576,0.06109776883782824,0.06469641874255393,Passeriformes,Passeridae,song birds,sparrows
-106,0.7346327511852974,0.5747577532612579,0.3605111099396683,Charadriiformes,Pedionomidae,shorebirds and others,Pedionomidae
-107,0.8154053749467656,0.5136784600525465,0.26692420014657253,Pelecaniformes,Pelecanidae,"Ibis, herons and pelicans",pelicans
-108,-0.8553634573927109,-0.31146333024145584,0.413937149951532,Passeriformes,Pellorneidae,song birds,Pellorneidae
-109,-0.11114937063513235,-0.5551465945145576,0.8242924787017188,Passeriformes,Petroicidae,song birds,Australasian robins
-110,0.48721269598154787,0.6961216413714021,-0.5272935271048622,Pelecaniformes,Phaethontidae,"Ibis, herons and pelicans",tropicbirds
-111,0.7731958203960785,0.6107957928863592,0.17057765724826932,Pelecaniformes,Phalacrocoracidae,"Ibis, herons and pelicans",cormorants and shags
-112,-0.5276186758681115,0.5982992662030624,0.6030394144448341,Galliformes,Phasianidae,landfowls,turkeys
-113,0.06429535035439952,0.9692675784648506,0.23745838308554737,Phoenicopteriformes,Phoenicopteridae,flamingos,flamingos
-114,0.6387332989650312,0.0016251153537351305,0.7694265047626446,Upupiformes,Phoeniculidae,hoopoes and others,Phoeniculidae
-115,-0.21881148379363768,-0.9185309269167389,0.3292756980030815,Passeriformes,Phylloscopidae,song birds,Phylloscopidae
-116,-0.21936437237425466,-0.9329742227635939,-0.28537411625695913,Passeriformes,Picathartidae,song birds,Picathartidae
-117,0.768025142739997,-0.058414716212883994,0.6377500415420546,Piciformes,Picidae,woodpeckers and others,woodpeckers
-118,0.7907148230345926,-0.6002474404761701,-0.12030416980762597,Passeriformes,Pipridae,song birds,Pipridae
-119,0.18438391540823126,-0.9163597875719132,0.3553692810272368,Passeriformes,Pittidae,song birds,pittas
-120,-0.09449751591324643,-0.5979883707023519,-0.7959146577547797,Passeriformes,Platysteiridae,song birds,Platysteiridae
-121,-0.9689722360435715,-0.2008968393952472,-0.1439905557168354,Passeriformes,Ploceidae,song birds,Ploceidae
-122,0.09269312479308311,0.9861537327054049,-0.1375093252300106,Caprimulgiformes,Podargidae,nightjars and others,frogmouths
-123,0.14533659866249965,0.9841611862708406,0.10150885165890505,Podicipediformes,Podicipedidae,grebes,grebes
-124,0.7564420213445185,0.6176871095388676,-0.21507700363279877,Procellariiformes,Procellariidae,petrels and albatrosses,shearwaters and petrels
-125,0.6794044562774215,0.3723129413148238,-0.6322916043708066,Psittaciformes,Psittacidae,parrots and others,parrots
-126,0.8706127608412336,0.16623033992429734,-0.463034457882982,Psittaciformes,Psittaculidae,parrots and others,Psittaculidae
-127,0.23074368829131095,0.34655610545133103,0.9092063740020957,Gruiformes,Psophiidae,terrestrial and marshbirds,trumpeters
-128,-0.44895037178593244,0.884314875562212,0.12818260010855137,Ciconiiformes,Pteroclidae,storks and others,Pteroclidae
-129,0.04165092290832393,-0.9978096984993423,0.05139086143926511,Passeriformes,Ptilonorhynchidae,song birds,bowerbirds
-130,-0.6822093265282086,-0.728251730560509,0.06511425474854735,Passeriformes,Pycnonotidae,song birds,bulbuls
-131,0.6834674876160696,0.3005963005811104,0.6652173117761336,Gruiformes,Rallidae,terrestrial and marshbirds,rails
-132,0.8314567314694029,0.046673751607512914,0.5536255765795502,Piciformes,Ramphastidae,woodpeckers and others,Ramphastidae
-133,0.4202330663776881,0.8910292384014201,0.17167143231916368,Charadriiformes,Recurvirostridae,shorebirds and others,Recurvirostridae
-134,0.042491522826455144,0.27480493146624824,0.960560635549702,Rheiformes,Rheidae,rheas,Rheidae
-135,0.3751753175336943,-0.9163118533661544,-0.1400574272650058,Passeriformes,Rhinocryptidae,song birds,tapaculos
-136,-0.40854523278272953,-0.42189559964067064,-0.8093793364129491,Passeriformes,Rhipiduridae,song birds,Rhipiduridae
-137,0.5150250597430759,0.7802440985982803,-0.3549202007171725,Gruiformes,Rhynochetidae,terrestrial and marshbirds,kagu
-138,0.6547950227977968,0.5559621007063374,0.5120055030322889,Charadriiformes,Rostratulidae,shorebirds and others,Rostratulidae
-139,0.9774551775949114,0.12253895189297549,-0.17194649022239705,Accipitriformes,Sagittariidae,hawks and eagles,Sagittariidae
-140,0.650599453533578,0.6865496338016055,0.32460740260602666,Charadriiformes,Scolopacidae,shorebirds and others,snipes
-141,-0.5235644187928405,-0.6317189738169279,-0.5716742533398927,Passeriformes,Sittidae,song birds,Sittidae
-142,0.5985429001477237,0.8003147975316797,-0.03525104214774536,Sphenisciformes,Spheniscidae,penguins,penguins
-143,-0.517966018412657,-0.8040481692408818,-0.2919208107484474,Passeriformes,Stenostiridae,song birds,Stenostiridae
-144,0.2807464044278048,0.7659284628129369,0.5783900592954575,Charadriiformes,Stercorariidae,shorebirds and others,Stercorariidae
-145,0.9401315183587998,-0.03215494137486844,0.33929161848103445,Strigiformes,Strigidae,owls,Strigidae
-146,0.1337106413276455,0.33771930938850897,0.9317012111722329,Struthioniformes,Struthionidae,ostriches,Struthionidae
-147,-0.6548899613459381,-0.4719826546333645,-0.5902131197215762,Passeriformes,Sturnidae,song birds,starlings
-148,0.8178099010398419,0.5676362360512085,0.09474219609419866,Pelecaniformes,Sulidae,"Ibis, herons and pelicans",gannets and boobies
-149,-0.5592579737397668,-0.7895312710090099,0.25272693830554627,Passeriformes,Sylviidae,song birds,Old World warblers
-150,0.3134520812145528,-0.9359468719991945,0.16047199137266774,Passeriformes,Thamnophilidae,song birds,Thamnophilidae
-151,0.7367874121404381,0.5339610366414327,0.4147649154619104,Ciconiiformes,Thinocoridae,storks and others,Thinocoridae
-152,-0.7665434652035896,0.29380482797805335,-0.5710427772491111,Passeriformes,Thraupidae,song birds,tanagers
-153,0.6855487497548323,0.7217123356476755,0.09567774412834783,Pelecaniformes,Threskiornithidae,"Ibis, herons and pelicans",Threskiornithidae
-154,-0.6059248655218907,-0.6015539577198586,0.5205649889608222,Passeriformes,Timaliidae,song birds,babblers
-155,-0.017534687693440694,0.10429688812245623,0.9943916272240895,Tinamiformes,Tinamidae,tinamous,Tinamidae
-156,0.7718772940045915,-0.34909526743339586,0.531354826545963,Coraciiformes,Todidae,kingfishers and others,Todidae
-157,0.09986139089957952,0.8730505299788627,-0.47729497079809785,Apodiformes,Trochilidae,swifts and hummingbirds,hummingbirds
-158,0.5557531983983511,-0.35147240395810836,0.7533960088584534,Trogoniformes,Trogonidae,trogons and quetzals,Trogonidae
-159,-0.40133775002026184,-0.8804789096690887,-0.252358701998816,Passeriformes,Turdidae,song birds,thrushes
-160,0.5644743605240223,0.47980520575321567,0.6716812304069772,Charadriiformes,Turnicidae,shorebirds and others,buttonquails
-161,0.5604504852498639,-0.6528114434674155,-0.5096395660651921,Passeriformes,Tyrannidae,song birds,Tyrannidae
-162,0.950794943046339,-0.1730856007017838,0.2569637436393244,Strigiformes,Tytonidae,owls,barn owls
-163,0.4819947219874513,-0.004508458604528479,0.8761625284244796,Upupiformes,Upupidae,hoopoes and others,Upupidae
-164,-0.32296559900616173,0.2460099065270425,-0.9138776516509511,Passeriformes,Vangidae,song birds,Vangidae
-165,0.003921886296468901,0.03096092335762423,-0.9995129086063104,Passeriformes,Vireonidae,song birds,Vireonidae
-166,-0.3426406577499187,-0.8165927438337099,0.4645144613602029,Passeriformes,Zosteropidae,song birds,white-eyes
+,x,y,z,order,family,order_eng,family_eng,families_image_index
+0,0.021102024,-0.811570674,0.583873069,Passeriformes,Acanthisittidae,song birds,New Zealand wrens,1
+1,0.086548182,-0.888299999,-0.451034964,Passeriformes,Acanthizidae,song birds,Acanthizidae,2
+2,0.998216667,-0.006135518,0.05937891,Accipitriformes,Accipitridae,hawks and eagles,Accipitridae,3
+3,-0.777380944,-0.250258275,0.577104564,Passeriformes,Aegithalidae,song birds,Aegithalidae,4
+4,-0.192761387,0.940377382,-0.280238188,Caprimulgiformes,Aegothelidae,nightjars and others,Aegothelidae,5
+5,-0.79671621,-0.438827422,0.415540358,Passeriformes,Alaudidae,song birds,larks,6
+6,0.753126589,-0.264505392,0.602359737,Coraciiformes,Alcedinidae,kingfishers and others,kingfishers,7
+7,0.267795515,0.642544108,0.717929415,Charadriiformes,Alcidae,shorebirds and others,Alcidae,8
+8,-0.366504786,0.761793559,0.534176778,Anseriformes,Anatidae,"ducks, geese and swans",waterfowl,9
+9,-0.628533196,0.661863605,0.408512672,Anseriformes,Anhimidae,"ducks, geese and swans",screamers,10
+10,0.749329041,0.661789369,0.023255817,Pelecaniformes,Anhingidae,"Ibis, herons and pelicans",anhingas,11
+11,-0.58778675,0.708877328,0.389871369,Anseriformes,Anseranatidae,"ducks, geese and swans",Anseranatidae,12
+12,0.41342907,0.874999177,-0.251898507,Apodiformes,Apodidae,swifts and hummingbirds,swifts,13
+13,0.142869099,0.222068666,0.964507098,Apterygiformes,Apterygidae,kiwis,Apterygidae,14
+14,0.310399251,0.22018818,0.924753743,Gruiformes,Aramidae,terrestrial and marshbirds,limpkins,15
+15,0.891510809,0.427997946,0.148412431,Pelecaniformes,Ardeidae,"Ibis, herons and pelicans",herons,16
+16,-0.499569567,-0.228659513,-0.83555077,Passeriformes,Artamidae,song birds,Artamidae,17
+17,0.863468552,0.419496771,0.280079513,Ciconiiformes,Balaenicipitidae,storks and others,Balaenicipitidae,18
+18,-0.883614556,-0.110665369,0.454948905,Passeriformes,Bombycillidae,song birds,Bombycillidae,19
+19,0.839538652,-0.325411435,0.435065817,Coraciiformes,Brachypteraciidae,kingfishers and others,Brachypteraciidae,20
+20,0.881592763,-0.075952155,0.465859942,Galbuliformes,Bucconidae,jacamars,Bucconidae,21
+21,0.471228038,-0.1799742,0.863454363,Bucerotiformes,Bucerotidae,hornbills,Bucerotidae,22
+22,0.584152505,-0.205217108,0.785271803,Bucerotiformes,Bucorvidae,hornbills,Bucorvidae,23
+23,0.172144701,0.870718787,0.460668005,Charadriiformes,Burhinidae,shorebirds and others,Burhinidae,24
+24,0.905947003,0.087630542,-0.414223287,Psittaciformes,Cacatuidae,parrots and others,cockatoos,25
+25,0.038786823,-0.133349577,-0.990309794,Passeriformes,Callaeidae,song birds,Callaeidae,26
+26,0.113740111,-0.666648476,-0.736643069,Passeriformes,Campephagidae,song birds,cuckooshrikes,27
+27,0.378422088,0.924672506,-0.042160348,Caprimulgiformes,Caprimulgidae,nightjars and others,Caprimulgidae,28
+28,0.992369868,-0.105237335,-0.064242995,Cariamiformes,Cariamidae,seriamas,seriemas,29
+29,0.141624382,0.107117687,0.984107895,Casuariiformes,Casuariidae,Emu and cassowaries,cassowaries,30
+30,0.961510714,-0.247624579,0.119076571,Accipitriformes,Cathartidae,hawks and eagles,Cathartidae,31
+31,-0.486508866,-0.694074175,-0.530631867,Passeriformes,Certhiidae,song birds,Certhiidae,32
+32,-0.73028257,-0.259702602,0.631855949,Passeriformes,Cettiidae,song birds,Cettiidae,33
+33,0.404082393,0.870726567,0.28027251,Charadriiformes,Charadriidae,shorebirds and others,Charadriidae,34
+34,0.237409251,0.918742372,0.315514367,Charadriiformes,Chionididae,shorebirds and others,Chionididae,35
+35,0.573601666,0.803782913,-0.157842236,Ciconiiformes,Ciconiidae,storks and others,storks,36
+36,-0.806308592,-0.099967897,0.582986182,Passeriformes,Cinclidae,song birds,Cinclidae,37
+37,0.119061736,-0.796338865,0.593016635,Passeriformes,Cisticolidae,song birds,Cisticolidae,38
+38,-0.023461459,-0.974340418,0.223853355,Passeriformes,Climacteridae,song birds,Climacteridae,39
+39,0.916433229,-0.304552545,0.259611054,Coliiformes,Coliidae,mousebirds,Coliidae,40
+40,-0.34467683,0.936888063,-0.05864004,Columbiformes,Columbidae,pigeons and others,pigeons,41
+41,0.052680548,-0.874393443,0.482349335,Passeriformes,Conopophagidae,song birds,Conopophagidae,42
+42,0.832671716,-0.263827902,0.486880545,Coraciiformes,Coraciidae,kingfishers and others,Coraciidae,43
+43,-0.459439363,0.081164739,-0.884492946,Passeriformes,Corcoracidae,song birds,Australian choughs,44
+44,-0.069846897,-0.331322361,-0.940928753,Passeriformes,Corvidae,song birds,Corvidae,45
+45,0.606973091,-0.455025395,-0.651563942,Passeriformes,Cotingidae,song birds,Cotingidae,46
+46,-0.16824626,0.549142646,0.818618082,Galliformes,Cracidae,landfowls,Cracidae,47
+47,-0.433386273,0.856555984,0.280157455,Cuculiformes,Cuculidae,cuckoos and others,cuckoos,48
+48,0.127949192,-0.836213936,-0.533268479,Passeriformes,Dasyornithidae,song birds,Dasyornithidae,49
+49,-0.899871419,0.084326,0.427925892,Passeriformes,Dicaeidae,song birds,Dicaeidae,50
+50,-0.322830589,-0.071405072,-0.943759366,Passeriformes,Dicruridae,song birds,Dicruridae,51
+51,-0.142167656,0.223451665,0.964291307,Dinornithiformes,Dinornithidae,moas,Dinornithidae,52
+52,0.645717578,0.746548759,-0.160355147,Procellariiformes,Diomedeidae,petrels and albatrosses,Diomedeidae,53
+53,0.439042902,0.516554219,0.735127937,Charadriiformes,Dromadidae,shorebirds and others,Dromadidae,54
+54,-0.983904468,0.040507494,-0.174043544,Passeriformes,Emberizidae,song birds,Emberizidae,55
+55,-0.156638507,0.224583991,0.96178294,Dinornithiformes,Emeidae,moas,Emeidae,56
+56,-0.993675542,-0.111876684,0.009619693,Passeriformes,Estrildidae,song birds,Estrildidae,57
+57,0.324749984,-0.855466967,0.403377901,Passeriformes,Eurylaimidae,song birds,Eurylaimidae,58
+58,0.474702084,0.735484539,-0.483446418,Gruiformes,Eurypygidae,terrestrial and marshbirds,sunbitterns,59
+59,0.976151443,-0.15896177,-0.147849692,Falconiformes,Falconidae,falcons and others,Falconidae,60
+60,-0.436340742,-0.244397249,0.865954246,Passeriformes,Formicariidae,song birds,Formicariidae,61
+61,0.860476217,0.508464194,-0.032324266,Pelecaniformes,Fregatidae,"Ibis, herons and pelicans",frigatebirds,62
+62,-0.816594843,-0.021494073,-0.576810959,Passeriformes,Fringillidae,song birds,Fringillidae,63
+63,0.651716982,-0.745968892,0.137096324,Passeriformes,Furnariidae,song birds,Furnariidae,64
+64,0.881486371,0.071806075,0.466717987,Galbuliformes,Galbulidae,jacamars,Galbulidae,65
+65,0.842283058,0.388243952,0.373933014,Gaviiformes,Gaviidae,loons,loons,66
+66,0.44442874,0.758611655,0.476436214,Charadriiformes,Glareolidae,shorebirds and others,Glareolidae,67
+67,0.403199786,0.271071892,0.87404232,Gruiformes,Gruidae,terrestrial and marshbirds,cranes,68
+68,0.553901822,0.813892439,0.175419165,Charadriiformes,Haematopodidae,shorebirds and others,oystercatchers,69
+69,0.514846028,0.276225562,0.811562087,Gruiformes,Heliornithidae,terrestrial and marshbirds,sungrebes,70
+70,-0.296948203,-0.947592909,0.117853547,Passeriformes,Hirundinidae,song birds,swallows,71
+71,0.634681296,0.701209812,-0.324783724,Procellariiformes,Hydrobatidae,petrels and albatrosses,storm petrels,72
+72,-0.823055748,0.504497739,-0.260885572,Passeriformes,Icteridae,song birds,"New World blackbirds, orioles and allies",73
+73,0.835445611,-0.09966943,0.540459665,Piciformes,Indicatoridae,woodpeckers and others,Indicatoridae,74
+74,-0.721077283,-0.262410922,-0.641239483,Passeriformes,Irenidae,song birds,Irenidae,75
+75,0.67929795,0.509242297,0.528418956,Charadriiformes,Jacanidae,shorebirds and others,jacanas,76
+76,-0.183906233,0.20315277,-0.961721095,Passeriformes,Laniidae,song birds,shrikes,77
+77,0.498638539,0.64217424,0.582212905,Charadriiformes,Laridae,shorebirds and others,gulls,78
+78,-0.692818995,-0.380216059,0.612729632,Passeriformes,Leiothrichidae,song birds,Leiothrichidae,79
+79,-0.864197719,-0.444346283,0.236048082,Passeriformes,Locustellidae,song birds,Locustellidae,80
+80,0.818307954,0.094197682,0.567008733,Piciformes,Lybiidae,woodpeckers and others,Lybiidae,81
+81,-0.359082606,-0.609243553,-0.70702333,Passeriformes,Malaconotidae,song birds,Malaconotidae,82
+82,0.081725859,-0.983991357,-0.158372685,Passeriformes,Maluridae,song birds,Maluridae,83
+83,0.788490342,0.069877172,0.611064789,Piciformes,Megalaimidae,woodpeckers and others,Megalaimidae,84
+84,-0.058592062,0.649440316,0.758151872,Galliformes,Megapodiidae,landfowls,Megapodiidae,85
+85,0.177364122,-0.479624552,-0.859361549,Passeriformes,Melanocharitidae,song birds,Melanocharitidae,86
+86,-0.056966283,-0.967455962,-0.246543746,Passeriformes,Meliphagidae,song birds,honeyeaters,87
+87,-0.056117473,-0.916315449,0.39650579,Passeriformes,Menuridae,song birds,Menuridae,88
+88,0.871255293,-0.23709494,0.429767634,Coraciiformes,Meropidae,kingfishers and others,Meropidae,89
+89,-0.878051245,-0.157570067,-0.451882395,Passeriformes,Mimidae,song birds,Mimidae,90
+90,0.722659347,-0.338627603,0.602573505,Coraciiformes,Momotidae,kingfishers and others,Momotidae,91
+91,-0.155514333,-0.714390929,-0.682246954,Passeriformes,Monarchidae,song birds,Monarchidae,92
+92,0.271194147,-0.810963775,0.518451063,Passeriformes,Motacillidae,song birds,Motacillidae,93
+93,-0.745647722,-0.638873626,-0.189340909,Passeriformes,Muscicapidae,song birds,Old World flycatchers,94
+94,-0.139240695,0.923520582,0.357381837,Musophagiformes,Musophagidae,turacos,Musophagidae,95
+95,-0.917028549,0.254824426,0.306794993,Passeriformes,Nectariniidae,song birds,Nectariniidae,96
+96,-0.588739915,0.531944908,0.608621346,Galliformes,Numididae,landfowls,guineafowls,97
+97,0.233847946,0.959226967,-0.15874123,Caprimulgiformes,Nyctibiidae,nightjars and others,Nyctibiidae,98
+98,-0.42534089,0.44283505,0.789292253,Galliformes,Odontophoridae,landfowls,New World quails,99
+99,-0.170482847,0.883750591,0.4357987,Gruiformes,Otididae,terrestrial and marshbirds,bustards,100
+100,0.12636243,-0.650766065,0.748689574,Passeriformes,Pachycephalidae,song birds,whistlers,101
+101,0.142173603,-0.589695752,-0.795012956,Passeriformes,Paradisaeidae,song birds,birds of paradise,102
+102,0.146718524,-0.822106163,-0.550104668,Passeriformes,Pardalotidae,song birds,Pardalotidae,103
+103,-0.841926754,-0.477990052,-0.250369457,Passeriformes,Paridae,song birds,titmice,104
+104,-0.90205697,0.431423991,-0.01290648,Passeriformes,Parulidae,song birds,wood-warblers,105
+105,-0.996032856,0.061097769,0.064696419,Passeriformes,Passeridae,song birds,sparrows,106
+106,0.734632751,0.574757753,0.36051111,Charadriiformes,Pedionomidae,shorebirds and others,Pedionomidae,107
+107,0.815405375,0.51367846,0.2669242,Pelecaniformes,Pelecanidae,"Ibis, herons and pelicans",pelicans,108
+108,-0.855363457,-0.31146333,0.41393715,Passeriformes,Pellorneidae,song birds,Pellorneidae,109
+109,-0.111149371,-0.555146595,0.824292479,Passeriformes,Petroicidae,song birds,Australasian robins,110
+110,0.487212696,0.696121641,-0.527293527,Pelecaniformes,Phaethontidae,"Ibis, herons and pelicans",tropicbirds,111
+111,0.77319582,0.610795793,0.170577657,Pelecaniformes,Phalacrocoracidae,"Ibis, herons and pelicans",cormorants and shags,112
+112,-0.527618676,0.598299266,0.603039414,Galliformes,Phasianidae,landfowls,turkeys,113
+113,0.06429535,0.969267578,0.237458383,Phoenicopteriformes,Phoenicopteridae,flamingos,flamingos,114
+114,0.638733299,0.001625115,0.769426505,Upupiformes,Phoeniculidae,hoopoes and others,Phoeniculidae,115
+115,-0.218811484,-0.918530927,0.329275698,Passeriformes,Phylloscopidae,song birds,Phylloscopidae,116
+116,-0.219364372,-0.932974223,-0.285374116,Passeriformes,Picathartidae,song birds,Picathartidae,117
+117,0.768025143,-0.058414716,0.637750042,Piciformes,Picidae,woodpeckers and others,woodpeckers,118
+118,0.790714823,-0.60024744,-0.12030417,Passeriformes,Pipridae,song birds,Pipridae,119
+119,0.184383915,-0.916359788,0.355369281,Passeriformes,Pittidae,song birds,pittas,120
+120,-0.094497516,-0.597988371,-0.795914658,Passeriformes,Platysteiridae,song birds,Platysteiridae,121
+121,-0.968972236,-0.200896839,-0.143990556,Passeriformes,Ploceidae,song birds,Ploceidae,122
+122,0.092693125,0.986153733,-0.137509325,Caprimulgiformes,Podargidae,nightjars and others,frogmouths,123
+123,0.145336599,0.984161186,0.101508852,Podicipediformes,Podicipedidae,grebes,grebes,124
+124,0.756442021,0.61768711,-0.215077004,Procellariiformes,Procellariidae,petrels and albatrosses,shearwaters and petrels,125
+125,0.679404456,0.372312941,-0.632291604,Psittaciformes,Psittacidae,parrots and others,parrots,126
+126,0.870612761,0.16623034,-0.463034458,Psittaciformes,Psittaculidae,parrots and others,Psittaculidae,127
+127,0.230743688,0.346556105,0.909206374,Gruiformes,Psophiidae,terrestrial and marshbirds,trumpeters,128
+128,-0.448950372,0.884314876,0.1281826,Ciconiiformes,Pteroclidae,storks and others,Pteroclidae,129
+129,0.041650923,-0.997809698,0.051390861,Passeriformes,Ptilonorhynchidae,song birds,bowerbirds,130
+130,-0.682209327,-0.728251731,0.065114255,Passeriformes,Pycnonotidae,song birds,bulbuls,131
+131,0.683467488,0.300596301,0.665217312,Gruiformes,Rallidae,terrestrial and marshbirds,rails,132
+132,0.831456731,0.046673752,0.553625577,Piciformes,Ramphastidae,woodpeckers and others,Ramphastidae,133
+133,0.420233066,0.891029238,0.171671432,Charadriiformes,Recurvirostridae,shorebirds and others,Recurvirostridae,134
+134,0.042491523,0.274804931,0.960560636,Rheiformes,Rheidae,rheas,Rheidae,135
+135,0.375175318,-0.916311853,-0.140057427,Passeriformes,Rhinocryptidae,song birds,tapaculos,136
+136,-0.408545233,-0.4218956,-0.809379336,Passeriformes,Rhipiduridae,song birds,Rhipiduridae,137
+137,0.51502506,0.780244099,-0.354920201,Gruiformes,Rhynochetidae,terrestrial and marshbirds,kagu,138
+138,0.654795023,0.555962101,0.512005503,Charadriiformes,Rostratulidae,shorebirds and others,Rostratulidae,139
+139,0.977455178,0.122538952,-0.17194649,Accipitriformes,Sagittariidae,hawks and eagles,Sagittariidae,140
+140,0.650599454,0.686549634,0.324607403,Charadriiformes,Scolopacidae,shorebirds and others,snipes,141
+141,-0.523564419,-0.631718974,-0.571674253,Passeriformes,Sittidae,song birds,Sittidae,142
+142,0.5985429,0.800314798,-0.035251042,Sphenisciformes,Spheniscidae,penguins,penguins,143
+143,-0.517966018,-0.804048169,-0.291920811,Passeriformes,Stenostiridae,song birds,Stenostiridae,144
+144,0.280746404,0.765928463,0.578390059,Charadriiformes,Stercorariidae,shorebirds and others,Stercorariidae,145
+145,0.940131518,-0.032154941,0.339291618,Strigiformes,Strigidae,owls,Strigidae,146
+146,0.133710641,0.337719309,0.931701211,Struthioniformes,Struthionidae,ostriches,Struthionidae,147
+147,-0.654889961,-0.471982655,-0.59021312,Passeriformes,Sturnidae,song birds,starlings,148
+148,0.817809901,0.567636236,0.094742196,Pelecaniformes,Sulidae,"Ibis, herons and pelicans",gannets and boobies,149
+149,-0.559257974,-0.789531271,0.252726938,Passeriformes,Sylviidae,song birds,Old World warblers,150
+150,0.313452081,-0.935946872,0.160471991,Passeriformes,Thamnophilidae,song birds,Thamnophilidae,151
+151,0.736787412,0.533961037,0.414764915,Ciconiiformes,Thinocoridae,storks and others,Thinocoridae,152
+152,-0.766543465,0.293804828,-0.571042777,Passeriformes,Thraupidae,song birds,tanagers,153
+153,0.68554875,0.721712336,0.095677744,Pelecaniformes,Threskiornithidae,"Ibis, herons and pelicans",Threskiornithidae,154
+154,-0.605924866,-0.601553958,0.520564989,Passeriformes,Timaliidae,song birds,babblers,155
+155,-0.017534688,0.104296888,0.994391627,Tinamiformes,Tinamidae,tinamous,Tinamidae,156
+156,0.771877294,-0.349095267,0.531354827,Coraciiformes,Todidae,kingfishers and others,Todidae,157
+157,0.099861391,0.87305053,-0.477294971,Apodiformes,Trochilidae,swifts and hummingbirds,hummingbirds,158
+158,0.555753198,-0.351472404,0.753396009,Trogoniformes,Trogonidae,trogons and quetzals,Trogonidae,159
+159,-0.40133775,-0.88047891,-0.252358702,Passeriformes,Turdidae,song birds,thrushes,160
+160,0.564474361,0.479805206,0.67168123,Charadriiformes,Turnicidae,shorebirds and others,buttonquails,161
+161,0.560450485,-0.652811443,-0.509639566,Passeriformes,Tyrannidae,song birds,Tyrannidae,162
+162,0.950794943,-0.173085601,0.256963744,Strigiformes,Tytonidae,owls,barn owls,163
+163,0.481994722,-0.004508459,0.876162528,Upupiformes,Upupidae,hoopoes and others,Upupidae,164
+164,-0.322965599,0.246009907,-0.913877652,Passeriformes,Vangidae,song birds,Vangidae,165
+165,0.003921886,0.030960923,-0.999512909,Passeriformes,Vireonidae,song birds,Vireonidae,166
+166,-0.342640658,-0.816592744,0.464514461,Passeriformes,Zosteropidae,song birds,white-eyes,167
