@@ -19,9 +19,9 @@
                     "font_file": "ARIALN.TTF",
                     "font_size": 72,
                     "font_color": [ 255, 255, 255 ],
-                    "point_scale_factor": 6.34,
-                    "point_scale_exponent": 6.4,
-                    "max_size": 0.77,
+                    "point_scale_factor": 7.07,
+                    "point_scale_exponent": 6.1599,
+                    "max_size": 1.21,
                     "gui_info": {
                         "path": "Eukaryotes/Labels",
                         "name": "class (eng) rendered"
@@ -32,6 +32,38 @@
             "gui_info": {
                 "path": "Eukaryotes/Points",
                 "name": "Classes",
+                "hidden": false
+            }
+        },
+        {
+            "csv_file": "eukaryotes_classes_by_class_eng.csv",
+            "type": "points",
+            "data_scale_factor": 100000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 29.9,
+            "point_scale_exponent": 4.6,
+            "max_size": 0.1,
+            "color_by_columns": ["phylum", "class", "kingdom"],
+            "colormap": "colormaps.Cyclic.Hsv",
+            "rendered_labels": [
+                { 
+                    "column" : "class_eng",
+                    "font_file": "ARIALN.TTF",
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor":12.199,
+                    "point_scale_exponent": 6.1599,
+                    "max_size": 1.21,
+                    "gui_info": {
+                        "path": "Eukaryotes/Labels",
+                        "name": "class (eng) rendered grouped"
+                    }
+                }
+            ],
+            "interaction_sphere": 1,
+            "gui_info": {
+                "path": "Eukaryotes/Points",
+                "name": "Classes grouped",
                 "hidden": false
             }
         },
@@ -56,7 +88,7 @@
                     "max_size": 4.28,
                     "gui_info": {
                         "path": "Eukaryotes/Labels",
-                        "name": "Kingdom_rendered"
+                        "name": "Kingdom rendered"
                     }
                 }
             ],
@@ -352,10 +384,35 @@
                 },
                 {
                     "column": "species",
+                    "taxon": "Ailurus fulgens",
+                    "download_type": "local",
+                    "model_path": "Ailurus fulgens cranium.glb",
+                    "model_scale": 500,
+                    "gui_info": {
+                        "path": "Mammals/Models/Carnivora",
+                        "name": "Ailurus fulgens cranium",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "species",
+                    "taxon": "Ailurus fulgens",
+                    "sub_model": "endocast",
+                    "download_type": "local",
+                    "model_path": "Ailurus fulgens endocast.glb",
+                    "model_scale": 500,
+                    "gui_info": {
+                        "path": "Mammals/Models/Carnivora",
+                        "name": "Ailurus fulgens endocast",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "species",
                     "taxon": "Arctocephalus townsendi",
                     "download_type": "local",
                     "model_path": "Arctocephalus townsendi skull.glb",
-                    "model_scale": 3000,
+                    "model_scale": 1000,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Arctocephalus townsendi",
@@ -368,7 +425,7 @@
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Arctocephalus townsendi endocast.glb",
-                    "model_scale": 3000,
+                    "model_scale": 1000,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Arctocephalus townsendi endocast",
@@ -380,7 +437,7 @@
                     "taxon": "Leptonychotes weddellii",
                     "download_type": "local",
                     "model_path": "Leptonychotes weddelli cranium.glb",
-                    "model_scale": 700,
+                    "model_scale": 500,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Leptonychotes weddelli",
@@ -393,7 +450,7 @@
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Leptonychotes weddelli endocast.glb",
-                    "model_scale": 700,
+                    "model_scale": 500,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Leptonychotes weddelli endocast",

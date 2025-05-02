@@ -54,6 +54,21 @@ class StringRenderer:
         image.save(filename, "PNG")
 
 
+    def render_string_to_png_offset(self, text, font_name, font_size, font_color_triple, filename):
+        # Render the string such that the string begins in the center of the image.
+        font = self.get_font(font_name, font_size)
+        text_bbox = font.getbbox(text)
+
+        offset_x = text_bbox[2] - text_bbox[0]
+
+        # Size the image so that it is wide enough to hold the text plus the offset.
+        image = Image.new("RGBA", (text_bbox[2] + offset_x, text_bbox[3]), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(image)
+
+        draw.text((offset_x, 0), text, fill=font_color_triple, font=font)
+        image.save(filename, "PNG")
+
+
     def render_string_to_png_with_box(self, text, font_name, font_size, font_color_triple, filename):
         font = self.get_font(font_name, font_size)
         text_bbox = font.getbbox(text)
@@ -66,3 +81,12 @@ class StringRenderer:
         draw.rectangle((0, 0, text_bbox[2] + 7, text_bbox[3] + 7), outline=font_color_triple, width=3)
         image.save(filename, "PNG")
 
+# Test harness.
+
+if __name__ == "__main__":
+    renderer = StringRenderer()
+    # Test rendering a string to a PNG file.
+    renderer.render_string_to_png("Hello, World!", "arial.ttf", 24, (255, 0, 0), "test.png")
+    renderer.render_string_to_png_offset("Centered Text", "arial.ttf", 24, (0, 255, 0), "test_offset.png")
+    renderer.render_string_to_png_with_box("Boxed Text", "arial.ttf", 24, (0, 0, 255), "test_boxed.png")
+    

@@ -32,6 +32,8 @@ IF "%1"=="faherty_apr_23" (
 
     cd data/Jan_30_2025_recentered
     python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c kingdom
+    python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c class
+    python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c class_eng
     cd %REPO_PATH%
 
     cd data/Jan_30_2025_recentered
@@ -44,6 +46,7 @@ IF "%1"=="faherty_apr_23" (
     echo Making grouped datasets...
     cd data/Jan_30_2025_recentered
     python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c kingdom
+    python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c class
     cd %REPO_PATH%
 
     echo Making May 12 assets...

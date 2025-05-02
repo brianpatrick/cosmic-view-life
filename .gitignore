@@ -54,3 +54,7 @@ Makefile.config
 
 /scratch_data/
 .Rproj.user
+
+# Protein structure prediction files
+*.pdb
+*.cif

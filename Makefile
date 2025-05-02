@@ -27,6 +27,8 @@ jan_30_2025_recentered_groups:
 	@echo "*** Building jan_30_2025_recentered groups"
 	@cd data/Jan_30_2025_recentered; \
 	python ${REPO_PATH}/group_dataset.py -i eukaryotes_classes.csv -c kingdom
+	python ${REPO_PATH}/group_dataset.py -i eukaryotes_classes.csv -c class
+	python ${REPO_PATH}/group_dataset.py -i eukaryotes_classes.csv -c class_eng
 
 jan_30_2025_recentered: jan_30_2025_recentered_clean_cache jan_30_2025_recentered_groups
 	@echo "*** Building jan_30_2025_recentered"
