@@ -6,6 +6,7 @@
         {
             "csv_file": "eukaryotes_classes.csv",
             "type": "points",
+            "enabled": true,
             "data_scale_factor": 100000,
             "default_texture": "point3a.png",
             "point_scale_factor": 29.9,
@@ -16,6 +17,7 @@
             "rendered_labels": [
                 { 
                     "column" : "class_eng",
+                    "enabled": false,
                     "font_file": "ARIALN.TTF",
                     "font_size": 72,
                     "font_color": [ 255, 255, 255 ],
@@ -213,6 +215,7 @@
             "color_by_columns": ["family", "order", "genus"],
             "rendered_labels": [
                 { 
+                    "enabled": false,
                     "column" : "species",
                     "font_file": "ARIALNI.TTF",
                     "font_size": 72,
@@ -290,6 +293,7 @@
                 "parent_point": "Aves"
             },
             "type": "points",
+            "enabled": false,
             "data_scale_factor": 1000,
             "default_texture": "point3a.png",
             "point_scale_factor": 7.99,
@@ -297,6 +301,7 @@
             "color_by_columns": ["family", "order", "genus"],
             "rendered_labels": [
                 { 
+                    "enabled": false,
                     "column" : "species",
                     "font_file": "ARIALNI.TTF",
                     "font_size": 72,
@@ -330,7 +335,7 @@
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
             "line_width": 2.4,
-            "enabled": false,
+            "enabled": true,
             "gui_info": {
                 "path": "Birds/Branches",
                 "name": "Species",
@@ -344,7 +349,7 @@
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
             "line_width": 2.4,
-            "enabled": false,
+            "enabled": true,
             "gui_info": {
                 "path": "Birds/Branches",
                 "name": "Terminal Species",
@@ -360,6 +365,7 @@
                 {
                     "column": "species",
                     "taxon": "Hyaena hyaena",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Hyaena cranium.glb",
                     "model_scale": 300,
@@ -372,6 +378,7 @@
                 {
                     "column": "species",
                     "taxon": "Hyaena hyaena",
+                    "enabled": false,
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Hyaena endocast.glb",
@@ -385,6 +392,7 @@
                 {
                     "column": "species",
                     "taxon": "Ailurus fulgens",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Ailurus fulgens cranium.glb",
                     "model_scale": 500,
@@ -397,6 +405,7 @@
                 {
                     "column": "species",
                     "taxon": "Ailurus fulgens",
+                    "enabled": false,
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Ailurus fulgens endocast.glb",
@@ -410,6 +419,7 @@
                 {
                     "column": "species",
                     "taxon": "Arctocephalus townsendi",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Arctocephalus townsendi skull.glb",
                     "model_scale": 1000,
@@ -422,6 +432,7 @@
                 {
                     "column": "species",
                     "taxon": "Arctocephalus townsendi",
+                    "enabled": false,
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Arctocephalus townsendi endocast.glb",
@@ -435,6 +446,7 @@
                 {
                     "column": "species",
                     "taxon": "Leptonychotes weddellii",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Leptonychotes weddelli cranium.glb",
                     "model_scale": 500,
@@ -447,6 +459,7 @@
                 {
                     "column": "species",
                     "taxon": "Leptonychotes weddellii",
+                    "enabled": false,
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Leptonychotes weddelli endocast.glb",
@@ -460,6 +473,7 @@
                 {
                     "column": "species",
                     "taxon": "Canis lupus",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Canis lupus skull.glb",
                     "model_scale": 1000,
@@ -472,6 +486,7 @@
                 {
                     "column": "species",
                     "taxon": "Canis lupus",
+                    "enabled": false,
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Canis lupus endocast.glb",
@@ -485,6 +500,7 @@
                 {
                     "column": "species",
                     "taxon": "Felis catus",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Felis catus skull.glb",
                     "model_scale": 4000,
@@ -497,6 +513,7 @@
                 {
                     "column": "species",
                     "taxon": "Felis catus",
+                    "enabled": false,
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Felis catus endocast.glb",
@@ -510,6 +527,7 @@
                 {
                     "column": "species",
                     "taxon": "Gorilla gorilla",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Gorilla_gorilla_99-9686m.glb",
                     "model_scale": 7000,
@@ -522,6 +540,7 @@
                 {
                     "column": "species",
                     "taxon": "Ateles belzebuth",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Ateles_belzebuth_91782_Male.glb",
                     "model_scale": 6000,
@@ -534,6 +553,7 @@
                 {
                     "column": "species",
                     "taxon": "Lophocebus albigena",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Lophocebus_albigena_52628m.glb",
                     "model_scale": 6000,
@@ -546,6 +566,7 @@
                 {
                     "column": "species",
                     "taxon": "Mandrillus sphinx",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Mandrillus_sphinx_89358f.glb",
                     "model_scale": 6000,
@@ -558,6 +579,7 @@
                 {
                     "column": "species",
                     "taxon": "Pan troglodytes troglodytes",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Pan_troglodytes_167342_Male_CLEANED.glb",
                     "model_scale": 6000,
@@ -620,6 +642,7 @@
                 {
                     "column": "order",
                     "taxon": "Archaeognatha",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Archaeognatha - Trigoniophthalmus v2.glb",
                     "model_scale": 5000,
@@ -632,6 +655,7 @@
                 {
                     "column": "order",
                     "taxon": "Archaeognatha",
+                    "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
                     "model_path": "Archaeognatha - Trigoniophthalmus tracheae.glb",
@@ -646,6 +670,7 @@
                 {
                     "column": "order",
                     "taxon": "Odonata",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Odonata - Aeshnidae v2.glb",
                     "model_scale": 10000,
@@ -658,6 +683,7 @@
                 {
                     "column": "order",
                     "taxon": "Odonata",
+                    "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
                     "model_path": "Odonata - Aeshnidae simple tracheae plus air sac tracheae.glb",
@@ -671,6 +697,7 @@
                 {
                     "column": "order",
                     "taxon": "Blattodea",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Blattodea - Hissing cockroach body.glb",
                     "model_scale": 10000,
@@ -683,6 +710,7 @@
                 {
                     "column": "order",
                     "taxon": "Blattodea",
+                    "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
                     "model_path": "Blattodea - Hissing cockroach tracheae.glb",
@@ -695,107 +723,8 @@
                 },
                 {
                     "column": "order",
-                    "taxon": "Dermaptera",
-                    "download_type": "local",
-                    "model_path": "Dermaptera - Forficula high res body.glb",
-                    "model_scale": 13000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Earwig (Dermaptera)",
-                        "name": "Dermaptera hi res body",
-                        "hidden": false
-                    }  
-                },
-                {
-                    "column": "order",
-                    "taxon": "Dermaptera",
-                    "sub_model": "tracheae",
-                    "download_type": "local",
-                    "model_path": "Dermaptera - Forficula tracheae.glb",
-                    "model_scale": 13000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Earwig (Dermaptera)",
-                        "name": "Dermaptera tracheae",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "order",
-                    "taxon": "Grylloblatta",
-                    "download_type": "local",
-                    "model_path": "Grylloblattodea - Grylloblatta.glb",
-                    "model_scale": 13000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Icecrawler (Grylloblattodea)",
-                        "name": "Grylloblatta body",
-                        "hidden": false
-                    }  
-                },
-                {
-                    "column": "order",
-                    "taxon": "Grylloblatta",
-                    "sub_model": "tracheae",
-                    "download_type": "local",
-                    "model_path": "Grylloblattodea - Grylloblatta tracheae.glb",
-                    "model_scale": 13000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Icecrawler (Grylloblattodea)",
-                        "name": "Grylloblatta tracheae",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "order",
-                    "taxon": "Isoptera",
-                    "download_type": "local",
-                    "model_path": "Isoptera - termite soldier v2.glb",
-                    "model_scale": 13000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Termite soldier (Isoptera)",
-                        "name": "Isoptera body",
-                        "hidden": false
-                    }  
-                },
-                {
-                    "column": "order",
-                    "taxon": "Isoptera",
-                    "sub_model": "tracheae",
-                    "download_type": "local",
-                    "model_path": "Isoptera - termite soldier tracheae.glb",
-                    "model_scale": 13000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Termite soldier (Isoptera)",
-                        "name": "Isoptera tracheae",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "order",
-                    "taxon": "Mantodea",
-                    "download_type": "local",
-                    "model_path": "Mantodea - Tenodera sinensis v2.glb",
-                    "model_scale": 6000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Mantis (Mantodea)",
-                        "name": "Mantodea body",
-                        "hidden": false
-                    }  
-                },
-                {
-                    "column": "order",
-                    "taxon": "Mantodea",
-                    "sub_model": "tracheae",
-                    "download_type": "local",
-                    "model_path": "Mantodea - Tenodera sinensis tracheae.glb",
-                    "model_scale": 6000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Mantis (Mantodea)",
-                        "name": "Mantodea tracheae",
-                        "hidden": false
-                    }
-                },
-                {
-                    "column": "order",
                     "taxon": "Orthoptera",
+                    "enabled": false,
                     "download_type": "local",
                     "model_path": "Orthoptera - Gryllus v2.glb",
                     "model_scale": 6000,
@@ -808,6 +737,7 @@
                 {
                     "column": "order",
                     "taxon": "Orthoptera",
+                    "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
                     "model_path": "Orthoptera - Gryllus tracheae.glb",
@@ -820,26 +750,42 @@
                 },
                 {
                     "column": "order",
-                    "taxon": "Plecoptera",
+                    "taxon": "Hemiptera",
+                    "enabled": false,
                     "download_type": "local",
-                    "model_path": "Plecoptera - Nemouridae v3.glb",
-                    "model_scale": 25000,
+                    "model_path": "Hemiptera - Cicada v2.glb",
+                    "model_scale": 6000,
                     "gui_info": {
-                        "path": "Insecta/Models/Stonefly (Plecoptera)",
-                        "name": "Plecoptera body",
+                        "path": "Insecta/Models/Cicada (Hemiptera)",
+                        "name": "Cicada body",
                         "hidden": false
                     }  
                 },
                 {
                     "column": "order",
-                    "taxon": "Plecoptera",
+                    "taxon": "Hemiptera",
+                    "enabled": false,
+                    "sub_model": "no_wings",
+                    "download_type": "local",
+                    "model_path": "Hemiptera - Cicada no wings v2.glb",
+                    "model_scale": 6000,
+                    "gui_info": {
+                        "path": "Insecta/Models/Cicada no wings(Hemiptera)",
+                        "name": "Cicada body no wings",
+                        "hidden": false
+                    }  
+                },
+                {
+                    "column": "order",
+                    "taxon": "Hemiptera",
+                    "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
-                    "model_path": "Plecoptera - Nemouridae tracheae.glb",
-                    "model_scale": 25000,
+                    "model_path": "Hemiptera - Cicada tracheae v2.glb",
+                    "model_scale": 6000,
                     "gui_info": {
-                        "path": "Insecta/Models/Stonefly (Plecoptera)",
-                        "name": "Plecoptera tracheae",
+                        "path": "Insecta/Models/Cicada (Hemiptera)",
+                        "name": "Cicada tracheae",
                         "hidden": false
                     }
                 }
@@ -853,6 +799,7 @@
                 {
                     "column": "order",
                     "taxon": "Zygentoma",
+                    "enabled": false,
                     "pdb_code": "5MSZ",
                     "model_scale": 4500,
                     "show_as": "cartoon",
@@ -865,6 +812,7 @@
                 {
                     "column": "order",
                     "taxon": "Diptera",
+                    "enabled": false,
                     "pdb_code": "2BK9",
                     "model_scale": 4500,
                     "show_as": "cartoon",
@@ -877,6 +825,7 @@
                 {
                     "column": "order",
                     "taxon": "Lepidoptera",
+                    "enabled": false,
                     "pdb_code": "1M8N",
                     "model_scale": 4500,
                     "show_as": "cartoon",
@@ -889,6 +838,7 @@
                 {
                     "column": "order",
                     "taxon": "Coleoptera",
+                    "enabled": false,
                     "pdb_code": "1LCI",
                     "model_scale": 4500,
                     "show_as": "cartoon",
@@ -901,6 +851,7 @@
                 {
                     "column": "order",
                     "taxon": "Hymenoptera",
+                    "enabled": false,
                     "pdb_code": "1FCQ",
                     "model_scale": 4500,
                     "show_as": "surface",

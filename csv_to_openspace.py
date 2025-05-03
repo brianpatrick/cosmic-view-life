@@ -8,7 +8,7 @@ Datasets provided from various sources (various in this instance means Wandrille
 Takanori, as well as "The Internet") are typically provided in CSV files with at least X,
 Y, and hopefully Z coordinates. A number of other parameters, loosely termed "metadata",
 may also be provided. This script takes the CSV file as input creates OpenSpace files
-(asset, label, etc) as necessarfy.
+(asset, label, etc) as necessary.
 
 Additionally, every CSV file has slightly different parameters as far as how it's drawn by
 openspace. This info is all contained in the dataset csv file and these parameters are
@@ -204,6 +204,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              size_scale_exponent,
                                              max_size,
                                              units,
+                                             enabled,
                                              rendered_labels,
                                              gui_top_level,
                                              parent,
@@ -368,6 +369,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
         print( "    Renderable = {", file=output_file)
         print( "        Type = \"RenderablePointCloud\",", file=output_file)
+        print(f"        Enabled = {enabled},", file=output_file)
         print( "        UseAdditiveBlending = true,", file=output_file)
         print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
         print( "        SizeSettings = {", file=output_file)
@@ -459,6 +461,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                 print(f"    Parent = transforms.{parent_position_name}.Identifier,", file=output_file)
                 print( "    Renderable = {", file=output_file)
                 print( "        Type = \"RenderablePointCloud\",", file=output_file)
+                labels_enabled = label["enabled"] if "enabled" in label else True
+                labels_enabled = str(labels_enabled).lower()  # Convert to lowercase string for Lua
+                print(f"        Enabled = {labels_enabled},", file=output_file)
                 print( "        UseAdditiveBlending = true,", file=output_file)
                 print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
                 print( "        SizeSettings = {", file=output_file)
@@ -825,6 +830,8 @@ def make_models_from_dataframe(model_points_df,
             print( "    },", file=output_file)
             print( "    Renderable = {", file=output_file)
             print( "        Type = \"RenderableModel\",", file=output_file)
+            model_enabled = model["enabled"] if "enabled" in model else True
+            print(f"        Enabled = {str(model_enabled).lower()},", file=output_file)
             print(f"        AmbientIntensity = 0.0,", file=output_file)
             print(f"        Opacity = 1.0,", file=output_file)
             if model["download_type"] == "url":
@@ -832,7 +839,6 @@ def make_models_from_dataframe(model_points_df,
             else:
                 print(f"        GeometryFile = asset.resource(\"./{model['model_path']}\"),", file=output_file)
             print(f"        ModelScale = {model['model_scale']},", file=output_file)
-            print(f"        Enabled = true,", file=output_file)
             print( "        LightSources = {", file=output_file)
             print( "            { Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.5 }", file=output_file)
             print( "        }", file=output_file)
@@ -952,6 +958,8 @@ def make_pdb_from_dataframe(protein_points_df,
             print( "    },", file=output_file)
             print( "    Renderable = {", file=output_file)
             print( "        Type = \"RenderableModel\",", file=output_file)
+            pdb_enabled = protein.get("enabled", True)
+            print(f"        Enabled = {str(pdb_enabled).lower()},", file=output_file)
             print(f"        AmbientIntensity = 0.0,", file=output_file)
             print(f"        Opacity = 1.0,", file=output_file)
             print(f"        GeometryFile = asset.resource(\"./{glb_filename}\"),", file=output_file)
@@ -1069,6 +1077,9 @@ def main():
             row["enabled"] = "true"
         else:
             row["enabled"] = "false"
+        # If the enabled key is not present, default to true.
+        if "enabled" not in row:
+            row["enabled"] = "true"
 
         text_color = row.get("text_color", None)
 
@@ -1125,6 +1136,7 @@ def main():
                                                         size_scale_exponent=row["point_scale_exponent"],
                                                         max_size=max_size,
                                                         units=units,
+                                                        enabled=row["enabled"],
                                                         rendered_labels=rendered_labels,
                                                         gui_top_level=gui_top_level,
                                                         parent=parent,
