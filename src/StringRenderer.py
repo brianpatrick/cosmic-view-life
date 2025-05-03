@@ -55,7 +55,8 @@ class StringRenderer:
 
     # Draw the string such that the lower left corner of the text is at the center of the
     # image, plus a little offset so that the text doesn't sit on top of the center point.
-    def render_string_to_png_offset(self, text, font_name, font_size, font_color_triple, filename):
+    def render_string_to_png_offset(self, text, font_name, font_size, font_color_triple, filename,
+                                    background_color=(0, 0, 0, 0)):
         # Render the string such that the string begins in the center of the image.
         font = self.get_font(font_name, font_size)
         text_bbox = font.getbbox(text)
@@ -68,22 +69,23 @@ class StringRenderer:
         # Size the image so that it is wide enough to hold the text plus the offset.
         image = Image.new("RGBA", 
                           size = (text_bbox[2] + offset_x + padding, text_bbox[3] + offset_y + padding), 
-                          color = (0,0,0,0))
+                          color = background_color)
         draw = ImageDraw.Draw(image)
 
         # Where this is drawn is a little wonky. I think 0,0 is the LLC for the image but
         # the text is drawn from the ULC. But it's like 6:30AM on a Saturday and I don't
         # want to figure it out right now.
-        draw.text((offset_x + (padding // 2), -(offset_y // 2)), 
+        draw.text((offset_x + (padding // 2), -(offset_y - padding * 4)), 
                   text, fill=font_color_triple, font=font)
         image.save(filename, "PNG")
 
 
-    def render_string_to_png_with_box(self, text, font_name, font_size, font_color_triple, filename):
+    def render_string_to_png_with_box(self, text, font_name, font_size, font_color_triple, filename,
+                                      background_color=(0, 0, 0, 0)):
         font = self.get_font(font_name, font_size)
         text_bbox = font.getbbox(text)
 
-        image = Image.new("RGBA", (text_bbox[2] + 7, text_bbox[3] + 7), (0, 0, 0, 0))
+        image = Image.new("RGBA", (text_bbox[2] + 7, text_bbox[3] + 7), background_color)
         draw = ImageDraw.Draw(image)
         draw.text((3, 3), text, fill=font_color_triple, font=font)
 
@@ -96,7 +98,8 @@ class StringRenderer:
 if __name__ == "__main__":
     renderer = StringRenderer()
     # Test rendering a string to a PNG file.
-    renderer.render_string_to_png("Hello, World!", "arial.ttf", 72, (255, 0, 0), "test.png")
-    renderer.render_string_to_png_offset("Centered Text", "arial.ttf", 72, (0, 255, 0), "test_offset.png")
-    renderer.render_string_to_png_with_box("Boxed Text", "arial.ttf", 72, (0, 0, 255), "test_boxed.png")
+    renderer.render_string_to_png("Hello, World!", "BRITANIC.TTF", 72, (255, 0, 0), "test.png")
+    renderer.render_string_to_png_offset("Viridiplantae (32)", "BRITANIC.TTF", 72, (0, 255, 0), "test_offset.png",
+                                         background_color=(25, 25, 25, 255))
+    renderer.render_string_to_png_with_box("Boxed Text", "BRITANIC.TTF", 72, (0, 0, 255), "test_boxed.png")
     
