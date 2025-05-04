@@ -61,6 +61,8 @@ class StringRenderer:
         font = self.get_font(font_name, font_size)
         text_bbox = font.getbbox(text)
 
+        # I really dislike magic numbers, but at some point it comes down to
+        # aesthetics and just making it look good.
         padding = 5
 
         offset_x = text_bbox[2] - text_bbox[0]
