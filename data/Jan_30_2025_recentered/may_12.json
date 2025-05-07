@@ -6,14 +6,23 @@
         {
             "csv_file": "eukaryotes_classes.csv",
             "type": "points",
-            "enabled": true,
+            "enabled": false,
             "data_scale_factor": 100000,
             "default_texture": "point3a.png",
             "point_scale_factor": 29.9,
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
-            "color_by_columns": ["phylum", "class", "kingdom"],
-            "colormap": "colormaps.Cyclic.Hsv",
+            "colormapping": {
+                "color_by_columns": ["kingdom", "phylum", "class"],
+                "local_colormap": true,
+                "colormap": "eukaryotes_kingdoms.cmap",
+                "range": [
+                    { 
+                        "key": "kingdom",
+                        "range": [1.0, 4.0]
+                    }
+                ]
+            },
             "rendered_labels": [
                 { 
                     "column" : "class_eng",
@@ -25,15 +34,15 @@
                     "point_scale_exponent": 6.1599,
                     "max_size": 1.21,
                     "gui_info": {
-                        "path": "Eukaryotes/Labels",
-                        "name": "class (eng) rendered"
+                        "path": "Eukaryotes",
+                        "name": "Labels - class (eng)"
                     }
                 }
             ],
             "interaction_sphere": 1,
             "gui_info": {
-                "path": "Eukaryotes/Points",
-                "name": "Classes",
+                "path": "Eukaryotes",
+                "name": "Points - Class",
                 "hidden": false
             }
         },
@@ -45,9 +54,11 @@
             "point_scale_factor": 29.9,
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
-            "color_by_columns": ["phylum", "class", "kingdom"],
-            "colormap": "colormaps.Cyclic.Hsv",
-            "rendered_labels": [
+            "colormapping": {
+                "color_by_columns": ["phylum", "class", "kingdom"],
+                "colormap": "colormaps.Cyclic.Hsv"
+            },
+           "rendered_labels": [
                 { 
                     "column" : "class_eng",
                     "font_file": "ARIALN.TTF",
@@ -57,15 +68,15 @@
                     "point_scale_exponent": 6.1599,
                     "max_size": 1.21,
                     "gui_info": {
-                        "path": "Eukaryotes/Labels",
-                        "name": "class (eng) rendered grouped"
+                        "path": "Eukaryotes",
+                        "name": "Labels - class (eng) grouped"
                     }
                 }
             ],
             "interaction_sphere": 1,
             "gui_info": {
-                "path": "Eukaryotes/Points",
-                "name": "Classes grouped",
+                "path": "Eukaryotes",
+                "name": "Points - Class (grouped)",
                 "hidden": false
             }
         },
@@ -77,8 +88,10 @@
             "point_scale_factor": 29.9,
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
-            "color_by_columns": ["kingdom"],
-            "colormap": "colormaps.Cyclic.Hsv",
+            "colormapping": {
+                "color_by_columns": ["kingdom"],
+                "colormap": "colormaps.Cyclic.Hsv"
+            },
             "rendered_labels": [
                 { 
                     "column" : "kingdom",
@@ -89,15 +102,15 @@
                     "point_scale_exponent": 7.01,
                     "max_size": 4.28,
                     "gui_info": {
-                        "path": "Eukaryotes/Labels",
-                        "name": "Kingdom rendered"
+                        "path": "Eukaryotes",
+                        "name": "Labels - Kingdom"
                     }
                 }
             ],
             "interaction_sphere": 1,
             "gui_info": {
-                "path": "Eukaryotes/Points",
-                "name": "Kingdom (grouped)",
+                "path": "Eukaryotes",
+                "name": "Points - Kingdom (grouped)",
                 "hidden": false
             }
         },
@@ -111,8 +124,10 @@
             "point_scale_factor": 2.5,
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
-            "color_by_columns": ["order"],
-            "colormap": "colormaps.Cyclic.Hsv",
+            "colormapping": {
+                "color_by_columns": ["order"],
+                "colormap": "colormaps.Cyclic.Hsv"
+            },
             "interaction_sphere": 1,
             "gui_info": {
                 "path": "Interp",
@@ -129,8 +144,10 @@
             "point_scale_factor": 2.5,
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
-            "color_by_columns": ["genus","species"],
-            "colormap": "colormaps.Cyclic.Hsv",
+            "colormapping": {
+                "color_by_columns": ["genus","species"],
+                "colormap": "colormaps.Cyclic.Hsv"
+            },
             "interaction_sphere": 1,
             "gui_info": {
                 "path": "Birds/Observations",
@@ -148,7 +165,10 @@
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
             "color_by_columns": ["genus","species"],
-            "colormap": "colormaps.Cyclic.Hsv",
+            "colormapping": {
+                "color_by_columns": ["phylum", "class", "kingdom"],
+                "colormap": "colormaps.Cyclic.Hsv"
+            },
             "interaction_sphere": 1,
             "gui_info": {
                 "path": "Birds/Observations",
@@ -169,7 +189,10 @@
             "default_texture": "point3a.png",
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
-            "color_by_columns": ["family", "order"],
+            "colormapping": {
+                "color_by_columns": ["family", "order"],
+                "colormap": "colormaps.Uniform.Viridis"
+            },
             "rendered_labels": [
                 { 
                     "column" : "family_eng",
@@ -212,7 +235,10 @@
             "default_texture": "point3a.png",
             "point_scale_factor": 7.99,
             "point_scale_exponent": 3.03,
-            "color_by_columns": ["family", "order", "genus"],
+            "colormapping": {
+                "color_by_columns": ["family", "order", "genus"],
+                "colormap": "colormaps.Uniform.Viridis"
+            },
             "rendered_labels": [
                 { 
                     "enabled": false,
@@ -242,6 +268,33 @@
                 "hidden": false
             }
         },
+
+        {
+            "csv_file": "mammal_species.csv",
+            "data_scale_factor": 1000,
+            "parent": {
+                "csv_file": "eukaryotes_classes.csv",
+                "parent_type": "points",
+                "parent_column": "class",
+                "parent_point": "Mammalia"
+            },
+            "type": "pdb",
+            "protein_list" : [
+                {
+                    "column": "species",
+                    "taxon": "Canis lupus",
+                    "pdb_code": "8AEH",
+                    "model_scale": 20,
+                    "model_offset": [16, -1, 0],
+                    "show_as": "cartoon",
+                    "gui_info": {
+                        "path": "Mammals/PDB",
+                        "name": "Canis familiaris odorant binding protein 1",
+                        "hidden": false
+                    }
+                }
+            ]        
+        },
         {
             "csv_file": "bird_families.csv",
             "parent": {
@@ -255,7 +308,10 @@
             "default_texture": "point3a.png",
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
-            "color_by_columns": ["family", "order"],
+            "colormapping": {
+                "color_by_columns": ["family", "order"],
+                "colormap": "colormaps.Uniform.Viridis"
+            },
             "rendered_labels": [
                 { 
                     "column" : "family_eng",
@@ -274,6 +330,7 @@
             "fade_targets": [
                 ["eukaryotes_classes", "points"],
                 ["eukaryotes_classes", "class_eng_rendered_labels"],
+                ["eukaryotes_classes", "by_class_eng_class_eng_rendered_labels"],
                 ["eukaryotes_classes_by_kingdom", "points"],
                 ["eukaryotes_classes_by_kingdom", "kingdom_rendered_labels"]
             ],
@@ -298,7 +355,10 @@
             "default_texture": "point3a.png",
             "point_scale_factor": 7.99,
             "point_scale_exponent": 3.03,
-            "color_by_columns": ["family", "order", "genus"],
+            "colormapping": {
+                "color_by_columns": ["family", "order", "genus"],
+                "colormap": "colormaps.Uniform.Viridis"
+            },
             "rendered_labels": [
                 { 
                     "enabled": false,
@@ -449,7 +509,7 @@
                     "enabled": false,
                     "download_type": "local",
                     "model_path": "Leptonychotes weddelli cranium.glb",
-                    "model_scale": 500,
+                    "model_scale": 250,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Leptonychotes weddelli",
@@ -463,7 +523,7 @@
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Leptonychotes weddelli endocast.glb",
-                    "model_scale": 500,
+                    "model_scale": 250,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Leptonychotes weddelli endocast",
@@ -476,7 +536,7 @@
                     "enabled": false,
                     "download_type": "local",
                     "model_path": "Canis lupus skull.glb",
-                    "model_scale": 1000,
+                    "model_scale": 2500,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Canis lupus",
@@ -490,7 +550,7 @@
                     "sub_model": "endocast",
                     "download_type": "local",
                     "model_path": "Canis lupus endocast.glb",
-                    "model_scale": 1000,
+                    "model_scale": 2500,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Canis lupus endocast",
@@ -529,8 +589,8 @@
                     "taxon": "Gorilla gorilla",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Gorilla_gorilla_99-9686m.glb",
-                    "model_scale": 7000,
+                    "model_path": "Gorilla_gorilla_99-9686m_centered_rescaled.ply",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Mammals/Models/Primates",
                         "name": "Gorilla gorilla",
@@ -542,8 +602,8 @@
                     "taxon": "Ateles belzebuth",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Ateles_belzebuth_91782_Male.glb",
-                    "model_scale": 6000,
+                    "model_path": "Ateles_belzebuth_91782_Male_centered_rescaled.ply",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Mammals/Models/Primates",
                         "name": "Ateles belzebuth",
@@ -555,8 +615,8 @@
                     "taxon": "Lophocebus albigena",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Lophocebus_albigena_52628m.glb",
-                    "model_scale": 6000,
+                    "model_path": "Lophocebus_albigena_52628m_centered_rescaled.ply",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Mammals/Models/Primates",
                         "name": "Lophocebus albigena",
@@ -568,8 +628,8 @@
                     "taxon": "Mandrillus sphinx",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Mandrillus_sphinx_89358f.glb",
-                    "model_scale": 6000,
+                    "model_path": "Mandrillus_sphinx_89358f_centered_rescaled.ply",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Mammals/Models/Primates",
                         "name": "Mandrillus sphinx",
@@ -581,8 +641,8 @@
                     "taxon": "Pan troglodytes troglodytes",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Pan_troglodytes_167342_Male_CLEANED.glb",
-                    "model_scale": 6000,
+                    "model_path": "Pan_troglodytes_167342_Male_CLEANED_recentered_scaled.ply",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Mammals/Models/Primates",
                         "name": "Pan troglodytes troglodytes",
@@ -600,12 +660,15 @@
               "parent_point": "Insecta"
             },
             "type": "points",
-            "data_scale_factor": 1000,
+            "enabled": true,
+            "data_scale_factor": 700,
             "default_texture": "point3a.png",
             "point_scale_factor": 17.12,
             "point_scale_exponent": 3.03,
-            "color_by_columns": ["order"],
-            "colormap": "colormaps.Cyclic.Hsv",
+            "colormapping": {
+                "color_by_columns": ["order"],
+                "colormap": "colormaps.Cyclic.Hsv"
+            },
             "fade_targets": [
                 ["eukaryotes_classes", "points"],
                 ["eukaryotes_classes", "class_eng_rendered_labels"],
@@ -622,21 +685,21 @@
                     "point_scale_exponent": 4.21,
                     "max_size": 1.429,
                     "gui_info": {
-                        "path": "Insecta/Labels",
-                        "name": "order rendered"
+                        "path": "Insecta",
+                        "name": "order rendered labels"
                     }
                 }
             ],
             "interaction_sphere": 2,
             "gui_info": {
-              "path": "Insecta/Points",
-              "name": "order",
+              "path": "Insecta",
+              "name": "order points",
               "hidden": "false"
             }
         },
         {
             "csv_file": "insecta_order.csv",
-            "data_scale_factor": 1000,
+            "data_scale_factor": 700,
             "type": "models",
             "model_list" : [
                 {
@@ -644,8 +707,8 @@
                     "taxon": "Archaeognatha",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Archaeognatha - Trigoniophthalmus v2.glb",
-                    "model_scale": 5000,
+                    "model_path": "Archaeognatha - Trigoniophthalmus v3.glb",
+                    "model_scale": 10000,
                     "gui_info": {
                         "path": "Insecta/Models/Bristletail (Archaeognatha)",
                         "name": "Archaeognatha body",
@@ -658,7 +721,7 @@
                     "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
-                    "model_path": "Archaeognatha - Trigoniophthalmus tracheae.glb",
+                    "model_path": "Archaeognatha - Trigoniophthalmus tracheae v2.glb",
                     "model_scale": 10000,
                     "enabled": false,
                     "gui_info": {
@@ -672,8 +735,8 @@
                     "taxon": "Odonata",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Odonata - Aeshnidae v2.glb",
-                    "model_scale": 10000,
+                    "model_path": "Odonata - Aeshnidae v3.glb",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Insecta/Models/Dragonfly (Odonata)",
                         "name": "Aeshnidae body",
@@ -686,8 +749,8 @@
                     "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
-                    "model_path": "Odonata - Aeshnidae simple tracheae plus air sac tracheae.glb",
-                    "model_scale": 10000,
+                    "model_path": "Odonata - Aeshnidae simple tracheae plus air sac tracheae v2.glb",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Insecta/Models/Dragonfly (Odonata)",
                         "name": "Aeshnidae tracheae",
@@ -699,8 +762,8 @@
                     "taxon": "Blattodea",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Blattodea - Hissing cockroach body.glb",
-                    "model_scale": 10000,
+                    "model_path": "Blattodea - Hissing cockroach body v3.glb",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Insecta/Models/Roach (Blattodea)",
                         "name": "Hissing cockroach body",
@@ -713,8 +776,8 @@
                     "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
-                    "model_path": "Blattodea - Hissing cockroach tracheae.glb",
-                    "model_scale": 10000,
+                    "model_path": "Blattodea - Hissing cockroach tracheae v3.glb",
+                    "model_scale": 5000,
                     "gui_info": {
                         "path": "Insecta/Models/Roach (Blattodea)",
                         "name": "Hissing cockroach tracheae",
@@ -726,7 +789,7 @@
                     "taxon": "Orthoptera",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Orthoptera - Gryllus v2.glb",
+                    "model_path": "Orthoptera - Gryllus v3.glb",
                     "model_scale": 6000,
                     "gui_info": {
                         "path": "Insecta/Models/Cricket (Orthoptera)",
@@ -740,7 +803,7 @@
                     "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
-                    "model_path": "Orthoptera - Gryllus tracheae.glb",
+                    "model_path": "Orthoptera - Gryllus tracheae v2.glb",
                     "model_scale": 6000,
                     "gui_info": {
                         "path": "Insecta/Models/Cricket (Orthoptera)",
@@ -753,8 +816,8 @@
                     "taxon": "Hemiptera",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Hemiptera - Cicada v2.glb",
-                    "model_scale": 6000,
+                    "model_path": "Hemiptera - Cicada v3.glb",
+                    "model_scale": 8000,
                     "gui_info": {
                         "path": "Insecta/Models/Cicada (Hemiptera)",
                         "name": "Cicada body",
@@ -767,10 +830,10 @@
                     "enabled": false,
                     "sub_model": "no_wings",
                     "download_type": "local",
-                    "model_path": "Hemiptera - Cicada no wings v2.glb",
-                    "model_scale": 6000,
+                    "model_path": "Hemiptera - Cicada no wings v3.glb",
+                    "model_scale": 8000,
                     "gui_info": {
-                        "path": "Insecta/Models/Cicada no wings(Hemiptera)",
+                        "path": "Insecta/Models/Cicada (Hemiptera)",
                         "name": "Cicada body no wings",
                         "hidden": false
                     }  
@@ -781,7 +844,7 @@
                     "enabled": false,
                     "sub_model": "tracheae",
                     "download_type": "local",
-                    "model_path": "Hemiptera - Cicada tracheae v2.glb",
+                    "model_path": "Hemiptera - Cicada tracheae v3.glb",
                     "model_scale": 6000,
                     "gui_info": {
                         "path": "Insecta/Models/Cicada (Hemiptera)",
@@ -793,7 +856,7 @@
         },
         {
             "csv_file": "insecta_order.csv",
-            "data_scale_factor": 1000,
+            "data_scale_factor": 700,
             "type": "pdb",
             "protein_list" : [
                 {
@@ -802,7 +865,7 @@
                     "enabled": false,
                     "pdb_code": "5MSZ",
                     "model_scale": 4500,
-                    "show_as": "cartoon",
+                    "show_as": "wire",
                     "gui_info": {
                         "path": "Insecta/PDB",
                         "name": "5MSZ Lytic Polysaccharide Monooxygenase",
@@ -828,7 +891,7 @@
                     "enabled": false,
                     "pdb_code": "1M8N",
                     "model_scale": 4500,
-                    "show_as": "cartoon",
+                    "show_as": "sticks",
                     "gui_info": {
                         "path": "Insecta/PDB",
                         "name": "1M8N Choristoneura Fumiferana (Spruce Budworm) Antifreeze Protein Isoform 501",
@@ -854,7 +917,7 @@
                     "enabled": false,
                     "pdb_code": "1FCQ",
                     "model_scale": 4500,
-                    "show_as": "surface",
+                    "show_as": "cartoon",
                     "gui_info": {
                         "path": "Insecta/PDB",
                         "name": "1FCQ Bee Venom Hyaluronidase",

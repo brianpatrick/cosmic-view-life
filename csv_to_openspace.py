@@ -198,7 +198,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              filename_base,
                                              fade_targets,
                                              interaction_sphere,
-                                             color_by_columns,
                                              default_texture,
                                              size_scale_factor,
                                              size_scale_exponent,
@@ -208,33 +207,30 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              rendered_labels,
                                              gui_top_level,
                                              parent,
-                                             colormap,
+                                             colormapping,
                                              dataset_csv_filename,
                                              gui_info):
     
-    report_duplicate_xyz(input_points_df)
+    #report_duplicate_xyz(input_points_df)
 
     # First the CSV file. This is just the points in CSV format, however we may need to
     # add color mapping columns. If specified, for each column, we make an index for each
     # unique value that is used to index into a colormap. You can then pick which color
     # index column to use in OpenSpace to color the points.
-    if color_by_columns and str(color_by_columns) != "nan":
-        for color_by_column in color_by_columns:
-            unique_values = input_points_df[color_by_column].unique()
-            num_unique_values = len(unique_values)
-            color_index = 1
-            color_map = {}
-            for value in unique_values:
-                color_map[value] = color_index
-                color_index += 1
+    color_index_column_suffix = "_color_index"
+    color_by_columns = colormapping["color_by_columns"]
+    for color_by_column in color_by_columns:
+        unique_values = input_points_df[color_by_column].unique()
+        num_unique_values = len(unique_values)
+        color_index = 1
+        color_map = {}
+        for value in unique_values:
+            color_map[value] = color_index
+            color_index += 1
 
-            # Add a column for this color index to the dataframe.
-            color_index_column = color_by_column + "_color_index"
-            input_points_df[color_index_column] = input_points_df[color_by_column].map(color_map)
-
-    # If the colormap passed in is None, give it a default.
-    if colormap is None:
-        colormap = "colormaps.Uniform.Viridis"
+        # Add a column for this color index to the dataframe.
+        color_index_column = color_by_column + color_index_column_suffix
+        input_points_df[color_index_column] = input_points_df[color_by_column].map(color_map)
 
     # Next up is "rendered labels". These are rendered as textures, and each label has an
     # index into a texture file that specifies what texture to use for each index. This
@@ -381,19 +377,30 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
         print(f"        Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
         print(f"        Unit = \"{units}\",", file=output_file)
-        if color_by_columns:
-            # Grab the first column in the color_by_columns list.
-            # TODO: This assumes knowing the suffix on the column name. Very hacky. This
-            #       string is in the first part of make_points_asset_and_csv_from_dataframe.
-            color_param = color_by_columns[0] + "_color_index"
-            print( "        Coloring = {", file=output_file)
-            print( "            ColorMapping = {", file=output_file)
-            print(f"                File = {colormap},", file=output_file)
-            print(f"                Parameter = \"{color_param}\"", file=output_file)
-            print( "            }", file=output_file)
-            print( "        },", file=output_file)
+
+
+        # Grab the first column in the color_by_columns list.
+        color_param = color_by_columns[0] + color_index_column_suffix
+        print( "        Coloring = {", file=output_file)
+        print( "            ColorMapping = {", file=output_file)
+        if colormapping.get("local_colormap", False):
+            print(f"                File = asset.resource(\"{colormapping['colormap']}\"),", file=output_file)
+            add_output_file(colormapping['colormap'])
+
         else:
-            print( "        Coloring = { ColorMapping = { File = colormaps.Uniform.Viridis } },", file=output_file)
+            print(f"                File = {colormapping['colormap']},", file=output_file)
+        if colormapping.get("range", False):
+            print( "                ParameterOptions = {", file=output_file)
+
+            for color_range in colormapping["range"]:
+                range_low = color_range['range'][0]
+                range_high = color_range['range'][1]
+                key = color_range['key'] + color_index_column_suffix
+                print(f"                    {{ Key = \"{key}\", Range = {{ {range_low}, {range_high} }} }}", file=output_file)
+            print( "                },", file=output_file)
+        print(f"                Parameter = \"{color_param}\"", file=output_file)
+        print( "            }", file=output_file)
+        print( "        },", file=output_file)
 
         #print(f"        Coloring = {{ FixedColor = {{ 1.0, 0.0, 0.0 }} }},", file=output_file)
         print("    },", file=output_file)
@@ -943,6 +950,8 @@ def make_pdb_from_dataframe(protein_points_df,
                 taxon_name.replace(" ", "_") + protein["show_as"] + \
                 "_protein"
 
+            model_offset = protein.get("model_offset", [0, 0, 0])
+
             print(f"local {output_asset_variable_name} = {{", file=output_file)
             print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
             print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
@@ -950,9 +959,12 @@ def make_pdb_from_dataframe(protein_points_df,
             print( "        Translation = {", file=output_file)
             print( "          Type = \"StaticTranslation\",", file=output_file)
             print( "          Position = {", file=output_file)
-            print(f"            {taxon_row['x'].values[0]} * meters_in_{units},", file=output_file)
-            print(f"            {taxon_row['y'].values[0]} * meters_in_{units},", file=output_file)
-            print(f"            {taxon_row['z'].values[0]} * meters_in_{units},", file=output_file)
+            print(f"            {taxon_row['x'].values[0] + model_offset[0]} * meters_in_{units},", 
+                  file=output_file)
+            print(f"            {taxon_row['y'].values[0] + model_offset[1]} * meters_in_{units},", 
+                  file=output_file)
+            print(f"            {taxon_row['z'].values[0] + model_offset[2]} * meters_in_{units},", 
+                  file=output_file)
             print( "          }", file=output_file)
             print( "        }", file=output_file)
             print( "    },", file=output_file)
@@ -964,7 +976,6 @@ def make_pdb_from_dataframe(protein_points_df,
             print(f"        Opacity = 1.0,", file=output_file)
             print(f"        GeometryFile = asset.resource(\"./{glb_filename}\"),", file=output_file)
             print(f"        ModelScale = {protein['model_scale']},", file=output_file)
-            print(f"        Enabled = true,", file=output_file)
             print( "        LightSources = {", file=output_file)
             print( "            { Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.5 }", file=output_file)
             print( "        }", file=output_file)
@@ -1071,15 +1082,13 @@ def main():
         parent = row.get("parent", None)
         gui_info = row.get("gui_info", None)
     
-        # "enabled" is wonky. It is 1 or 0 in the CSV file, we need to change
-        # it to true or false.
-        if "enabled" in row and row["enabled"] == 1:
+        # If there is no entry in the row for "enabled", default to true. Otherwise,
+        # convert the value to a string so it can be used in the asset file.
+        enabled = row.get("enabled", True)
+        if enabled:
             row["enabled"] = "true"
         else:
             row["enabled"] = "false"
-        # If the enabled key is not present, default to true.
-        if "enabled" not in row:
-            row["enabled"] = "true"
 
         text_color = row.get("text_color", None)
 
@@ -1121,8 +1130,7 @@ def main():
         elif row["type"] == "points":
             # These are all optional arguments for making points.
             max_size = row.get("max_size", None)
-            colormap = row.get("colormap", None)
-            color_by_columns = row.get("color_by_columns", None)
+            colormapping = row.get("colormapping", None)
             rendered_labels = row.get("rendered_labels", None)
 
             print("Creating points... ", end="", flush=True)
@@ -1130,7 +1138,6 @@ def main():
                                                         filename_base=filename_base,
                                                         fade_targets=fade_targets,
                                                         interaction_sphere=row["interaction_sphere"],
-                                                        color_by_columns=color_by_columns,
                                                         default_texture=row["default_texture"],
                                                         size_scale_factor=row["point_scale_factor"],
                                                         size_scale_exponent=row["point_scale_exponent"],
@@ -1140,7 +1147,7 @@ def main():
                                                         rendered_labels=rendered_labels,
                                                         gui_top_level=gui_top_level,
                                                         parent=parent,
-                                                        colormap=colormap,
+                                                        colormapping=colormapping,
                                                         dataset_csv_filename=dataset_csv_filename,
                                                         gui_info=gui_info)
             
@@ -1219,7 +1226,11 @@ def main():
     for file in output_files:
         if args.verbose:
             print(f"{file} ", end="", flush=True)
-        shutil.copy2(file, args.asset_dir)
+        try:
+            shutil.copy2(file, args.asset_dir)
+        except Exception as e:
+            print(f"Error copying file {file} to asset directory: {e}")
+            sys.exit(1)
     print("Done.")
 
     print("Copying directories to asset dir (on WSL this may take a few minutes)... ", end="", flush=True)
