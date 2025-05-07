@@ -138,6 +138,7 @@
         {
             "csv_file": "Penguins_GBIF_Cleaned_Human_Obs.csv",
             "type": "points",
+            "enabled": false,
             "units": "Km",
             "data_scale_factor": 6380,
             "default_texture": "point3a.png",
@@ -158,6 +159,7 @@
         {
             "csv_file": "Penguins_GBIF_Cleaned_Machine_Obs.csv",
             "type": "points",
+            "enabled": false,
             "units": "Km",
             "data_scale_factor": 6380,
             "default_texture": "point3a.png",
@@ -322,8 +324,8 @@
                     "point_scale_exponent": 4.21,
                     "max_size": 2.0899,
                     "gui_info": {
-                        "path": "Birds/Labels",
-                        "name": "Family (eng) rendered"
+                        "path": "Birds",
+                        "name": "Labels - Family (eng)"
                     }
                 }
             ],
@@ -336,8 +338,8 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-                "path": "Birds/Points",
-                "name": "Family",
+                "path": "Birds",
+                "name": "Points - Family",
                 "hidden": false
             }
         },
@@ -350,7 +352,7 @@
                 "parent_point": "Aves"
             },
             "type": "points",
-            "enabled": false,
+            "enabled": true,
             "data_scale_factor": 1000,
             "default_texture": "point3a.png",
             "point_scale_factor": 7.99,
@@ -370,8 +372,8 @@
                     "point_scale_exponent": 3.6,
                     "max_size": 2.96,
                     "gui_info": {
-                        "path": "Birds/Labels",
-                        "name": "species (eng) rendered"
+                        "path": "Birds",
+                        "name": "Labels - species (eng)"
                     }
                 }
             ],
@@ -383,8 +385,8 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-                "path": "Birds/Points",
-                "name": "Species",
+                "path": "Birds",
+                "name": "Points - Species",
                 "hidden": false
             }
         },
@@ -395,7 +397,7 @@
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
             "line_width": 2.4,
-            "enabled": true,
+            "enabled": false,
             "gui_info": {
                 "path": "Birds/Branches",
                 "name": "Species",
@@ -409,7 +411,7 @@
             "data_scale_factor": 1000,
             "line_opacity": 0.75,
             "line_width": 2.4,
-            "enabled": true,
+            "enabled": false,
             "gui_info": {
                 "path": "Birds/Branches",
                 "name": "Terminal Species",
