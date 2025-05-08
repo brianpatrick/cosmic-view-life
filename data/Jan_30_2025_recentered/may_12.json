@@ -166,9 +166,8 @@
             "point_scale_factor": 2.5,
             "point_scale_exponent": 4.6,
             "max_size": 0.1,
-            "color_by_columns": ["genus","species"],
             "colormapping": {
-                "color_by_columns": ["phylum", "class", "kingdom"],
+                "color_by_columns": ["genus","species"],
                 "colormap": "colormaps.Cyclic.Hsv"
             },
             "interaction_sphere": 1,
@@ -919,7 +918,7 @@
                     "enabled": false,
                     "pdb_code": "1FCQ",
                     "model_scale": 4500,
-                    "show_as": "cartoon",
+                    "show_as": "surface",
                     "gui_info": {
                         "path": "Insecta/PDB",
                         "name": "1FCQ Bee Venom Hyaluronidase",
