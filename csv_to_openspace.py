@@ -793,6 +793,10 @@ def make_models_from_dataframe(model_points_df,
         # Now, for each model, make a new asset.
         for model in model_list:
 
+            # Do we skip this model?
+            if model.get("skip", False):
+                continue
+
             # First let's make sure we can get the position of the model.
             model_name = model["taxon"]
             search_column = model["column"]

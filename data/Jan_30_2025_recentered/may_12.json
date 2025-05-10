@@ -6,7 +6,7 @@
         {
             "csv_file": "eukaryotes_classes.csv",
             "type": "points",
-            "enabled": false,
+            "enabled": true,
             "data_scale_factor": 100000,
             "default_texture": "point3a.png",
             "point_scale_factor": 29.9,
@@ -35,19 +35,20 @@
                     "max_size": 1.21,
                     "gui_info": {
                         "path": "Eukaryotes",
-                        "name": "Labels - class (eng)"
+                        "name": "Labels - class (eng) (eukaryotes)"
                     }
                 }
             ],
             "interaction_sphere": 1,
             "gui_info": {
                 "path": "Eukaryotes",
-                "name": "Points - Class",
+                "name": "Points - Class (eukaryotes)",
                 "hidden": false
             }
         },
         {
             "csv_file": "eukaryotes_classes_by_class_eng.csv",
+            "enabled": false,
             "type": "points",
             "data_scale_factor": 100000,
             "default_texture": "point3a.png",
@@ -76,13 +77,14 @@
             "interaction_sphere": 1,
             "gui_info": {
                 "path": "Eukaryotes",
-                "name": "Points - Class (grouped)",
+                "name": "Points - Class (grouped) (eukaryotes)",
                 "hidden": false
             }
         },
         {
             "csv_file": "eukaryotes_classes_by_kingdom.csv",
             "type": "points",
+            "enabled": false,
             "data_scale_factor": 100000,
             "default_texture": "point3a.png",
             "point_scale_factor": 29.9,
@@ -103,14 +105,14 @@
                     "max_size": 4.28,
                     "gui_info": {
                         "path": "Eukaryotes",
-                        "name": "Labels - Kingdom"
+                        "name": "Labels - Kingdom (eukaryotes)"
                     }
                 }
             ],
             "interaction_sphere": 1,
             "gui_info": {
                 "path": "Eukaryotes",
-                "name": "Points - Kingdom (grouped)",
+                "name": "Points - Kingdom (grouped) (eukaryotes)",
                 "hidden": false
             }
         },
@@ -140,7 +142,8 @@
             "type": "points",
             "enabled": false,
             "units": "Km",
-            "data_scale_factor": 6380,
+            "comment": "Radius of earth is 6371km. Scale points so they don't intersect.",
+            "data_scale_factor": 6400,
             "default_texture": "point3a.png",
             "point_scale_factor": 2.5,
             "point_scale_exponent": 4.6,
@@ -205,12 +208,12 @@
                     "point_scale_exponent": 4.21,
                     "max_size": 2.0899,
                     "gui_info": {
-                        "path": "Mammals/Labels",
-                        "name": "Family (eng) rendered"
+                        "path": "Mammals",
+                        "name": "Labels - Family (eng) (mammals)"
                     }
                 }
             ],
-            "fade_targets": [
+            "SKIP fade_targets": [
                 ["eukaryotes_classes", "points"],
                 ["eukaryotes_classes", "class_eng_rendered_labels"],
                 ["eukaryotes_classes_by_kingdom", "points"],
@@ -218,8 +221,8 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-                "path": "Mammals/Points",
-                "name": "Families",
+                "path": "Mammals",
+                "name": "Points - Families (mammals)",
                 "hidden": false
             }
         },
@@ -251,12 +254,12 @@
                     "point_scale_exponent": 3.109,
                     "max_size": 1.539,
                     "gui_info": {
-                        "path": "Mammals/Labels",
-                        "name": "Species rendered"
+                        "path": "Mammals",
+                        "name": "Labels - Species (mammals)"
                     }
                 }
             ],
-            "fade_targets": [
+            "SKIP fade_targets": [
                 ["eukaryotes_classes", "points"],
                 ["eukaryotes_classes", "class_eng_rendered_labels"],
                 ["eukaryotes_classes_by_kingdom", "points"],
@@ -264,8 +267,8 @@
             ],
             "interaction_sphere": 2,
             "gui_info": {
-                "path": "Mammals/Points",
-                "name": "Species",
+                "path": "Mammals",
+                "name": "Points - Species (mammals)",
                 "hidden": false
             }
         },
@@ -324,11 +327,11 @@
                     "max_size": 2.0899,
                     "gui_info": {
                         "path": "Birds",
-                        "name": "Labels - Family (eng)"
+                        "name": "Labels - Family (eng) (birds)"
                     }
                 }
             ],
-            "fade_targets": [
+            "SKIP fade_targets": [
                 ["eukaryotes_classes", "points"],
                 ["eukaryotes_classes", "class_eng_rendered_labels"],
                 ["eukaryotes_classes", "by_class_eng_class_eng_rendered_labels"],
@@ -338,7 +341,7 @@
             "interaction_sphere": 2,
             "gui_info": {
                 "path": "Birds",
-                "name": "Points - Family",
+                "name": "Points - Family (birds)",
                 "hidden": false
             }
         },
@@ -372,11 +375,11 @@
                     "max_size": 2.96,
                     "gui_info": {
                         "path": "Birds",
-                        "name": "Labels - species (eng)"
+                        "name": "Labels - species (eng) (birds)"
                     }
                 }
             ],
-            "fade_targets": [
+            "SKIP fade_targets": [
                 ["eukaryotes_classes", "points"],
                 ["eukaryotes_classes", "class_eng_rendered_labels"],
                 ["eukaryotes_classes_by_kingdom", "points"],
@@ -385,7 +388,7 @@
             "interaction_sphere": 2,
             "gui_info": {
                 "path": "Birds",
-                "name": "Points - Species",
+                "name": "Points - Species (birds)",
                 "hidden": false
             }
         },
@@ -398,7 +401,7 @@
             "line_width": 2.4,
             "enabled": false,
             "gui_info": {
-                "path": "Birds/Branches",
+                "path": "Birds/Branches (birds)",
                 "name": "Species",
                 "hidden": false
             }
@@ -413,7 +416,7 @@
             "enabled": false,
             "gui_info": {
                 "path": "Birds/Branches",
-                "name": "Terminal Species",
+                "name": "Terminal Species (birds)",
                 "hidden": false
             }
         },
@@ -483,7 +486,7 @@
                     "enabled": false,
                     "download_type": "local",
                     "model_path": "Arctocephalus townsendi skull.glb",
-                    "model_scale": 1000,
+                    "model_scale": 1500,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
                         "name": "Arctocephalus townsendi",
@@ -536,7 +539,7 @@
                     "taxon": "Canis lupus",
                     "enabled": false,
                     "download_type": "local",
-                    "model_path": "Canis lupus skull.glb",
+                    "model_path": "Canis lupus skull v2.glb",
                     "model_scale": 2500,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
@@ -550,7 +553,7 @@
                     "enabled": false,
                     "sub_model": "endocast",
                     "download_type": "local",
-                    "model_path": "Canis lupus endocast.glb",
+                    "model_path": "Canis lupus endocast v2.glb",
                     "model_scale": 2500,
                     "gui_info": {
                         "path": "Mammals/Models/Carnivora",
@@ -670,7 +673,7 @@
                 "color_by_columns": ["order"],
                 "colormap": "colormaps.Cyclic.Hsv"
             },
-            "fade_targets": [
+            "SKIP fade_targets": [
                 ["eukaryotes_classes", "points"],
                 ["eukaryotes_classes", "class_eng_rendered_labels"],
                 ["eukaryotes_classes_by_kingdom", "points"],
@@ -687,14 +690,14 @@
                     "max_size": 1.429,
                     "gui_info": {
                         "path": "Insecta",
-                        "name": "order rendered labels"
+                        "name": "labels - order (insecta)"
                     }
                 }
             ],
             "interaction_sphere": 2,
             "gui_info": {
               "path": "Insecta",
-              "name": "order points",
+              "name": "Points - order (insecta)",
               "hidden": "false"
             }
         },
@@ -724,7 +727,6 @@
                     "download_type": "local",
                     "model_path": "Archaeognatha - Trigoniophthalmus tracheae v2.glb",
                     "model_scale": 10000,
-                    "enabled": false,
                     "gui_info": {
                         "path": "Insecta/Models/Bristletail (Archaeognatha)",
                         "name": "Archaeognatha tracheae",
@@ -822,20 +824,6 @@
                     "gui_info": {
                         "path": "Insecta/Models/Cicada (Hemiptera)",
                         "name": "Cicada body",
-                        "hidden": false
-                    }  
-                },
-                {
-                    "column": "order",
-                    "taxon": "Hemiptera",
-                    "enabled": false,
-                    "sub_model": "no_wings",
-                    "download_type": "local",
-                    "model_path": "Hemiptera - Cicada no wings v3.glb",
-                    "model_scale": 8000,
-                    "gui_info": {
-                        "path": "Insecta/Models/Cicada (Hemiptera)",
-                        "name": "Cicada body no wings",
                         "hidden": false
                     }  
                 },
