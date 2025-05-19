@@ -47,6 +47,20 @@
             }
         },
         {
+            "csv_file": "animals_classes_branches.csv",
+            "points_file": "eukaryotes_classes.csv",
+            "type": "branches",
+            "data_scale_factor": 100000,
+            "line_opacity": 0.75,
+            "line_width": 2.4,
+            "enabled": false,
+            "gui_info": {
+                "path": "Eukaryotes",
+                "name": "Tree",
+                "hidden": false
+            }
+        },
+        {
             "csv_file": "eukaryotes_classes_by_class_eng.csv",
             "enabled": false,
             "type": "points",

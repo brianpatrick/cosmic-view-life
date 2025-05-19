@@ -1,0 +1,120 @@
+{
+    "Description": "Testbed",
+    "gui_top_level": "Testbed",
+    
+    "datasets": [
+        {
+            "csv_file": "eukaryotes_classes.csv",
+            "type": "points",
+            "enabled": true,
+            "data_scale_factor": 100000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 29.9,
+            "point_scale_exponent": 4.6,
+            "max_size": 0.1,
+            "colormapping": {
+                "color_by_columns": ["kingdom", "phylum", "class"],
+                "local_colormap": true,
+                "colormap": "eukaryotes_kingdoms.cmap",
+                "range": [
+                    { 
+                        "key": "kingdom",
+                        "range": [1.0, 4.0]
+                    }
+                ]
+            },
+            "rendered_labels": [
+                { 
+                    "column" : "class_eng",
+                    "enabled": false,
+                    "font_file": "ARIALN.TTF",
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor": 7.07,
+                    "point_scale_exponent": 6.1599,
+                    "max_size": 1.21,
+                    "gui_info": {
+                        "path": "Eukaryotes",
+                        "name": "Labels - class (eng) (eukaryotes)"
+                    }
+                }
+            ],
+            "interaction_sphere": 1,
+            "gui_info": {
+                "path": "Eukaryotes",
+                "name": "Points - Class (eukaryotes)",
+                "hidden": false
+            }
+        },
+        {
+            "csv_file": "eukaryotes_classes_by_kingdom.csv",
+            "type": "points",
+            "data_scale_factor": 100000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 29.9,
+            "point_scale_exponent": 4.6,
+            "max_size": 0.1,
+            "colormapping": {
+                "color_by_columns": ["kingdom", "phylum", "class"],
+                "local_colormap": true,
+                "colormap": "eukaryotes_kingdoms.cmap",
+                "range": [
+                    { 
+                        "key": "kingdom",
+                        "range": [1.0, 4.0]
+                    }
+                ]
+            },
+            "rendered_labels": [
+                { 
+                    "column" : "kingdom",
+                    "font_file": "BRITANIC.TTF",
+                    "font_size": 72,
+                    "font_color": [ 0, 255, 255 ],
+                    "point_scale_factor": 8.05,
+                    "point_scale_exponent": 7.01,
+                    "max_size": 4.28,
+                    "gui_info": {
+                        "path": "Eukaryotes/Labels",
+                        "name": "Kingdom_rendered"
+                    }
+                }
+            ],
+            "interaction_sphere": 1,
+            "gui_info": {
+                "path": "Eukaryotes/Points",
+                "name": "Kingdom (grouped)",
+                "hidden": false
+            }
+        },
+        {
+            "csv_file": "animals_classes_branches.csv",
+            "points_file": "eukaryotes_classes.csv",
+            "type": "branches",
+            "data_scale_factor": 100000,
+            "line_opacity": 0.75,
+            "line_width": 2.4,
+            "enabled": false,
+            "gui_info": {
+                "path": "Eukaryotes",
+                "name": "animalia branches",
+                "hidden": false
+            }
+        },
+        {
+            "csv_file": "eukaryotes_classes_branches.csv",
+            "points_file": "eukaryotes_classes.csv",
+            "type": "branches",
+            "ID_column": "name",
+            "data_scale_factor": 100000,
+            "line_opacity": 0.75,
+            "line_width": 2.4,
+            "enabled": false,
+            "gui_info": {
+                "path": "Eukaryotes",
+                "name": "eukaryota branches",
+                "hidden": false
+            }
+        }
+    ]
+}

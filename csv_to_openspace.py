@@ -77,9 +77,17 @@ output_files = []
 output_directories = []
 
 def add_output_file(filename):
-    # Make sure this file isn't already in the list. Throw an exception if it is.
+    # Make sure this file isn't already in the list. Throw an exception if it is,
+    # UNLESS the file is a colormap file. A colormap can be used in multiple
+    # assets. Colormaps end in .cmap.
     if filename in output_files:
-        raise Exception(f"File {filename} already in output_files list.")
+        # Check if the file is a colormap file. If it is, we can skip this check.
+        if filename.endswith(".cmap"):
+            # This is a colormap file, so we can skip this check.
+            print(f"Colormap file {filename} already in output_files list. Skipping check.")
+            pass
+        else:
+            raise Exception(f"File {filename} already in output_files list.")
     else:
         output_files.append(filename)
 
@@ -685,8 +693,8 @@ def make_group_labels_from_dataframe(input_points_df,
     
 def make_branches_from_dataframe(branch_points_df,
                                  filename_base,
+                                 ID_column,
                                  units,
-                                 parent,
                                  enabled,
                                  data_points_csv_filename,
                                  gui_top_level,
@@ -701,13 +709,13 @@ def make_branches_from_dataframe(branch_points_df,
     with open(branches_speck_filename, "w") as speck, open(branches_dat_filename, "w") as dat:
         for _, row in branch_points_df.iterrows():
             print('mesh -c 1 {', file=speck)
-            print(f"  id {row['ID']}", file=speck)
+            print(f"  id {ID_column}", file=speck)
             print('  2', file=speck)
             print(f"  {row['x0']:.8f} {row['y0']:.8f} {row['z0']:.8f}", file=speck)
             print(f"  {row['x1']:.8f} {row['y1']:.8f} {row['z1']:.8f}", file=speck)
             print('}', file=speck)
 
-            print(f"{row['ID']} {row['ID']}", file=dat)
+            print(f"{ID_column} {ID_column}", file=dat)
     add_output_file(branches_speck_filename)
     add_output_file(branches_dat_filename)
 
@@ -1179,10 +1187,12 @@ def main():
 
         elif row["type"] == "branches":
             print("Creating branches... ", end="", flush=True)
+            # If the column to specify the ID isn't given, default to "ID".
+            ID_column = row.get("ID_column", "ID")
             make_branches_from_dataframe(branch_points_df=input_points_df,
                                             filename_base=filename_base,
+                                            ID_column=ID_column,
                                             units=units,
-                                            parent=parent,
                                             enabled = row["enabled"],
                                             data_points_csv_filename=row["points_file"],
                                             gui_top_level=gui_top_level,
