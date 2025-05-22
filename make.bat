@@ -51,6 +51,20 @@ IF "%1"=="faherty_apr_23" (
     cd data/Jan_30_2025_recentered
     python %REPO_PATH%/csv_to_openspace.py -i may_12.json -a E:\OpenSpace\user\data\assets\may_12 -o ./outfiles_may_12 -t E:\git\cosmic-view-life\textures
 
+) ELSE IF "%1"=="may_28" (
+    echo Cleaning up OpenSpace cache and assets...
+    python .\clean_openspace_cache.py -c E:\git\OpenSpace\cache\ -a E:\OpenSpace\user\data\assets\may_28
+
+    echo Making grouped datasets...
+    cd data/Jan_30_2025_recentered
+    python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c kingdom
+    python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c class
+    cd %REPO_PATH%
+
+    echo Making May 28 assets...
+    cd data/Jan_30_2025_recentered
+    python %REPO_PATH%/csv_to_openspace.py -i may_28.json -a E:\OpenSpace\user\data\assets\may_28 -o ./outfiles_may_28 -t E:\git\cosmic-view-life\textures
+
 ) ELSE IF "%1"=="testbed" (
     echo Cleaning up OpenSpace cache and assets...
     python .\clean_openspace_cache.py -c E:\git\OpenSpace\cache\ -a E:\OpenSpace\user\data\assets\testbed

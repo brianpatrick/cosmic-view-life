@@ -859,7 +859,10 @@ def make_models_from_dataframe(model_points_df,
                 print(f"        GeometryFile = asset.resource(\"./{model['model_path']}\"),", file=output_file)
             print(f"        ModelScale = {model['model_scale']},", file=output_file)
             print( "        LightSources = {", file=output_file)
-            print( "            { Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity=0.5 }", file=output_file)
+            # Default light intensity is 0.5. This is a good value for most models, but can be
+            # overridden in the model JSON block
+            camera_light_intensity = model.get("camera_light_intensity", 0.5)
+            print(f"            {{ Identifier = \"Camera\", Type = \"CameraLightSource\", Intensity={camera_light_intensity} }}", file=output_file)
             print( "        }", file=output_file)
             print( "    },", file=output_file)
 
