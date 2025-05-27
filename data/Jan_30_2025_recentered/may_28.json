@@ -761,6 +761,20 @@
             }
         },
         {
+            "csv_file": "insecta_order.branches.csv",
+            "points_file": "insecta_order.csv",
+            "type": "branches",
+            "data_scale_factor": 700,
+            "line_opacity": 0.75,
+            "line_width": 2.4,
+            "enabled": false,
+            "gui_info": {
+                "path": "Insecta",
+                "name": "Tree",
+                "hidden": false
+            }
+        },
+        {
             "csv_file": "insecta_order.csv",
             "data_scale_factor": 700,
             "type": "models",
@@ -898,10 +912,38 @@
                     "download_type": "local",
                     "model_path": "Hemiptera - Cicada tracheae v3.glb",
                     "camera_light_intensity": 1.0,
-                    "model_scale": 6000,
+                    "model_scale": 8000,
                     "gui_info": {
                         "path": "Insecta/Models/Cicada (Hemiptera)",
                         "name": "Cicada tracheae",
+                        "hidden": false
+                    }
+                },
+                {
+                    "column": "order",
+                    "taxon": "Diptera",
+                    "enabled": false,
+                    "download_type": "local",
+                    "model_path": "Diptera - Drosophila.glb",
+                    "model_scale": 30000,
+                    "gui_info": {
+                        "path": "Insecta/Models/Drosophila (Diptera)",
+                        "name": "Drosophla body",
+                        "hidden": false
+                    }  
+                },
+                {
+                    "column": "order",
+                    "taxon": "Diptera",
+                    "enabled": false,
+                    "sub_model": "tracheae",
+                    "download_type": "local",
+                    "model_path": "Diptera - Drosophila tracheae.glb",
+                    "camera_light_intensity": 1.0,
+                    "model_scale": 30000,
+                    "gui_info": {
+                        "path": "Insecta/Models/Drosophila (Diptera)",
+                        "name": "Drosophla tracheae",
                         "hidden": false
                     }
                 }
@@ -978,6 +1020,31 @@
                     }
                 }
             ]
+        },
+        {
+            "csv_file": "flywire_synapses_783_50_centered_norm.csv",
+            "parent": {
+                "csv_file": "insecta_order.csv",
+                "parent_type": "points",
+                "parent_column": "order",
+                "parent_point": "Diptera"
+            },
+            "type": "points",
+            "enabled": true,
+            "data_scale_factor": 13,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 2.5,
+            "point_scale_exponent": 0.6299,
+            "colormapping": {
+                "color_by_columns": ["gaba", "ach", "glut"],
+                "colormap": "colormaps.Uniform.Viridis"
+            },
+            "interaction_sphere": 2,
+            "gui_info": {
+                "path": "Insecta",
+                "name": "flywire synapses",
+                "hidden": false
+            }
         }
     ]
 }
