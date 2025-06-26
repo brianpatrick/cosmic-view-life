@@ -86,6 +86,7 @@ IF "%1"=="faherty_apr_23" (
     cd data/Jan_30_2025_recentered
     python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c kingdom
     python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c class
+    python %REPO_PATH%/group_dataset.py -i insect_genus_tree_mMDS.csv -c order
     cd %REPO_PATH%
 
     echo Making testbed assets...
@@ -93,6 +94,6 @@ IF "%1"=="faherty_apr_23" (
     python %REPO_PATH%/csv_to_openspace.py -i testbed.json -a %OPENSPACE_DATA_DIR%\assets\testbed -o ./outfiles_testbed -t %REPO_PATH%\textures
 ) ELSE (
     echo ***** No valid target passed. Please pass a valid target. *****
-    echo ***** Valid targets are: faherty_apr_23, jan_30_2025_recentered, may_12, testbed *****
+    echo ***** Valid targets are: faherty_apr_23, jan_30_2025_recentered, may_12, may_28, testbed *****
     echo ***** Example: make.bat jan_30_2025_recentered *****
 )
