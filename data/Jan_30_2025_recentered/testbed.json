@@ -250,6 +250,114 @@
                 "name": "Family tree spherical no z from file",
                 "hidden": false
             }
+        },
+        {
+            "csv_file": "insect_genus_tree_mMDS.csv",
+            "parent": {
+              "csv_file": "eukaryotes_classes.csv",
+              "parent_type": "points",
+              "parent_column": "class",
+              "parent_point": "Insecta"
+            },
+            "type": "points",
+            "enabled": true,
+            "data_scale_factor": 1000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 4.51,
+            "point_scale_exponent": 3.03,
+            "colormapping": {
+                "color_by_columns": ["order"],
+                "colormap": "colormaps.Cyclic.Hsv"
+            },
+            "SKIP fade_targets": [
+                ["eukaryotes_classes", "points"],
+                ["eukaryotes_classes", "class_eng_rendered_labels"],
+                ["eukaryotes_classes_by_kingdom", "points"],
+                ["eukaryotes_classes_by_kingdom", "kingdom_rendered_labels"]
+            ],
+            "rendered_labels": [
+                { 
+                    "column" : "name",
+                    "enabled": false,
+                    "font_file": "ARIALNI.TTF",
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor": 69.1,
+                    "point_scale_exponent": 2.39,
+                    "max_size": 0.86,
+                    "gui_info": {
+                        "path": "Insecta",
+                        "name": "Labels - genus (insecta) sklearn"
+                    }
+                }
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta",
+              "name": "Points - genera (insecta) sklearn",
+              "hidden": "false"
+            }
+        },
+        {
+            "csv_file": "insects_genus_with_order_branches.csv",
+            "points_file": "insect_genus_tree_mMDS.csv",
+            "type": "branches",
+            "data_scale_factor": 1000,
+            "line_opacity": 0.75,
+            "line_width": 2.4,
+            "enabled": false,
+            "gui_info": {
+                "path": "Insecta",
+                "name": "Genera branches",
+                "hidden": false
+            }
+        },
+        {
+            "csv_file": "insect_genus_tree_mMDS_by_order.csv",
+            "parent": {
+              "csv_file": "eukaryotes_classes.csv",
+              "parent_type": "points",
+              "parent_column": "class",
+              "parent_point": "Insecta"
+            },
+            "type": "points",
+            "enabled": true,
+            "data_scale_factor": 1000,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 17.12,
+            "point_scale_exponent": 3.03,
+            "colormapping": {
+                "color_by_columns": ["order"],
+                "colormap": "colormaps.Cyclic.Hsv"
+            },
+            "SKIP fade_targets": [
+                ["eukaryotes_classes", "points"],
+                ["eukaryotes_classes", "class_eng_rendered_labels"],
+                ["eukaryotes_classes_by_kingdom", "points"],
+                ["eukaryotes_classes_by_kingdom", "kingdom_rendered_labels"]
+            ],
+            "rendered_labels": [
+                { 
+                    "column" : "order",
+                    "enabled": true,
+                    "font_file": "ARIALN.TTF",
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor": 7.07,
+                    "point_scale_exponent": 6.1599,
+                    "max_size": 1.21,
+                    "gui_info": {
+                        "path": "Insecta",
+                        "name": "Labels - order (insecta) sklearn"
+                    }
+                }
+            ],
+            "interaction_sphere": 2,
+            "gui_info": {
+              "path": "Insecta",
+              "name": "Points - order (insecta) sklearn",
+              "hidden": "false"
+            }
         }
     ]
 }

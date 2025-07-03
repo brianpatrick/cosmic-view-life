@@ -298,11 +298,20 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                                      font_color_triple=font_color_triple,
                                                      filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
                 else:
-                    string_renderer.render_string_to_png_offset(text=curr_label,
+                    if label.get("offset", False):
+                        # Draw the text with an offset.
+                        string_renderer.render_string_to_png_offset(text=curr_label,
                                                         font_name=label["font_file"], 
                                                         font_size=label["font_size"],
                                                         font_color_triple=font_color_triple,
-                                                        filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
+                                                        filename = f"{rendered_labels_relative_path}/{rendered_label_filename}",
+                                                        offset=label["offset"])
+                    else:
+                        string_renderer.render_string_to_png(text=curr_label,
+                                                             font_name=label["font_file"], 
+                                                             font_size=label["font_size"],
+                                                             font_color_triple=font_color_triple,
+                                                             filename = f"{rendered_labels_relative_path}/{rendered_label_filename}")
                 
                 print(f"{label_index} {rendered_label_filename}", file=tmap_file)
 
