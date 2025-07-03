@@ -978,6 +978,31 @@
                     }
                 }
             ]
+        },
+        {
+            "csv_file": "flywire_synapses_783_50_centered_norm.csv",
+            "parent": {
+                "csv_file": "insecta_order.csv",
+                "parent_type": "points",
+                "parent_column": "order",
+                "parent_point": "Diptera"
+            },
+            "type": "points",
+            "enabled": true,
+            "data_scale_factor": 13,
+            "default_texture": "point3a.png",
+            "point_scale_factor": 2.5,
+            "point_scale_exponent": 0.6299,
+            "colormapping": {
+                "color_by_columns": ["gaba", "ach", "glut"],
+                "colormap": "colormaps.Uniform.Viridis"
+            },
+            "interaction_sphere": 2,
+            "gui_info": {
+                "path": "Insecta",
+                "name": "flywire synapses",
+                "hidden": false
+            }
         }
     ]
 }
