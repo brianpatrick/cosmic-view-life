@@ -92,8 +92,29 @@ IF "%1"=="faherty_apr_23" (
     echo Making testbed assets...
     cd data/Jan_30_2025_recentered
     python %REPO_PATH%/csv_to_openspace.py -i testbed.json -a %OPENSPACE_DATA_DIR%\assets\testbed -o ./outfiles_testbed -t %REPO_PATH%\textures
+
+) ELSE IF "%1"=="astc" (
+    echo Cleaning up OpenSpace cache and assets...
+    python .\clean_openspace_cache.py -c %OPENSPACE_EXE_DIR%\cache\ -a %OPENSPACE_DATA_DIR%\assets\astc
+
+    echo Making grouped datasets...
+    cd data/Jan_30_2025_recentered
+    python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c kingdom
+    python %REPO_PATH%/group_dataset.py -i eukaryotes_classes.csv -c class
+    cd %REPO_PATH%
+
+    echo Making ASTC assets...
+    cd data/Jan_30_2025_recentered
+    python %REPO_PATH%/csv_to_openspace.py -i astc.json -a %OPENSPACE_DATA_DIR%\assets\astc -o ./outfiles_astc -t %REPO_PATH%\textures
+
 ) ELSE (
     echo ***** No valid target passed. Please pass a valid target. *****
-    echo ***** Valid targets are: faherty_apr_23, jan_30_2025_recentered, may_12, may_28, testbed *****
+    echo ***** Valid targets are: faherty_apr_23, jan_30_2025_recentered, may_12, may_28, testbed, astc *****
     echo ***** Example: make.bat jan_30_2025_recentered *****
 )
+echo.
+echo ***** Done. *****
+echo.
+
+: Exit the script
+exit /b 0

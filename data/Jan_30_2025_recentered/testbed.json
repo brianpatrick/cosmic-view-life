@@ -1,6 +1,7 @@
 {
     "Description": "Testbed",
     "gui_top_level": "Testbed",
+    "source_data_dir": "c:/Users/hherhold/CVoL/Data",
     
     "datasets": [
         {
@@ -288,6 +289,20 @@
                     "gui_info": {
                         "path": "Insecta",
                         "name": "Labels - genus (insecta) sklearn"
+                    }
+                },
+                { 
+                    "column" : "family",
+                    "enabled": false,
+                    "font_file": "ARIALNI.TTF",
+                    "font_size": 72,
+                    "font_color": [ 255, 255, 255 ],
+                    "point_scale_factor": 69.1,
+                    "point_scale_exponent": 2.39,
+                    "max_size": 0.86,
+                    "gui_info": {
+                        "path": "Insecta",
+                        "name": "Labels - family (insecta) sklearn"
                     }
                 }
             ],
