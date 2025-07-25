@@ -1,5 +1,9 @@
 # gitignore for the cosmic view of life project
 
+# makebat_config.bat is a script that sets up the environment for the project.
+# It contains local paths and other settings that are not meant to be shared.
+makebat_config.bat
+
 # OS & Python files
 **__pycache__/
 .DS_Store
@@ -12,6 +16,8 @@ Thumbs.db
 # Virtual Environment folder
 .venv
 /venv/
+
+/test_code_not_in_git/
 
 # Output directories (e.g., primates, birds, etc.)
 /birds/
@@ -55,6 +61,8 @@ Makefile.config
 /scratch_data/
 .Rproj.user
 
-# Protein structure prediction files
+# Protein structure prediction files and 3d models
 *.pdb
 *.cif
+*.glb
+*.gltf
