@@ -49,26 +49,28 @@ environments from YAML files.
 
 In short, *this* is how the sausage is made.
 
+# DISCLAIMER
+
+This code is under active development. You have been warned.
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-# `Makefile` and your development environment
+# `Makefile`, `make.bat`, and your development environment
 
-This project uses make. Many of the scripts have more than a few parameters and using a
-Makefile makes it a bit easier to build datasets. This also implies running this in a
-Linux/UNIX environment. You *may* be able to get this running on Windows using cygwin or
-something similar, but this has not been tested. Some scripts also use packages that are
-known (as of this writing, Feb 2025) not to run on Windows (the ETE toolkit, in
-particular). This codebase was developed using Windows Subsystem for Linux (WSL). Running
-on a dedicated Linux install would likely work just fine.
+This project uses make on Linux or a batch file called `make.bat` on Windows.
+Many of the scripts have more than a few parameters and using a script or
+Makefile makes it a bit easier to build datasets. This codebase has been
+developed on a mix of Windows and Windows Subsystem for Linux (WSL). As of
+August 2025, Windows is the primary development platform as OpenSpace is
+(basically) a Windows app.
 
 This project uses Python and requires many packages. Conda is highly recommended for
-setting up your environment, and the `cosmic-view-life.yml` file can be used to install
-required packages. If you are generating 3D models of proteins from PDB identifiers, you
-should use `cosmic-proteins.yml`.
+setting up your environment, and the `pymol.yml` file can be used to install
+required packages. 
 
-The `Makefile` requires a `Makefile.config` include file that contains the following
-important variables:
+The `Makefile` and `make.bat` files require a `Makefile.config` or
+`makebat_config.bat` file that contains the following important variables:
 
     OPENSPACE_CACHE := /mnt/e/git/OpenSpace-sonification/cache
     OPENSPACE_ASSET_DIR := /mnt/e/OpenSpace/user/data/assets
@@ -79,6 +81,8 @@ OpenSpace is using updated files.
 
 `OPENSPACE_ASSET_DIR` is where you keep your asset files and is typically set with
 an environment variable for your given setup.
+
+You will need to set these appropriately for your setup.
 
 This will likely go out of date very quickly, but as of the time of this writing (21 Feb
 2025), rules have been set up for the following targets:
@@ -93,8 +97,7 @@ This will likely go out of date very quickly, but as of the time of this writing
 
 A quick note on the Pymol package. If your dataset does not include displaying protein
 models in 3D from PDB, you will not need Pymol. If you *do* need Pymol, it's assumed you
-know how to install it. (Using the `cosmic-proteins` YAML file to set up an environment
-should be sufficient.)
+know how to install it. The `pymol.yml` evironment should set all of this up appropriately.
 
 # Programs
 
