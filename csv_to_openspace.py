@@ -392,7 +392,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"            ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor}", file=output_file)
         print( "        },", file=output_file)
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
-        print(f"        Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
+        if default_texture:
+            print(f"        Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
         print(f"        Unit = \"{units}\",", file=output_file)
 
 
@@ -1162,7 +1163,7 @@ def main():
                                                         filename_base=filename_base,
                                                         fade_targets=fade_targets,
                                                         interaction_sphere=row["interaction_sphere"],
-                                                        default_texture=row["default_texture"],
+                                                        default_texture=row.get("default_texture", None),
                                                         size_scale_factor=row["point_scale_factor"],
                                                         size_scale_exponent=row["point_scale_exponent"],
                                                         max_size=max_size,
