@@ -211,6 +211,16 @@ def report_duplicate_xyz(input_points_df):
     if len(duplicate_xyz) > 0:
         print("Warning: Found duplicate x, y, z values in the dataset.")
         print(duplicate_xyz)
+
+def write_scene_graph_node_initializers_to_file(asset_variable_name,
+                                                output_file):
+    print("asset.onInitialize(function()", file=output_file)
+    print(f"    openspace.addSceneGraphNode({asset_variable_name});", file=output_file)
+    print("end)", file=output_file)
+    print("asset.onDeinitialize(function()", file=output_file)
+    print(f"    openspace.removeSceneGraphNode({asset_variable_name});", file=output_file)
+    print("end)", file=output_file)
+    print(f"asset.export({asset_variable_name})", file=output_file)
         
 
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
@@ -528,13 +538,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                     print(f"        Name = \"{output_asset_variable_name}\"", file=output_file)
                 print("    }", file=output_file)
                 print("}", file=output_file)
-                print("asset.onInitialize(function()", file=output_file)
-                print(f"    openspace.addSceneGraphNode({output_asset_variable_name});", file=output_file)
-                print("end)", file=output_file)
-                print("asset.onDeinitialize(function()", file=output_file)
-                print(f"    openspace.removeSceneGraphNode({output_asset_variable_name});", file=output_file)
-                print("end)", file=output_file)
-                print(f"asset.export({output_asset_variable_name})", file=output_file)
+
+                write_scene_graph_node_initializers_to_file(output_asset_variable_name,
+                                                            output_file)
 
             add_output_file(output_rendered_labels_asset_filename)
 
@@ -603,14 +609,9 @@ def make_labels_from_dataframe(input_points_df,
             print(f"        Name = \"{output_asset_variable_name}\"", file=output_file)
         print("    }", file=output_file)
         print("}", file=output_file)
-        print("asset.onInitialize(function()", file=output_file)
-        print(f"    openspace.addSceneGraphNode({output_asset_variable_name});", file=output_file)
-        print("end)", file=output_file)
-        print("asset.onDeinitialize(function()", file=output_file)
-        print(f"    openspace.removeSceneGraphNode({output_asset_variable_name});", file=output_file)
-        print("end)", file=output_file)
-        print(f"asset.export({output_asset_variable_name})", file=output_file)
 
+        write_scene_graph_node_initializers_to_file(output_asset_variable_name,
+                                                    output_file)
 
     add_output_file(output_asset_filename)
 
@@ -700,13 +701,9 @@ def make_branches_from_dataframe(branch_points_df,
             print(f"        Path = \"/{gui_top_level}/Branches\"", file=output_file)
         print( "    }", file=output_file)
         print( "}", file=output_file)
-        print("asset.onInitialize(function()", file=output_file)
-        print(f"    openspace.addSceneGraphNode({output_asset_variable_name})", file=output_file)
-        print("end)", file=output_file)
-        print("asset.onDeinitialize(function()", file=output_file)
-        print(f"    openspace.removeSceneGraphNode({output_asset_variable_name})", file=output_file)
-        print("end)", file=output_file)
-        print(f"asset.export({output_asset_variable_name})", file=output_file)
+
+        write_scene_graph_node_initializers_to_file(output_asset_variable_name,
+                                                    output_file)
 
     add_output_file(output_asset_filename)
 
