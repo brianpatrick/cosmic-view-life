@@ -115,6 +115,19 @@ class Transform:
         self.csv_filename = csv_filename
         self.units = units
 
+# Many assets require the transforms asset file to be imported. This helper
+# function dumps those lines into the currenty open output_file, presumably
+# the asset file.
+def write_transform_asset_import_to_file(output_file):
+    transforms_filename_base = transforms_filename.split(".")[0]
+    print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
+
+# Many assets (maybe all?) also require standard conversion factors. Write
+# these to the current open output_file.
+def write_standard_conversion_factors_to_file(output_file):
+    print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
+    print("local meters_in_Km = 1000", file = output_file)
+
 def write_transform_file():
 
     transforms_file_path = args.output_dir + "/" + transforms_filename
@@ -122,8 +135,7 @@ def write_transform_file():
     with open(transforms_file_path, "w") as transforms_file:
         # Some boilerpate that goes in every transform file.
         print("local earthTransforms = asset.require(\"scene/solarsystem/planets/earth/transforms\")", file=transforms_file)
-        print("local meters_in_pc = 3.0856775814913673e+16", file=transforms_file)
-        print("local meters_in_Km = 1000", file=transforms_file)
+        write_standard_conversion_factors_to_file(transforms_file)
 
         for transform in transform_list:
             print(f"local {transform.output_asset_position_name} = {{", file=transforms_file)
@@ -192,10 +204,9 @@ def write_transform_file():
 
     add_output_file(str(transforms_file_path))
 
-
+# Check for duplicate x, y, z values. This is a common problem with data
+# files. If we find any, print a warning.
 def report_duplicate_xyz(input_points_df):
-    # Check for duplicate x, y, z values. This is a common problem with data
-    # files. If we find any, print a warning.
     duplicate_xyz = input_points_df[input_points_df.duplicated(subset=["x", "y", "z"], keep=False)]
     if len(duplicate_xyz) > 0:
         print("Warning: Found duplicate x, y, z values in the dataset.")
@@ -343,9 +354,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # where we move points from above the earth down to specific locations. Use
         # OpenSpace's provided transformations for this.
         print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
-        # We need the transforms asset name, which is the filename minus .asset extension
-        transforms_filename_base = transforms_filename.split(".")[0]
-        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
+        write_transform_asset_import_to_file(output_file)
 
         # "Declare" fade var so it can be used below.
         fade_varname = ""
@@ -374,8 +383,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
         transform_list.append(Transform(output_asset_position_name, parent, dataset_csv_filename, units))
 
-        print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
-        print("local meters_in_Km = 1000", file = output_file)
+        write_standard_conversion_factors_to_file(output_file)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -469,8 +477,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                 # where we move points from above the earth down to specific locations. Use
                 # OpenSpace's provided transformations for this.
                 print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
-                transforms_filename_base = transforms_filename.split(".")[0]
-                print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
+                write_transform_asset_import_to_file(output_file)
 
                 # The CSV file for the points already has a transform in it, so we can
                 # use that transform as the parent for the labels.
@@ -478,8 +485,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                     if t.csv_filename == dataset_csv_filename:
                         parent_position_name = t.output_asset_position_name
 
-                print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
-                print("local meters_in_Km = 1000", file=output_file)
+                write_standard_conversion_factors_to_file(output_file)
 
                 print(f"local {output_asset_variable_name} = {{", file=output_file)
                 print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -568,11 +574,8 @@ def make_labels_from_dataframe(input_points_df,
     output_asset_variable_name = filename_base + "_" + label_column + "_labels"
 
     with open(output_asset_filename, "w") as output_file:
-        transforms_filename_base = transforms_filename.split(".")[0]
-        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
-
-        print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
-        print("local meters_in_Km = 1000", file = output_file)
+        write_transform_asset_import_to_file(output_file)
+        write_standard_conversion_factors_to_file(output_file)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -623,84 +626,14 @@ def make_group_labels_from_dataframe(input_points_df,
                                      gui_top_level,
                                      dataset_csv_filename,
                                      gui_info):
-    # First we want to figure out the unique values in the label column. These
-    # are the groups we want to create labels for. Ignore NaN values in the label
-    # column.
-    groups = input_points_df[label_column].unique()
-    groups = [x for x in groups if str(x) != "nan"]
 
-    # Now we want to make a new empty dataframe with the same columns as the
-    # points_df. This new dataframe will contain the centroids of the
-    # groups.
-    centroids_df = pd.DataFrame(columns=input_points_df.columns)
-
-    # Iterate over the groups and calculate the centroid of each group.
-    for group in groups:
-        # Get the rows that belong to this group.
-        group_rows = input_points_df[input_points_df[label_column] == group]
-        # Calculate the centroid of the group.
-        centroid = {}
-        centroid["x"] = group_rows["x"].mean()
-        centroid["y"] = group_rows["y"].mean()
-        centroid["z"] = group_rows["z"].mean()
-
-        # dump the number of points and the centroid.
-        #print("Group: " + group + " number of points: " + str(len(group_rows)))
-        #print("Group: " + group + " centroid before placing on sphere: " + str(centroid))
-
-        # The points all have the same radius from the origin, but the centroid
-        # may be placed inside the sphere. We need to move the centroid to the
-        # surface of the sphere. We can do this by normalizing the centroid vector
-        # and then multiplying by the radius of the sphere.
-        # First let's normalize the centroid vector.
-        centroid_radius = math.sqrt(centroid["x"]**2 + centroid["y"]**2 + centroid["z"]**2)
-        centroid["x"] = centroid["x"] / centroid_radius
-        centroid["y"] = centroid["y"] / centroid_radius
-        centroid["z"] = centroid["z"] / centroid_radius
-
-        # Dump normalized centroid for debugging.
-        #print("Group: " + group + " centroid normalized: " + str(centroid))
-
-        # Now multiply by the radius of the sphere. Get the first point in the group.
-        first_point = group_rows.iloc[0]
-        sphere_radius = math.sqrt(first_point["x"]**2 + first_point["y"]**2 + first_point["z"]**2)
-        # Print the radius for debugging.
-        #print("Group: " + group + " sphere radius: " + str(sphere_radius))
-        centroid["x"] = centroid["x"] * sphere_radius
-        centroid["y"] = centroid["y"] * sphere_radius
-        centroid["z"] = centroid["z"] * sphere_radius
-
-        # Dump the centroid and its radius (to double check).
-        #print("Group: " + group + " centroid on sphere: " + str(centroid))
-        #print("Group: " + group + " centroid radius: " + str(math.sqrt(centroid["x"]**2 + centroid["y"]**2 + centroid["z"]**2)))
-
-        # If the number if points is more than 1, add the number of points to the group
-        # name.
-        if len(group_rows) > 1:
-            group = group + " (" + str(len(group_rows)) + ")"
-
-        # Add the group name to the centroid.
-        centroid[label_column] = group
-
-        # If x is non nan, add the centroid to the new dataframe.
-        if not math.isnan(centroid["x"]):
-            centroids_df.loc[len(centroids_df)] = centroid
-
-    # Now we have a dataframe with the centroids of the groups. We can use this
-    # to create the labels using the make_labels_from_dataframe function.
-    make_labels_from_dataframe(input_points_df=centroids_df,
-                               filename_base=filename_base + "_group",
-                               label_column=label_column,
-                               label_size=label_size,
-                               label_minsize=label_minsize,
-                               label_maxsize=label_maxsize,
-                               enabled=enabled,
-                               text_color=text_color,
-                               units=units,
-                               gui_top_level=gui_top_level,
-                               dataset_csv_filename=dataset_csv_filename,
-                               gui_info=gui_info)
+    print("Making group labels is no longer supported in this script. Use the "
+          "group_labels.py script to generate a grouped dataset, CSV file, then "
+          "import that CSV file using the points import functionality.")
     
+    # Exit with an error.
+    sys.exit(1)
+
 def make_branches_from_dataframe(branch_points_df,
                                  filename_base,
                                  ID_column,
@@ -741,11 +674,8 @@ def make_branches_from_dataframe(branch_points_df,
             output_asset_position_name = t.output_asset_position_name
 
     with open(output_asset_filename, "w") as output_file:
-        transforms_filename_base = transforms_filename.split(".")[0]
-        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
-
-        print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
-        print("local meters_in_Km = 1000", file = output_file)
+        write_transform_asset_import_to_file(output_file)
+        write_standard_conversion_factors_to_file(output_file)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -798,11 +728,8 @@ def make_models_from_dataframe(model_points_df,
             output_asset_position_name = t.output_asset_position_name
 
     with open(output_asset_filename, "w") as output_file:
-        transforms_filename_base = transforms_filename.split(".")[0]
-        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
-
-        print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
-        print("local meters_in_Km = 1000", file = output_file)
+        write_transform_asset_import_to_file(output_file)
+        write_standard_conversion_factors_to_file(output_file)
 
         # We need to keep track of all the model assets we create so they can be
         # initialized/deinitialized/exported for OpenSpace.
@@ -931,11 +858,8 @@ def make_pdb_from_dataframe(protein_points_df,
             output_asset_position_name = t.output_asset_position_name
 
     with open(output_asset_filename, "w") as output_file:
-        transforms_filename_base = transforms_filename.split(".")[0]
-        print("local transforms = asset.require(\"./" + transforms_filename_base + "\")", file=output_file)
-
-        print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
-        print("local meters_in_Km = 1000", file = output_file)
+        write_transform_asset_import_to_file(output_file)
+        write_standard_conversion_factors_to_file(output_file)
 
         output_asset_variable_list = []
 
@@ -1176,14 +1100,12 @@ def main():
                                                         dataset_csv_filename=dataset_csv_filename,
                                                         gui_info=gui_info)
             
-        # Datasets contain many points that fall into common groupings, such as phyla,
-        # classes, kingdoms, etc. Rather than have many points with the same label, we
-        # can create a single label for the group that sits in the middle of all these
-        # points. This is useful for large datasets where the labels would otherwise
-        # overlap.
+        # Making grouped datasets is no longer done in this script. This code is
+        # left here to catch any references to it and exit with an error.
+        # Use the group_dataset.py script to generate a grouped dataset CSV file,
+        # then import that CSV file as points (or whatever).
         elif row["type"] == "group_labels":
             print(f"Creating {row["label_column"]} group labels... ", end="", flush=True)
-
             make_group_labels_from_dataframe(input_points_df=input_points_df,
                                                 filename_base=filename_base,
                                                 label_column=row["label_column"],
