@@ -237,6 +237,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              gui_top_level,
                                              parent,
                                              colormapping,
+                                             images_column_name,
+                                             images_mapping,
                                              dataset_csv_filename,
                                              gui_info):
     
@@ -260,6 +262,51 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # Add a column for this color index to the dataframe.
         color_index_column = color_by_column + color_index_column_suffix
         input_points_df[color_index_column] = input_points_df[color_by_column].map(color_map)
+
+    # Are we also making an images asset for this dataset? If so, we need to make a new
+    # CSV file that has an image index column as well. The images_mapping is a list of
+    # image filenames for each unique value in the images_column_name column. So we need to
+    # make a new dataframe with the following:
+    # 1. The name of the entry from the orignal CSV file in the images_column_name column
+    # 2. x, y, z from the original CSV file
+    # 3. The image mapping filename that tell us what image file to use for each entry.
+    images_csv_filename = None
+    if images_column_name and images_mapping:
+        # Now make a dataframe from the images_mapping file. One of the column
+        # names must match the images_column_name. The other column is
+        # "image_filename", the name of the image file to use for that entry.
+        images_mapping_df = pd.read_csv(images_mapping)
+
+        # The next thing we need to do is add the x, y, z coordinates to the
+        # images_mapping_df dataframe from the input_points_df column, using the
+        # images_column_name to match the entries.
+        images_mapping_df["x"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["x"])
+        images_mapping_df["y"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["y"])
+        images_mapping_df["z"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["z"])
+
+        # Finally we need to add an index column for the image index. This is
+        # just a sequential number for each entry. These will be used to make
+        # the texture mapping .tmap file, which will have the index and the
+        # image filename. The image index starts at 1, and the column name is
+        # the images_column_name + "_image_index".
+        images_mapping_df[f"{images_column_name}_image_index"] = range(1, len(images_mapping_df) + 1)
+
+        # Now write the images_mapping_df dataframe to a CSV file. Also add it
+        # to the list of output files.
+        images_csv_filename = args.output_dir + "/" + filename_base + "_" + images_column_name + "_images.csv"
+        images_mapping_df.to_csv(images_csv_filename, index=False)
+        print(f"Wrote images CSV file {images_csv_filename}")
+        add_output_file(images_csv_filename)
+
+        # Next, the tmap file. This is a simple text file with two columns, the
+        # image index and the image filename.
+        images_tmap_filename = args.output_dir + "/" + filename_base + "_" + images_column_name + "_images.tmap"
+        with open(images_tmap_filename, "w") as tmap_file:
+            for index, row in images_mapping_df.iterrows():
+                print(f"{row[f'{images_column_name}_image_index']} {row['image_filename']}", file=tmap_file)
+        tmap_file.close()
+        print(f"Wrote images tmap file {images_tmap_filename}")
+        add_output_file(images_tmap_filename)
 
     # Next up is "rendered labels". These are rendered as textures, and each label has an
     # index into a texture file that specifies what texture to use for each index. This
@@ -714,7 +761,6 @@ def make_models_from_dataframe(model_points_df,
                                units,
                                gui_top_level):
 
-    # Now the asset file for the branches.
     output_asset_filename = args.output_dir + "/" + filename_base + "_models.asset"
 
     # Models are like branches or labels, they're always associated with a CSV points
@@ -1075,9 +1121,6 @@ def main():
             
         elif row["type"] == "points":
             # These are all optional arguments for making points.
-            max_size = row.get("max_size", None)
-            colormapping = row.get("colormapping", None)
-            rendered_labels = row.get("rendered_labels", None)
 
             print("Creating points... ", end="", flush=True)
             make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
@@ -1087,13 +1130,15 @@ def main():
                                                         default_texture=row.get("default_texture", None),
                                                         size_scale_factor=row["point_scale_factor"],
                                                         size_scale_exponent=row["point_scale_exponent"],
-                                                        max_size=max_size,
+                                                        max_size=row.get("max_size", None),
                                                         units=units,
                                                         enabled=row["enabled"],
-                                                        rendered_labels=rendered_labels,
+                                                        rendered_labels=row.get("rendered_labels", None),
                                                         gui_top_level=gui_top_level,
                                                         parent=parent,
-                                                        colormapping=colormapping,
+                                                        colormapping=row.get("colormapping", None),
+                                                        images_column_name=row.get("images_column_name", None),
+                                                        images_mapping=row.get("images_mapping", None),
                                                         dataset_csv_filename=dataset_csv_filename,
                                                         gui_info=gui_info)
             
