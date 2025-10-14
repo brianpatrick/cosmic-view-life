@@ -237,8 +237,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              gui_top_level,
                                              parent,
                                              colormapping,
-                                             images_column_name,
-                                             images_mapping,
+                                             images,
                                              dataset_csv_filename,
                                              gui_info):
     
@@ -262,51 +261,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # Add a column for this color index to the dataframe.
         color_index_column = color_by_column + color_index_column_suffix
         input_points_df[color_index_column] = input_points_df[color_by_column].map(color_map)
-
-    # Are we also making an images asset for this dataset? If so, we need to make a new
-    # CSV file that has an image index column as well. The images_mapping is a list of
-    # image filenames for each unique value in the images_column_name column. So we need to
-    # make a new dataframe with the following:
-    # 1. The name of the entry from the orignal CSV file in the images_column_name column
-    # 2. x, y, z from the original CSV file
-    # 3. The image mapping filename that tell us what image file to use for each entry.
-    images_csv_filename = None
-    if images_column_name and images_mapping:
-        # Now make a dataframe from the images_mapping file. One of the column
-        # names must match the images_column_name. The other column is
-        # "image_filename", the name of the image file to use for that entry.
-        images_mapping_df = pd.read_csv(images_mapping)
-
-        # The next thing we need to do is add the x, y, z coordinates to the
-        # images_mapping_df dataframe from the input_points_df column, using the
-        # images_column_name to match the entries.
-        images_mapping_df["x"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["x"])
-        images_mapping_df["y"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["y"])
-        images_mapping_df["z"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["z"])
-
-        # Finally we need to add an index column for the image index. This is
-        # just a sequential number for each entry. These will be used to make
-        # the texture mapping .tmap file, which will have the index and the
-        # image filename. The image index starts at 1, and the column name is
-        # the images_column_name + "_image_index".
-        images_mapping_df[f"{images_column_name}_image_index"] = range(1, len(images_mapping_df) + 1)
-
-        # Now write the images_mapping_df dataframe to a CSV file. Also add it
-        # to the list of output files.
-        images_csv_filename = args.output_dir + "/" + filename_base + "_" + images_column_name + "_images.csv"
-        images_mapping_df.to_csv(images_csv_filename, index=False)
-        print(f"Wrote images CSV file {images_csv_filename}")
-        add_output_file(images_csv_filename)
-
-        # Next, the tmap file. This is a simple text file with two columns, the
-        # image index and the image filename.
-        images_tmap_filename = args.output_dir + "/" + filename_base + "_" + images_column_name + "_images.tmap"
-        with open(images_tmap_filename, "w") as tmap_file:
-            for index, row in images_mapping_df.iterrows():
-                print(f"{row[f'{images_column_name}_image_index']} {row['image_filename']}", file=tmap_file)
-        tmap_file.close()
-        print(f"Wrote images tmap file {images_tmap_filename}")
-        add_output_file(images_tmap_filename)
 
     # Next up is "rendered labels". These are rendered as textures, and each label has an
     # index into a texture file that specifies what texture to use for each index. This
@@ -555,7 +509,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                 print( "        UseAdditiveBlending = true,", file=output_file)
                 print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
                 print( "        SizeSettings = {", file=output_file)
-                if max_size:
+                if label.get("max_size"):
                     print(f"            MaxSize = {label["max_size"]},", file=output_file)
                     print( "            EnableMaxSizeControl = true,", file=output_file) 
                 print(f"            ScaleExponent = {label["point_scale_exponent"]}, ScaleFactor = {label["point_scale_factor"]}", file=output_file)
@@ -591,6 +545,119 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
             add_output_file(output_rendered_labels_asset_filename)
 
+    # Are we also making an images asset for this dataset? If so, we need to make a new
+    # CSV file that has an image index column as well. The images_mapping is a list of
+    # image filenames for each unique value in the images_column_name column. So we need to
+    # make a new dataframe with the following:
+    # 1. The name of the entry from the orignal CSV file in the images_column_name column
+    # 2. x, y, z from the original CSV file
+    # 3. The image mapping filename that tell us what image file to use for each entry.
+    if images:
+        images_column_name = images.get("images_column_name", None)
+        images_mapping = images.get("images_mapping", None)
+        images_directory = images.get("images_directory", None)
+
+        # Now make a dataframe from the images_mapping file. One of the column
+        # names must match the images_column_name. The other column is
+        # "image_filename", the name of the image file to use for that entry.
+        images_mapping_df = pd.read_csv(images_mapping)
+
+        # The next thing we need to do is add the x, y, z coordinates to the
+        # images_mapping_df dataframe from the input_points_df column, using the
+        # images_column_name to match the entries.
+        images_mapping_df["x"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["x"])
+        images_mapping_df["y"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["y"])
+        images_mapping_df["z"] = images_mapping_df[images_column_name].map(input_points_df.set_index(images_column_name)["z"])
+
+        # Finally we need to add an index column for the image index. This is
+        # just a sequential number for each entry. These will be used to make
+        # the texture mapping .tmap file, which will have the index and the
+        # image filename. The image index starts at 1, and the column name is
+        # the images_column_name + "_image_index".
+        images_mapping_df[f"{images_column_name}_image_index"] = range(1, len(images_mapping_df) + 1)
+
+        # Now write the images_mapping_df dataframe to a CSV file. Also add it
+        # to the list of output files.
+        images_csv_filename = args.output_dir + "/" + filename_base + "_" + images_column_name + "_images.csv"
+        images_mapping_df.to_csv(images_csv_filename, index=False)
+        add_output_file(images_csv_filename)
+
+        # Next, the tmap file. This is a simple text file with two columns, the
+        # image index and the image filename.
+        images_tmap_filename = args.output_dir + "/" + filename_base + "_" + images_column_name + "_images.tmap"
+        with open(images_tmap_filename, "w") as tmap_file:
+            for index, row in images_mapping_df.iterrows():
+                print(f"{row[f'{images_column_name}_image_index']} {row['image_filename']}", file=tmap_file)
+        tmap_file.close()
+        add_output_file(images_tmap_filename)
+
+        # Next the asset file for the images.
+        images_asset_filename = args.output_dir + "/" + filename_base + "_" + images_column_name + "_images.asset"
+        images_asset_variable_name = filename_base + "_" + images_column_name + "_images"
+        images_asset_position_name = images_asset_variable_name + "_position"
+
+        with open(images_asset_filename, "w") as output_file:
+            # The earth is the parent for all of the points, as there are many visualizations
+            # where we move points from above the earth down to specific locations. Use
+            # OpenSpace's provided transformations for this.
+            print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
+            write_transform_asset_import_to_file(output_file)
+            write_standard_conversion_factors_to_file(output_file)
+
+            # The points in this asset are derived from the original points CSV file, so
+            # we can use the same transform as the points asset.
+            for t in transform_list:
+                if t.csv_filename == dataset_csv_filename:
+                    parent_position_name = t.output_asset_position_name
+
+            print(f"local {images_asset_variable_name} = {{", file=output_file)
+            print(f"    Identifier = \"{images_asset_variable_name}\",", file=output_file)
+            print(f"    Parent = transforms.{parent_position_name}.Identifier,", file=output_file)
+            print( "    Renderable = {", file=output_file)
+            print( "        Type = \"RenderablePointCloud\",", file=output_file)
+            print(f"        Enabled = {enabled},", file=output_file)
+            print( "        UseAdditiveBlending = true,", file=output_file)
+            print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
+            print( "        SizeSettings = {", file=output_file)
+            if images.get("max_size"):
+                print(f"            MaxSize = {images.get('max_size')},", file=output_file)
+                print( "            EnableMaxSizeControl = true,", file=output_file) 
+            print(f"            ScaleExponent = {images['point_scale_exponent']}, ScaleFactor = {images['point_scale_factor']}", file=output_file)
+            print( "        },", file=output_file)
+            print(f"        File = asset.resource(\"{os.path.basename(images_csv_filename)}\"),", file=output_file)
+            print(f"        Unit = \"{units}\",", file=output_file)
+            print(f"        Texture = {{ Folder = asset.resource(\"./{images_directory}\") }},", file=output_file)
+
+            print( "        DataMapping = {", file=output_file)
+            print(f"            TextureColumn=\"{images_column_name}_image_index\",", file=output_file)
+            print(f"            TextureMapFile=asset.resource(\"{os.path.basename(images_tmap_filename)}\")", file=output_file)
+            print( "        },", file=output_file)
+
+            print( "    },", file=output_file)
+            print("    GUI = {", file=output_file)
+            gui_info = images.get("gui_info", None)
+            if gui_info:
+                print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
+                print(f"        Name = \"{gui_info['name']}\"", file=output_file)
+            else:
+                print(f"        Path = \"/{gui_top_level}/Labels\",", file=output_file)
+                print(f"        Name = \"{output_asset_variable_name}\"", file=output_file)
+            print("    }", file=output_file)
+            print("}", file=output_file)
+
+            write_scene_graph_node_initializers_to_file(images_asset_variable_name,
+                                                        output_file)
+            
+        add_output_file(images_asset_filename)
+
+        # Copy the images directory to the output directory. This dir will then be copied to
+        # the asset dir. There's a lot of copying and duplicating going on; one question
+        # is do we need the output directory at all, or should we just write everything directly
+        # to the asset dir? The output dir is useful for debugging and inspecting the files.
+        if images_directory:
+            shutil.copytree(images_directory, os.path.join(args.output_dir, images_directory), dirs_exist_ok=True)
+
+        add_output_directory(images_directory)
 
 
 def make_labels_from_dataframe(input_points_df, 
@@ -1137,8 +1204,7 @@ def main():
                                                         gui_top_level=gui_top_level,
                                                         parent=parent,
                                                         colormapping=row.get("colormapping", None),
-                                                        images_column_name=row.get("images_column_name", None),
-                                                        images_mapping=row.get("images_mapping", None),
+                                                        images=row.get("images", None),
                                                         dataset_csv_filename=dataset_csv_filename,
                                                         gui_info=gui_info)
             
