@@ -553,6 +553,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     # 2. x, y, z from the original CSV file
     # 3. The image mapping filename that tell us what image file to use for each entry.
     if images:
+        print("Making images asset... ", end="", flush=True)
         images_column_name = images.get("images_column_name", None)
         images_mapping = images.get("images_mapping", None)
         images_directory = images.get("images_directory", None)
