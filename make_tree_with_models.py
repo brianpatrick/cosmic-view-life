@@ -23,6 +23,7 @@ from src import common
 import pandas as pd
 import json
 import re
+import numpy as np
 
 parser = argparse.ArgumentParser(description='Process a newick file to create asset '
                                  'and data files for OpenSpace.')
@@ -70,6 +71,14 @@ parser.add_argument('--ultrametric', action='store_true', default=False,
 parser.add_argument('--diagonal', action='store_true', default=False,
                     help='Use diagonal branches.')
 
+# Flag for circular layout.
+parser.add_argument('--circular', action='store_true', default=False,
+                    help='Use circular layout.')
+
+# Global model scaling factor.
+parser.add_argument('--global_model_scaling_factor', type=float, default=1.0,
+                    help='Scale all models by this factor.')
+
 def main():
     args = parser.parse_args()
 
@@ -90,12 +99,14 @@ def main():
     else:
         print(f"Models file:        None")
         args['models_file'] = ""
-    print(f"Output path:            {args['out_path']}")
-    print(f"Tree name:              {args['tree_name']}")
-    print(f"Branch scaling factor:  {args['branch_scaling_factor']}")
-    print(f"Taxon scaling factor:   {args['taxon_scaling_factor']}")
-    print(f"Ultrametric:            {args['ultrametric']}")
-    print(f"Diagonal branches:      {args['diagonal']}")
+    print(f"Output path:                 {args['out_path']}")
+    print(f"Tree name:                   {args['tree_name']}")
+    print(f"Branch scaling factor:       {args['branch_scaling_factor']}")
+    print(f"Taxon scaling factor:        {args['taxon_scaling_factor']}")
+    print(f"Ultrametric:                 {args['ultrametric']}")
+    print(f"Diagonal branches:           {args['diagonal']}")
+    print(f"Circular layout:             {args['circular']}")
+    print(f"Global model scaling factor: {args['global_model_scaling_factor']}")
 
     make_tree_files_for_OS(input_newick_file=args['input_newick_file'],
                            models_filename=args['models_file'],
@@ -104,7 +115,9 @@ def main():
                            tree_name=args['tree_name'],
                            output_path=args['out_path'],
                            ultrametric=args['ultrametric'],
-                           diagonal=args['diagonal'])
+                           diagonal=args['diagonal'],
+                           circular=args['circular'],
+                           global_model_scaling_factor=args['global_model_scaling_factor'])
 
 
 def make_tree_files_for_OS(input_newick_file,
@@ -114,7 +127,9 @@ def make_tree_files_for_OS(input_newick_file,
                            tree_name,
                            output_path,
                            ultrametric,
-                           diagonal):
+                           diagonal,
+                           circular,
+                           global_model_scaling_factor=1.0):
     '''
     Process the newick file. This file contains the tree structure in newick format.
 
@@ -140,6 +155,13 @@ def make_tree_files_for_OS(input_newick_file,
         csv files for nodes and leaves
         
     '''
+
+    # Enforce some limitations here. For now, circular trees must be diagonal and ultrametric.
+    if circular:
+        print("*** Circular layout selected - enforcing ultrametric and diagonal branches ***")
+        ultrametric = True
+        diagonal = True
+
     x_node_positions = []
     y_node_positions = []
 
@@ -329,6 +351,55 @@ def make_tree_files_for_OS(input_newick_file,
     leaves.loc[:, 'y'] = leaves['y'].apply(lambda x: x * taxon_scaling_factor)
     branch_lines_df.loc[:, 'y0'] = branch_lines_df['y0'].apply(lambda x: x * taxon_scaling_factor)
     branch_lines_df.loc[:, 'y1'] = branch_lines_df['y1'].apply(lambda x: x * taxon_scaling_factor)
+
+    #
+    # At this point, we have a tree with nodes, leaves, and branch lines
+    # arranged with the nodes all in a horizontal line along the X axis. If the
+    # circular flag is set, we need to convert the layout to circular.
+    #
+    if circular:
+        # First get the radius. This is the maximum distance from the root to
+        # any leaf. This is an ultrametric tree, so the radius is the same for
+        # all leaves, so just use the first leaf.
+        leaves_radius = leaves.iloc[0]['x']
+
+        # Now we can convert the leaves to circular layout. This is basically
+        # converting the leaves from a horizontal line along the X axis to a
+        # circle of radius leaves_radius. Let's calculate a conversion from x to
+        # angle. The leaves and nodes are arranged along the X axis, so the
+        # angle is proportional to the X position. 
+        y_to_angle = 2 * np.pi / max(leaves['y'])
+
+        # Next, get the number of leaves. This is used to calculate the angle for each leaf.
+        num_leaves = len(leaves)
+        # Now, convert the leaves to circular layout.
+        for i, row in leaves.iterrows():
+            angle = y_to_angle * row['y']
+            x = leaves_radius * np.cos(angle)
+            y = leaves_radius * np.sin(angle)
+            leaves.at[i, 'x'] = x
+            leaves.at[i, 'y'] = y
+
+        # Now convert the internal nodes to circular layout.
+        for i, row in nodes.iterrows():
+            angle = y_to_angle * row['y']
+            x = (row['x']) * np.cos(angle)
+            y = (row['x']) * np.sin(angle)
+            nodes.at[i, 'x'] = x
+            nodes.at[i, 'y'] = y
+
+        # Finally, convert the branch lines to circular layout.
+        for i, row in branch_lines_df.iterrows():
+            angle0 = y_to_angle * row['y0']
+            angle1 = y_to_angle * row['y1']
+            x0 = (row['x0']) * np.cos(angle0)
+            y0 = (row['x0']) * np.sin(angle0)
+            x1 = (row['x1']) * np.cos(angle1)
+            y1 = (row['x1']) * np.sin(angle1)
+            branch_lines_df.at[i, 'x0'] = x0
+            branch_lines_df.at[i, 'y0'] = y0
+            branch_lines_df.at[i, 'x1'] = x1
+            branch_lines_df.at[i, 'y1'] = y1
 
     # Convert the path to an actual Path object. Path is actually pretty handy (pathlib)
     # if you're careful about how you use it.
@@ -605,7 +676,7 @@ def make_tree_files_for_OS(input_newick_file,
                 for model in models[row['name']]:
                     # I hate magic numbers like this.
                     model_url = model[0]
-                    model_scale = model[1]
+                    model_scale = model[1] * global_model_scaling_factor
                     model_layers = model[2]
                     model_enabled = model[3]
                     model_other_names = model[4]
