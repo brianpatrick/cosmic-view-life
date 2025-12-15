@@ -1136,9 +1136,6 @@ def main():
         # the dataframe later.
         dataset_dict[(dataset_csv_filename, row["type"])] = {"points": input_points_df}
         
-        # The fade_targets argument is optional. If it's not there, set it to None.
-        fade_targets = row.get("fade_targets", None)
-
         # Let's get the base of the filename (no extension) to use for generating
         # output files. Also, replace all the periods with underscores, as periods
         # are not allowed in asset names. The file may also be in a subdir, so replace
@@ -1147,9 +1144,6 @@ def main():
         filename_base = dataset_csv_filename.replace(".csv", "")
         filename_base = filename_base.replace(".", "_")
         filename_base = filename_base.replace("/", "_")
-
-        parent = row.get("parent", None)
-        gui_info = row.get("gui_info", None)
     
         # If there is no entry in the row for "enabled", default to true. Otherwise,
         # convert the value to a string so it can be used in the asset file.
@@ -1198,7 +1192,7 @@ def main():
             print("Creating points... ", end="", flush=True)
             make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
                                                         filename_base=filename_base,
-                                                        fade_targets=fade_targets,
+                                                        fade_targets=row.get("fade_targets", None),
                                                         interaction_sphere=row["interaction_sphere"],
                                                         default_texture=row.get("default_texture", None),
                                                         size_scale_factor=row["point_scale_factor"],
