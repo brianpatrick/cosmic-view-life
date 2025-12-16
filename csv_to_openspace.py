@@ -241,6 +241,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              colormapping,
                                              images,
                                              dataset_csv_filename,
+                                             dataset_dir,
                                              gui_info):
     
     #report_duplicate_xyz(input_points_df)
@@ -569,7 +570,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # Now make a dataframe from the images_mapping file. One of the column
         # names must match the images_column_name. The other column is
         # "image_filename", the name of the image file to use for that entry.
-        images_mapping_df = pd.read_csv(images_mapping)
+        images_mapping_df = pd.read_csv(Path(args.input_data_dir) / dataset_dir / images_mapping)
 
         # The next thing we need to do is add the x, y, z coordinates to the
         # images_mapping_df dataframe from the input_points_df column, using the
@@ -664,7 +665,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # is do we need the output directory at all, or should we just write everything directly
         # to the asset dir? The output dir is useful for debugging and inspecting the files.
         if images_directory:
-            shutil.copytree(images_directory, os.path.join(args.output_dir, images_directory), dirs_exist_ok=True)
+            shutil.copytree(Path(args.input_data_dir) / dataset_dir / images_directory, 
+                            os.path.join(args.output_dir, images_directory), dirs_exist_ok=True)
 
         add_output_directory(images_directory)
 
@@ -834,6 +836,8 @@ def make_models_from_dataframe(model_points_df,
                                filename_base,
                                model_list,
                                data_points_csv_filename,
+                               dataset_dir,
+                               models_subdirectory,
                                units,
                                gui_top_level):
 
@@ -912,7 +916,7 @@ def make_models_from_dataframe(model_points_df,
             if model["download_type"] == "url":
                 print(f"        GeometryFile = syncData_{output_asset_variable_name} .. \"{model['model_filename']}\",", file=output_file)
             else:
-                print(f"        GeometryFile = asset.resource(\"./{model['model_path']}\"),", file=output_file)
+                print(f"        GeometryFile = asset.resource(\"./{models_subdirectory}/{model['model_path']}\"),", file=output_file)
             print(f"        ModelScale = {model['model_scale']},", file=output_file)
             print( "        LightSources = {", file=output_file)
             # Default light intensity is 0.5. This is a good value for most models, but can be
@@ -951,6 +955,17 @@ def make_models_from_dataframe(model_points_df,
             print(f"asset.export({output_asset_variable_name})", file=output_file)
 
     add_output_file(output_asset_filename)
+
+    # Copy the models subdirectory to the output directory. This dir will then be copied to
+    # the asset dir. There's a lot of copying and duplicating going on; one question
+    # is do we need the output directory at all, or should we just write everything directly
+    # to the asset dir? The output dir is useful for debugging and inspecting the files.
+    print("Copying models directory to output dir (gotta fix this)... ", end="", flush=True)
+    models_dir = Path(args.input_data_dir) / dataset_dir / models_subdirectory
+    shutil.copytree(models_dir, 
+                    os.path.join(args.output_dir, models_subdirectory), dirs_exist_ok=True)
+    print("done.")
+    add_output_directory(models_subdirectory)
 
 def make_pdb_from_dataframe(protein_points_df,
                             filename_base,
@@ -1109,7 +1124,7 @@ def main():
     # appropriate OpenSpace files.    
     for row in input_dataset["datasets"]:
 
-        # If there's a "skip" entry for this row, skip it.
+        # If there's a "skip" entry for this row, skip it.mnod
         if "skip" in row and row["skip"]:
             print(f"Skipping dataset: {row['csv_file']} data type {row['type']}")
             continue
@@ -1206,6 +1221,7 @@ def main():
                                                         colormapping=row.get("colormapping", None),
                                                         images=row.get("images", None),
                                                         dataset_csv_filename=dataset_csv_filename,
+                                                        dataset_dir=row.get("directory", "."),
                                                         gui_info=row.get("gui_info", None))
             
         # Making grouped datasets is no longer done in this script. This code is
@@ -1249,6 +1265,8 @@ def main():
                                         filename_base=filename_base,
                                         model_list=row["model_list"],
                                         data_points_csv_filename=row["csv_file"],
+                                        dataset_dir=row.get("directory", "."),
+                                        models_subdirectory=row.get("models_subdirectory", "."),
                                         units=units,
                                         gui_top_level=gui_top_level)
 
