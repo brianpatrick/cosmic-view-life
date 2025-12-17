@@ -1120,14 +1120,12 @@ def main():
 
     print("Creating dataset: " + gui_top_level)
 
-    # For each entry in the datasets list, read the CSV file and create the
-    # appropriate OpenSpace files.    
-    for row in input_dataset["datasets"]:
+    def process_row(row):
 
         # If there's a "skip" entry for this row, skip it.mnod
         if "skip" in row and row["skip"]:
             print(f"Skipping dataset: {row['csv_file']} data type {row['type']}")
-            continue
+            return
 
         # The input file may be in a subdirectory, so we need to get the full path to pass 
         # along to the various functions that process files. If a subdirectory is not specified,
@@ -1284,6 +1282,24 @@ def main():
             sys.exit(1)
  
         print("Done.")
+    
+    # For each entry in the datasets list, read the CSV file and create the
+    # appropriate OpenSpace files.    
+    for row in input_dataset["datasets"]:
+        # Does this row just have "include" in it? If so, process the included file just]
+        # like a regular file. Note that includes can only be specified at the top level.
+        # Nested includes are not supported. (process_row() is NOT reentrant.)
+        if "include" in row:
+            include_filename = Path(row["include"])
+            try:
+                included_dataset = json.load(open(include_filename))
+            except FileNotFoundError:
+                print("Error: Could not open included dataset JSON file: " + str(include_filename))
+                sys.exit(1)
+            for included_row in included_dataset["datasets"]:
+                process_row(included_row)
+        else:
+            process_row(row)
 
     # Write the transforms file. This file contains the positions of all the assets
     # in the dataset.
