@@ -227,30 +227,22 @@ def write_scene_graph_node_initializers_to_file(asset_variable_name,
 
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
                                              filename_base,
-                                             fade_targets,
-                                             interaction_sphere,
-                                             default_texture,
-                                             size_scale_factor,
-                                             size_scale_exponent,
-                                             max_size,
+                                             dataset_info,
                                              units,
-                                             enabled,
-                                             rendered_labels,
                                              gui_top_level,
-                                             parent,
-                                             colormapping,
-                                             images,
-                                             dataset_csv_filename,
-                                             dataset_dir,
-                                             gui_info):
+                                             dataset_csv_filename):
     
     #report_duplicate_xyz(input_points_df)
+
+    dataset_dir = dataset_info.get("directory", ".")
+    gui_info = dataset_info.get("gui_info", None)
 
     # First the CSV file. This is just the points in CSV format, however we may need to
     # add color mapping columns. If specified, for each column, we make an index for each
     # unique value that is used to index into a colormap. You can then pick which color
     # index column to use in OpenSpace to color the points.
     color_index_column_suffix = "_color_index"
+    colormapping = dataset_info.get("colormapping", None)
     color_by_columns = colormapping["color_by_columns"]
     for color_by_column in color_by_columns:
         unique_values = input_points_df[color_by_column].unique()
@@ -275,6 +267,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     # up the texture directory in the asset dir using asset.resource().
     rendered_labels_dir = ""
     rendered_labels_relative_path = ""
+    rendered_labels = dataset_info.get("rendered_labels", None)
     if (rendered_labels):
         # First make sure a directory exists for all the rendered labels.
         rendered_labels_dir = filename_base + "_rendered_labels"
@@ -372,6 +365,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
         # "Declare" fade var so it can be used below.
         fade_varname = ""
+        fade_targets = dataset_info.get("fade_targets", None)
         if fade_targets:
             fade_varname = f"{filename_base}_fade_command"
 
@@ -395,7 +389,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("    IsLocal = true", file=output_file)
             print("}", file=output_file)
 
-        transform_list.append(Transform(output_asset_position_name, parent, dataset_csv_filename, units))
+        transform_list.append(Transform(output_asset_position_name, dataset_info.get('parent'), dataset_csv_filename, units))
 
         write_standard_conversion_factors_to_file(output_file)
 
@@ -404,16 +398,20 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"    Parent = transforms.{output_asset_position_name}.Identifier,", file=output_file)
         print( "    Renderable = {", file=output_file)
         print( "        Type = \"RenderablePointCloud\",", file=output_file)
-        print(f"        Enabled = {enabled},", file=output_file)
+        print(f"        Enabled = {dataset_info['enabled']},", file=output_file)
         print( "        UseAdditiveBlending = true,", file=output_file)
         print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
+        if dataset_info.get("OrientationRenderOption", None):
+            print(f"        OrientationRenderOption = {dataset_info['OrientationRenderOption']},", file=output_file)
         print( "        SizeSettings = {", file=output_file)
+        max_size = dataset_info.get("max_size", None)
         if max_size:
             print(f"            MaxSize = {max_size},", file=output_file)
             print( "            EnableMaxSizeControl = true,", file=output_file) 
-        print(f"            ScaleExponent = {size_scale_exponent}, ScaleFactor = {size_scale_factor}", file=output_file)
+        print(f"            ScaleExponent = {dataset_info['point_scale_exponent']}, ScaleFactor = {dataset_info['point_scale_factor']}", file=output_file)
         print( "        },", file=output_file)
         print(f"        File = asset.resource(\"{local_points_csv_filename}\"),", file=output_file)
+        default_texture = dataset_info.get("default_texture", None)
         if default_texture:
             print(f"        Texture = {{ File = asset.resource(\"{default_texture}\") }},", file=output_file)
         print(f"        Unit = \"{units}\",", file=output_file)
@@ -449,7 +447,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
         #print(f"        Coloring = {{ FixedColor = {{ 1.0, 0.0, 0.0 }} }},", file=output_file)
         print("    },", file=output_file)
-        print(f"    InteractionSphere = {interaction_sphere} * meters_in_{units},", file=output_file)
+        print(f"    InteractionSphere = {dataset_info['interaction_sphere']} * meters_in_{units},", file=output_file)
         print("    ApproachFactor = 1000.0,", file=output_file)
         print("    ReachFactor = 5.0,", file=output_file)
         if fade_targets:
@@ -561,6 +559,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
     # 1. The name of the entry from the orignal CSV file in the images_column_name column
     # 2. x, y, z from the original CSV file
     # 3. The image mapping filename that tell us what image file to use for each entry.
+    images = dataset_info.get("images", None)
     if images:
         print("Making images asset... ", end="", flush=True)
         images_column_name = images.get("images_column_name", None)
@@ -625,7 +624,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print(f"    Parent = transforms.{parent_position_name}.Identifier,", file=output_file)
             print( "    Renderable = {", file=output_file)
             print( "        Type = \"RenderablePointCloud\",", file=output_file)
-            print(f"        Enabled = {enabled},", file=output_file)
+            print(f"        Enabled = {dataset_info['enabled']},", file=output_file)
             print( "        UseAdditiveBlending = true,", file=output_file)
             print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
             print( "        SizeSettings = {", file=output_file)
@@ -673,16 +672,18 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
 
 def make_labels_from_dataframe(input_points_df, 
                                filename_base,
-                               label_column, 
-                               label_size, 
-                               label_minsize, 
-                               label_maxsize,
-                               text_color,
-                               enabled,
+                               dataset_info,
                                units,
                                gui_top_level,
-                               dataset_csv_filename,
-                               gui_info):
+                               dataset_csv_filename):
+    
+    label_column = dataset_info["label_column"]
+    label_size = dataset_info["label_size"]
+    label_minsize = dataset_info["label_minsize"]
+    label_maxsize = dataset_info["label_maxsize"]
+    enabled = dataset_info["enabled"]
+    text_color = dataset_info.get("text_color", None)
+    gui_info = dataset_info["gui_info"]
 
     label_filename = args.output_dir + "/" + filename_base + "_" + label_column + ".label"
     local_label_filename = os.path.basename(label_filename)
@@ -740,36 +741,22 @@ def make_labels_from_dataframe(input_points_df,
 
     add_output_file(output_asset_filename)
 
-def make_group_labels_from_dataframe(input_points_df,
-                                     filename_base,
-                                     label_column, 
-                                     label_size, 
-                                     label_minsize, 
-                                     label_maxsize, 
-                                     text_color,
-                                     enabled,
-                                     units,
-                                     gui_top_level,
-                                     dataset_csv_filename,
-                                     gui_info):
-
-    print("Making group labels is no longer supported in this script. Use the "
-          "group_labels.py script to generate a grouped dataset, CSV file, then "
-          "import that CSV file using the points import functionality.")
-    
-    # Exit with an error.
-    sys.exit(1)
 
 def make_branches_from_dataframe(branch_points_df,
                                  filename_base,
-                                 ID_column,
+                                 dataset_info,
                                  units,
-                                 enabled,
-                                 data_points_csv_filename,
-                                 gui_top_level,
-                                 line_opacity,
-                                 line_width,
-                                 gui_info):
+                                 gui_top_level):
+
+    # If the column to specify the ID isn't given, default to "ID".
+    ID_column = dataset_info.get("ID_column", "ID")
+
+    enabled = dataset_info["enabled"]
+    data_points_csv_filename=dataset_info["points_file"]
+
+    line_opacity=dataset_info["line_opacity"],
+    line_width=dataset_info["line_width"],
+    gui_info=dataset_info.get("gui_info", None)
 
     # First the speck and dat files. These are the points used to draw the
     # RenderableConstellationLines asset.
@@ -834,14 +821,16 @@ def make_branches_from_dataframe(branch_points_df,
 
 def make_models_from_dataframe(model_points_df,
                                filename_base,
-                               model_list,
-                               data_points_csv_filename,
-                               dataset_dir,
-                               models_subdirectory,
+                               dataset_info,
                                units,
                                gui_top_level):
 
     output_asset_filename = args.output_dir + "/" + filename_base + "_models.asset"
+
+    model_list=dataset_info["model_list"]
+    data_points_csv_filename=dataset_info["csv_file"]
+    dataset_dir=dataset_info.get("directory", ".")
+    models_subdirectory=dataset_info.get("models_subdirectory", ".")
 
     # Models are like branches or labels, they're always associated with a CSV points
     # file. Get the position from the Transforms list.
@@ -969,8 +958,7 @@ def make_models_from_dataframe(model_points_df,
 
 def make_pdb_from_dataframe(protein_points_df,
                             filename_base,
-                            protein_list,
-                            data_points_csv_filename,
+                            dataset_info,
                             units,
                             gui_top_level):
 
@@ -980,6 +968,9 @@ def make_pdb_from_dataframe(protein_points_df,
     except ImportError:
         print("Error: Could not import pymol. Please install it with 'pip install pymol'.") 
         sys.exit(1)
+
+    protein_list=dataset_info["protein_list"]
+    data_points_csv_filename=dataset_info["csv_file"]
 
     # Now the asset file for the branches.
     output_asset_filename = args.output_dir + "/" + filename_base + "_pdb.asset"
@@ -1187,17 +1178,10 @@ def main():
             # doesn't. So we can do this first.
             make_labels_from_dataframe(input_points_df=input_points_df,
                                         filename_base=filename_base,
-                                        label_column=row["label_column"],
-                                        label_size=row["label_size"],
-                                        label_minsize=row["label_minsize"],
-                                        label_maxsize=row["label_maxsize"],
-                                        enabled=row["enabled"],
-                                        text_color=row.get("text_color", None),
+                                        dataset_info = row,
                                         units=units,
                                         gui_top_level=gui_top_level,
-                                        dataset_csv_filename=dataset_csv_filename,
-                                        gui_info=row.get("gui_info", None))
-            
+                                        dataset_csv_filename=dataset_csv_filename)
             
         elif row["type"] == "points":
             # These are all optional arguments for making points.
@@ -1205,66 +1189,37 @@ def main():
             print("Creating points... ", end="", flush=True)
             make_points_asset_and_csv_from_dataframe(input_points_df=input_points_df, 
                                                         filename_base=filename_base,
-                                                        fade_targets=row.get("fade_targets", None),
-                                                        interaction_sphere=row["interaction_sphere"],
-                                                        default_texture=row.get("default_texture", None),
-                                                        size_scale_factor=row["point_scale_factor"],
-                                                        size_scale_exponent=row["point_scale_exponent"],
-                                                        max_size=row.get("max_size", None),
+                                                        dataset_info = row,
                                                         units=units,
-                                                        enabled=row["enabled"],
-                                                        rendered_labels=row.get("rendered_labels", None),
                                                         gui_top_level=gui_top_level,
-                                                        parent=row.get("parent", None),
-                                                        colormapping=row.get("colormapping", None),
-                                                        images=row.get("images", None),
-                                                        dataset_csv_filename=dataset_csv_filename,
-                                                        dataset_dir=row.get("directory", "."),
-                                                        gui_info=row.get("gui_info", None))
+                                                        dataset_csv_filename=dataset_csv_filename)
             
         # Making grouped datasets is no longer done in this script. This code is
         # left here to catch any references to it and exit with an error.
         # Use the group_dataset.py script to generate a grouped dataset CSV file,
         # then import that CSV file as points (or whatever).
         elif row["type"] == "group_labels":
-            print(f"Creating {row["label_column"]} group labels... ", end="", flush=True)
-            make_group_labels_from_dataframe(input_points_df=input_points_df,
-                                                filename_base=filename_base,
-                                                label_column=row["label_column"],
-                                                label_size=row["label_size"],
-                                                label_minsize=row["label_minsize"],
-                                                label_maxsize=row["label_maxsize"],
-                                                enabled=row["enabled"],
-                                                units=units,
-                                                text_color=row.get("text_color", None),
-                                                gui_top_level=gui_top_level,
-                                                dataset_csv_filename=dataset_csv_filename,
-                                                gui_info=row.get("gui_info", None))
-
+            print("Making group labels is no longer supported in this script. Use the "
+                    "group_labels.py script to generate a grouped dataset, CSV file, then "
+                    "import that CSV file using the points import functionality.")
+    
+            # Exit with an error.
+            sys.exit(1)
 
         elif row["type"] == "branches":
             print("Creating branches... ", end="", flush=True)
-            # If the column to specify the ID isn't given, default to "ID".
-            ID_column = row.get("ID_column", "ID")
+
             make_branches_from_dataframe(branch_points_df=input_points_df,
                                             filename_base=filename_base,
-                                            ID_column=ID_column,
+                                            dataset_info = row,
                                             units=units,
-                                            enabled = row["enabled"],
-                                            data_points_csv_filename=row["points_file"],
-                                            gui_top_level=gui_top_level,
-                                            line_opacity=row["line_opacity"],
-                                            line_width=row["line_width"],
-                                            gui_info=row.get("gui_info", None))
+                                            gui_top_level=gui_top_level)
             
         elif row["type"] == "models":
             print("Creating models... ", end="", flush=True)
             make_models_from_dataframe(model_points_df=input_points_df,
                                         filename_base=filename_base,
-                                        model_list=row["model_list"],
-                                        data_points_csv_filename=row["csv_file"],
-                                        dataset_dir=row.get("directory", "."),
-                                        models_subdirectory=row.get("models_subdirectory", "."),
+                                        dataset_info = row,
                                         units=units,
                                         gui_top_level=gui_top_level)
 
@@ -1272,8 +1227,7 @@ def main():
             print("Creating proteins... ", end="", flush=True)
             make_pdb_from_dataframe(protein_points_df=input_points_df,
                                     filename_base=filename_base,
-                                    protein_list=row["protein_list"],
-                                    data_points_csv_filename=row["csv_file"],
+                                    dataset_info = row,
                                     units=units,
                                     gui_top_level=gui_top_level)
 
