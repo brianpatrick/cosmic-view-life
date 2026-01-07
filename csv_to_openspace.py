@@ -401,8 +401,9 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         print(f"        Enabled = {dataset_info['enabled']},", file=output_file)
         print( "        UseAdditiveBlending = true,", file=output_file)
         print( "        RenderBinMode = \"PostDeferredTransparent\",", file=output_file)
-        if dataset_info.get("OrientationRenderOption", None):
-            print(f"        OrientationRenderOption = {dataset_info['OrientationRenderOption']},", file=output_file)
+        if dataset_info.get("Billboard", None):
+            print(f"        Billboard = \"{dataset_info['Billboard']}\",", file=output_file)
+
         print( "        SizeSettings = {", file=output_file)
         max_size = dataset_info.get("max_size", None)
         if max_size:
@@ -754,8 +755,8 @@ def make_branches_from_dataframe(branch_points_df,
     enabled = dataset_info["enabled"]
     data_points_csv_filename=dataset_info["points_file"]
 
-    line_opacity=dataset_info["line_opacity"],
-    line_width=dataset_info["line_width"],
+    line_opacity=dataset_info["line_opacity"]
+    line_width=dataset_info["line_width"]
     gui_info=dataset_info.get("gui_info", None)
 
     # First the speck and dat files. These are the points used to draw the
