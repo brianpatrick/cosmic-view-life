@@ -103,6 +103,9 @@ def main():
 
     output_points_df = group_dataset(input_points_df, label_column)
 
+    # Drop any empty columns from the output dataframe.
+    output_points_df = output_points_df.dropna(axis=1, how='all')
+
     # Now we want to write the centroids to a new CSV file. The name of the new
     # CSV file will be the same as the input CSV file, but with the column name
     # appended to the end. For example, if the input CSV file is points.csv and
