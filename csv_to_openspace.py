@@ -89,7 +89,10 @@ def add_output_file(filename):
     # assets. Colormaps end in .cmap.
     if filename in output_files:
         # Check if the file is a colormap file. If it is, we can skip this check.
-        if filename.endswith(".cmap"):
+        # Sometimes the filename coming in is a whole path, sometimes just the
+        # filename. Convert it to just the filename for this check.
+        filename_only = os.path.basename(filename)
+        if filename_only.endswith(".cmap"):
             # This is a colormap file, so we can skip this check.
             print(f"Colormap file {filename} already in output_files list. Skipping check.")
             pass
