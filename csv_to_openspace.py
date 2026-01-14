@@ -54,6 +54,11 @@ parser.add_argument("-t", "--texture_dir", help="Directory holding texture files
 # and use another script/utility to copy the files later. 
 parser.add_argument("-s", "--skip_asset_copy", help="Verbose output.", action="store_true")
 parser.add_argument("-v", "--verbose", help="Verbose output.", action="store_true")
+
+# There may be duplicate points in the datasets. Should we check for these and report them?
+parser.add_argument("--check_duplicates", help="Check for duplicate x, y, z points in datasets.", 
+                    action="store_true", default=False)
+
 args = parser.parse_args()
 
 # Make a StringRenderer. This class is a singleton and keeps track of all the
@@ -96,7 +101,10 @@ def add_output_file(filename):
 def add_output_directory(directory):
     # Make sure this directory isn't already in the list. Throw an exception if it is.
     if directory in output_directories:
-        raise Exception(f"Directory {directory} already in output_directories list.")
+        # raise Exception(f"Directory {directory} already in output_directories list.")
+        print("*** WARNING ***")
+        print(f"Directory {directory} already in output_directories list. Skipping check.")
+        print("*** WARNING ***")
     else:
         output_directories.append(directory)
 
@@ -232,7 +240,8 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                                              gui_top_level,
                                              dataset_csv_filename):
     
-    #report_duplicate_xyz(input_points_df)
+    if args.check_duplicates:
+        report_duplicate_xyz(input_points_df)
 
     dataset_dir = dataset_info.get("directory", ".")
     gui_info = dataset_info.get("gui_info", None)
