@@ -141,6 +141,25 @@ def write_standard_conversion_factors_to_file(output_file):
     print("local meters_in_pc = 3.0856775814913673e+16", file=output_file)
     print("local meters_in_Km = 1000", file = output_file)
 
+# Consolidated function to write common asset file headers.
+# This reduces code duplication across multiple asset generation functions.
+def write_asset_file_header(output_file, include_colormaps=False, include_transforms=True, include_conversions=True):
+    """
+    Write standard header imports for OpenSpace asset files.
+    
+    Args:
+        output_file: Open file handle to write to
+        include_colormaps: If True, include colormap utilities import
+        include_transforms: If True, include transforms asset import
+        include_conversions: If True, include unit conversion constants
+    """
+    if include_colormaps:
+        print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
+    if include_transforms:
+        write_transform_asset_import_to_file(output_file)
+    if include_conversions:
+        write_standard_conversion_factors_to_file(output_file)
+
 def write_transform_file():
 
     transforms_file_path = args.output_dir + "/" + transforms_filename
@@ -372,8 +391,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
         # The earth is the parent for all of the points, as there are many visualizations
         # where we move points from above the earth down to specific locations. Use
         # OpenSpace's provided transformations for this.
-        print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
-        write_transform_asset_import_to_file(output_file)
+        write_asset_file_header(output_file, include_colormaps=True, include_transforms=True, include_conversions=True)
 
         # "Declare" fade var so it can be used below.
         fade_varname = ""
@@ -402,8 +420,6 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print("}", file=output_file)
 
         transform_list.append(Transform(output_asset_position_name, dataset_info.get('parent'), dataset_csv_filename, units))
-
-        write_standard_conversion_factors_to_file(output_file)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -507,16 +523,13 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
                 # The earth is the parent for all of the points, as there are many visualizations
                 # where we move points from above the earth down to specific locations. Use
                 # OpenSpace's provided transformations for this.
-                print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
-                write_transform_asset_import_to_file(output_file)
+                write_asset_file_header(output_file, include_colormaps=True, include_transforms=True, include_conversions=True)
 
                 # The CSV file for the points already has a transform in it, so we can
                 # use that transform as the parent for the labels.
                 for t in transform_list:
                     if t.csv_filename == dataset_csv_filename:
                         parent_position_name = t.output_asset_position_name
-
-                write_standard_conversion_factors_to_file(output_file)
 
                 print(f"local {output_asset_variable_name} = {{", file=output_file)
                 print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -622,9 +635,7 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             # The earth is the parent for all of the points, as there are many visualizations
             # where we move points from above the earth down to specific locations. Use
             # OpenSpace's provided transformations for this.
-            print("local colormaps = asset.require(\"util/default_colormaps\")", file=output_file)
-            write_transform_asset_import_to_file(output_file)
-            write_standard_conversion_factors_to_file(output_file)
+            write_asset_file_header(output_file, include_colormaps=True, include_transforms=True, include_conversions=True)
 
             # The points in this asset are derived from the original points CSV file, so
             # we can use the same transform as the points asset.
@@ -719,8 +730,7 @@ def make_labels_from_dataframe(input_points_df,
     output_asset_variable_name = filename_base + "_" + label_column + "_labels"
 
     with open(output_asset_filename, "w") as output_file:
-        write_transform_asset_import_to_file(output_file)
-        write_standard_conversion_factors_to_file(output_file)
+        write_asset_file_header(output_file, include_colormaps=False, include_transforms=True, include_conversions=True)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -800,8 +810,7 @@ def make_branches_from_dataframe(branch_points_df,
             output_asset_position_name = t.output_asset_position_name
 
     with open(output_asset_filename, "w") as output_file:
-        write_transform_asset_import_to_file(output_file)
-        write_standard_conversion_factors_to_file(output_file)
+        write_asset_file_header(output_file, include_colormaps=False, include_transforms=True, include_conversions=True)
 
         print(f"local {output_asset_variable_name} = {{", file=output_file)
         print(f"    Identifier = \"{output_asset_variable_name}\",", file=output_file)
@@ -853,8 +862,7 @@ def make_models_from_dataframe(model_points_df,
             output_asset_position_name = t.output_asset_position_name
 
     with open(output_asset_filename, "w") as output_file:
-        write_transform_asset_import_to_file(output_file)
-        write_standard_conversion_factors_to_file(output_file)
+        write_asset_file_header(output_file, include_colormaps=False, include_transforms=True, include_conversions=True)
 
         # We need to keep track of all the model assets we create so they can be
         # initialized/deinitialized/exported for OpenSpace.
@@ -996,8 +1004,7 @@ def make_pdb_from_dataframe(protein_points_df,
             output_asset_position_name = t.output_asset_position_name
 
     with open(output_asset_filename, "w") as output_file:
-        write_transform_asset_import_to_file(output_file)
-        write_standard_conversion_factors_to_file(output_file)
+        write_asset_file_header(output_file, include_colormaps=False, include_transforms=True, include_conversions=True)
 
         output_asset_variable_list = []
 
