@@ -245,14 +245,48 @@ def report_duplicate_xyz(input_points_df):
         print(duplicate_xyz)
 
 def write_scene_graph_node_initializers_to_file(asset_variable_name,
-                                                output_file):
+                                                output_file,
+                                                actions_to_register=None):
+    """
+    Write initialization/deinitialization blocks for a single scene graph node.
+    
+    Args:
+        asset_variable_name: Name of the asset variable to initialize
+        output_file: Open file handle to write to
+        actions_to_register: Optional list of action variable names to register/remove
+    """
     print("asset.onInitialize(function()", file=output_file)
+    if actions_to_register:
+        for action in actions_to_register:
+            print(f"  openspace.action.registerAction({action})", file=output_file)
     print(f"    openspace.addSceneGraphNode({asset_variable_name});", file=output_file)
     print("end)", file=output_file)
     print("asset.onDeinitialize(function()", file=output_file)
     print(f"    openspace.removeSceneGraphNode({asset_variable_name});", file=output_file)
+    if actions_to_register:
+        for action in actions_to_register:
+            print(f"  openspace.action.removeAction({action})", file=output_file)
     print("end)", file=output_file)
     print(f"asset.export({asset_variable_name})", file=output_file)
+
+def write_multi_node_initializers_to_file(asset_variable_list, output_file):
+    """
+    Write initialization/deinitialization blocks for multiple scene graph nodes.
+    
+    Args:
+        asset_variable_list: List of asset variable names to initialize
+        output_file: Open file handle to write to
+    """
+    print("asset.onInitialize(function()", file=output_file)
+    for asset_variable_name in asset_variable_list:
+        print(f"    openspace.addSceneGraphNode({asset_variable_name})", file=output_file)
+    print("end)", file=output_file)
+    print("asset.onDeinitialize(function()", file=output_file)
+    for asset_variable_name in asset_variable_list:
+        print(f"    openspace.removeSceneGraphNode({asset_variable_name})", file=output_file)
+    print("end)", file=output_file)
+    for asset_variable_name in asset_variable_list:
+        print(f"asset.export({asset_variable_name})", file=output_file)
         
 
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
@@ -493,17 +527,10 @@ def make_points_asset_and_csv_from_dataframe(input_points_df,
             print(f"        Name = \"{output_asset_variable_name}\"", file=output_file)
         print("    }", file=output_file)
         print("}", file=output_file)
-        print("asset.onInitialize(function()", file=output_file)
-        if fade_targets:
-            print(f"  openspace.action.registerAction({fade_varname})", file=output_file)
-        print(f"    openspace.addSceneGraphNode({output_asset_variable_name});", file=output_file)
-        print("end)", file=output_file)
-        print("asset.onDeinitialize(function()", file=output_file)
-        print(f"    openspace.removeSceneGraphNode({output_asset_variable_name});", file=output_file)
-        if fade_targets:
-            print(f"  openspace.action.removeAction({fade_varname})", file=output_file)
-        print("end)", file=output_file)
-        print(f"asset.export({output_asset_variable_name})", file=output_file)
+        
+        # Write initialization/deinitialization with optional fade actions
+        actions = [fade_varname] if fade_targets else None
+        write_scene_graph_node_initializers_to_file(output_asset_variable_name, output_file, actions)
 
     add_output_file(output_asset_filename)
 
@@ -951,18 +978,8 @@ def make_models_from_dataframe(model_points_df,
 
             output_asset_variable_list.append(output_asset_variable_name)
 
-        # Now we need to dump all the initialize  and deinitialize functions for the
-        # models.
-        print("asset.onInitialize(function()", file=output_file)
-        for output_asset_variable_name in output_asset_variable_list:
-            print(f"    openspace.addSceneGraphNode({output_asset_variable_name})", file=output_file)
-        print("end)", file=output_file)
-        print("asset.onDeinitialize(function()", file=output_file)
-        for output_asset_variable_name in output_asset_variable_list:
-            print(f"    openspace.removeSceneGraphNode({output_asset_variable_name})", file=output_file)
-        print("end)", file=output_file)
-        for output_asset_variable_name in output_asset_variable_list:
-            print(f"asset.export({output_asset_variable_name})", file=output_file)
+        # Write initialization/deinitialization for all models
+        write_multi_node_initializers_to_file(output_asset_variable_list, output_file)
 
     add_output_file(output_asset_filename)
 
@@ -1090,18 +1107,8 @@ def make_pdb_from_dataframe(protein_points_df,
 
             output_asset_variable_list.append(output_asset_variable_name)
 
-        # Now we need to dump all the initialize  and deinitialize functions for the
-        # models.
-        print("asset.onInitialize(function()", file=output_file)
-        for output_asset_variable_name in output_asset_variable_list:
-            print(f"    openspace.addSceneGraphNode({output_asset_variable_name})", file=output_file)
-        print("end)", file=output_file)
-        print("asset.onDeinitialize(function()", file=output_file)
-        for output_asset_variable_name in output_asset_variable_list:
-            print(f"    openspace.removeSceneGraphNode({output_asset_variable_name})", file=output_file)
-        print("end)", file=output_file)
-        for output_asset_variable_name in output_asset_variable_list:
-            print(f"asset.export({output_asset_variable_name})", file=output_file)
+        # Write initialization/deinitialization for all proteins
+        write_multi_node_initializers_to_file(output_asset_variable_list, output_file)
 
     add_output_file(output_asset_filename)
 
