@@ -1142,7 +1142,11 @@ def main():
 
         # If there's a "skip" entry for this row, skip it.mnod
         if "skip" in row and row["skip"]:
-            print(f"Skipping dataset: {row['csv_file']} data type {row['type']}")
+            # If the row has a "csv_file" entry, print that we're skipping it.
+            # Otherwise, just skip quietly. 
+            csv_file = row.get("csv_file", None)
+            if csv_file:
+                print(f"Skipping dataset: {row['csv_file']} data type {row['type']}")
             return
 
         # The input file may be in a subdirectory, so we need to get the full path to pass 
