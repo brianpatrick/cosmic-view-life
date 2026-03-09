@@ -202,7 +202,7 @@ def combine_assets(gui_path: str, output_file: str, search_dir: str) -> None:
         except ValueError:
             rel = f
         print(f"  + {rel}")
-
+    return matched_files
 
 def main() -> None:
     parser = argparse.ArgumentParser(

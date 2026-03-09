@@ -37,6 +37,7 @@ from pathlib import Path
 import sys
 import json
 from src import StringRenderer
+from combine_assets import combine_assets as run_combine_assets
 
 parser = argparse.ArgumentParser(description="Process input CSV files for OpenSpace.")
 parser.add_argument("-i", "--input_dataset_json_file", help="Input dataset JSON file.", 
@@ -1291,6 +1292,20 @@ def main():
     print(f"Writing transforms file: {transforms_filename}... ", end="", flush=True)
     write_transform_file()
     print("Done.")
+
+    # Combine any assets that share a GUI path into a single consolidated asset file.
+    combine_assets_list = input_dataset.get("combine_assets", [])
+    for entry in combine_assets_list:
+        full_gui_path = f"/{gui_top_level}/{entry['GUI_path']}"
+        combined_output_file = str(Path(args.output_dir) / entry["filename"])
+        print(f"Combining assets for GUI path '{full_gui_path}' -> {entry['filename']}... ", end="", flush=True)
+        matched_files = run_combine_assets(full_gui_path, combined_output_file, args.output_dir)
+        # Remove the individual source asset files that were merged into the combined file.
+        matched_basenames = {f.name for f in matched_files}
+        output_files[:] = [f for f in output_files if Path(f).name not in matched_basenames]
+        # Add the combined asset file in their place.
+        add_output_file(combined_output_file)
+        print("Done.")
 
     # Do we skip copying files?
     if args.skip_asset_copy:
