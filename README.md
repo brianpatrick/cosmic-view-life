@@ -51,7 +51,7 @@ In short, *this* is how the sausage is made.
 
 # DISCLAIMER
 
-This code is under active development. You have been warned.
+This code is under active development. **You have been warned.**
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -63,14 +63,18 @@ Many of the scripts have more than a few parameters and using a script or
 Makefile makes it a bit easier to build datasets. This codebase has been
 developed on a mix of Windows and Windows Subsystem for Linux (WSL). As of
 August 2025, Windows is the primary development platform as OpenSpace is
-(basically) a Windows app.
+(basically) a Windows app. The Makefile may or may not work on Linux/WSL and
+should be considered more like "guidelines, than actual rules."
 
-This project uses Python and requires many packages. Conda is highly recommended for
-setting up your environment, and the `pymol.yml` file can be used to install
-required packages. 
+This project uses Python and requires many packages. Conda is highly recommended
+for setting up your environment, and the `pymol.yml` file can be used to install
+required packages. That said, setting up environments can be tricky, and you may
+be reduced to just running the script and installing missing packages as
+necessary. The most challenging one is likely pymol (see below).
 
 The `Makefile` and `make.bat` files require a `Makefile.config` or
-`makebat_config.bat` file that contains the following important variables:
+`makebat_config.bat` file that contains the following important variables (here
+shown for WSL in the Makefile):
 
     OPENSPACE_CACHE := /mnt/e/git/OpenSpace-sonification/cache
     OPENSPACE_ASSET_DIR := /mnt/e/OpenSpace/user/data/assets
@@ -82,16 +86,7 @@ OpenSpace is using updated files.
 `OPENSPACE_ASSET_DIR` is where you keep your asset files and is typically set with
 an environment variable for your given setup.
 
-You will need to set these appropriately for your setup.
-
-This will likely go out of date very quickly, but as of the time of this writing (21 Feb
-2025), rules have been set up for the following targets:
-
- - `jan_30_2025_recentered` contains the eukaryotes sphere along with bird and mammal
-   data. A wolf protein is also done, along with a wolf skull.
- - `takanori_protein_universe` plots many (well, most?) of the points in the Protein
-   Universe paper. This dataset contains the default plot from the paper along with 4 from
-   Takanori- two 2D projections along with two 3D projections.
+You need to set these appropriately for your setup.
 
 ## Pymol
 
@@ -189,39 +184,14 @@ was ported to the much more flexible `csv_to_openspace.py` script.
 
 The repository contains the following directories:
 
-## `./data`
+## `./data` and `./catalogs_raw`
 
-Input data from various sources can be found in `./data`.
-
-### `./data/Jan_30_2025_recentered`
-
-### `./data/Odonata`
-
-### `./data/Takanori_Protein_Universe`
-
-
-### `./data/points_around_earth`
-
-OpenSpace is geared towards astronomical visualizations, but is able to display a
-high-resolution globe of the earth with all kinds of data overlaid, such as distribution
-maps, sea surface temperatures, elevations, and so on. A key visualization mode of CVoL is
-to depict species as points over the globe as a "star field of life". A "nested" model is
-used, whereby larger points representing higher level groups such as "green plants",
-"protists", "insects", "chordates" is initially shown. Flying up to a group such as
-"mammals" results in a field of points around this "parent point", where points represent
-(for example) individual species and are grouped taxonomically. 
-
-(TODO: Need to make an example that can be run, sudh as mammals or something.)
-
-
-
-
-
-## `./catalogs_raw`
-
-Datasets used in early visualizations. Not guaranteed to work properly as data formats and
-processing algorithms have changed quite a bit over the course of the project, so these
-will not be described in detail.
+Input data used to be kept along with the code but this became unwieldy. If you
+need example datasets, contact the project members (contact info herein). These
+directories contain datasets used in early visualizations. Not guaranteed to
+work properly as data formats and processing algorithms have changed quite a bit
+over the course of the project, so these will not be described in detail. They
+will also likely be removed at some point.
 
 
 ## `./integrate_tree_to_XYZ`
