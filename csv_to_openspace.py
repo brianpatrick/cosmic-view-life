@@ -216,8 +216,8 @@ def write_transform_file():
                 print( "    },", file=transforms_file)
                 
             print( "    GUI = {", file=transforms_file)
-            print(f"        Name = \"{transform.output_asset_position_name}\",", file=transforms_file)
             print( "        Path = \"/Transforms\",", file=transforms_file)
+            print(f"        Name = \"{transform.output_asset_position_name}\",", file=transforms_file)
             print( "        Hidden = true", file=transforms_file)
             print( "    }", file=transforms_file)
             print( "}", file=transforms_file)
@@ -859,8 +859,8 @@ def make_branches_from_dataframe(branch_points_df,
             print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
             print(f"        Name = \"{gui_info['name']}\"", file=output_file)
         else:
-            print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
             print(f"        Path = \"/{gui_top_level}/Branches\"", file=output_file)
+            print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
         print( "    }", file=output_file)
         print( "}", file=output_file)
 
@@ -970,8 +970,8 @@ def make_models_from_dataframe(model_points_df,
                 print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
                 print(f"        Name = \"{gui_info['name']}\"", file=output_file)
             else:
-                print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
                 print(f"        Path = \"/Models/{data_points_csv_filename.split(".")[0]}\"", file=output_file)
+                print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
             print( "    }", file=output_file)
       
 
@@ -1099,8 +1099,8 @@ def make_pdb_from_dataframe(protein_points_df,
                 print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",", file=output_file)
                 print(f"        Name = \"{gui_info['name']}\"", file=output_file)
             else:
-                print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
                 print(f"        Path = \"/Models/{data_points_csv_filename.split(".")[0]}\"", file=output_file)
+                print(f"        Name = \"{output_asset_variable_name}\",", file=output_file)
             print( "    }", file=output_file)
       
 
