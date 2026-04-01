@@ -30,6 +30,7 @@ not used.
 
 import argparse
 import pandas as pd
+import re
 import shutil
 import os
 import math
@@ -869,6 +870,141 @@ def make_branches_from_dataframe(branch_points_df,
 
     add_output_file(output_asset_filename)
 
+def make_boundary_polygons_from_dataframe(points_df,
+                                          filename_base,
+                                          dataset_info,
+                                          units,
+                                          gui_top_level):
+    try:
+        from scipy.spatial import ConvexHull, QhullError
+    except ImportError:
+        print("Error: scipy is not installed. Install it with 'pip install scipy'.")
+        sys.exit(1)
+
+    groups_column = dataset_info["groups_column"]
+    enabled = dataset_info.get("enabled", "true")
+    line_opacity = dataset_info.get("line_opacity", 0.5)
+    line_width = dataset_info.get("line_width", 2.0)
+    gui_info = dataset_info.get("gui_info", None)
+    data_points_csv_filename = dataset_info["csv_file"]
+
+    # Look up the transform that was registered when the associated points entry
+    # was processed. The points entry must appear before this entry in the JSON.
+    output_asset_position_name = ""
+    for t in transform_list:
+        if t.csv_filename == data_points_csv_filename:
+            output_asset_position_name = t.output_asset_position_name
+    if not output_asset_position_name:
+        print(f"Error: No transform found for '{data_points_csv_filename}'. "
+              f"The points entry with the same csv_file must come before "
+              f"the boundary_polygons entry in the JSON.")
+        sys.exit(1)
+
+    # Create a subdirectory to hold the per-group .speck and .dat files so they
+    # don't clutter the top-level output directory.
+    subdirectory = filename_base + "_boundary_polygons"
+    subdirectory_path = os.path.join(args.output_dir, subdirectory)
+    os.makedirs(subdirectory_path, exist_ok=True)
+
+    output_asset_filename = os.path.join(args.output_dir,
+                                         filename_base + "_boundary_polygons.asset")
+    output_asset_variable_list = []
+
+    with open(output_asset_filename, "w") as output_file:
+        write_asset_file_header(output_file,
+                                include_colormaps=False,
+                                include_transforms=True,
+                                include_conversions=True)
+
+        groups = sorted(points_df[groups_column].dropna().unique())
+        skipped = 0
+
+        for group in groups:
+            group_df = points_df[points_df[groups_column] == group]
+            coords = group_df[["x", "y", "z"]].values
+
+            if len(coords) < 4:
+                print(f"\n  Skipping '{group}': needs >= 4 points for 3D convex hull "
+                      f"(has {len(coords)})", end="", flush=True)
+                skipped += 1
+                continue
+
+            try:
+                hull = ConvexHull(coords)
+            except QhullError as e:
+                print(f"\n  Skipping '{group}': ConvexHull failed ({e})",
+                      end="", flush=True)
+                skipped += 1
+                continue
+
+            # Build a safe identifier from the group name (replace non-alphanumeric
+            # characters with underscores).
+            safe_name = re.sub(r'[^a-zA-Z0-9_]', '_', str(group))
+
+            speck_basename = f"{filename_base}_{safe_name}_boundary.speck"
+            dat_basename   = f"{filename_base}_{safe_name}_boundary.dat"
+            speck_filepath = os.path.join(subdirectory_path, speck_basename)
+            dat_filepath   = os.path.join(subdirectory_path, dat_basename)
+
+            # Extract unique edges from the convex-hull triangles.
+            edges = set()
+            for simplex in hull.simplices:
+                for i in range(3):
+                    edge = tuple(sorted([simplex[i], simplex[(i + 1) % 3]]))
+                    edges.add(edge)
+
+            with open(speck_filepath, "w") as speck, open(dat_filepath, "w") as dat:
+                for edge_id, (v0, v1) in enumerate(edges):
+                    print('mesh -c 1 {', file=speck)
+                    print(f"  id {edge_id}", file=speck)
+                    print('  2', file=speck)
+                    print(f"  {coords[v0][0]:.8f} {coords[v0][1]:.8f} {coords[v0][2]:.8f}",
+                          file=speck)
+                    print(f"  {coords[v1][0]:.8f} {coords[v1][1]:.8f} {coords[v1][2]:.8f}",
+                          file=speck)
+                    print('}', file=speck)
+                    print(f"{edge_id} {edge_id}", file=dat)
+
+            # Asset variable name for this group's boundary.
+            asset_var_name = f"{filename_base}_{safe_name}_boundary"
+            output_asset_variable_list.append(asset_var_name)
+
+            print(f"local {asset_var_name} = {{", file=output_file)
+            print(f"    Identifier = \"{asset_var_name}\",", file=output_file)
+            print(f"    Parent = transforms.{output_asset_position_name}.Identifier,",
+                  file=output_file)
+            print( "    Renderable = {", file=output_file)
+            print( "        Type = \"RenderableConstellationLines\",", file=output_file)
+            print( "        Colors = { { 0.6, 0.6, 0.6 } },", file=output_file)
+            print(f"        Opacity = {line_opacity},", file=output_file)
+            print(f"        Enabled = {enabled},", file=output_file)
+            print(f"        File = asset.resource(\"./{subdirectory}/{speck_basename}\"),",
+                  file=output_file)
+            print(f"        NamesFile = asset.resource(\"./{subdirectory}/{dat_basename}\"),",
+                  file=output_file)
+            print(f"        LineWidth = {line_width},", file=output_file)
+            print(f"        Unit = \"{units}\",", file=output_file)
+            print( "    },", file=output_file)
+            print( "    GUI = {", file=output_file)
+            if gui_info:
+                print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",",
+                      file=output_file)
+            else:
+                print(f"        Path = \"/{gui_top_level}/Boundary Polygons\",",
+                      file=output_file)
+            print(f"        Name = \"{group}\"", file=output_file)
+            print( "    }", file=output_file)
+            print( "}", file=output_file)
+
+        if skipped:
+            print(f"\n  (Skipped {skipped} group(s) due to insufficient or degenerate points.)",
+                  end="", flush=True)
+
+        write_multi_node_initializers_to_file(output_asset_variable_list, output_file)
+
+    add_output_file(output_asset_filename)
+    add_output_directory(subdirectory)
+
 def make_models_from_dataframe(model_points_df,
                                filename_base,
                                dataset_info,
@@ -1262,6 +1398,15 @@ def main():
                                     dataset_info = row,
                                     units=units,
                                     gui_top_level=gui_top_level)
+
+        elif row["type"] == "boundary_polygons":
+            print(f"Creating boundary polygons (grouped by '{row['groups_column']}')... ",
+                  end="", flush=True)
+            make_boundary_polygons_from_dataframe(points_df=input_points_df,
+                                                  filename_base=filename_base,
+                                                  dataset_info=row,
+                                                  units=units,
+                                                  gui_top_level=gui_top_level)
 
         elif row["type"] == "stars":
             print("*** Stars are no longer supported. ***")
