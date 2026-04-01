@@ -272,24 +272,35 @@ def write_scene_graph_node_initializers_to_file(asset_variable_name,
     print("end)", file=output_file)
     print(f"asset.export({asset_variable_name})", file=output_file)
 
-def write_multi_node_initializers_to_file(asset_variable_list, output_file):
+def write_multi_node_initializers_to_file(asset_variable_list, output_file,
+                                          actions_to_register=None):
     """
     Write initialization/deinitialization blocks for multiple scene graph nodes.
     
     Args:
         asset_variable_list: List of asset variable names to initialize
         output_file: Open file handle to write to
+        actions_to_register: Optional list of action variable names to register/remove
     """
     print("asset.onInitialize(function()", file=output_file)
+    if actions_to_register:
+        for action in actions_to_register:
+            print(f"    openspace.action.registerAction({action})", file=output_file)
     for asset_variable_name in asset_variable_list:
         print(f"    openspace.addSceneGraphNode({asset_variable_name})", file=output_file)
     print("end)", file=output_file)
     print("asset.onDeinitialize(function()", file=output_file)
     for asset_variable_name in asset_variable_list:
         print(f"    openspace.removeSceneGraphNode({asset_variable_name})", file=output_file)
+    if actions_to_register:
+        for action in actions_to_register:
+            print(f"    openspace.action.removeAction({action})", file=output_file)
     print("end)", file=output_file)
     for asset_variable_name in asset_variable_list:
         print(f"asset.export({asset_variable_name})", file=output_file)
+    if actions_to_register:
+        for action in actions_to_register:
+            print(f"asset.export({action})", file=output_file)
         
 
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
@@ -1007,7 +1018,84 @@ def make_boundary_polygons_from_dataframe(points_df,
             print(f"\n  (Skipped {skipped} group(s) due to insufficient or degenerate points.)",
                   end="", flush=True)
 
-        write_multi_node_initializers_to_file(output_asset_variable_list, output_file)
+        # Build the GuiPath for actions from gui_info (same path used for the nodes).
+        if gui_info:
+            actions_gui_path = f"/{gui_top_level}/{gui_info['path']}"
+        else:
+            actions_gui_path = f"/{gui_top_level}/Boundary Polygons"
+
+        # Human-readable label derived from the groups_column / filename for action names.
+        friendly_name = filename_base.replace("_", " ")
+
+        # Variable names for the three actions.
+        action_on_var      = f"{filename_base}_boundary_polygons_on_action"
+        action_off_var     = f"{filename_base}_boundary_polygons_off_action"
+        action_toggle_var  = f"{filename_base}_boundary_polygons_toggle_action"
+
+        # Identifier strings (used inside OpenSpace's action registry).
+        action_on_id      = f"os.{filename_base}_boundary_polygons_on"
+        action_off_id     = f"os.{filename_base}_boundary_polygons_off"
+        action_toggle_id  = f"os.{filename_base}_boundary_polygons_toggle"
+
+        # -- ON action --
+        print(f"local {action_on_var} = {{", file=output_file)
+        print(f"    Identifier = \"{action_on_id}\",", file=output_file)
+        print(f"    Name = \"{friendly_name} boundaries on\",", file=output_file)
+        print( "    Command = [[", file=output_file)
+        for var in output_asset_variable_list:
+            print(f"        openspace.setPropertyValueSingle("
+                  f"\"Scene.{var}.Renderable.Enabled\", true)",
+                  file=output_file)
+        print( "    ]],", file=output_file)
+        print(f"    Documentation = [[Turn on all {groups_column} boundary polygons for "
+              f"{filename_base}]],", file=output_file)
+        print(f"    GuiPath = \"{actions_gui_path}\",", file=output_file)
+        print( "    IsLocal = false", file=output_file)
+        print( "}", file=output_file)
+
+        # -- OFF action --
+        print(f"local {action_off_var} = {{", file=output_file)
+        print(f"    Identifier = \"{action_off_id}\",", file=output_file)
+        print(f"    Name = \"{friendly_name} boundaries off\",", file=output_file)
+        print( "    Command = [[", file=output_file)
+        for var in output_asset_variable_list:
+            print(f"        openspace.setPropertyValueSingle("
+                  f"\"Scene.{var}.Renderable.Enabled\", false)",
+                  file=output_file)
+        print( "    ]],", file=output_file)
+        print(f"    Documentation = [[Turn off all {groups_column} boundary polygons for "
+              f"{filename_base}]],", file=output_file)
+        print(f"    GuiPath = \"{actions_gui_path}\",", file=output_file)
+        print( "    IsLocal = false", file=output_file)
+        print( "}", file=output_file)
+
+        # -- TOGGLE action (checks first asset's Enabled state as the reference) --
+        if output_asset_variable_list:
+            first_var = output_asset_variable_list[0]
+            print(f"local {action_toggle_var} = {{", file=output_file)
+            print(f"    Identifier = \"{action_toggle_id}\",", file=output_file)
+            print(f"    Name = \"Toggle {friendly_name} boundaries\",", file=output_file)
+            print( "    Command = [[", file=output_file)
+            print(f"        local enabled = openspace.propertyValue("
+                  f"\"Scene.{first_var}.Renderable.Enabled\")",
+                  file=output_file)
+            print( "        local new_state = not enabled", file=output_file)
+            for var in output_asset_variable_list:
+                print(f"        openspace.setPropertyValueSingle("
+                      f"\"Scene.{var}.Renderable.Enabled\", new_state)",
+                      file=output_file)
+            print( "    ]],", file=output_file)
+            print(f"    Documentation = [[Toggle all {groups_column} boundary polygons for "
+                  f"{filename_base}]],", file=output_file)
+            print(f"    GuiPath = \"{actions_gui_path}\",", file=output_file)
+            print( "    IsLocal = false", file=output_file)
+            print( "}", file=output_file)
+
+        actions = [action_on_var, action_off_var, action_toggle_var] \
+                  if output_asset_variable_list else [action_on_var, action_off_var]
+
+        write_multi_node_initializers_to_file(output_asset_variable_list, output_file,
+                                              actions_to_register=actions)
 
     add_output_file(output_asset_filename)
     add_output_directory(subdirectory)
