@@ -29,7 +29,9 @@ not used.
 """
 
 import argparse
+import numpy as np
 import pandas as pd
+import re
 import shutil
 import os
 import math
@@ -270,24 +272,35 @@ def write_scene_graph_node_initializers_to_file(asset_variable_name,
     print("end)", file=output_file)
     print(f"asset.export({asset_variable_name})", file=output_file)
 
-def write_multi_node_initializers_to_file(asset_variable_list, output_file):
+def write_multi_node_initializers_to_file(asset_variable_list, output_file,
+                                          actions_to_register=None):
     """
     Write initialization/deinitialization blocks for multiple scene graph nodes.
     
     Args:
         asset_variable_list: List of asset variable names to initialize
         output_file: Open file handle to write to
+        actions_to_register: Optional list of action variable names to register/remove
     """
     print("asset.onInitialize(function()", file=output_file)
+    if actions_to_register:
+        for action in actions_to_register:
+            print(f"    openspace.action.registerAction({action})", file=output_file)
     for asset_variable_name in asset_variable_list:
         print(f"    openspace.addSceneGraphNode({asset_variable_name})", file=output_file)
     print("end)", file=output_file)
     print("asset.onDeinitialize(function()", file=output_file)
     for asset_variable_name in asset_variable_list:
         print(f"    openspace.removeSceneGraphNode({asset_variable_name})", file=output_file)
+    if actions_to_register:
+        for action in actions_to_register:
+            print(f"    openspace.action.removeAction({action})", file=output_file)
     print("end)", file=output_file)
     for asset_variable_name in asset_variable_list:
         print(f"asset.export({asset_variable_name})", file=output_file)
+    if actions_to_register:
+        for action in actions_to_register:
+            print(f"asset.export({action})", file=output_file)
         
 
 def make_points_asset_and_csv_from_dataframe(input_points_df, 
@@ -869,6 +882,224 @@ def make_branches_from_dataframe(branch_points_df,
 
     add_output_file(output_asset_filename)
 
+def make_boundary_polygons_from_dataframe(points_df,
+                                          filename_base,
+                                          dataset_info,
+                                          units,
+                                          gui_top_level):
+    try:
+        from scipy.spatial import ConvexHull, QhullError
+    except ImportError:
+        print("Error: scipy is not installed. Install it with 'pip install scipy'.")
+        sys.exit(1)
+
+    groups_column = dataset_info["groups_column"]
+    enabled = dataset_info.get("enabled", "true")
+    line_opacity = dataset_info.get("line_opacity", 0.5)
+    line_width = dataset_info.get("line_width", 2.0)
+    gui_info = dataset_info.get("gui_info", None)
+    data_points_csv_filename = dataset_info["csv_file"]
+
+    # Look up the transform that was registered when the associated points entry
+    # was processed. The points entry must appear before this entry in the JSON.
+    output_asset_position_name = ""
+    for t in transform_list:
+        if t.csv_filename == data_points_csv_filename:
+            output_asset_position_name = t.output_asset_position_name
+    if not output_asset_position_name:
+        print(f"Error: No transform found for '{data_points_csv_filename}'. "
+              f"The points entry with the same csv_file must come before "
+              f"the boundary_polygons entry in the JSON.")
+        sys.exit(1)
+
+    # Create a subdirectory to hold the per-group .speck and .dat files so they
+    # don't clutter the top-level output directory.
+    subdirectory = filename_base + "_boundary_polygons"
+    subdirectory_path = os.path.join(args.output_dir, subdirectory)
+    os.makedirs(subdirectory_path, exist_ok=True)
+
+    output_asset_filename = os.path.join(args.output_dir,
+                                         filename_base + "_boundary_polygons.asset")
+    output_asset_variable_list = []
+
+    with open(output_asset_filename, "w") as output_file:
+        write_asset_file_header(output_file,
+                                include_colormaps=False,
+                                include_transforms=True,
+                                include_conversions=True)
+
+        groups = sorted(points_df[groups_column].dropna().unique())
+        skipped = 0
+
+        for group in groups:
+            group_df = points_df[points_df[groups_column] == group]
+            coords = group_df[["x", "y", "z"]].values
+
+            if len(coords) < 3:
+                print(f"\n  Skipping '{group}': needs >= 3 points for convex hull "
+                      f"(has {len(coords)})", end="", flush=True)
+                skipped += 1
+                continue
+
+            # Project the 3D points to their plane of maximum variance using PCA
+            # (SVD), then compute a 2D convex hull. This yields a clean closed
+            # polygon with exactly N perimeter edges rather than a dense 3D
+            # wireframe surface where nearly every point becomes a hull vertex.
+            centered = coords - coords.mean(axis=0)
+            try:
+                _, _, Vt = np.linalg.svd(centered, full_matrices=False)
+                projected_2d = centered @ Vt[:2].T   # shape (n, 2)
+                hull_2d = ConvexHull(projected_2d)
+            except (np.linalg.LinAlgError, QhullError) as e:
+                print(f"\n  Skipping '{group}': hull failed ({e})",
+                      end="", flush=True)
+                skipped += 1
+                continue
+
+            # hull_2d.vertices lists the hull vertex indices in counter-clockwise
+            # order, giving a proper closed polygon.
+            hull_verts = hull_2d.vertices
+            edges = [(hull_verts[i], hull_verts[(i + 1) % len(hull_verts)])
+                     for i in range(len(hull_verts))]
+
+            # Build a safe identifier from the group name (replace non-alphanumeric
+            # characters with underscores).
+            safe_name = re.sub(r'[^a-zA-Z0-9_]', '_', str(group))
+
+            speck_basename = f"{filename_base}_{safe_name}_boundary.speck"
+            dat_basename   = f"{filename_base}_{safe_name}_boundary.dat"
+            speck_filepath = os.path.join(subdirectory_path, speck_basename)
+            dat_filepath   = os.path.join(subdirectory_path, dat_basename)
+
+            with open(speck_filepath, "w") as speck, open(dat_filepath, "w") as dat:
+                for edge_id, (v0, v1) in enumerate(edges):
+                    print('mesh -c 1 {', file=speck)
+                    print(f"  id {edge_id}", file=speck)
+                    print('  2', file=speck)
+                    print(f"  {coords[v0][0]:.8f} {coords[v0][1]:.8f} {coords[v0][2]:.8f}",
+                          file=speck)
+                    print(f"  {coords[v1][0]:.8f} {coords[v1][1]:.8f} {coords[v1][2]:.8f}",
+                          file=speck)
+                    print('}', file=speck)
+                    print(f"{edge_id} {edge_id}", file=dat)
+
+            # Asset variable name for this group's boundary.
+            asset_var_name = f"{filename_base}_{safe_name}_boundary"
+            output_asset_variable_list.append(asset_var_name)
+
+            print(f"local {asset_var_name} = {{", file=output_file)
+            print(f"    Identifier = \"{asset_var_name}\",", file=output_file)
+            print(f"    Parent = transforms.{output_asset_position_name}.Identifier,",
+                  file=output_file)
+            print( "    Renderable = {", file=output_file)
+            print( "        Type = \"RenderableConstellationLines\",", file=output_file)
+            print( "        Colors = { { 0.6, 0.6, 0.6 } },", file=output_file)
+            print(f"        Opacity = {line_opacity},", file=output_file)
+            print(f"        Enabled = {enabled},", file=output_file)
+            print(f"        File = asset.resource(\"./{subdirectory}/{speck_basename}\"),",
+                  file=output_file)
+            print(f"        NamesFile = asset.resource(\"./{subdirectory}/{dat_basename}\"),",
+                  file=output_file)
+            print(f"        LineWidth = {line_width},", file=output_file)
+            print(f"        Unit = \"{units}\",", file=output_file)
+            print( "    },", file=output_file)
+            print( "    GUI = {", file=output_file)
+            if gui_info:
+                print(f"        Path = \"/{gui_top_level}/{gui_info['path']}\",",
+                      file=output_file)
+            else:
+                print(f"        Path = \"/{gui_top_level}/Boundary Polygons\",",
+                      file=output_file)
+            print(f"        Name = \"{group}\"", file=output_file)
+            print( "    }", file=output_file)
+            print( "}", file=output_file)
+
+        if skipped:
+            print(f"\n  (Skipped {skipped} group(s) due to insufficient or degenerate points.)",
+                  end="", flush=True)
+
+        # Build the GuiPath for actions from gui_info (same path used for the nodes).
+        if gui_info:
+            actions_gui_path = f"/{gui_top_level}/{gui_info['path']}"
+        else:
+            actions_gui_path = f"/{gui_top_level}/Boundary Polygons"
+
+        # Human-readable label derived from the groups_column / filename for action names.
+        friendly_name = filename_base.replace("_", " ")
+
+        # Variable names for the three actions.
+        action_on_var      = f"{filename_base}_boundary_polygons_on_action"
+        action_off_var     = f"{filename_base}_boundary_polygons_off_action"
+        action_toggle_var  = f"{filename_base}_boundary_polygons_toggle_action"
+
+        # Identifier strings (used inside OpenSpace's action registry).
+        action_on_id      = f"os.{filename_base}_boundary_polygons_on"
+        action_off_id     = f"os.{filename_base}_boundary_polygons_off"
+        action_toggle_id  = f"os.{filename_base}_boundary_polygons_toggle"
+
+        # -- ON action --
+        print(f"local {action_on_var} = {{", file=output_file)
+        print(f"    Identifier = \"{action_on_id}\",", file=output_file)
+        print(f"    Name = \"{friendly_name} boundaries on\",", file=output_file)
+        print( "    Command = [[", file=output_file)
+        for var in output_asset_variable_list:
+            print(f"        openspace.setPropertyValueSingle("
+                  f"\"Scene.{var}.Renderable.Enabled\", true)",
+                  file=output_file)
+        print( "    ]],", file=output_file)
+        print(f"    Documentation = [[Turn on all {groups_column} boundary polygons for "
+              f"{filename_base}]],", file=output_file)
+        print(f"    GuiPath = \"{actions_gui_path}\",", file=output_file)
+        print( "    IsLocal = false", file=output_file)
+        print( "}", file=output_file)
+
+        # -- OFF action --
+        print(f"local {action_off_var} = {{", file=output_file)
+        print(f"    Identifier = \"{action_off_id}\",", file=output_file)
+        print(f"    Name = \"{friendly_name} boundaries off\",", file=output_file)
+        print( "    Command = [[", file=output_file)
+        for var in output_asset_variable_list:
+            print(f"        openspace.setPropertyValueSingle("
+                  f"\"Scene.{var}.Renderable.Enabled\", false)",
+                  file=output_file)
+        print( "    ]],", file=output_file)
+        print(f"    Documentation = [[Turn off all {groups_column} boundary polygons for "
+              f"{filename_base}]],", file=output_file)
+        print(f"    GuiPath = \"{actions_gui_path}\",", file=output_file)
+        print( "    IsLocal = false", file=output_file)
+        print( "}", file=output_file)
+
+        # -- TOGGLE action (checks first asset's Enabled state as the reference) --
+        if output_asset_variable_list:
+            first_var = output_asset_variable_list[0]
+            print(f"local {action_toggle_var} = {{", file=output_file)
+            print(f"    Identifier = \"{action_toggle_id}\",", file=output_file)
+            print(f"    Name = \"Toggle {friendly_name} boundaries\",", file=output_file)
+            print( "    Command = [[", file=output_file)
+            print(f"        local enabled = openspace.propertyValue("
+                  f"\"Scene.{first_var}.Renderable.Enabled\")",
+                  file=output_file)
+            print( "        local new_state = not enabled", file=output_file)
+            for var in output_asset_variable_list:
+                print(f"        openspace.setPropertyValueSingle("
+                      f"\"Scene.{var}.Renderable.Enabled\", new_state)",
+                      file=output_file)
+            print( "    ]],", file=output_file)
+            print(f"    Documentation = [[Toggle all {groups_column} boundary polygons for "
+                  f"{filename_base}]],", file=output_file)
+            print(f"    GuiPath = \"{actions_gui_path}\",", file=output_file)
+            print( "    IsLocal = false", file=output_file)
+            print( "}", file=output_file)
+
+        actions = [action_on_var, action_off_var, action_toggle_var] \
+                  if output_asset_variable_list else [action_on_var, action_off_var]
+
+        write_multi_node_initializers_to_file(output_asset_variable_list, output_file,
+                                              actions_to_register=actions)
+
+    add_output_file(output_asset_filename)
+    add_output_directory(subdirectory)
+
 def make_models_from_dataframe(model_points_df,
                                filename_base,
                                dataset_info,
@@ -1262,6 +1493,15 @@ def main():
                                     dataset_info = row,
                                     units=units,
                                     gui_top_level=gui_top_level)
+
+        elif row["type"] == "boundary_polygons":
+            print(f"Creating boundary polygons (grouped by '{row['groups_column']}')... ",
+                  end="", flush=True)
+            make_boundary_polygons_from_dataframe(points_df=input_points_df,
+                                                  filename_base=filename_base,
+                                                  dataset_info=row,
+                                                  units=units,
+                                                  gui_top_level=gui_top_level)
 
         elif row["type"] == "stars":
             print("*** Stars are no longer supported. ***")
