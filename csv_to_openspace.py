@@ -29,6 +29,7 @@ not used.
 """
 
 import argparse
+import numpy as np
 import pandas as pd
 import re
 import shutil
@@ -923,19 +924,32 @@ def make_boundary_polygons_from_dataframe(points_df,
             group_df = points_df[points_df[groups_column] == group]
             coords = group_df[["x", "y", "z"]].values
 
-            if len(coords) < 4:
-                print(f"\n  Skipping '{group}': needs >= 4 points for 3D convex hull "
+            if len(coords) < 3:
+                print(f"\n  Skipping '{group}': needs >= 3 points for convex hull "
                       f"(has {len(coords)})", end="", flush=True)
                 skipped += 1
                 continue
 
+            # Project the 3D points to their plane of maximum variance using PCA
+            # (SVD), then compute a 2D convex hull. This yields a clean closed
+            # polygon with exactly N perimeter edges rather than a dense 3D
+            # wireframe surface where nearly every point becomes a hull vertex.
+            centered = coords - coords.mean(axis=0)
             try:
-                hull = ConvexHull(coords)
-            except QhullError as e:
-                print(f"\n  Skipping '{group}': ConvexHull failed ({e})",
+                _, _, Vt = np.linalg.svd(centered, full_matrices=False)
+                projected_2d = centered @ Vt[:2].T   # shape (n, 2)
+                hull_2d = ConvexHull(projected_2d)
+            except (np.linalg.LinAlgError, QhullError) as e:
+                print(f"\n  Skipping '{group}': hull failed ({e})",
                       end="", flush=True)
                 skipped += 1
                 continue
+
+            # hull_2d.vertices lists the hull vertex indices in counter-clockwise
+            # order, giving a proper closed polygon.
+            hull_verts = hull_2d.vertices
+            edges = [(hull_verts[i], hull_verts[(i + 1) % len(hull_verts)])
+                     for i in range(len(hull_verts))]
 
             # Build a safe identifier from the group name (replace non-alphanumeric
             # characters with underscores).
@@ -945,13 +959,6 @@ def make_boundary_polygons_from_dataframe(points_df,
             dat_basename   = f"{filename_base}_{safe_name}_boundary.dat"
             speck_filepath = os.path.join(subdirectory_path, speck_basename)
             dat_filepath   = os.path.join(subdirectory_path, dat_basename)
-
-            # Extract unique edges from the convex-hull triangles.
-            edges = set()
-            for simplex in hull.simplices:
-                for i in range(3):
-                    edge = tuple(sorted([simplex[i], simplex[(i + 1) % 3]]))
-                    edges.add(edge)
 
             with open(speck_filepath, "w") as speck, open(dat_filepath, "w") as dat:
                 for edge_id, (v0, v1) in enumerate(edges):
