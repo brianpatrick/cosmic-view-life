@@ -882,6 +882,144 @@ def make_branches_from_dataframe(branch_points_df,
 
     add_output_file(output_asset_filename)
 
+def _compute_spherical_boundary_3d(coords, buffer_fraction, corner_segments):
+    """
+    Compute a buffered, rounded convex-hull boundary for a set of 3D points that
+    lie approximately on a sphere.
+
+    The computation is done entirely in a gnomonic projection centred on the
+    group's mean direction on the sphere.  Gnomonic projection maps great-circle
+    arcs to straight lines and therefore preserves the spherical convex hull:
+    every input point that lies outside the flat hull also lies outside the
+    spherical hull, so no points can 'fall outside' the boundary.
+    Back-projection places every boundary vertex exactly on the sphere at the
+    mean radius of the input points.
+
+    Parameters
+    ----------
+    coords : ndarray, shape (n, 3)
+        3D coordinates of the group's points.
+    buffer_fraction : float
+        Buffer size as a fraction of the mean angular radius of the hull.
+        E.g. 0.05 expands the hull outward by 5%.
+    corner_segments : int
+        Number of piecewise-linear segments used to approximate each rounded
+        corner arc.  More segments produce smoother corners.
+
+    Returns
+    -------
+    list of ndarray, shape (3,)
+        3D boundary vertices on the sphere (closed ring; last vertex connects
+        back to the first).
+
+    Raises
+    ------
+    scipy.spatial.QhullError
+        If the projected points are degenerate (collinear or too few).
+    numpy.linalg.LinAlgError
+        If the group centroid direction is a zero vector.
+    """
+    from scipy.spatial import ConvexHull, QhullError  # noqa: F401 (re-raised by caller)
+
+    # Mean radius of data on the sphere.
+    radii = np.linalg.norm(coords, axis=1)
+    mean_r = float(np.mean(radii))
+
+    # Centroid direction on the sphere: normalise the mean of unit vectors so
+    # the projection centre is on the sphere surface, not inside it.
+    unit_coords = coords / radii[:, np.newaxis]
+    mean_dir = unit_coords.mean(axis=0)
+    mean_dir_len = np.linalg.norm(mean_dir)
+    if mean_dir_len < 1e-12:
+        raise np.linalg.LinAlgError("Group centroid direction is zero")
+    mean_dir = mean_dir / mean_dir_len
+
+    # Build a right-handed orthonormal tangent-plane basis (u_ax, v_ax).
+    up = np.array([0.0, 0.0, 1.0])
+    if abs(np.dot(mean_dir, up)) > 0.9:
+        up = np.array([0.0, 1.0, 0.0])
+    u_ax = np.cross(up, mean_dir)
+    u_ax /= np.linalg.norm(u_ax)
+    v_ax = np.cross(mean_dir, u_ax)
+    v_ax /= np.linalg.norm(v_ax)
+
+    # Gnomonic projection of each unit vector p onto the tangent plane:
+    #   denom = dot(p, mean_dir)   (perspective divisor)
+    #   u     = dot(p, u_ax) / denom
+    #   v     = dot(p, v_ax) / denom
+    # If any point is on the opposite hemisphere (denom <= 0) fall back to
+    # orthographic projection (denom = 1) to avoid inversion.
+    denoms = unit_coords @ mean_dir
+    if np.any(denoms <= 0):
+        denoms = np.ones(len(coords))
+    proj_u = (unit_coords @ u_ax) / denoms
+    proj_v = (unit_coords @ v_ax) / denoms
+    projected_2d = np.column_stack([proj_u, proj_v])
+
+    hull_2d = ConvexHull(projected_2d)          # raises QhullError if degenerate
+    hull_2d_coords = projected_2d[hull_2d.vertices]   # CCW
+
+    # Buffer as a fraction of the mean distance from the hull centroid to its
+    # vertices in gnomonic space.
+    hull_centroid_2d = hull_2d_coords.mean(axis=0)
+    mean_ang_radius = float(
+        np.mean(np.linalg.norm(hull_2d_coords - hull_centroid_2d, axis=1))
+    )
+    buffer = mean_ang_radius * buffer_fraction
+
+    # Outward unit normals for each CCW hull edge:
+    #   right-hand perpendicular of edge direction = (dy, -dx) / |d|
+    n = len(hull_2d_coords)
+    normals = []
+    for i in range(n):
+        d = hull_2d_coords[(i + 1) % n] - hull_2d_coords[i]
+        d_len = np.linalg.norm(d)
+        if d_len > 1e-12:
+            normals.append(np.array([d[1], -d[0]]) / d_len)
+        else:
+            normals.append(np.array([0.0, 0.0]))
+
+    # Build the buffered boundary with rounded corners in gnomonic space.
+    boundary_2d = []
+    for i in range(n):
+        vi = hull_2d_coords[i]
+        n_prev = normals[(i - 1) % n]   # outward normal of edge (i-1) -> i
+        n_curr = normals[i]             # outward normal of edge i -> (i+1)
+
+        # Arc centred at vi: sweep CCW from the end of the previous offset
+        # edge to the start of the current offset edge.
+        angle_start = math.atan2(n_prev[1], n_prev[0])
+        angle_end   = math.atan2(n_curr[1], n_curr[0])
+        if angle_end < angle_start:
+            angle_end += 2.0 * math.pi
+
+        angles = np.linspace(angle_start, angle_end, corner_segments + 2)
+        start_k = 0 if i == 0 else 1
+        for theta in angles[start_k:]:
+            boundary_2d.append(vi + buffer * np.array([math.cos(theta), math.sin(theta)]))
+
+        # Far endpoint of the straight offset edge for this segment (equals
+        # the arc start of the next vertex — skip on the last vertex to avoid
+        # duplicating boundary_2d[0]).
+        if i < n - 1:
+            v_next = hull_2d_coords[(i + 1) % n]
+            boundary_2d.append(v_next + buffer * n_curr)
+
+    # Back-project from gnomonic (u, v) to 3D:
+    #   direction = normalize(mean_dir + u*u_ax + v*v_ax)
+    #   point_3d  = mean_r * direction
+    # This places every boundary vertex exactly on the sphere surface.
+    result = []
+    for pt in boundary_2d:
+        direction = mean_dir + pt[0] * u_ax + pt[1] * v_ax
+        d_len = np.linalg.norm(direction)
+        if d_len > 1e-12:
+            result.append((mean_r / d_len) * direction)
+        else:
+            result.append(mean_r * mean_dir)
+    return result
+
+
 def make_boundary_polygons_from_dataframe(points_df,
                                           filename_base,
                                           dataset_info,
@@ -899,6 +1037,10 @@ def make_boundary_polygons_from_dataframe(points_df,
     line_width = dataset_info.get("line_width", 2.0)
     gui_info = dataset_info.get("gui_info", None)
     data_points_csv_filename = dataset_info["csv_file"]
+    # Fraction of the mean hull radius to use as the outward buffer distance.
+    boundary_buffer_fraction = dataset_info.get("boundary_buffer_fraction", 0.05)
+    # Number of piecewise-linear segments used to approximate each rounded corner.
+    corner_segments = dataset_info.get("corner_segments", 5)
 
     # Look up the transform that was registered when the associated points entry
     # was processed. The points entry must appear before this entry in the JSON.
@@ -941,26 +1083,22 @@ def make_boundary_polygons_from_dataframe(points_df,
                 skipped += 1
                 continue
 
-            # Project the 3D points to their plane of maximum variance using PCA
-            # (SVD), then compute a 2D convex hull. This yields a clean closed
-            # polygon with exactly N perimeter edges rather than a dense 3D
-            # wireframe surface where nearly every point becomes a hull vertex.
-            centered = coords - coords.mean(axis=0)
+            # Use a gnomonic projection centred on the group's mean direction on
+            # the sphere.  This avoids the distortion that a flat PCA projection
+            # introduces for wide groups (e.g. Perciformes): PCA centres on the
+            # mean 3D position which is inside the sphere for a large cluster,
+            # causing the hull to shrink relative to the sphere after
+            # reprojection.  Gnomonic projection centres on the mean *direction*
+            # on the sphere surface so every input point that lies outside the
+            # flat hull also lies outside the spherical hull.
             try:
-                _, _, Vt = np.linalg.svd(centered, full_matrices=False)
-                projected_2d = centered @ Vt[:2].T   # shape (n, 2)
-                hull_2d = ConvexHull(projected_2d)
+                boundary_3d = _compute_spherical_boundary_3d(
+                    coords, boundary_buffer_fraction, corner_segments)
             except (np.linalg.LinAlgError, QhullError) as e:
                 print(f"\n  Skipping '{group}': hull failed ({e})",
                       end="", flush=True)
                 skipped += 1
                 continue
-
-            # hull_2d.vertices lists the hull vertex indices in counter-clockwise
-            # order, giving a proper closed polygon.
-            hull_verts = hull_2d.vertices
-            edges = [(hull_verts[i], hull_verts[(i + 1) % len(hull_verts)])
-                     for i in range(len(hull_verts))]
 
             # Build a safe identifier from the group name (replace non-alphanumeric
             # characters with underscores).
@@ -971,15 +1109,16 @@ def make_boundary_polygons_from_dataframe(points_df,
             speck_filepath = os.path.join(subdirectory_path, speck_basename)
             dat_filepath   = os.path.join(subdirectory_path, dat_basename)
 
+            n_boundary = len(boundary_3d)
             with open(speck_filepath, "w") as speck, open(dat_filepath, "w") as dat:
-                for edge_id, (v0, v1) in enumerate(edges):
+                for edge_id in range(n_boundary):
+                    p0 = boundary_3d[edge_id]
+                    p1 = boundary_3d[(edge_id + 1) % n_boundary]
                     print('mesh -c 1 {', file=speck)
                     print(f"  id {edge_id}", file=speck)
                     print('  2', file=speck)
-                    print(f"  {coords[v0][0]:.8f} {coords[v0][1]:.8f} {coords[v0][2]:.8f}",
-                          file=speck)
-                    print(f"  {coords[v1][0]:.8f} {coords[v1][1]:.8f} {coords[v1][2]:.8f}",
-                          file=speck)
+                    print(f"  {p0[0]:.8f} {p0[1]:.8f} {p0[2]:.8f}", file=speck)
+                    print(f"  {p1[0]:.8f} {p1[1]:.8f} {p1[2]:.8f}", file=speck)
                     print('}', file=speck)
                     print(f"{edge_id} {edge_id}", file=dat)
 
