@@ -882,6 +882,39 @@ def make_branches_from_dataframe(branch_points_df,
 
     add_output_file(output_asset_filename)
 
+def _subdivide_arc_on_sphere(p0, p1, max_angle_deg):
+    """
+    Subdivide the great-circle arc from p0 to p1 on the sphere into
+    piecewise-linear segments, each spanning at most max_angle_deg degrees.
+
+    p0 and p1 must be 3D vectors of equal magnitude (the sphere radius).  The
+    function returns a list of 3D points that starts with p0 and ends with p1;
+    intermediate points lie on the sphere surface at that same radius.
+    """
+    r = np.linalg.norm(p0)
+    if r < 1e-12:
+        return [p0, p1]
+    u0 = p0 / r
+    u1 = p1 / r
+    cos_theta = float(np.clip(np.dot(u0, u1), -1.0, 1.0))
+    theta = math.acos(cos_theta)          # arc angle in radians
+    max_angle_rad = math.radians(max_angle_deg)
+    if theta <= max_angle_rad:
+        return [p0, p1]
+    n_segs = math.ceil(theta / max_angle_rad)
+    sin_theta = math.sin(theta)
+    points = []
+    for i in range(n_segs + 1):
+        t = i / n_segs
+        if sin_theta > 1e-12:
+            pt = (math.sin((1.0 - t) * theta) / sin_theta) * u0 + \
+                 (math.sin(t * theta)           / sin_theta) * u1
+        else:
+            pt = u0   # degenerate: p0 == p1
+        points.append(r * pt)
+    return points
+
+
 def _compute_spherical_boundary_3d(coords, buffer_fraction, corner_segments):
     """
     Compute a buffered, rounded convex-hull boundary for a set of 3D points that
@@ -1041,6 +1074,10 @@ def make_boundary_polygons_from_dataframe(points_df,
     boundary_buffer_fraction = dataset_info.get("boundary_buffer_fraction", 0.05)
     # Number of piecewise-linear segments used to approximate each rounded corner.
     corner_segments = dataset_info.get("corner_segments", 5)
+    # Maximum arc angle (degrees) per sub-segment for long straight edges.
+    # Edges spanning more than this angle are subdivided using slerp so they
+    # hug the sphere surface rather than cutting through it as chords.
+    max_edge_angle_deg = dataset_info.get("max_edge_angle_deg", 2.0)
 
     # Look up the transform that was registered when the associated points entry
     # was processed. The points entry must appear before this entry in the JSON.
@@ -1111,16 +1148,24 @@ def make_boundary_polygons_from_dataframe(points_df,
 
             n_boundary = len(boundary_3d)
             with open(speck_filepath, "w") as speck, open(dat_filepath, "w") as dat:
+                seg_id = 0
                 for edge_id in range(n_boundary):
                     p0 = boundary_3d[edge_id]
                     p1 = boundary_3d[(edge_id + 1) % n_boundary]
-                    print('mesh -c 1 {', file=speck)
-                    print(f"  id {edge_id}", file=speck)
-                    print('  2', file=speck)
-                    print(f"  {p0[0]:.8f} {p0[1]:.8f} {p0[2]:.8f}", file=speck)
-                    print(f"  {p1[0]:.8f} {p1[1]:.8f} {p1[2]:.8f}", file=speck)
-                    print('}', file=speck)
-                    print(f"{edge_id} {edge_id}", file=dat)
+                    # Subdivide long edges so they follow the sphere surface
+                    # rather than cutting through it as straight chords.
+                    arc_pts = _subdivide_arc_on_sphere(p0, p1, max_edge_angle_deg)
+                    for k in range(len(arc_pts) - 1):
+                        sp0 = arc_pts[k]
+                        sp1 = arc_pts[k + 1]
+                        print('mesh -c 1 {', file=speck)
+                        print(f"  id {seg_id}", file=speck)
+                        print('  2', file=speck)
+                        print(f"  {sp0[0]:.8f} {sp0[1]:.8f} {sp0[2]:.8f}", file=speck)
+                        print(f"  {sp1[0]:.8f} {sp1[1]:.8f} {sp1[2]:.8f}", file=speck)
+                        print('}', file=speck)
+                        print(f"{seg_id} {seg_id}", file=dat)
+                        seg_id += 1
 
             # Asset variable name for this group's boundary.
             asset_var_name = f"{filename_base}_{safe_name}_boundary"
