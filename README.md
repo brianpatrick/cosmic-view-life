@@ -92,7 +92,16 @@ You need to set these appropriately for your setup.
 
 A quick note on the Pymol package. If your dataset does not include displaying protein
 models in 3D from PDB, you will not need Pymol. If you *do* need Pymol, it's assumed you
-know how to install it. The `pymol.yml` evironment should set all of this up appropriately.
+know how to install it. I used to have a pymol.yml file but it was not portable at all.
+
+To set up (this works as of 18 May 2026):
+
+    conda create -n pymol
+    conda activate pymol
+    conda install pymol-open-source
+    conda install pandas
+    pip install pillow
+    conda install schrodinger::collada2gltf
 
 # Programs
 
