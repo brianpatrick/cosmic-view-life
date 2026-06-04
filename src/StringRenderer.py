@@ -45,54 +45,63 @@ class StringRenderer:
         return self.fonts[(font_name, font_size)]
 
 
+    def _measure_text(self, text, font):
+        """Returns (left, top, right, bottom) bounding box for text, handling newlines."""
+        temp = Image.new("RGBA", (1, 1))
+        draw = ImageDraw.Draw(temp)
+        return draw.multiline_textbbox((0, 0), text, font=font)
+
     def render_string_to_png(self, text, font_name, font_size, font_color_triple, filename):
         font = self.get_font(font_name, font_size)
-        text_bbox = font.getbbox(text)
-        image = Image.new("RGBA", (text_bbox[2], text_bbox[3]), (0, 0, 0, 0))
+        text_bbox = self._measure_text(text, font)
+        w = text_bbox[2] - text_bbox[0]
+        h = text_bbox[3] - text_bbox[1]
+        image = Image.new("RGBA", (w, h), (0, 0, 0, 0))
         draw = ImageDraw.Draw(image)
-        draw.text((0, 0), text, fill=font_color_triple, font=font)
+        draw.multiline_text((-text_bbox[0], -text_bbox[1]), text, fill=font_color_triple, font=font)
         image.save(filename, "PNG")
 
     # Draw the string such that the lower left corner of the text is at the center of the
-    # image, plus a little offset so that the text doesn't sit on top of the center point.
+    # image. When composited onto a scene, the image center aligns with the labeled object,
+    # so the text extends to the upper-right of that point.
     def render_string_to_png_offset(self, text, font_name, font_size, font_color_triple, filename,
                                     background_color=(0, 0, 0, 0)):
-        # Render the string such that the string begins in the center of the image.
         font = self.get_font(font_name, font_size)
-        text_bbox = font.getbbox(text)
+        text_bbox = self._measure_text(text, font)
 
-        # I really dislike magic numbers, but at some point it comes down to
-        # aesthetics and just making it look good.
         padding = 5
+        w = text_bbox[2] - text_bbox[0]
+        h = text_bbox[3] - text_bbox[1]
 
-        offset_x = text_bbox[2] - text_bbox[0]
-        offset_y = ((text_bbox[3] - text_bbox[1]) // 2)
-
-        # Size the image so that it is wide enough to hold the text plus the offset.
-        image = Image.new("RGBA", 
-                          size = (text_bbox[2] + offset_x + padding, text_bbox[3] + offset_y + padding), 
-                          color = background_color)
+        # The image is 2w wide and 2h tall so that the center pixel is the anchor point.
+        # The text occupies the upper-right quadrant: left edge at center_x, bottom at center_y.
+        center_x = w + padding // 2
+        center_y = h + padding // 2
+        image = Image.new("RGBA",
+                          size=(2 * w + padding, 2 * h + padding),
+                          color=background_color)
         draw = ImageDraw.Draw(image)
 
-        # Where this is drawn is a little wonky. I think 0,0 is the LLC for the image but
-        # the text is drawn from the ULC. But it's like 6:30AM on a Saturday and I don't
-        # want to figure it out right now.
-        draw.text((offset_x + (padding // 2), -(offset_y - padding * 4)), 
-                  text, fill=font_color_triple, font=font)
+        draw_x = center_x - text_bbox[0]
+        draw_y = center_y - text_bbox[3]
+        draw.multiline_text((draw_x, draw_y), text, fill=font_color_triple, font=font)
         image.save(filename, "PNG")
 
 
     def render_string_to_png_with_box(self, text, font_name, font_size, font_color_triple, filename,
                                       background_color=(0, 0, 0, 0)):
         font = self.get_font(font_name, font_size)
-        text_bbox = font.getbbox(text)
+        text_bbox = self._measure_text(text, font)
 
-        image = Image.new("RGBA", (text_bbox[2] + 7, text_bbox[3] + 7), background_color)
+        w = text_bbox[2] - text_bbox[0]
+        h = text_bbox[3] - text_bbox[1]
+
+        image = Image.new("RGBA", (w + 7, h + 7), background_color)
         draw = ImageDraw.Draw(image)
-        draw.text((3, 3), text, fill=font_color_triple, font=font)
+        draw.multiline_text((3 - text_bbox[0], 3 - text_bbox[1]), text, fill=font_color_triple, font=font)
 
         # Draw a box around the text.
-        draw.rectangle((0, 0, text_bbox[2] + 7, text_bbox[3] + 7), outline=font_color_triple, width=3)
+        draw.rectangle((0, 0, w + 6, h + 6), outline=font_color_triple, width=3)
         image.save(filename, "PNG")
 
 # Test harness.
@@ -100,8 +109,8 @@ class StringRenderer:
 if __name__ == "__main__":
     renderer = StringRenderer()
     # Test rendering a string to a PNG file.
-    renderer.render_string_to_png("Hello, World!", "BRITANIC.TTF", 72, (255, 0, 0), "test.png")
-    renderer.render_string_to_png_offset("Viridiplantae (32)", "BRITANIC.TTF", 72, (0, 255, 0), "test_offset.png",
+    renderer.render_string_to_png("Hello World!\nSecond Line", "BRITANIC.TTF", 72, (255, 0, 0), "test.png")
+    renderer.render_string_to_png_offset("Viridiplantae (32)\nSubtitle", "BRITANIC.TTF", 72, (0, 255, 0), "test_offset.png",
                                          background_color=(25, 25, 25, 255))
-    renderer.render_string_to_png_with_box("Boxed Text", "BRITANIC.TTF", 72, (0, 0, 255), "test_boxed.png")
+    renderer.render_string_to_png_with_box("Boxed Text\nLine 2", "BRITANIC.TTF", 72, (0, 0, 255), "test_boxed.png")
     
